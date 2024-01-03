@@ -8,12 +8,28 @@
 import UIKit
 
 class PlayerSetupViewController: UIViewController {
-
+    
+    //MARK: - Outlets
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var randomizeButton: UIButton!
+    @IBOutlet weak var playerTableView: UITableView!
+    @IBOutlet weak var positionTableView: UITableView!
+    
+    
+    //MARK: - Properties
+    var viewModel: PlayerSetupViewModel?
+    
+    
+    
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
+    
     
 
     /*

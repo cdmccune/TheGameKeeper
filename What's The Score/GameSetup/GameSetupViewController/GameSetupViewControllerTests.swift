@@ -343,4 +343,22 @@ final class GameSetupViewControllerTests: XCTestCase {
         XCTAssertTrue(navigationControllerMock.viewController is PlayerSetupViewController)
     }
     
+    func test_GameSetupViewController_WhenContineTapped_ShouldCreatePlayerSetupViewModelWithCorrectSettings() {
+        //given
+        let sut = viewController!
+        let navigationControllerMock = NavigationControllerPushMock()
+        navigationControllerMock.viewControllers = [sut]
+        
+        let numberOfPlayers = Int.random(in: 100...10000)
+        sut.viewModel?.gameSettings.numberOfPlayers = numberOfPlayers
+        
+        //when
+        sut.continueButtonTapped(4)
+        
+        //then
+        let viewModel = (navigationControllerMock.viewController as? PlayerSetupViewController)?.viewModel
+        
+        XCTAssertEqual(viewModel?.gameSettings.numberOfPlayers, numberOfPlayers)
+    }
+    
 }

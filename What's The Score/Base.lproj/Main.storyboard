@@ -483,6 +483,12 @@
                             <constraint firstItem="qjP-II-8cD" firstAttribute="top" secondItem="u6N-7b-FpT" secondAttribute="top" id="wHr-pi-bYf"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="playerTableView" destination="SGM-1Z-kx4" id="3as-uW-Pog"/>
+                        <outlet property="positionTableView" destination="90b-xw-cKA" id="4CE-qW-CtK"/>
+                        <outlet property="randomizeButton" destination="jzZ-i4-LUU" id="q3P-in-Eh9"/>
+                        <outlet property="titleLabel" destination="YnO-FG-5Yf" id="eVi-zc-Mlc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hN3-bP-s1N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -87,7 +87,10 @@ class GameSetupViewController: UIViewController {
     }
     
     @IBAction func continueButtonTapped(_ sender: Any) {
-        let playerSetupVC = storyboard?.instantiateViewController(withIdentifier: "PlayerSetupViewController")
+        guard let gameSettings = viewModel?.gameSettings else { return }
+        
+        let playerSetupVC = storyboard?.instantiateViewController(withIdentifier: "PlayerSetupViewController") as? PlayerSetupViewController
+        playerSetupVC?.viewModel = PlayerSetupViewModel(gameSettings: gameSettings)
         
         navigationController?.pushViewController(playerSetupVC!, animated: true)
     }
