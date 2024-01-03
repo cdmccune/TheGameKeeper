@@ -15,7 +15,7 @@ struct GameSetupViewModel {
         }
     }
     
-    var delegate: GameSetupViewModelProtocol? {
+    weak var delegate: GameSetupViewModelProtocol? {
         didSet {
             delegate?.bindViewToGameSettings(with: gameSettings)
         }
@@ -23,6 +23,6 @@ struct GameSetupViewModel {
     
 }
 
-protocol GameSetupViewModelProtocol {
+protocol GameSetupViewModelProtocol: NSObject {
     func bindViewToGameSettings(with gameSettings: GameSettings)
 }

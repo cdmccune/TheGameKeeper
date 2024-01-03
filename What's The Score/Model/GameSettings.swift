@@ -26,3 +26,6 @@ enum GameEndType: Int, CaseIterable {
     case score = 2
 }
 
+struct Player {
+    
+}

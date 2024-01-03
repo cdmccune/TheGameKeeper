@@ -19,6 +19,8 @@ class PlayerSetupViewController: UIViewController {
     
     //MARK: - Properties
     var viewModel: PlayerSetupViewModel?
+    private var playerTableViewDelegate: PlayerSetupPlayerTableViewDelegate?
+    private var positionTableViewDelegate: PlayerSetupPositionTableViewDelegate?
     
     
     
@@ -26,10 +28,24 @@ class PlayerSetupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.setDelegates()
     }
     
+    private func setDelegates() {
+        guard let _ = viewModel else { return }
+        self.viewModel?.delegate = self
+        
+        let playerTableViewDelegate = PlayerSetupPlayerTableViewDelegate()
+        self.playerTableViewDelegate = playerTableViewDelegate
+        playerTableView.delegate = playerTableViewDelegate
+        playerTableView.dataSource = playerTableViewDelegate
+        
+        let positionTableViewDelegate = PlayerSetupPositionTableViewDelegate()
+        self.positionTableViewDelegate = positionTableViewDelegate
+        positionTableView.delegate = positionTableViewDelegate
+        positionTableView.dataSource = positionTableViewDelegate
+        
+    }
     
 
     /*
@@ -42,4 +58,8 @@ class PlayerSetupViewController: UIViewController {
     }
     */
 
+}
+
+extension PlayerSetupViewController: PlayerSetupViewModelProtocol {
+    
 }

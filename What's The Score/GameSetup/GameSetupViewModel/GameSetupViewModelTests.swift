@@ -49,7 +49,7 @@ final class GameSetupViewModelTests: XCTestCase {
     
     //MARK: - Mock
     
-    class GameSetupViewModelDelegateMock: GameSetupViewModelProtocol {
+    class GameSetupViewModelDelegateMock: NSObject, GameSetupViewModelProtocol {
         var bindViewToGameSettingsCalledCount = 0
         
         func bindViewToGameSettings(with gameSettings: GameSettings) {

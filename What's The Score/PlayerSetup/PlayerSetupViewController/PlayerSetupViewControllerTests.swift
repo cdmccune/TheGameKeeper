@@ -23,8 +23,15 @@ final class PlayerSetupViewControllerTests: XCTestCase {
     }
     
     
-    //MARK: - Tests
+    //MARK: - Initialization
     
+    func getBasicViewModel() -> PlayerSetupViewModel {
+        let emptyGameSettings = GameSettings(gameType: .basic,
+                                             gameEndType: .round,
+                                             numberOfRounds: 0,
+                                             numberOfPlayers: 0)
+        return PlayerSetupViewModel(gameSettings: emptyGameSettings)
+    }
     
     func test_PlayerSetupViewController_WhenLoaded_ShouldHaveNonNilOutlets() {
         //given
@@ -39,16 +46,47 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertNotNil(sut.playerTableView)
         XCTAssertNotNil(sut.positionTableView)
     }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewDelegateAndDataSource() {
+        //given
+        let sut = viewController!
+        sut.viewModel = getBasicViewModel()
 
-//    func test_PlayerSetupViewController_WhenGameSettings_Should<#assertion#>() {
-//        //given
-//        let sut = <#System Under Test#>
-//        
-//        //when
-//        <#when#>
-//        
-//        //then
-//        <#then#>
-//    }
+        //when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        //then
+        XCTAssertTrue(sut.playerTableView.delegate is PlayerSetupPlayerTableViewDelegate)
+        XCTAssertTrue(sut.playerTableView.dataSource is PlayerSetupPlayerTableViewDelegate)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPositionTableViewDelegateAndDataSource() {
+        //given
+        let sut = viewController!
+        sut.viewModel = getBasicViewModel()
+
+        //when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        //then
+        XCTAssertTrue(sut.positionTableView.delegate is PlayerSetupPositionTableViewDelegate)
+        XCTAssertTrue(sut.positionTableView.dataSource is PlayerSetupPositionTableViewDelegate)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetSelfAsViewModelsDelegate() {
+        //given
+        let sut = viewController!
+        sut.viewModel = getBasicViewModel()
+        
+        //when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        //then
+        XCTAssertTrue(sut.viewModel?.delegate is PlayerSetupViewController)
+    }
+    
 
 }

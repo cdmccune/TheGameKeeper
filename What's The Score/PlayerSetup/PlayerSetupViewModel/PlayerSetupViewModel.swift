@@ -8,5 +8,19 @@
 import Foundation
 
 struct PlayerSetupViewModel {
-    var gameSettings: GameSettings
+    var gameSettings: GameSettings {
+        didSet {
+            
+        }
+    }
+    var players: [Player] = []
+    weak var delegate: PlayerSetupViewModelProtocol?
+    
+//    private func getPlayersFromGameSettings() -> [Player] {
+//        
+//    }
+}
+
+protocol PlayerSetupViewModelProtocol: NSObject {
+//    func bindViewToGameSettings(with gameSettings: GameSettings)
 }
