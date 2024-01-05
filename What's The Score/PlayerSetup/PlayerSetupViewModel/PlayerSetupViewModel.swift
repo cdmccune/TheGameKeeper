@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlayerSetupViewModel {
+struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
     
     init(gameSettings: GameSettings) {
         self.gameSettings = gameSettings
@@ -31,5 +31,9 @@ struct PlayerSetupViewModel {
 
 protocol PlayerSetupViewModelProtocol: NSObject {
     func bindViewToViewModel()
+}
+
+protocol PlayerSetupPlayerCoordinator {
+    var players: [Player] {get set}
 }
 

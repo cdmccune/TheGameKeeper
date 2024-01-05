@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24240EDD2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */; };
+		24240EDE2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */; };
 		2437F6E32B40AAE000BB75A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F6E22B40AAE000BB75A1 /* AppDelegate.swift */; };
 		2437F6E52B40AAE000BB75A1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F6E42B40AAE000BB75A1 /* SceneDelegate.swift */; };
 		2437F6EA2B40AAE000BB75A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2437F6E82B40AAE000BB75A1 /* Main.storyboard */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewCell.swift; sourceTree = "<group>"; };
+		24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerSetupPositionTableViewCell.xib; sourceTree = "<group>"; };
 		2437F6DF2B40AAE000BB75A1 /* What's The Score.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "What's The Score.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2437F6E22B40AAE000BB75A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2437F6E42B40AAE000BB75A1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24240EDF2B486EB70082CCD3 /* PlayerSetupPositionTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */,
+				24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */,
+			);
+			path = PlayerSetupPositionTableViewCell;
+			sourceTree = "<group>";
+		};
 		2437F6D62B40AAE000BB75A1 = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +258,7 @@
 				24A4233A2B45B8320047CCD3 /* PlayerSetupViewModel */,
 				24EC1D7A2B44CC280060D27D /* PlayerSetupViewController */,
 				24A423442B45BF220047CCD3 /* PlayerSetupPositionTableViewDelegate */,
+				24240EDF2B486EB70082CCD3 /* PlayerSetupPositionTableViewCell */,
 				24A4233F2B45BDDB0047CCD3 /* PlayerSetupPlayerTableViewDelegate */,
 			);
 			path = PlayerSetup;
@@ -343,6 +357,7 @@
 				2437F6EF2B40AAE100BB75A1 /* LaunchScreen.storyboard in Resources */,
 				2437F6EC2B40AAE100BB75A1 /* Assets.xcassets in Resources */,
 				2437F71B2B40C3BC00BB75A1 /* Poppins-Regular.ttf in Resources */,
+				24240EDE2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib in Resources */,
 				2437F6EA2B40AAE000BB75A1 /* Main.storyboard in Resources */,
 				2437F71A2B40C3BC00BB75A1 /* Poppins-SemiBold.ttf in Resources */,
 				2437F7182B40C3BC00BB75A1 /* Poppins-Bold.ttf in Resources */,
@@ -371,6 +386,7 @@
 				2437F6E32B40AAE000BB75A1 /* AppDelegate.swift in Sources */,
 				2437F70F2B40C09500BB75A1 /* GameSetupViewController.swift in Sources */,
 				2437F6E52B40AAE000BB75A1 /* SceneDelegate.swift in Sources */,
+				24240EDD2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift in Sources */,
 				2437F71F2B40D11500BB75A1 /* GameSetupViewModel.swift in Sources */,
 				2437F6F72B40BA6600BB75A1 /* HomeViewController.swift in Sources */,
 				2437F7242B40D32800BB75A1 /* GameSettings.swift in Sources */,

@@ -40,7 +40,7 @@ class PlayerSetupViewController: UIViewController {
         playerTableView.delegate = playerTableViewDelegate
         playerTableView.dataSource = playerTableViewDelegate
         
-        let positionTableViewDelegate = PlayerSetupPositionTableViewDelegate()
+        let positionTableViewDelegate = PlayerSetupPositionTableViewDelegate(playerSetupCoordinator: viewModel!)
         self.positionTableViewDelegate = positionTableViewDelegate
         positionTableView.delegate = positionTableViewDelegate
         positionTableView.dataSource = positionTableViewDelegate

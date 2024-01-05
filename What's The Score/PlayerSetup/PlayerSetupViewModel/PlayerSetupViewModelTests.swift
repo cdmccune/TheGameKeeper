@@ -57,3 +57,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
     }
 
 }
+
+struct PlayerSetupPlayerCoordinatorStub: PlayerSetupPlayerCoordinator {
+    var players: [Player]
+}
