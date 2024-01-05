@@ -27,5 +27,5 @@ enum GameEndType: Int, CaseIterable {
 }
 
 struct Player {
-    
+    var name: String
 }

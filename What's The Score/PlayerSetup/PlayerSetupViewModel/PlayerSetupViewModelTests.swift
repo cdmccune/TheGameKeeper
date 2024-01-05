@@ -9,6 +9,15 @@ import XCTest
 @testable import What_s_The_Score
 
 final class PlayerSetupViewModelTests: XCTestCase {
+    
+    func getViewModelWithDefaultSettings() -> PlayerSetupViewModel {
+        let gameSettings = GameSettings(gameType: .basic,
+                                        gameEndType: .none,
+                                        numberOfRounds: 1,
+                                        numberOfPlayers: 2)
+        
+        return PlayerSetupViewModel(gameSettings: gameSettings)
+    }
 
     func test_PlayerSetupViewModel_WhenInitializedSet_ShouldSetupArrayOfPlayersWithLengthNumberOfPlayersAndCorrectNames() {
         //given
@@ -23,6 +32,28 @@ final class PlayerSetupViewModelTests: XCTestCase {
         
         //then
         XCTAssertEqual(sut.players.count, numberOfPlayers)
+        XCTAssertEqual(sut.players.last?.name, "Player \(numberOfPlayers)")
+    }
+    
+    func test_PlayerSetupViewModel_WhenPlayersIsEditing_ShouldBindViewToViewModel() {
+        
+        class PlayerSetupViewModelDelegateMock: NSObject, PlayerSetupViewModelProtocol {
+            var bindViewToViewModelCallCount = 0
+            func bindViewToViewModel() {
+                bindViewToViewModelCallCount += 1
+            }
+        }
+        
+        //given
+        var sut = getViewModelWithDefaultSettings()
+        let delegateMock = PlayerSetupViewModelDelegateMock()
+        sut.delegate = delegateMock
+        
+        //when
+        sut.players = []
+        
+        //then
+        XCTAssertEqual(delegateMock.bindViewToViewModelCallCount, 1)
     }
 
 }

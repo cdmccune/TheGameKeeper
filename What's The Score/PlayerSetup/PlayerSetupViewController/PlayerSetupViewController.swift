@@ -61,5 +61,6 @@ class PlayerSetupViewController: UIViewController {
 }
 
 extension PlayerSetupViewController: PlayerSetupViewModelProtocol {
-    
+    func bindViewToViewModel() {
+    }
 }
