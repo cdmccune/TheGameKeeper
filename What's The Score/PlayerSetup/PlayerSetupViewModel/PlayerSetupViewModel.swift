@@ -8,19 +8,26 @@
 import Foundation
 
 struct PlayerSetupViewModel {
-    var gameSettings: GameSettings {
-        didSet {
-            
+    
+    init(gameSettings: GameSettings) {
+        self.gameSettings = gameSettings
+        
+        var players: [Player] = []
+        for i in 0..<gameSettings.numberOfPlayers {
+            players.append(Player())
         }
+        
+        self.players = players
     }
-    var players: [Player] = []
+    
+    var gameSettings: GameSettings
+    var players: [Player]
     weak var delegate: PlayerSetupViewModelProtocol?
     
-//    private func getPlayersFromGameSettings() -> [Player] {
-//        
-//    }
+    #error("Working on binding the view when players change")
 }
 
 protocol PlayerSetupViewModelProtocol: NSObject {
 //    func bindViewToGameSettings(with gameSettings: GameSettings)
 }
+

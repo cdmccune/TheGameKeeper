@@ -10,19 +10,19 @@ import XCTest
 
 final class PlayerSetupViewModelTests: XCTestCase {
 
-//    func test_PlayerSetupViewModel_WhenGameSettingsSet_ShouldSetupArrayOfPlayersWithLengthNumberOfPlayersAndCorrectNames() {
-//        //given
-//        let numberOfPlayers = Int.random(in: 1...10)
-//        let gameSettings = GameSettings(gameType: .round,
-//                                        gameEndType: .none,
-//                                        numberOfRounds: 0,
-//                                        numberOfPlayers: numberOfPlayers)
-//        
-//        //when
-//        let sut = PlayerSetupViewModel(gameSettings: gameSettings)
-//        
-//        //then
-//        XCTAssertEqual(sut.players.count, numberOfPlayers)
-//    }
+    func test_PlayerSetupViewModel_WhenInitializedSet_ShouldSetupArrayOfPlayersWithLengthNumberOfPlayersAndCorrectNames() {
+        //given
+        let numberOfPlayers = Int.random(in: 1...10)
+        let gameSettings = GameSettings(gameType: .round,
+                                        gameEndType: .none,
+                                        numberOfRounds: 0,
+                                        numberOfPlayers: numberOfPlayers)
+        
+        //when
+        let sut = PlayerSetupViewModel(gameSettings: gameSettings)
+        
+        //then
+        XCTAssertEqual(sut.players.count, numberOfPlayers)
+    }
 
 }
