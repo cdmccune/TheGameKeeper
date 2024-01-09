@@ -88,5 +88,39 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.viewModel?.delegate is PlayerSetupViewController)
     }
     
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldRegisterNibsForPositionTableView() {
+        //given
+        let sut = viewController!
+        let tableViewDelegateMock = TableViewDelegateMock(cellIdentifier: "PlayerSetupPositionTableViewCell")
+        sut.loadView()
+        sut.positionTableView.dataSource = tableViewDelegateMock
+        sut.positionTableView.delegate = tableViewDelegateMock
+        
+        //when
+        sut.viewDidLoad()
+        let cell = tableViewDelegateMock.tableView(sut.positionTableView, cellForRowAt: IndexPath(row: 0, section: 0))
+        
+        //then
+        XCTAssertTrue(cell is PlayerSetupPositionTableViewCell)
+        
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldRegisterNibsForPlayerTableView() {
+        //given
+        let sut = viewController!
+        let tableViewDelegateMock = TableViewDelegateMock(cellIdentifier: "PlayerSetupPlayerTableViewCell")
+        sut.loadView()
+        sut.positionTableView.dataSource = tableViewDelegateMock
+        sut.positionTableView.delegate = tableViewDelegateMock
+        
+        //when
+        sut.viewDidLoad()
+        let cell = tableViewDelegateMock.tableView(sut.playerTableView, cellForRowAt: IndexPath(row: 0, section: 0))
+        
+        //then
+        XCTAssertTrue(cell is PlayerSetupPlayerTableViewCell)
+        
+    }
+    
 
 }

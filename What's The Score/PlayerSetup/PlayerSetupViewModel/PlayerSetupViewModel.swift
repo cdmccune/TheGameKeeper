@@ -14,7 +14,8 @@ struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
         
         var players: [Player] = []
         for i in 0..<gameSettings.numberOfPlayers {
-            players.append(Player(name: "Player \(i+1)"))
+            players.append(Player(name: "",
+                                  position: i))
         }
         
         self.players = players

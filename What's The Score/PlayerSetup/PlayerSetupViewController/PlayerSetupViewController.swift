@@ -29,13 +29,14 @@ class PlayerSetupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setDelegates()
+        self.registerNibs()
     }
     
     private func setDelegates() {
         guard let _ = viewModel else { return }
         self.viewModel?.delegate = self
         
-        let playerTableViewDelegate = PlayerSetupPlayerTableViewDelegate()
+        let playerTableViewDelegate = PlayerSetupPlayerTableViewDelegate(playerSetupCoordinator: viewModel!)
         self.playerTableViewDelegate = playerTableViewDelegate
         playerTableView.delegate = playerTableViewDelegate
         playerTableView.dataSource = playerTableViewDelegate
@@ -45,6 +46,11 @@ class PlayerSetupViewController: UIViewController {
         positionTableView.delegate = positionTableViewDelegate
         positionTableView.dataSource = positionTableViewDelegate
         
+    }
+    
+    private func registerNibs() {
+        playerTableView.register(UINib(nibName: "PlayerSetupPlayerTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPlayerTableViewCell")
+        positionTableView.register(UINib(nibName: "PlayerSetupPositionTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPositionTableViewCell")
     }
     
 

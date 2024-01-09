@@ -25,7 +25,3 @@ enum GameEndType: Int, CaseIterable {
     case round = 1
     case score = 2
 }
-
-struct Player {
-    var name: String
-}
