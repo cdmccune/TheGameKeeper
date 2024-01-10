@@ -8,19 +8,20 @@
 import UIKit
 
 class PlayerSetupPlayerTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var playerLabel: UILabel!
-    
     
     override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+        playerTextField.delegate = textFieldDelegate
     }
+    
+    lazy var textFieldDelegate = DismissingTextFieldDelegate()
+    var playerNameChanged: ((String)->())?
+    
+    @IBOutlet weak var playerTextField: UITextField!
+    
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    @IBAction func playerTextFieldEditingDidEnd(_ sender: Any) {
+        playerNameChanged?(playerTextField.text ?? "")
     }
+    
     
 }

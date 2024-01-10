@@ -24,14 +24,20 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerSetupPlayerTableViewCell", for: indexPath) as! PlayerSetupPlayerTableViewCell
             
         guard playerSetupCoordinator.players.indices.contains(indexPath.row) else {
-            cell.playerLabel.text = "Error"
+            cell.playerTextField.text = "Error"
             return cell
         }
         
-        cell.playerLabel.text = playerSetupCoordinator.players[indexPath.row].name
+        cell.playerNameChanged = {string in
+            self.playerSetupCoordinator.playerNameChanged(withIndex: indexPath.row, toName: string)
+        }
+        
+        cell.playerTextField.text = playerSetupCoordinator.players[indexPath.row].name
         
         return cell
     }
+    
+    
     
     
 }

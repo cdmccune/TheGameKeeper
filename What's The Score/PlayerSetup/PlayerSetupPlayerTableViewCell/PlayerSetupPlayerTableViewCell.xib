@@ -17,23 +17,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDe-uP-Fac">
+                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Player Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q1t-fA-gQ2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                        <connections>
+                            <action selector="playerTextFieldEditingDidEnd:" destination="KGk-i7-Jjw" eventType="editingDidEnd" id="a3k-ww-WQK"/>
+                        </connections>
+                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="wDe-uP-Fac" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0nN-tn-Z3C"/>
-                    <constraint firstAttribute="trailing" secondItem="wDe-uP-Fac" secondAttribute="trailing" id="BfO-hL-URu"/>
-                    <constraint firstAttribute="bottom" secondItem="wDe-uP-Fac" secondAttribute="bottom" id="jWi-s3-EfF"/>
-                    <constraint firstItem="wDe-uP-Fac" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="sRx-OQ-I14"/>
+                    <constraint firstAttribute="bottom" secondItem="q1t-fA-gQ2" secondAttribute="bottom" id="5Dh-C3-KIF"/>
+                    <constraint firstItem="q1t-fA-gQ2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="HFc-f7-dpM"/>
+                    <constraint firstItem="q1t-fA-gQ2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="RcB-jW-Rcg"/>
+                    <constraint firstAttribute="trailing" secondItem="q1t-fA-gQ2" secondAttribute="trailing" id="rvm-XF-slt"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="playerLabel" destination="wDe-uP-Fac" id="G40-Tg-U4Y"/>
+                <outlet property="playerTextField" destination="q1t-fA-gQ2" id="MZ9-9D-exI"/>
             </connections>
             <point key="canvasLocation" x="37" y="20"/>
         </tableViewCell>

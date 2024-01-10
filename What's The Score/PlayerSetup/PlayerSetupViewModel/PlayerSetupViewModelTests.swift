@@ -35,14 +35,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
         XCTAssertEqual(sut.players.last?.name, "Player \(numberOfPlayers)")
     }
     
-    func test_PlayerSetupViewModel_WhenPlayersIsEditing_ShouldBindViewToViewModel() {
-        
-        class PlayerSetupViewModelDelegateMock: NSObject, PlayerSetupViewModelProtocol {
-            var bindViewToViewModelCallCount = 0
-            func bindViewToViewModel() {
-                bindViewToViewModelCallCount += 1
-            }
-        }
+    func test_PlayerSetupViewModel_WhenPlayersIsChanged_ShouldBindViewToViewModel() {
         
         //given
         var sut = getViewModelWithDefaultSettings()
@@ -55,9 +48,53 @@ final class PlayerSetupViewModelTests: XCTestCase {
         //then
         XCTAssertEqual(delegateMock.bindViewToViewModelCallCount, 1)
     }
+    
+    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledOutOfPlayerRange_ShouldDoNothing() {
+        //given
+        var sut = getViewModelWithDefaultSettings()
+        let player = Player(name: "", position: 0)
+        sut.players = [player]
+        
+        //when
+        sut.playerNameChanged(withIndex: 1, toName: "test")
+        
+        //then
+        XCTAssertEqual(sut.players[0], player)
+    }
+    
+    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledInRangePlayer_ShouldChangeTheNameOfPlayer() {
+        //given
+        var sut = getViewModelWithDefaultSettings()
+        let player = Player(name: "", position: 0)
+        sut.players = [player]
+        
+        let testString = UUID().uuidString
+        let viewDelegate = PlayerSetupViewModelDelegateMock()
+        sut.delegate = viewDelegate
+        
+        //when
+        sut.playerNameChanged(withIndex: 0, toName: testString)
+        
+        //then
+        XCTAssertEqual(sut.players[0].name, testString)
+    }
 
 }
 
-struct PlayerSetupPlayerCoordinatorStub: PlayerSetupPlayerCoordinator {
+struct PlayerSetupPlayerCoordinatorMock: PlayerSetupPlayerCoordinator {
+    var playerNameChangedIndex: Int?
+    var playerNameChangedName: String?
+    mutating func playerNameChanged(withIndex index: Int, toName name: String) {
+        self.playerNameChangedIndex = index
+        self.playerNameChangedName = name
+    }
+    
     var players: [Player]
+}
+
+class PlayerSetupViewModelDelegateMock: NSObject, PlayerSetupViewModelProtocol {
+    var bindViewToViewModelCallCount = 0
+    func bindViewToViewModel() {
+        bindViewToViewModelCallCount += 1
+    }
 }

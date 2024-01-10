@@ -26,7 +26,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
     func getPlayerSetupCoordinator(withPlayerCount count: Int) -> PlayerSetupPlayerCoordinator {
         let players = Array(repeating: Player(name: "",
                                              position: 0), count: count)
-        return PlayerSetupPlayerCoordinatorStub(players: players)
+        return PlayerSetupPlayerCoordinatorMock(players: players)
     }
     
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (PlayerSetupPlayerTableViewDelegate, UITableView) {
@@ -38,7 +38,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         return (sut, tableView)
     }
     
-    //MARK: - Setup
+    //MARK: - Tests
 
     func test_PlayerSetupPlayerTableView_WhenNumberOfRowsCalled_ShouldReturnTheNumberOfRowsInThePlayerSetupCoordinator() {
         //given
@@ -72,7 +72,36 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         
         //then
         XCTAssertTrue(cell is PlayerSetupPlayerTableViewCell)
-        XCTAssertEqual((cell as? PlayerSetupPlayerTableViewCell)?.playerLabel.text, players[randomPlayer].name)
+        XCTAssertEqual((cell as? PlayerSetupPlayerTableViewCell)?.playerTextField.text, players[randomPlayer].name)
+    }
+    
+    func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldShouldSetCellsPlayerNameChangedFunction() {
+        //given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 1)
+        
+        //when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PlayerSetupPlayerTableViewCell
+        
+        //then
+        XCTAssertNotNil(cell?.playerNameChanged)
+    }
+    
+    func test_PlayerSetupPlayerTableView_WhenPlayerNameChangedCalledOn_ShouldCallChangePlayerNameOnPlayerSetupCoordinatorWithCorrectCellRow() {
+        //given
+        let playerCount = Int.random(in: 1...9)
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)
+        
+        let testString = UUID().uuidString
+        let randomPlayer = Int.random(in: 0...(playerCount - 1))
+        
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: randomPlayer, section: 0)) as? PlayerSetupPlayerTableViewCell
+        
+        //when
+        cell?.playerNameChanged?(testString)
+        
+        //then
+        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedName , testString)
+        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedIndex , randomPlayer)
     }
 
 }

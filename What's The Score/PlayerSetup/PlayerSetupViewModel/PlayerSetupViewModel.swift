@@ -28,6 +28,13 @@ struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
         }
     }
     weak var delegate: PlayerSetupViewModelProtocol?
+    
+    
+    mutating func playerNameChanged(withIndex index: Int, toName name: String) {
+        guard players.indices.contains(index) else { return }
+        
+        players[index].name = name
+    }
 }
 
 protocol PlayerSetupViewModelProtocol: NSObject {
@@ -36,5 +43,6 @@ protocol PlayerSetupViewModelProtocol: NSObject {
 
 protocol PlayerSetupPlayerCoordinator {
     var players: [Player] {get set}
+    mutating func playerNameChanged(withIndex index: Int, toName name: String)
 }
 

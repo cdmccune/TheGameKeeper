@@ -26,7 +26,7 @@ final class PlayerSetupPositionTableViewDelegateTests: XCTestCase {
     func getPlayerSetupCoordinator(withPlayerCount count: Int) -> PlayerSetupPlayerCoordinator {
         let players = Array(repeating: Player(name: "",
                                               position: 0), count: count)
-        return PlayerSetupPlayerCoordinatorStub(players: players)
+        return PlayerSetupPlayerCoordinatorMock(players: players)
     }
     
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (PlayerSetupPositionTableViewDelegate, UITableView) {

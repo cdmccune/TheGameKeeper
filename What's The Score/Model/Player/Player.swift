@@ -26,3 +26,8 @@ struct Player {
         }
     }
 }
+
+extension Player: Equatable {}
+func ==(rhs: Player, lhs: Player) -> Bool {
+    return rhs.name == lhs.name && rhs.position == lhs.position
+}
