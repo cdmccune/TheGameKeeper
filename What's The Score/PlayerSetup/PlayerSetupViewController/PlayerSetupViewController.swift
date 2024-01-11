@@ -30,6 +30,7 @@ class PlayerSetupViewController: UIViewController {
         super.viewDidLoad()
         self.setDelegates()
         self.registerNibs()
+        self.setTableViewFunctionality()
     }
     
     private func setDelegates() {
@@ -53,6 +54,12 @@ class PlayerSetupViewController: UIViewController {
         positionTableView.register(UINib(nibName: "PlayerSetupPositionTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPositionTableViewCell")
     }
     
+    private func setTableViewFunctionality() {
+        playerTableView.isEditing = true
+    }
+    
+    
+    
 
     /*
     // MARK: - Navigation
@@ -68,5 +75,9 @@ class PlayerSetupViewController: UIViewController {
 
 extension PlayerSetupViewController: PlayerSetupViewModelProtocol {
     func bindViewToViewModel() {
+        DispatchQueue.main.async {
+            self.playerTableView.reloadData()
+            self.positionTableView.reloadData()
+        }
     }
 }

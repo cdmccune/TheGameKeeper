@@ -53,5 +53,14 @@ final class PlayerSetupPlayerTableViewCellTests: XCTestCase {
         //then
         XCTAssertTrue(sut.playerTextField.delegate is DismissingTextFieldDelegate)
     }
+    
+    func test_PlayerSetupPlayerTableViewcell_WhenNibIsLoaded_ShouldHaveAutoCaptilizationTypeOfPlayerTextFieldSetToWord() {
+        //given
+        //when
+        let sut = tableViewCell!
+        
+        //then
+        XCTAssertEqual(sut.playerTextField.autocapitalizationType, .words)
+    }
 
 }

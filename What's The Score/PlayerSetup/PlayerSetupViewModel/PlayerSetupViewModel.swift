@@ -8,7 +8,6 @@
 import Foundation
 
 struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
-    
     init(gameSettings: GameSettings) {
         self.gameSettings = gameSettings
         
@@ -35,6 +34,20 @@ struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
         
         players[index].name = name
     }
+    
+    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
+        guard players.indices.contains(sourceRowIndex),
+              players.indices.contains(destinationRowIndex) else { return }
+        
+        var newPlayersArray = players
+        newPlayersArray.swapAt(sourceRowIndex, destinationRowIndex)
+        
+        for i in newPlayersArray.indices {
+            newPlayersArray[i].position = i
+        }
+        
+        players = newPlayersArray
+    }
 }
 
 protocol PlayerSetupViewModelProtocol: NSObject {
@@ -44,5 +57,6 @@ protocol PlayerSetupViewModelProtocol: NSObject {
 protocol PlayerSetupPlayerCoordinator {
     var players: [Player] {get set}
     mutating func playerNameChanged(withIndex index: Int, toName name: String)
+    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
 }
 

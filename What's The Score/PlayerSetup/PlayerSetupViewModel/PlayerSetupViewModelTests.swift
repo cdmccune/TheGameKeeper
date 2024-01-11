@@ -78,10 +78,67 @@ final class PlayerSetupViewModelTests: XCTestCase {
         //then
         XCTAssertEqual(sut.players[0].name, testString)
     }
+    
+    func test_PlayerSetupViewModel_WhenMovePlayerAtCalledSourceOutsideRange_ShouldDoNothing() {
+        //given
+        var sut = getViewModelWithDefaultSettings()
+        let player1 = Player(name: UUID().uuidString, position: 0)
+        let player2 = Player(name: UUID().uuidString, position: 0)
+        let players = [player1, player2]
+        sut.players = players
+        
+        //when
+        sut.movePlayerAt(4, to: 0)
+
+        
+        //then
+        XCTAssertEqual(sut.players, players)
+    }
+    
+    func test_PlayerSetupViewModel_WhenMovePlayerAtCalledDestinationOutsideRange_ShouldDoNothing() {
+        //given
+        var sut = getViewModelWithDefaultSettings()
+        let player1 = Player(name: UUID().uuidString, position: 0)
+        let player2 = Player(name: UUID().uuidString, position: 0)
+        let players = [player1, player2]
+        sut.players = players
+        
+        //when
+        sut.movePlayerAt(0, to: 5)
+
+        
+        //then
+        XCTAssertEqual(sut.players, players)
+    }
+    
+    func test_PlayerSetupViewModel_WhenMovePlayerAtCalledInRange_ShouldChangePlayersPostionsInArrayAndPositionValue() {
+        //given
+        var sut = getViewModelWithDefaultSettings()
+        
+        let player1Name = UUID().uuidString
+        let player1 = Player(name: player1Name, position: 0)
+        
+        let player2Name = UUID().uuidString
+        let player2 = Player(name: player2Name, position: 1)
+        
+        let players = [player1, player2]
+        sut.players = players
+        
+        //when
+        sut.movePlayerAt(0, to: 1)
+        
+        //then
+        XCTAssertEqual(sut.players[0].name, player2Name)
+        XCTAssertEqual(sut.players[0].position, 0)
+        XCTAssertEqual(sut.players[1].name, player1Name)
+        XCTAssertEqual(sut.players[1].position, 1)
+    }
 
 }
 
 struct PlayerSetupPlayerCoordinatorMock: PlayerSetupPlayerCoordinator {
+    var players: [Player]
+    
     var playerNameChangedIndex: Int?
     var playerNameChangedName: String?
     mutating func playerNameChanged(withIndex index: Int, toName name: String) {
@@ -89,7 +146,14 @@ struct PlayerSetupPlayerCoordinatorMock: PlayerSetupPlayerCoordinator {
         self.playerNameChangedName = name
     }
     
-    var players: [Player]
+    var movePlayerAtSourceRow: Int?
+    var movePlayerAtDestinationRow: Int?
+    var movePlayerAtCalledCount: Int = 0
+    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
+        self.movePlayerAtSourceRow = sourceRowIndex
+        self.movePlayerAtDestinationRow = destinationRowIndex
+        self.movePlayerAtCalledCount += 1
+    }
 }
 
 class PlayerSetupViewModelDelegateMock: NSObject, PlayerSetupViewModelProtocol {

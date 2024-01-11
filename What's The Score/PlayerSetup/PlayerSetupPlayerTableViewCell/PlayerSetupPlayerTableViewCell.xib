@@ -20,7 +20,7 @@
                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Player Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q1t-fA-gQ2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                         <connections>
                             <action selector="playerTextFieldEditingDidEnd:" destination="KGk-i7-Jjw" eventType="editingDidEnd" id="a3k-ww-WQK"/>
                         </connections>

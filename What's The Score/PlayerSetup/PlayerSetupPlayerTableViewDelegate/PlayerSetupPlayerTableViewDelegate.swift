@@ -37,6 +37,10 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
         return cell
     }
     
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        playerSetupCoordinator.movePlayerAt(sourceIndexPath.row, to: destinationIndexPath.row)
+    }
+    
     
     
     

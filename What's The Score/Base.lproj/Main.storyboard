@@ -373,13 +373,13 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input the players names and set turn order" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YnO-FG-5Yf">
-                                        <rect key="frame" x="14" y="0.0" width="365" height="58.333333333333336"/>
+                                        <rect key="frame" x="13" y="0.0" width="367.33333333333331" height="58.333333333333336"/>
                                         <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzZ-i4-LUU">
-                                        <rect key="frame" x="121.66666666666669" y="63.333333333333329" width="150" height="40"/>
+                                        <rect key="frame" x="114.66666666666669" y="63.333333333333329" width="164" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="LnF-QW-R4a"/>
                                         </constraints>
@@ -402,72 +402,10 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="50" id="tRV-G8-7OG"/>
                                                 </constraints>
-                                                <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PlayerSetupPositionTableViewCell" rowHeight="60" id="Aiy-rl-God" customClass="PlayerSetupPositionTableViewCell" customModule="What_s_The_Score" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="50" width="50" height="60"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Aiy-rl-God" id="lW7-gD-YCP">
-                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="60"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GYS-Xm-gdW">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="60"/>
-                                                                    <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="35"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                            <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="GYS-Xm-gdW" secondAttribute="bottom" id="5Ka-0S-TCJ"/>
-                                                                <constraint firstItem="GYS-Xm-gdW" firstAttribute="top" secondItem="lW7-gD-YCP" secondAttribute="top" id="5ih-s5-bYq"/>
-                                                                <constraint firstAttribute="trailing" secondItem="GYS-Xm-gdW" secondAttribute="trailing" id="WPs-46-L2h"/>
-                                                                <constraint firstItem="GYS-Xm-gdW" firstAttribute="leading" secondItem="lW7-gD-YCP" secondAttribute="leading" id="yt0-lB-Egh"/>
-                                                            </constraints>
-                                                        </tableViewCellContentView>
-                                                        <connections>
-                                                            <outlet property="numberLabel" destination="GYS-Xm-gdW" id="dTI-JB-5j9"/>
-                                                        </connections>
-                                                    </tableViewCell>
-                                                </prototypes>
                                             </tableView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SGM-1Z-kx4">
                                                 <rect key="frame" x="50" y="0.0" width="303" height="650.66666666666663"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="8vQ-Gd-yFJ">
-                                                        <rect key="frame" x="0.0" y="50" width="303" height="60"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8vQ-Gd-yFJ" id="fDA-Fy-YFJ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="303" height="60"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <subviews>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="HtV-Oo-3x5">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="303" height="60"/>
-                                                                    <subviews>
-                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3O9-CF-YaK">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="303" height="60"/>
-                                                                            <subviews>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Player 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZIu-P0-ZKE">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="303" height="60"/>
-                                                                                    <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="27"/>
-                                                                                    <nil key="textColor"/>
-                                                                                    <nil key="highlightedColor"/>
-                                                                                </label>
-                                                                            </subviews>
-                                                                        </stackView>
-                                                                    </subviews>
-                                                                </stackView>
-                                                            </subviews>
-                                                            <viewLayoutGuide key="safeArea" id="odl-L9-kQ7"/>
-                                                            <constraints>
-                                                                <constraint firstItem="HtV-Oo-3x5" firstAttribute="leading" secondItem="fDA-Fy-YFJ" secondAttribute="leading" id="9p4-Lq-X0P"/>
-                                                                <constraint firstAttribute="trailing" secondItem="HtV-Oo-3x5" secondAttribute="trailing" id="Ei1-8p-ZQu"/>
-                                                                <constraint firstItem="HtV-Oo-3x5" firstAttribute="top" secondItem="fDA-Fy-YFJ" secondAttribute="top" id="Kp6-K2-kNk"/>
-                                                                <constraint firstAttribute="bottom" secondItem="HtV-Oo-3x5" secondAttribute="bottom" id="cms-YE-rq5"/>
-                                                            </constraints>
-                                                        </tableViewCellContentView>
-                                                    </tableViewCell>
-                                                </prototypes>
                                             </tableView>
                                         </subviews>
                                     </stackView>
@@ -504,7 +442,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

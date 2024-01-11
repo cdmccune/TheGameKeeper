@@ -103,5 +103,20 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedName , testString)
         XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedIndex , randomPlayer)
     }
+    
+    func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerSetupCoordinatorMovePlayerAt() {
+        //given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 5)
+        
+        //when
+        let sourceRow = 0
+        let destinationRow = 1
+        sut.tableView(tableView, moveRowAt: IndexPath(row: sourceRow, section: 0), to: IndexPath(row: destinationRow, section: 0))
+        
+        //then
+        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtCalledCount, 1)
+        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtSourceRow, sourceRow)
+        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtDestinationRow, destinationRow)
+    }
 
 }

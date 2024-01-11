@@ -122,5 +122,16 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         
     }
     
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldShouldSetPlayerTableViewToEditing() {
+        //given
+        let sut = viewController!
+        sut.loadView()
+        
+        //when
+        sut.viewDidLoad()
+        
+        //then
+        XCTAssertTrue(sut.playerTableView.isEditing)
+    }
 
 }
