@@ -10,7 +10,7 @@ import XCTest
 
 final class PlayerTests: XCTestCase {
 
-    func test_Player_WhenHasEmptyNameAndPosition_ShouldReturnPlayerWithPositionPlusOneForDisplayName() {
+    func test_Player_WhenHasEmptyNameAndPositionZero_ShouldReturnPlayerWithPositionPlusOneForDisplayName() {
         //given
         let position = Int.random(in: 0...4)
         let sut = Player(name: "", position: position)
@@ -32,6 +32,24 @@ final class PlayerTests: XCTestCase {
         
         //then
         XCTAssertEqual(displayName, name)
+    }
+    
+    func test_Player_WhenHasEmptyName_ShouldHaveTrueForHasDefaultName() {
+        //given
+        //when
+        let sut = Player(name: "", position: 0)
+        
+        //then
+        XCTAssertTrue(sut.hasDefaultName)
+    }
+    
+    func test_Player_WhenHasNonEmptyName_ShouldHaveFalseForHasDefaultName() {
+        //given
+        //when
+        let sut = Player(name: UUID().uuidString, position: 0)
+        
+        //then
+        XCTAssertFalse(sut.hasDefaultName)
     }
     
 }

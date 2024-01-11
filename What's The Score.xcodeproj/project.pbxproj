@@ -41,6 +41,8 @@
 		24A423432B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423422B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift */; };
 		24A423462B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423452B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift */; };
 		24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423472B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift */; };
+		24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */; };
+		24D68E1A2B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */; };
 		24EC1D7C2B44CC600060D27D /* PlayerSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */; };
 		24EC1D7E2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */; };
 /* End PBXBuildFile section */
@@ -92,6 +94,8 @@
 		24A423422B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewDelegateTests.swift; sourceTree = "<group>"; };
 		24A423452B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewDelegateTests.swift; sourceTree = "<group>"; };
 		24A423472B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewDelegate.swift; sourceTree = "<group>"; };
+		24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegate.swift; sourceTree = "<group>"; };
+		24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegateTests.swift; sourceTree = "<group>"; };
 		24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewController.swift; sourceTree = "<group>"; };
 		24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,9 +130,8 @@
 		243228D02B4DB48F00C42C62 /* PlayerSetupPlayerTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				243228CC2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift */,
-				243228D82B4EEE2800C42C62 /* PlayerSetupPlayerTableViewCellTests.swift */,
-				243228CD2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib */,
+				24D68E162B505F9A00AD35AC /* PlayerSetupNameTextFieldDelegate */,
+				24D68E152B505F8C00AD35AC /* TableViewCell */,
 			);
 			path = PlayerSetupPlayerTableViewCell;
 			sourceTree = "<group>";
@@ -304,6 +307,25 @@
 			path = PlayerSetupPositionTableViewDelegate;
 			sourceTree = "<group>";
 		};
+		24D68E152B505F8C00AD35AC /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				243228CC2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift */,
+				243228D82B4EEE2800C42C62 /* PlayerSetupPlayerTableViewCellTests.swift */,
+				243228CD2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		24D68E162B505F9A00AD35AC /* PlayerSetupNameTextFieldDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */,
+				24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */,
+			);
+			path = PlayerSetupNameTextFieldDelegate;
+			sourceTree = "<group>";
+		};
 		24EC1D792B44CAA40060D27D /* PlayerSetup */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,6 +459,7 @@
 				243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */,
 				24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */,
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
+				24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */,
 				24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */,
 				243228D72B4DBD8600C42C62 /* Player.swift in Sources */,
 				2437F70A2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */,
@@ -466,6 +489,7 @@
 				2437F7072B40BB1B00BB75A1 /* HomeViewControllerTests.swift in Sources */,
 				2437F7212B40D12200BB75A1 /* GameSetupViewModelTests.swift in Sources */,
 				24EC1D7E2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift in Sources */,
+				24D68E1A2B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift in Sources */,
 				243228D92B4EEE2800C42C62 /* PlayerSetupPlayerTableViewCellTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

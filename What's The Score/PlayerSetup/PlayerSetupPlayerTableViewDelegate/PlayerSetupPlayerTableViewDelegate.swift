@@ -28,11 +28,14 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
             return cell
         }
         
+        let player = playerSetupCoordinator.players[indexPath.row]
+        
         cell.playerNameChanged = {string in
             self.playerSetupCoordinator.playerNameChanged(withIndex: indexPath.row, toName: string)
         }
         
-        cell.playerTextField.text = playerSetupCoordinator.players[indexPath.row].name
+        cell.textFieldDelegate.hasDefaultName = player.hasDefaultName
+        cell.playerTextField.text = player.name
         
         return cell
     }

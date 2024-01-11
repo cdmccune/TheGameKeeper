@@ -25,6 +25,12 @@ struct Player {
             _name = newValue
         }
     }
+    
+    var hasDefaultName: Bool {
+        get {
+            _name.isEmpty
+        }
+    }
 }
 
 extension Player: Equatable {}

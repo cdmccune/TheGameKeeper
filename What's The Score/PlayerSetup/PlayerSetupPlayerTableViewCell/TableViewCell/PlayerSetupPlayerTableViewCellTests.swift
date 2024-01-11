@@ -45,13 +45,13 @@ final class PlayerSetupPlayerTableViewCellTests: XCTestCase {
         wait(for: [expectation], timeout: 0.1)
     }
     
-    func test_PlayerSetupPlayerTableViewCell_WhenCellIsAwokenFromNib_ShouldSetTextFieldDelegateToDismissingTextFieldDelegate() {
+    func test_PlayerSetupPlayerTableViewCell_WhenCellIsAwokenFromNib_ShouldSetTextFieldDelegateToPlayerSetupNameTextFieldDelegate() {
         //given
         //when
         let sut = tableViewCell!
         
         //then
-        XCTAssertTrue(sut.playerTextField.delegate is DismissingTextFieldDelegate)
+        XCTAssertTrue(sut.playerTextField.delegate is PlayerSetupNameTextFieldDelegate)
     }
     
     func test_PlayerSetupPlayerTableViewcell_WhenNibIsLoaded_ShouldHaveAutoCaptilizationTypeOfPlayerTextFieldSetToWord() {

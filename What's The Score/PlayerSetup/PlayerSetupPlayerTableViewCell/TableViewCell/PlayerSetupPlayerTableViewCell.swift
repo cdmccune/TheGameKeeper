@@ -13,11 +13,10 @@ class PlayerSetupPlayerTableViewCell: UITableViewCell {
         playerTextField.delegate = textFieldDelegate
     }
     
-    lazy var textFieldDelegate = DismissingTextFieldDelegate()
+    lazy var textFieldDelegate = PlayerSetupNameTextFieldDelegate()
     var playerNameChanged: ((String)->())?
     
     @IBOutlet weak var playerTextField: UITextField!
-    
 
     @IBAction func playerTextFieldEditingDidEnd(_ sender: Any) {
         playerNameChanged?(playerTextField.text ?? "")

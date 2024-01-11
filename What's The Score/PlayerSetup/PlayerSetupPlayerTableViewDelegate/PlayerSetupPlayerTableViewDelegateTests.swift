@@ -75,6 +75,24 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual((cell as? PlayerSetupPlayerTableViewCell)?.playerTextField.text, players[randomPlayer].name)
     }
     
+    func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldSetCellsTextFieldDelegatesDefaultNameProperty() {
+        
+        
+        //given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        let hasDefaultName = Bool.random()
+        
+        let player1 = Player(name: hasDefaultName ? "" : "fd", position: 0)
+        sut.playerSetupCoordinator.players = [player1]
+        
+        //when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as! PlayerSetupPlayerTableViewCell
+        
+        //then
+        XCTAssertEqual(cell.textFieldDelegate.hasDefaultName, player1.hasDefaultName)
+    }
+    
     func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldShouldSetCellsPlayerNameChangedFunction() {
         //given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 1)
@@ -118,5 +136,6 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtSourceRow, sourceRow)
         XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtDestinationRow, destinationRow)
     }
+    
 
 }
