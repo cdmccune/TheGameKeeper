@@ -137,5 +137,28 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtDestinationRow, destinationRow)
     }
     
+    func test_PlayerSetupPlayerTableView_WhenShouldIndentWhilteEditingRowAtCalled_ShouldReturnFalse() {
+        //given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        //when
+        let shouldIndent = sut.tableView(tableView, shouldIndentWhileEditingRowAt: IndexPath(row: 0, section: 0))
+        
+        //then
+        XCTAssertFalse(shouldIndent)
+    }
+    
+    func test_PlayerSetupPlayerTableView_WhenEditingStyleForRowAtCalled_ShouldReturnNone() {
+        //given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        //when
+        let editingStyle = sut.tableView(tableView, editingStyleForRowAt: IndexPath(row: 0, section: 0))
+        
+        //then
+        XCTAssertEqual(editingStyle, .none)
+    }
+    
+    
 
 }

@@ -44,6 +44,15 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
         playerSetupCoordinator.movePlayerAt(sourceIndexPath.row, to: destinationIndexPath.row)
     }
     
+    //To remove the red delete button and indent
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        false
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none
+    }
+    
     
     
     
