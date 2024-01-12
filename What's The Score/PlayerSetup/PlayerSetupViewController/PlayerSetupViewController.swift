@@ -16,6 +16,9 @@ class PlayerSetupViewController: UIViewController {
     @IBOutlet weak var playerTableView: UITableView!
     @IBOutlet weak var positionTableView: UITableView!
     
+    @IBOutlet weak var tableViewStackViewHeightConstraint: NSLayoutConstraint!
+    
+    
     
     //MARK: - Properties
     var viewModel: PlayerSetupViewModel?
@@ -84,6 +87,9 @@ extension PlayerSetupViewController: PlayerSetupViewModelProtocol {
         DispatchQueue.main.async {
             self.playerTableView.reloadData()
             self.positionTableView.reloadData()
+            self.view.layoutIfNeeded()
+            self.tableViewStackViewHeightConstraint.constant = self.playerTableView.contentSize.height
+            self.view.layoutIfNeeded()
         }
     }
 }

@@ -82,7 +82,7 @@ class GameSetupViewController: UIViewController {
     }
     
     @IBAction func numberOfPlayersTextFieldValueChanged(_ sender: Any) {
-        guard let numberOfPlayers = Int(numberOfRoundsTextField.text ?? "") else { return }
+        guard let numberOfPlayers = Int(numberOfPlayersTextField.text ?? "") else { return }
         viewModel?.gameSettings.numberOfPlayers = numberOfPlayers
     }
     

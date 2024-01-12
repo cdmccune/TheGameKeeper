@@ -191,7 +191,7 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.loadView()
         
         let numberOfPlayers = Int.random(in: 1...10)
-        sut.numberOfRoundsTextField.text = String(numberOfPlayers)
+        sut.numberOfPlayersTextField.text = String(numberOfPlayers)
         
         //when
         sut.numberOfPlayersTextFieldValueChanged(4)

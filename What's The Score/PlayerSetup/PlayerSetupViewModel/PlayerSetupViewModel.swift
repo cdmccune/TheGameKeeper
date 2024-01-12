@@ -22,7 +22,11 @@ struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
     
     var gameSettings: GameSettings
     var players: [Player]
-    weak var delegate: PlayerSetupViewModelProtocol?
+    weak var delegate: PlayerSetupViewModelProtocol? {
+        didSet {
+            delegate?.bindViewToViewModel()
+        }
+    }
     
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String) {

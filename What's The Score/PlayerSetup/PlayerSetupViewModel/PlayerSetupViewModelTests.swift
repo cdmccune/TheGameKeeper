@@ -38,6 +38,21 @@ final class PlayerSetupViewModelTests: XCTestCase {
     }
     
     
+    //MARK: - DidSet
+    
+    func test_PlayerSetupViewModel_WhenDelegateChanged_ShouldCallDelegateBindViewToViewModel() {
+        //given
+        var sut = getViewModelWithDefaultSettings()
+        let delegateMock = PlayerSetupViewModelDelegateMock()
+        
+        //when
+        sut.delegate = delegateMock
+        
+        //then
+        XCTAssertEqual(delegateMock.bindViewToViewModelCallCount, 1)
+    }
+    
+    
     //MARK: - Player Name Changed
     
     func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledOutOfPlayerRange_ShouldDoNothing() {

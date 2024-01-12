@@ -13,7 +13,7 @@
         <array key="Poppins-Medium.ttf">
             <string>Poppins-Medium</string>
         </array>
-        <array key="Poppins-Regular.ttf">
+        <array key="Poppins-Regular.otf">
             <string>Poppins-Regular</string>
         </array>
     </customFonts>
@@ -369,66 +369,96 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-II-8cD">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fIO-e0-aKK">
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input the players names and set turn order" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YnO-FG-5Yf">
-                                        <rect key="frame" x="13" y="0.0" width="367.33333333333331" height="58.333333333333336"/>
-                                        <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="25"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzZ-i4-LUU">
-                                        <rect key="frame" x="114.66666666666669" y="63.333333333333329" width="164" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="LnF-QW-R4a"/>
-                                        </constraints>
-                                        <edgeInsets key="layoutMargins" top="0.0" left="15" bottom="0.0" right="15"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Randomize" cornerStyle="capsule">
-                                            <backgroundConfiguration key="background" strokeWidth="2">
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <color key="strokeColor" name="AccentColor"/>
-                                            </backgroundConfiguration>
-                                            <fontDescription key="titleFontDescription" name="Poppins-Regular" family="Poppins" pointSize="25"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YHY-Fn-YN4">
-                                        <rect key="frame" x="20" y="108.33333333333331" width="353" height="650.66666666666674"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-II-8cD">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="847"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="90b-xw-cKA">
-                                                <rect key="frame" x="0.0" y="0.0" width="50" height="650.66666666666663"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Input the players names and set turn order" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YnO-FG-5Yf">
+                                                <rect key="frame" x="13" y="0.0" width="367.33333333333331" height="70"/>
+                                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="25"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzZ-i4-LUU">
+                                                <rect key="frame" x="114.66666666666669" y="75" width="164" height="40"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="50" id="tRV-G8-7OG"/>
+                                                    <constraint firstAttribute="height" constant="40" id="LnF-QW-R4a"/>
                                                 </constraints>
-                                            </tableView>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SGM-1Z-kx4">
-                                                <rect key="frame" x="50" y="0.0" width="303" height="650.66666666666663"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            </tableView>
+                                                <edgeInsets key="layoutMargins" top="0.0" left="15" bottom="0.0" right="15"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Randomize" cornerStyle="capsule">
+                                                    <backgroundConfiguration key="background" strokeWidth="2">
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="strokeColor" name="AccentColor"/>
+                                                    </backgroundConfiguration>
+                                                    <fontDescription key="titleFontDescription" name="Poppins-Regular" family="Poppins" pointSize="25"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="260" translatesAutoresizingMaskIntoConstraints="NO" id="YHY-Fn-YN4">
+                                                <rect key="frame" x="20" y="120" width="353" height="120"/>
+                                                <subviews>
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="90b-xw-cKA">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="120"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="50" id="tRV-G8-7OG"/>
+                                                        </constraints>
+                                                    </tableView>
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="260" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SGM-1Z-kx4">
+                                                        <rect key="frame" x="50" y="0.0" width="303" height="120"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </tableView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="120" id="ov5-gg-hIr"/>
+                                                </constraints>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WUF-Q6-cTp">
+                                                <rect key="frame" x="111.66666666666667" y="245" width="169.66666666666663" height="35"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="35" id="P1c-6Z-ioP"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="+ Tap to add player"/>
+                                            </button>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="240" verticalCompressionResistancePriority="746" translatesAutoresizingMaskIntoConstraints="NO" id="eDU-Jq-tko">
+                                                <rect key="frame" x="76.666666666666671" y="285" width="239.66666666666663" height="562"/>
+                                            </view>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="YHY-Fn-YN4" firstAttribute="leading" secondItem="qjP-II-8cD" secondAttribute="leading" constant="20" id="O9a-mb-qZ1"/>
+                                            <constraint firstAttribute="trailing" secondItem="YHY-Fn-YN4" secondAttribute="trailing" constant="20" id="nLR-ST-2qc"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="YHY-Fn-YN4" firstAttribute="leading" secondItem="qjP-II-8cD" secondAttribute="leading" constant="20" id="O9a-mb-qZ1"/>
-                                    <constraint firstAttribute="trailing" secondItem="YHY-Fn-YN4" secondAttribute="trailing" constant="20" id="nLR-ST-2qc"/>
+                                    <constraint firstItem="qjP-II-8cD" firstAttribute="bottom" secondItem="gGa-DU-H6c" secondAttribute="bottom" id="4tF-2m-zJV"/>
+                                    <constraint firstItem="qjP-II-8cD" firstAttribute="trailing" secondItem="gGa-DU-H6c" secondAttribute="trailing" id="Pkc-cR-GBK"/>
+                                    <constraint firstItem="qjP-II-8cD" firstAttribute="top" secondItem="gGa-DU-H6c" secondAttribute="top" id="VmK-LQ-i3K"/>
+                                    <constraint firstItem="qjP-II-8cD" firstAttribute="width" secondItem="noT-Jb-4EB" secondAttribute="width" id="ccA-QA-hgJ"/>
+                                    <constraint firstItem="qjP-II-8cD" firstAttribute="leading" secondItem="gGa-DU-H6c" secondAttribute="leading" id="fMu-jn-A2m"/>
+                                    <constraint firstItem="qjP-II-8cD" firstAttribute="height" secondItem="noT-Jb-4EB" secondAttribute="height" priority="250" id="hLK-ev-FVB"/>
                                 </constraints>
-                            </stackView>
+                                <viewLayoutGuide key="contentLayoutGuide" id="gGa-DU-H6c"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="noT-Jb-4EB"/>
+                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u6N-7b-FpT"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="u6N-7b-FpT" firstAttribute="bottom" secondItem="qjP-II-8cD" secondAttribute="bottom" id="25F-2p-Y8f"/>
-                            <constraint firstItem="u6N-7b-FpT" firstAttribute="trailing" secondItem="qjP-II-8cD" secondAttribute="trailing" id="63U-2e-r5P"/>
-                            <constraint firstItem="qjP-II-8cD" firstAttribute="leading" secondItem="u6N-7b-FpT" secondAttribute="leading" id="X8L-eA-bIP"/>
-                            <constraint firstItem="qjP-II-8cD" firstAttribute="top" secondItem="u6N-7b-FpT" secondAttribute="top" id="wHr-pi-bYf"/>
+                            <constraint firstItem="u6N-7b-FpT" firstAttribute="top" secondItem="fIO-e0-aKK" secondAttribute="top" id="1z2-Nz-cms"/>
+                            <constraint firstItem="u6N-7b-FpT" firstAttribute="leading" secondItem="fIO-e0-aKK" secondAttribute="leading" id="JJ3-7F-3Q3"/>
+                            <constraint firstItem="fIO-e0-aKK" firstAttribute="bottom" secondItem="u6N-7b-FpT" secondAttribute="bottom" id="gut-1G-Ea5"/>
+                            <constraint firstItem="u6N-7b-FpT" firstAttribute="trailing" secondItem="fIO-e0-aKK" secondAttribute="trailing" id="kCs-ak-U0L"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="playerTableView" destination="SGM-1Z-kx4" id="3as-uW-Pog"/>
                         <outlet property="positionTableView" destination="90b-xw-cKA" id="4CE-qW-CtK"/>
                         <outlet property="randomizeButton" destination="jzZ-i4-LUU" id="q3P-in-Eh9"/>
+                        <outlet property="tableViewStackViewHeightConstraint" destination="ov5-gg-hIr" id="YZc-pE-o9P"/>
                         <outlet property="titleLabel" destination="YnO-FG-5Yf" id="eVi-zc-Mlc"/>
                     </connections>
                 </viewController>
@@ -442,7 +472,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
