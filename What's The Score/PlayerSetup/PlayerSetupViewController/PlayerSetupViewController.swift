@@ -74,6 +74,12 @@ class PlayerSetupViewController: UIViewController {
 }
 
 extension PlayerSetupViewController: PlayerSetupViewModelProtocol {
+    func reloadTableViewCell(index: Int) {
+        DispatchQueue.main.async {
+            self.playerTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
+    }
+    
     func bindViewToViewModel() {
         DispatchQueue.main.async {
             self.playerTableView.reloadData()
