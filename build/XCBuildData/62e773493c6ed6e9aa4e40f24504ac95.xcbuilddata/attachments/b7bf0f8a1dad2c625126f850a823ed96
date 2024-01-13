@@ -1,0 +1,178 @@
+{
+  "" : {
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Whats The Score-master.dia",
+    "emit-module-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Whats The Score-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Whats The Score-master-emit-module.dia",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Whats The Score-master.swiftdeps"
+  },
+  "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/AppDelegate.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/AppDelegate.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/AppDelegate.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/AppDelegate.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/AppDelegate.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/AppDelegate.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/AppDelegate.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/AppDelegate.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/AppDelegate~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/GameSetup/GameSetupViewController/GameSetupViewController.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewController.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewController.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewController.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewController.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewController.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewController.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewController.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewController~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/GameSetup/GameSetupViewModel/GameSetupViewModel.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewModel.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewModel.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewModel.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewModel.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewModel.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewModel.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewModel.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSetupViewModel~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/HelperClasses/DismissingTextFieldDelegate/DismissingTextFieldDelegate.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/DismissingTextFieldDelegate.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/DismissingTextFieldDelegate.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/DismissingTextFieldDelegate.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/DismissingTextFieldDelegate.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/DismissingTextFieldDelegate.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/DismissingTextFieldDelegate.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/DismissingTextFieldDelegate.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/DismissingTextFieldDelegate~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/HomeViewController/HomeViewController.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/HomeViewController.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/HomeViewController.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/HomeViewController.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/HomeViewController.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/HomeViewController.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/HomeViewController.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/HomeViewController.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/HomeViewController~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/Model/GameSettings.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSettings.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSettings.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSettings.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSettings.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSettings.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSettings.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSettings.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GameSettings~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/Model/Player/Player.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Player.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Player.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Player.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Player.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Player.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Player.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Player.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/Player~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/PlayerSetup/PlayerSetupPlayerTableViewCell/PlayerSetupNameTextFieldDelegate/PlayerSetupNameTextFieldDelegate.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupNameTextFieldDelegate.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupNameTextFieldDelegate.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupNameTextFieldDelegate.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupNameTextFieldDelegate.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupNameTextFieldDelegate.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupNameTextFieldDelegate.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupNameTextFieldDelegate.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupNameTextFieldDelegate~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/PlayerSetup/PlayerSetupPlayerTableViewCell/TableViewCell/PlayerSetupPlayerTableViewCell.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewCell.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewCell.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewCell.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewCell.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewCell.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewCell.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewCell.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewCell~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/PlayerSetup/PlayerSetupPlayerTableViewDelegate/PlayerSetupPlayerTableViewDelegate.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewDelegate.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewDelegate.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewDelegate.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewDelegate.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewDelegate.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewDelegate.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewDelegate.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPlayerTableViewDelegate~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/PlayerSetup/PlayerSetupPositionTableViewCell/PlayerSetupPositionTableViewCell.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewCell.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewCell.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewCell.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewCell.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewCell.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewCell.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewCell.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewCell~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/PlayerSetup/PlayerSetupPositionTableViewDelegate/PlayerSetupPositionTableViewDelegate.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewDelegate.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewDelegate.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewDelegate.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewDelegate.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewDelegate.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewDelegate.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewDelegate.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupPositionTableViewDelegate~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/PlayerSetup/PlayerSetupViewController/PlayerSetupViewController.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewController.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewController.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewController.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewController.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewController.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewController.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewController.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewController~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/PlayerSetup/PlayerSetupViewModel/PlayerSetupViewModel.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewModel.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewModel.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewModel.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewModel.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewModel.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewModel.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewModel.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/PlayerSetupViewModel~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/SceneDelegate.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/SceneDelegate.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/SceneDelegate.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/SceneDelegate.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/SceneDelegate.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/SceneDelegate.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/SceneDelegate.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/SceneDelegate.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/SceneDelegate~partial.swiftmodule"
+  },
+  "/Users/curtmccune/Whats The Score/Whats The Score/Testing/GeneralMocks.swift" : {
+    "const-values" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneralMocks.swiftconstvalues",
+    "dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneralMocks.d",
+    "diagnostics" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneralMocks.dia",
+    "index-unit-output-path" : "/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneralMocks.o",
+    "llvm-bc" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneralMocks.bc",
+    "object" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneralMocks.o",
+    "swift-dependencies" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneralMocks.swiftdeps",
+    "swiftmodule" : "/Users/curtmccune/Whats The Score/build/Whats The Score.build/Debug-iphonesimulator/Whats The Score.build/Objects-normal/arm64/GeneralMocks~partial.swiftmodule"
+  }
+}

@@ -1,0 +1,11 @@
+Target dependency graph (5 targets)
+Target 'Whats The Score Tests' in project 'Whats The Score'
+➜ Explicit dependency on target 'Whats The Score' in project 'Whats The Score'
+➜ Implicit dependency on target 'Pods-Whats The Score Tests' in project 'Pods' via file 'Pods_Whats_The_Score_Tests.framework' in build phase 'Link Binary'
+Target 'Whats The Score' in project 'Whats The Score'
+➜ Implicit dependency on target 'Pods-Whats The Score' in project 'Pods' via file 'Pods_Whats_The_Score.framework' in build phase 'Link Binary'
+Target 'Pods-Whats The Score Tests' in project 'Pods'
+➜ Explicit dependency on target 'Pods-Whats The Score' in project 'Pods'
+Target 'Pods-Whats The Score' in project 'Pods'
+➜ Explicit dependency on target 'SwiftLint' in project 'Pods'
+Target 'SwiftLint' in project 'Pods' (no dependencies)

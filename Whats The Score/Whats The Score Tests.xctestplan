@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "FE18F0D1-B73E-4072-97FF-E06CF65BBA5A",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Whats The Score.xcodeproj",
+        "identifier" : "2437F6FD2B40BB1500BB75A1",
+        "name" : "Whats The Score Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

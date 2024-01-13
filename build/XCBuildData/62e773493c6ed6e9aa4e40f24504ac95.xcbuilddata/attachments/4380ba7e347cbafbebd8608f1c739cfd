@@ -1,0 +1,5 @@
+ extern const unsigned char Pods_Whats_The_ScoreVersionString[];
+ extern const double Pods_Whats_The_ScoreVersionNumber;
+
+ const unsigned char Pods_Whats_The_ScoreVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:Pods_Whats_The_Score  PROJECT:Pods-1" "\n";
+ const double Pods_Whats_The_ScoreVersionNumber __attribute__ ((used)) = (double)1.;
