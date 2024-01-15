@@ -6,7 +6,7 @@
 //
 
 import Foundation
-// #error("Next need to make the tableview reload only the correct cell when renaming players bc of keyboard glitch")
+
 struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
     init(gameSettings: GameSettings) {
         self.gameSettings = gameSettings

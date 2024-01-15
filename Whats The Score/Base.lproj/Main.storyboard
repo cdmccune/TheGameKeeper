@@ -13,7 +13,7 @@
         <array key="Poppins-Medium.ttf">
             <string>Poppins-Medium</string>
         </array>
-        <array key="Poppins-Regular.otf">
+        <array key="Poppins-Regular.ttf">
             <string>Poppins-Regular</string>
         </array>
     </customFonts>
@@ -21,19 +21,19 @@
         <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="Home View Controller" id="BYZ-38-t0r" customClass="HomeViewController" customModule="What_s_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Home View Controller" id="BYZ-38-t0r" customClass="HomeViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's The Score" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gip-9B-ioQ">
-                                <rect key="frame" x="15" y="103" width="363" height="59"/>
+                                <rect key="frame" x="15" y="103" width="363" height="49"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="42"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="66F-Ce-HLQ">
-                                <rect key="frame" x="46.666666666666657" y="192" width="300" height="145"/>
+                                <rect key="frame" x="46.666666666666657" y="182" width="300" height="145"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nY1-O4-eaM">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="65"/>
@@ -94,7 +94,7 @@
         <!--Game Setup View Controller-->
         <scene sceneID="E3M-ev-9cC">
             <objects>
-                <viewController storyboardIdentifier="GameSetupViewController" id="TFZ-rN-2F5" customClass="GameSetupViewController" customModule="What_s_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameSetupViewController" id="TFZ-rN-2F5" customClass="GameSetupViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j7T-u4-FHc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -194,7 +194,7 @@
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="1" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uj3-EI-g3x">
                                                                 <rect key="frame" x="330" y="0.0" width="33" height="34"/>
                                                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                                                 <connections>
                                                                     <action selector="numberOfRoundsTextFieldValueChanged:" destination="TFZ-rN-2F5" eventType="editingChanged" id="Hcy-vH-dE0"/>
                                                                 </connections>
@@ -343,10 +343,10 @@
             </objects>
             <point key="canvasLocation" x="1964" y="-2"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Root Navigation Controller-->
         <scene sceneID="YRY-J4-YLi">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qYR-if-P2d" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qYR-if-P2d" customClass="RootNavigationController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CRr-ye-Rqb">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -364,7 +364,7 @@
         <!--Player Setup View Controller-->
         <scene sceneID="KVD-Oj-dO8">
             <objects>
-                <viewController storyboardIdentifier="PlayerSetupViewController" id="pg7-xh-hcT" customClass="PlayerSetupViewController" customModule="What_s_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayerSetupViewController" id="pg7-xh-hcT" customClass="PlayerSetupViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="58P-eK-bl1">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -472,7 +472,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
