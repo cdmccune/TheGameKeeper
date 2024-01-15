@@ -97,7 +97,7 @@
 		24B89C582B52E66C005FD953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegate.swift; sourceTree = "<group>"; };
 		24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegateTests.swift; sourceTree = "<group>"; };
-		24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Whats The Score Tests.xctestplan"; path = "Whats The Score/Whats The Score Tests.xctestplan"; sourceTree = SOURCE_ROOT; };
+		24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Whats The Score Tests.xctestplan"; sourceTree = SOURCE_ROOT; };
 		24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewController.swift; sourceTree = "<group>"; };
 		24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewControllerTests.swift; sourceTree = "<group>"; };
 		4F0EB3F0D4A8B52B3402D807 /* Pods-Whats The Score.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score.debug.xcconfig"; path = "Target Support Files/Pods-Whats The Score/Pods-Whats The Score.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				2437F6E12B40AAE000BB75A1 /* Whats The Score */,
-				2437F6FF2B40BB1500BB75A1 /* Whats The Score Tests */,
+				24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */,
 				2437F6E02B40AAE000BB75A1 /* Products */,
 				DE0714C3B8F81D1070E8FFC4 /* Pods */,
 				B083BAEB1E7E38F04F1104E7 /* Frameworks */,
@@ -210,14 +210,6 @@
 				2437F7122B40C3A800BB75A1 /* Fonts */,
 			);
 			path = "Whats The Score";
-			sourceTree = "<group>";
-		};
-		2437F6FF2B40BB1500BB75A1 /* Whats The Score Tests */ = {
-			isa = PBXGroup;
-			children = (
-				24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */,
-			);
-			path = "Whats The Score Tests";
 			sourceTree = "<group>";
 		};
 		2437F7082B40BEF000BB75A1 /* Testing */ = {

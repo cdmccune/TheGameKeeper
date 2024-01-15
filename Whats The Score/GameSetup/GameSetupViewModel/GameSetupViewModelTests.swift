@@ -10,44 +10,44 @@ import XCTest
 
 final class GameSetupViewModelTests: XCTestCase {
     
-    //MARK: Setup functions
+    // MARK: Setup functions
     
     func getBasicGameSettings() -> GameSettings {
         return GameSettings(gameType: .basic, gameEndType: .none, numberOfRounds: 1, numberOfPlayers: 2)
     }
     
     
-    //MARK: - Tests
+    // MARK: - Tests
     
     func test_GameSetupViewModel_WhenDelegateIsSet_ShouldCallBindViewToGameSettings() {
-        //given
+        // given
         var sut = GameSetupViewModel(gameSettings: getBasicGameSettings())
         let delegateMock = GameSetupViewModelDelegateMock()
         
-        //when
+        // when
         sut.delegate = delegateMock
         
-        //then
+        // then
         XCTAssertEqual(delegateMock.bindViewToGameSettingsCalledCount, 1)
     }
 
     func test_GameSetupViewModel_WhenGameSettingsValueChanged_ShouldCallBindViewToGameSettings() {
-        //given
+        // given
         var sut = GameSetupViewModel(gameSettings: getBasicGameSettings())
         let delegateMock = GameSetupViewModelDelegateMock()
         sut.delegate = delegateMock
         
         let calledCount = delegateMock.bindViewToGameSettingsCalledCount
         
-        //when
+        // when
         sut.gameSettings.gameEndType = .score
         
-        //then
+        // then
         XCTAssertEqual(delegateMock.bindViewToGameSettingsCalledCount, calledCount + 1)
     }
     
     
-    //MARK: - Mock
+    // MARK: - Mock
     
     class GameSetupViewModelDelegateMock: NSObject, GameSetupViewModelProtocol {
         var bindViewToGameSettingsCalledCount = 0

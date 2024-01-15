@@ -10,7 +10,7 @@ import XCTest
 
 final class PlayerSetupPlayerTableViewCellTests: XCTestCase {
     
-    //MARK: - Setup
+    // MARK: - Setup
     
     var tableViewCell: PlayerSetupPlayerTableViewCell?
     
@@ -23,10 +23,10 @@ final class PlayerSetupPlayerTableViewCellTests: XCTestCase {
         tableViewCell = nil
     }
     
-    //MARK: - Testing
+    // MARK: - Testing
 
     func test_PlayerSetupPlayerTableViewCell_WhenPlayerTextFieldEndsEditing_ShouldCallPlayerNameChangedFunctionWithTextFieldsString() {
-        //given
+        // given
         let sut = tableViewCell!
         let testString = UUID().uuidString
         sut.playerTextField.text = testString
@@ -38,28 +38,28 @@ final class PlayerSetupPlayerTableViewCellTests: XCTestCase {
             XCTAssertEqual(string, testString)
         }
         
-        //when
+        // when
         sut.playerTextFieldEditingDidEnd(0)
         
-        //then
+        // then
         wait(for: [expectation], timeout: 0.1)
     }
     
     func test_PlayerSetupPlayerTableViewCell_WhenCellIsAwokenFromNib_ShouldSetTextFieldDelegateToPlayerSetupNameTextFieldDelegate() {
-        //given
-        //when
+        // given
+        // when
         let sut = tableViewCell!
         
-        //then
+        // then
         XCTAssertTrue(sut.playerTextField.delegate is PlayerSetupNameTextFieldDelegate)
     }
     
     func test_PlayerSetupPlayerTableViewcell_WhenNibIsLoaded_ShouldHaveAutoCaptilizationTypeOfPlayerTextFieldSetToWord() {
-        //given
-        //when
+        // given
+        // when
         let sut = tableViewCell!
         
-        //then
+        // then
         XCTAssertEqual(sut.playerTextField.autocapitalizationType, .words)
     }
 

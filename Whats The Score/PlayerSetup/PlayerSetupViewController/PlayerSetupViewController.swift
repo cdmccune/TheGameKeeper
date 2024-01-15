@@ -9,7 +9,7 @@ import UIKit
 
 class PlayerSetupViewController: UIViewController {
     
-    //MARK: - Outlets
+    // MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var randomizeButton: UIButton!
@@ -19,15 +19,13 @@ class PlayerSetupViewController: UIViewController {
     @IBOutlet weak var tableViewStackViewHeightConstraint: NSLayoutConstraint!
     
     
-    
-    //MARK: - Properties
+    // MARK: - Properties
     var viewModel: PlayerSetupViewModel?
     private var playerTableViewDelegate: PlayerSetupPlayerTableViewDelegate?
     private var positionTableViewDelegate: PlayerSetupPositionTableViewDelegate?
     
     
-    
-    //MARK: - Lifecycle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +35,7 @@ class PlayerSetupViewController: UIViewController {
     }
     
     private func setDelegates() {
-        guard let _ = viewModel else { return }
+        guard viewModel != nil else { return }
         self.viewModel?.delegate = self
         
         let playerTableViewDelegate = PlayerSetupPlayerTableViewDelegate(playerSetupCoordinator: viewModel!)
@@ -62,8 +60,6 @@ class PlayerSetupViewController: UIViewController {
     }
     
     
-    
-
     /*
     // MARK: - Navigation
 

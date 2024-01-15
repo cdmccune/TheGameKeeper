@@ -11,31 +11,31 @@ import XCTest
 final class PlayerSetupNameTextFieldDelegateTests: XCTestCase {
 
     func test_PlayerSetupNameTextFieldDelegate_WhenTextFieldDidBeginEditingHasDefaultNameTrue_ShouldDeleteTextFieldsText() {
-        //given
+        // given
         let sut = PlayerSetupNameTextFieldDelegate()
         sut.hasDefaultName = true
         let textField = UITextField()
         textField.text = UUID().uuidString
         
-        //when
+        // when
         sut.textFieldDidBeginEditing(textField)
         
-        //then
+        // then
         XCTAssertEqual(textField.text, "")
     }
     
     func test_PlayerSetupNameTextFieldDelegate_WhenTextFieldDidBeginEditingHasDefaultNameFalse_ShouldNotDeleteTextFieldsText() {
-        //given
+        // given
         let sut = PlayerSetupNameTextFieldDelegate()
         sut.hasDefaultName = false
         let textField = UITextField()
         let text = UUID().uuidString
         textField.text = text
         
-        //when
+        // when
         sut.textFieldDidBeginEditing(textField)
         
-        //then
+        // then
         XCTAssertEqual(textField.text, text)
     }
 

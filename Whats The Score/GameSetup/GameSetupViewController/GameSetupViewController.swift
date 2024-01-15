@@ -17,7 +17,7 @@ class GameSetupViewController: UIViewController {
                                                                   numberOfPlayers: 2))
     }
     
-    //MARK: - Outlets
+    // MARK: - Outlets
     
     @IBOutlet weak var gameTypeStackView: UIStackView!
     @IBOutlet weak var gameTypeLabel: UILabel!
@@ -40,12 +40,11 @@ class GameSetupViewController: UIViewController {
     @IBOutlet weak var numberOfPlayersTextField: UITextField!
     
     
-    //MARK: - Properties
+    // MARK: - Properties
     
     var viewModel: GameSetupViewModel?
     
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,7 +52,7 @@ class GameSetupViewController: UIViewController {
     }
     
     
-    //MARK: - IBActions
+    // MARK: - IBActions
 
     @IBAction func gameTypeSegmentedControlValueChanged(_ sender: Any) {
         guard let gameType = GameType(rawValue: gameTypeSegmentedControl.selectedSegmentIndex) else {
@@ -94,18 +93,13 @@ class GameSetupViewController: UIViewController {
         
         navigationController?.pushViewController(playerSetupVC!, animated: true)
     }
-    
-    
-    
-    
-    
 }
 
 
 extension GameSetupViewController: GameSetupViewModelProtocol {
     func bindViewToGameSettings(with gameSettings: GameSettings) {
 
-        //Setting Values
+        // Setting Values
         self.gameTypeSegmentedControl.selectedSegmentIndex = gameSettings.gameType.rawValue
         self.gameEndTypeSegmentedControl.selectedSegmentIndex = gameSettings.gameEndType.rawValue
         self.numberOfRoundsTextField.text = String(gameSettings.numberOfRounds)
@@ -117,7 +111,7 @@ extension GameSetupViewController: GameSetupViewModelProtocol {
             self.endingScoreTextField.text = ""
         }
         
-        //Hiding and Showing
+        // Hiding and Showing
         self.gameEndTypeStackView.isHidden = gameSettings.gameType == .basic
         self.numberOfRoundsStackView.isHidden = gameSettings.gameType == .basic || gameSettings.gameEndType != .round
         self.endingScoreStackView.isHidden = gameSettings.gameType == .round && gameSettings.gameEndType != .score

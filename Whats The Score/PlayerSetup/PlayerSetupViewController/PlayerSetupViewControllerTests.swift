@@ -25,7 +25,7 @@ final class PlayerSetupViewControllerTests: XCTestCase {
     }
     
     
-    //MARK: - Initialization
+    // MARK: - Initialization
     
     func getBasicViewModel() -> PlayerSetupViewModel {
         let emptyGameSettings = GameSettings(gameType: .basic,
@@ -36,13 +36,13 @@ final class PlayerSetupViewControllerTests: XCTestCase {
     }
     
     func test_PlayerSetupViewController_WhenLoaded_ShouldHaveNonNilOutlets() {
-        //given
+        // given
         let sut = viewController!
         
-        //when
+        // when
         viewController.loadView()
         
-        //then
+        // then
         XCTAssertNotNil(sut.titleLabel)
         XCTAssertNotNil(sut.randomizeButton)
         XCTAssertNotNil(sut.playerTableView)
@@ -50,89 +50,89 @@ final class PlayerSetupViewControllerTests: XCTestCase {
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewDelegateAndDataSource() {
-        //given
+        // given
         let sut = viewController!
         sut.viewModel = getBasicViewModel()
 
-        //when
+        // when
         sut.loadView()
         sut.viewDidLoad()
         
-        //then
+        // then
         XCTAssertTrue(sut.playerTableView.delegate is PlayerSetupPlayerTableViewDelegate)
         XCTAssertTrue(sut.playerTableView.dataSource is PlayerSetupPlayerTableViewDelegate)
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPositionTableViewDelegateAndDataSource() {
-        //given
+        // given
         let sut = viewController!
         sut.viewModel = getBasicViewModel()
 
-        //when
+        // when
         sut.loadView()
         sut.viewDidLoad()
         
-        //then
+        // then
         XCTAssertTrue(sut.positionTableView.delegate is PlayerSetupPositionTableViewDelegate)
         XCTAssertTrue(sut.positionTableView.dataSource is PlayerSetupPositionTableViewDelegate)
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetSelfAsViewModelsDelegate() {
-        //given
+        // given
         let sut = viewController!
         sut.viewModel = getBasicViewModel()
         
-        //when
+        // when
         sut.loadView()
         sut.viewDidLoad()
         
-        //then
+        // then
         XCTAssertTrue(sut.viewModel?.delegate is PlayerSetupViewController)
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldRegisterNibsForPositionTableView() {
-        //given
+        // given
         let sut = viewController!
         let tableViewDelegateMock = TableViewDelegateMock(cellIdentifier: "PlayerSetupPositionTableViewCell")
         sut.loadView()
         sut.positionTableView.dataSource = tableViewDelegateMock
         sut.positionTableView.delegate = tableViewDelegateMock
         
-        //when
+        // when
         sut.viewDidLoad()
         let cell = tableViewDelegateMock.tableView(sut.positionTableView, cellForRowAt: IndexPath(row: 0, section: 0))
         
-        //then
+        // then
         XCTAssertTrue(cell is PlayerSetupPositionTableViewCell)
         
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldRegisterNibsForPlayerTableView() {
-        //given
+        // given
         let sut = viewController!
         let tableViewDelegateMock = TableViewDelegateMock(cellIdentifier: "PlayerSetupPlayerTableViewCell")
         sut.loadView()
         sut.positionTableView.dataSource = tableViewDelegateMock
         sut.positionTableView.delegate = tableViewDelegateMock
         
-        //when
+        // when
         sut.viewDidLoad()
         let cell = tableViewDelegateMock.tableView(sut.playerTableView, cellForRowAt: IndexPath(row: 0, section: 0))
         
-        //then
+        // then
         XCTAssertTrue(cell is PlayerSetupPlayerTableViewCell)
         
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldShouldSetPlayerTableViewToEditing() {
-        //given
+        // given
         let sut = viewController!
         sut.loadView()
         
-        //when
+        // when
         sut.viewDidLoad()
         
-        //then
+        // then
         XCTAssertTrue(sut.playerTableView.isEditing)
     }
 

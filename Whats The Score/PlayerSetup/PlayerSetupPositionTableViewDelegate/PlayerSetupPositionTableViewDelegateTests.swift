@@ -10,7 +10,7 @@ import XCTest
 
 final class PlayerSetupPositionTableViewDelegateTests: XCTestCase {
     
-    //MARK: - Setup Functions
+    // MARK: - Setup Functions
     
     var tableViewMock: UITableView?
     
@@ -38,30 +38,30 @@ final class PlayerSetupPositionTableViewDelegateTests: XCTestCase {
         return (sut, tableView)
     }
     
-    //MARK: - Testing
+    // MARK: - Testing
 
     func test_PlayerSetupPositionTableViewDelegate_WhenNumberOfRowsInSectionCalled_ShouldReturnTheNumberOfPlayersPlayerCoordinator() {
-        //given
+        // given
         let playerCount = Int.random(in: 1...10)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)
         
-        //when
+        // when
         let rowCount = sut.tableView(tableView, numberOfRowsInSection: 0)
         
-        //then
+        // then
         XCTAssertEqual(rowCount, playerCount)
     }
     
     func test_PlayerSetupPositionTableViewDelegate_WhenCellForRowAtCalled_ShouldReturnPlayerSetupPositionTableViewCellWithTextOfItsPlayerPosition() {
-        //given
+        // given
         let playerCount = Int.random(in: 1...10)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)
         let chosenPlayerCell = Int.random(in: 0...playerCount-1)
         
-        //when
+        // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: chosenPlayerCell, section: 0)) as? PlayerSetupPositionTableViewCell
         
-        //then
+        // then
         XCTAssertNotNil(cell)
         XCTAssertEqual(cell?.numberLabel.text, String(chosenPlayerCell + 1))
     }

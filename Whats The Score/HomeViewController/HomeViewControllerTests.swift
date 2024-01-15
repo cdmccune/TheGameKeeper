@@ -14,20 +14,20 @@ final class HomeViewControllerTests: XCTestCase {
     
     override func setUp() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let VC = storyboard.instantiateViewController(withIdentifier: "Home View Controller") as? HomeViewController else {
+        guard let viewController = storyboard.instantiateViewController(withIdentifier: "Home View Controller") as? HomeViewController else {
             fatalError("HomeViewController wasn't found")
         }
-        viewController = VC
+        self.viewController = viewController
     }
 
     func test_HomeViewController_WhenViewLoaded_ShouldHaveNotNilForOutlets() {
-        //given
+        // given
         let sut = viewController!
         
-        //when
+        // when
         sut.loadView()
         
-        //then
+        // then
         XCTAssertNotNil(sut.titleLabel)
         XCTAssertNotNil(sut.quickStartButton)
         XCTAssertNotNil(sut.setupGameButton)
@@ -35,28 +35,28 @@ final class HomeViewControllerTests: XCTestCase {
     }
     
     func test_HomeViewController_WhenSetupGameButtonTapped_ShouldPushGameSetupViewController() {
-        //given
+        // given
         let sut = viewController!
         
         let navigationControllerMock = NavigationControllerPushMock()
         navigationControllerMock.viewControllers = [sut]
         
-        //when
+        // when
         sut.setupGameButtonTapped(4)
         
-        //then
+        // then
         XCTAssertEqual(navigationControllerMock.pushViewControllerCount, 1)
         XCTAssertTrue(navigationControllerMock.viewController is GameSetupViewController)
     }
     
 //    func test_HomeViewController_When<#action#>_Should<#assertion#>() {
-//        //given
+//        // given
 //        let sut = <#System Under Test#>
 //
-//        //when
+//        // when
 //        <#when#>
 //
-//        //then
+//        // then
 //        <#then#>
 //    }
 

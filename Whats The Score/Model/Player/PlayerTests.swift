@@ -11,44 +11,44 @@ import XCTest
 final class PlayerTests: XCTestCase {
 
     func test_Player_WhenHasEmptyNameAndPositionZero_ShouldReturnPlayerWithPositionPlusOneForDisplayName() {
-        //given
+        // given
         let position = Int.random(in: 0...4)
         let sut = Player(name: "", position: position)
         
-        //when
+        // when
         let name = sut.name
         
-        //then
+        // then
         XCTAssertEqual(name, "Player \(position+1)")
     }
     
     func test_Player_WhenHasName_ShouldReturnNameFromName() {
-        //given
+        // given
         let name = UUID().uuidString
         let sut = Player(name: name, position: 0)
         
-        //when
+        // when
         let displayName = sut.name
         
-        //then
+        // then
         XCTAssertEqual(displayName, name)
     }
     
     func test_Player_WhenHasEmptyName_ShouldHaveTrueForHasDefaultName() {
-        //given
-        //when
+        // given
+        // when
         let sut = Player(name: "", position: 0)
         
-        //then
+        // then
         XCTAssertTrue(sut.hasDefaultName)
     }
     
     func test_Player_WhenHasNonEmptyName_ShouldHaveFalseForHasDefaultName() {
-        //given
-        //when
+        // given
+        // when
         let sut = Player(name: UUID().uuidString, position: 0)
         
-        //then
+        // then
         XCTAssertFalse(sut.hasDefaultName)
     }
     

@@ -10,7 +10,7 @@ import XCTest
 
 final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
     
-    //MARK: - Setup
+    // MARK: - Setup
     
     var tableViewMock: UITableView?
     
@@ -38,22 +38,22 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         return (sut, tableView)
     }
     
-    //MARK: - Tests
+    // MARK: - Tests
 
     func test_PlayerSetupPlayerTableView_WhenNumberOfRowsCalled_ShouldReturnTheNumberOfRowsInThePlayerSetupCoordinator() {
-        //given
+        // given
         let playerCount = Int.random(in: 2...10)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)
         
-        //when
+        // when
         let playerCellCount = sut.tableView(tableView, numberOfRowsInSection: 0)
         
-        //then
+        // then
         XCTAssertEqual(playerCount, playerCellCount)
     }
     
     func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldReturnPlayerSetupPlayerTableViewCellWithCorrectPlayerName() {
-        //given
+        // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
         
         let playerCount = Int.random(in: 2...5)
@@ -67,10 +67,10 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         
         let randomPlayer = Int.random(in: 0...playerCount-1)
         
-        //when
+        // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: randomPlayer, section: 0))
         
-        //then
+        // then
         XCTAssertTrue(cell is PlayerSetupPlayerTableViewCell)
         XCTAssertEqual((cell as? PlayerSetupPlayerTableViewCell)?.playerTextField.text, players[randomPlayer].name)
     }
@@ -78,7 +78,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
     func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldSetCellsTextFieldDelegatesDefaultNameProperty() {
         
         
-        //given
+        // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
         
         let hasDefaultName = Bool.random()
@@ -86,26 +86,26 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         let player1 = Player(name: hasDefaultName ? "" : "fd", position: 0)
         sut.playerSetupCoordinator.players = [player1]
         
-        //when
+        // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PlayerSetupPlayerTableViewCell
         
-        //then
+        // then
         XCTAssertEqual(cell?.textFieldDelegate.hasDefaultName, player1.hasDefaultName)
     }
     
     func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldShouldSetCellsPlayerNameChangedFunction() {
-        //given
+        // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 1)
         
-        //when
+        // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PlayerSetupPlayerTableViewCell
         
-        //then
+        // then
         XCTAssertNotNil(cell?.playerNameChanged)
     }
     
     func test_PlayerSetupPlayerTableView_WhenPlayerNameChangedCalledOn_ShouldCallChangePlayerNameOnPlayerSetupCoordinatorWithCorrectCellRow() {
-        //given
+        // given
         let playerCount = Int.random(in: 1...9)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)
         
@@ -114,51 +114,48 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: randomPlayer, section: 0)) as? PlayerSetupPlayerTableViewCell
         
-        //when
+        // when
         cell?.playerNameChanged?(testString)
         
-        //then
-        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedName , testString)
-        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedIndex , randomPlayer)
+        // then
+        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedName, testString)
+        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedIndex, randomPlayer)
     }
     
     func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerSetupCoordinatorMovePlayerAt() {
-        //given
+        // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 5)
         
-        //when
+        // when
         let sourceRow = 0
         let destinationRow = 1
         sut.tableView(tableView, moveRowAt: IndexPath(row: sourceRow, section: 0), to: IndexPath(row: destinationRow, section: 0))
         
-        //then
+        // then
         XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtCalledCount, 1)
         XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtSourceRow, sourceRow)
         XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtDestinationRow, destinationRow)
     }
     
     func test_PlayerSetupPlayerTableView_WhenShouldIndentWhilteEditingRowAtCalled_ShouldReturnFalse() {
-        //given
+        // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
         
-        //when
+        // when
         let shouldIndent = sut.tableView(tableView, shouldIndentWhileEditingRowAt: IndexPath(row: 0, section: 0))
         
-        //then
+        // then
         XCTAssertFalse(shouldIndent)
     }
     
     func test_PlayerSetupPlayerTableView_WhenEditingStyleForRowAtCalled_ShouldReturnNone() {
-        //given
+        // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
         
-        //when
+        // when
         let editingStyle = sut.tableView(tableView, editingStyleForRowAt: IndexPath(row: 0, section: 0))
         
-        //then
+        // then
         XCTAssertEqual(editingStyle, .none)
     }
-    
-    
-
 }

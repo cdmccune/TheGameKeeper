@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Whats The Score/Whats The Score Tests.xctestplan"
+            reference = "container:Whats The Score Tests.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

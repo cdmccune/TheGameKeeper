@@ -6,7 +6,7 @@
 //
 
 import Foundation
-//#error("Next need to make the tableview reload only the correct cell when renaming players bc of keyboard glitch")
+// #error("Next need to make the tableview reload only the correct cell when renaming players bc of keyboard glitch")
 struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
     init(gameSettings: GameSettings) {
         self.gameSettings = gameSettings
@@ -62,4 +62,3 @@ protocol PlayerSetupPlayerCoordinator {
     mutating func playerNameChanged(withIndex index: Int, toName name: String)
     mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
 }
-

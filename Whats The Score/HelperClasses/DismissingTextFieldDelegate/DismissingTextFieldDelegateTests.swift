@@ -11,14 +11,14 @@ import XCTest
 final class DismissingTextFieldDelegateTests: XCTestCase {
 
     func test_DismissingTextFieldDelegate_WhenTextFieldShouldReturnCalled_ShouldCallResignFirstResponderOnTextFieldAndReturnFalse() {
-        //given
+        // given
         let sut = DismissingTextFieldDelegate()
         let textFieldMock = UITextFieldShouldReturnMock()
+
+        // when
+        _ = sut.textFieldShouldReturn(textFieldMock)
         
-        //when
-        let _ = sut.textFieldShouldReturn(textFieldMock)
-        
-        //then
+        // then
         XCTAssertEqual(textFieldMock.resignFirstResponderCalledCount, 1)
     }
     

@@ -9,23 +9,17 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    //MARK: - Outlets
+    // MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var quickStartButton: UIButton!
     @IBOutlet weak var setupGameButton: UIButton!
     
     
-    //MARK: - Lifecycles
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+    // MARK: - Lifecycles
     
     
-    //MARK: - IBActions
+    // MARK: - IBActions
     
     @IBAction func setupGameButtonTapped(_ sender: Any) {
         let gameSetupVC = storyboard?.instantiateViewController(withIdentifier: "GameSetupViewController")
@@ -34,10 +28,6 @@ class HomeViewController: UIViewController {
     }
     
     
-    
-    
-    
-
     /*
     // MARK: - Navigation
 

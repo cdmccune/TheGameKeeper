@@ -27,13 +27,11 @@ struct Player {
     }
     
     var hasDefaultName: Bool {
-        get {
             _name.isEmpty
-        }
     }
 }
 
 extension Player: Equatable {}
-func ==(rhs: Player, lhs: Player) -> Bool {
+func == (rhs: Player, lhs: Player) -> Bool {
     return rhs.name == lhs.name && rhs.position == lhs.position
 }

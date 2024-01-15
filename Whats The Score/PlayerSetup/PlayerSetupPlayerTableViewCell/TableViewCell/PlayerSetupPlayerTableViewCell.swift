@@ -14,7 +14,7 @@ class PlayerSetupPlayerTableViewCell: UITableViewCell {
     }
     
     lazy var textFieldDelegate = PlayerSetupNameTextFieldDelegate()
-    var playerNameChanged: ((String)->())?
+    var playerNameChanged: ((String) -> Void )?
     
     @IBOutlet weak var playerTextField: UITextField!
 
