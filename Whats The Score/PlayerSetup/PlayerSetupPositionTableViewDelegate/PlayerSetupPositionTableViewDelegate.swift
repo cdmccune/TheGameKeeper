@@ -10,14 +10,14 @@ import UIKit
 
 class PlayerSetupPositionTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDataSource {
     
-    init(playerSetupCoordinator: PlayerSetupPlayerCoordinator) {
-        self.playerSetupCoordinator = playerSetupCoordinator
+    init(playerViewModel: PlayerSetupViewModelProtocol) {
+        self.playerViewModel = playerViewModel
     }
     
-    var playerSetupCoordinator: PlayerSetupPlayerCoordinator
+    var playerViewModel: PlayerSetupViewModelProtocol
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return playerSetupCoordinator.players.count
+        return playerViewModel.players.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

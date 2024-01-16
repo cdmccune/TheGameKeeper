@@ -43,6 +43,8 @@
 		24A423432B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423422B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift */; };
 		24A423462B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423452B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift */; };
 		24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423472B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift */; };
+		24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BD233D2B56DE9E000FCBE4 /* ArrayExtensions.swift */; };
+		24BD23432B56DFF4000FCBE4 /* ArrayExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BD23422B56DFF4000FCBE4 /* ArrayExtensionsTests.swift */; };
 		24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */; };
 		24D68E1A2B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */; };
 		24DAC6B72B52F1C90069C7C9 /* Whats The Score Tests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */; };
@@ -101,6 +103,8 @@
 		24A423452B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewDelegateTests.swift; sourceTree = "<group>"; };
 		24A423472B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewDelegate.swift; sourceTree = "<group>"; };
 		24B89C582B52E66C005FD953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		24BD233D2B56DE9E000FCBE4 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
+		24BD23422B56DFF4000FCBE4 /* ArrayExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensionsTests.swift; sourceTree = "<group>"; };
 		24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegate.swift; sourceTree = "<group>"; };
 		24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegateTests.swift; sourceTree = "<group>"; };
 		24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Whats The Score Tests.xctestplan"; sourceTree = SOURCE_ROOT; };
@@ -138,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				2410F7192B5596D200860BA4 /* ViewControllerExtensions.swift */,
+				24BD233F2B56DFAB000FCBE4 /* ArrayExtensions */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -334,6 +339,15 @@
 				24A423452B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift */,
 			);
 			path = PlayerSetupPositionTableViewDelegate;
+			sourceTree = "<group>";
+		};
+		24BD233F2B56DFAB000FCBE4 /* ArrayExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				24BD233D2B56DE9E000FCBE4 /* ArrayExtensions.swift */,
+				24BD23422B56DFF4000FCBE4 /* ArrayExtensionsTests.swift */,
+			);
+			path = ArrayExtensions;
 			sourceTree = "<group>";
 		};
 		24D68E152B505F8C00AD35AC /* TableViewCell */ = {
@@ -575,6 +589,7 @@
 			files = (
 				243228E22B4EFD1100C42C62 /* DismissingTextFieldDelegate.swift in Sources */,
 				243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */,
+				24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */,
 				24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */,
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
 				24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */,
@@ -599,6 +614,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */,
+				24BD23432B56DFF4000FCBE4 /* ArrayExtensionsTests.swift in Sources */,
 				24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */,
 				243228E12B4EFC3000C42C62 /* DismissingTextFieldDelegateTests.swift in Sources */,
 				2437F70B2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */,

@@ -10,14 +10,14 @@ import UIKit
 
 class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDataSource {
     
-    init(playerSetupCoordinator: PlayerSetupPlayerCoordinator) {
-        self.playerSetupCoordinator = playerSetupCoordinator
+    init(playerViewModel: PlayerSetupViewModelProtocol) {
+        self.playerViewModel = playerViewModel
     }
     
-    var playerSetupCoordinator: PlayerSetupPlayerCoordinator
+    var playerViewModel: PlayerSetupViewModelProtocol
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return playerSetupCoordinator.players.count
+        return playerViewModel.players.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -25,15 +25,15 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
             fatalError("PlayerSetupPlayerTableViewCell wasn't found")
         }
             
-        guard playerSetupCoordinator.players.indices.contains(indexPath.row) else {
+        guard playerViewModel.players.indices.contains(indexPath.row) else {
             cell.playerTextField.text = "Error"
             return cell
         }
         
-        let player = playerSetupCoordinator.players[indexPath.row]
+        let player = playerViewModel.players[indexPath.row]
         
         cell.playerNameChanged = {string in
-            self.playerSetupCoordinator.playerNameChanged(withIndex: indexPath.row, toName: string)
+            self.playerViewModel.playerNameChanged(withIndex: indexPath.row, toName: string)
         }
         
         cell.textFieldDelegate.hasDefaultName = player.hasDefaultName
@@ -43,7 +43,7 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        playerSetupCoordinator.movePlayerAt(sourceIndexPath.row, to: destinationIndexPath.row)
+        playerViewModel.movePlayerAt(sourceIndexPath.row, to: destinationIndexPath.row)
     }
     
     // To remove the red delete button and indent

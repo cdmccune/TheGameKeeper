@@ -23,14 +23,16 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         tableViewMock = nil
     }
     
-    func getPlayerSetupCoordinator(withPlayerCount count: Int) -> PlayerSetupPlayerCoordinator {
+    func getPlayerViewModel(withPlayerCount count: Int) -> PlayerSetupViewModelProtocol {
         let players = Array(repeating: Player(name: "",
                                              position: 0), count: count)
-        return PlayerSetupPlayerCoordinatorMock(players: players)
+        let mock = PlayerSetupViewModelMock()
+        mock.players = players
+        return mock
     }
     
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (PlayerSetupPlayerTableViewDelegate, UITableView) {
-        let sut = PlayerSetupPlayerTableViewDelegate(playerSetupCoordinator: getPlayerSetupCoordinator(withPlayerCount: playerCount))
+        let sut = PlayerSetupPlayerTableViewDelegate(playerViewModel: getPlayerViewModel(withPlayerCount: playerCount))
         let tableView = tableViewMock!
         tableView.delegate = sut
         tableView.dataSource = sut
@@ -40,7 +42,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
     
     // MARK: - Tests
 
-    func test_PlayerSetupPlayerTableView_WhenNumberOfRowsCalled_ShouldReturnTheNumberOfRowsInThePlayerSetupCoordinator() {
+    func test_PlayerSetupPlayerTableView_WhenNumberOfRowsCalled_ShouldReturnTheNumberOfRowsInThePlayerViewModel() {
         // given
         let playerCount = Int.random(in: 2...10)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)
@@ -63,7 +65,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
                                   position: 0))
         }
         
-        sut.playerSetupCoordinator.players = players
+        sut.playerViewModel.players = players
         
         let randomPlayer = Int.random(in: 0...playerCount-1)
         
@@ -84,7 +86,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         let hasDefaultName = Bool.random()
         
         let player1 = Player(name: hasDefaultName ? "" : "fd", position: 0)
-        sut.playerSetupCoordinator.players = [player1]
+        sut.playerViewModel.players = [player1]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PlayerSetupPlayerTableViewCell
@@ -104,7 +106,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertNotNil(cell?.playerNameChanged)
     }
     
-    func test_PlayerSetupPlayerTableView_WhenPlayerNameChangedCalledOn_ShouldCallChangePlayerNameOnPlayerSetupCoordinatorWithCorrectCellRow() {
+    func test_PlayerSetupPlayerTableView_WhenPlayerNameChangedCalledOn_ShouldCallChangePlayerNameOnPlayerViewModelWithCorrectCellRow() {
         // given
         let playerCount = Int.random(in: 1...9)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)
@@ -118,11 +120,11 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         cell?.playerNameChanged?(testString)
         
         // then
-        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedName, testString)
-        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.playerNameChangedIndex, randomPlayer)
+        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.playerNameChangedName, testString)
+        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.playerNameChangedIndex, randomPlayer)
     }
     
-    func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerSetupCoordinatorMovePlayerAt() {
+    func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerViewModelMovePlayerAt() {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 5)
         
@@ -132,9 +134,9 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         sut.tableView(tableView, moveRowAt: IndexPath(row: sourceRow, section: 0), to: IndexPath(row: destinationRow, section: 0))
         
         // then
-        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtCalledCount, 1)
-        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtSourceRow, sourceRow)
-        XCTAssertEqual((sut.playerSetupCoordinator as? PlayerSetupPlayerCoordinatorMock)?.movePlayerAtDestinationRow, destinationRow)
+        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtCalledCount, 1)
+        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtSourceRow, sourceRow)
+        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtDestinationRow, destinationRow)
     }
     
     func test_PlayerSetupPlayerTableView_WhenShouldIndentWhilteEditingRowAtCalled_ShouldReturnFalse() {

@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
+class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
+    
     init(gameSettings: GameSettings) {
         self.gameSettings = gameSettings
         
@@ -22,43 +23,56 @@ struct PlayerSetupViewModel: PlayerSetupPlayerCoordinator {
     
     var gameSettings: GameSettings
     var players: [Player]
-    weak var delegate: PlayerSetupViewModelProtocol? {
+    weak var delegate: PlayerSetupViewModelViewProtocol? {
         didSet {
             delegate?.bindViewToViewModel()
         }
     }
     
     
-    mutating func playerNameChanged(withIndex index: Int, toName name: String) {
+    // MARK: - Functions
+    
+    
+    func playerNameChanged(withIndex index: Int, toName name: String) {
         guard players.indices.contains(index) else { return }
         
         players[index].name = name
         delegate?.reloadTableViewCell(index: index)
     }
     
-    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
+    func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
         guard players.indices.contains(sourceRowIndex),
               players.indices.contains(destinationRowIndex) else { return }
         
-        var newPlayersArray = players
-        newPlayersArray.swapAt(sourceRowIndex, destinationRowIndex)
+
+        players.swapAt(sourceRowIndex, destinationRowIndex)
+        players.setPositions()
         
-        for position in newPlayersArray.indices {
-            newPlayersArray[position].position = position
-        }
-        
-        players = newPlayersArray
+        delegate?.bindViewToViewModel()
+    }
+    
+    func addPlayer() {
+        players.append(Player(name: "", position: players.indices.upperBound))
+        delegate?.bindViewToViewModel()
+    }
+    
+    func randomizePlayers() {
+        players.shuffle()
         delegate?.bindViewToViewModel()
     }
 }
 
-protocol PlayerSetupViewModelProtocol: NSObject {
+protocol PlayerSetupViewModelViewProtocol: NSObject {
     func bindViewToViewModel()
     func reloadTableViewCell(index: Int)
 }
 
-protocol PlayerSetupPlayerCoordinator {
+protocol PlayerSetupViewModelProtocol {
     var players: [Player] {get set}
-    mutating func playerNameChanged(withIndex index: Int, toName name: String)
-    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
+    var delegate: PlayerSetupViewModelViewProtocol? {get set}
+    
+    func playerNameChanged(withIndex index: Int, toName name: String)
+    func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
+    func addPlayer()
+    func randomizePlayers()
 }

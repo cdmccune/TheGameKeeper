@@ -15,12 +15,14 @@ class PlayerSetupViewController: UIViewController {
     @IBOutlet weak var randomizeButton: UIButton!
     @IBOutlet weak var playerTableView: UITableView!
     @IBOutlet weak var positionTableView: UITableView!
+    @IBOutlet weak var tapToAddPlayerButton: UIButton!
+    
     
     @IBOutlet weak var tableViewStackViewHeightConstraint: NSLayoutConstraint!
     
     
     // MARK: - Properties
-    var viewModel: PlayerSetupViewModel?
+    var viewModel: PlayerSetupViewModelProtocol?
     private var playerTableViewDelegate: PlayerSetupPlayerTableViewDelegate?
     private var positionTableViewDelegate: PlayerSetupPositionTableViewDelegate?
     
@@ -38,12 +40,12 @@ class PlayerSetupViewController: UIViewController {
         guard viewModel != nil else { return }
         self.viewModel?.delegate = self
         
-        let playerTableViewDelegate = PlayerSetupPlayerTableViewDelegate(playerSetupCoordinator: viewModel!)
+        let playerTableViewDelegate = PlayerSetupPlayerTableViewDelegate(playerViewModel: viewModel!)
         self.playerTableViewDelegate = playerTableViewDelegate
         playerTableView.delegate = playerTableViewDelegate
         playerTableView.dataSource = playerTableViewDelegate
         
-        let positionTableViewDelegate = PlayerSetupPositionTableViewDelegate(playerSetupCoordinator: viewModel!)
+        let positionTableViewDelegate = PlayerSetupPositionTableViewDelegate(playerViewModel: viewModel!)
         self.positionTableViewDelegate = positionTableViewDelegate
         positionTableView.delegate = positionTableViewDelegate
         positionTableView.dataSource = positionTableViewDelegate
@@ -59,6 +61,16 @@ class PlayerSetupViewController: UIViewController {
         playerTableView.isEditing = true
     }
     
+    // MARK: - IBActions
+    
+    @IBAction func tapToAddPlayerButtonTapped(_ sender: Any) {
+        viewModel?.addPlayer()
+    }
+    
+    @IBAction func randomizeButtonTapped(_ sender: Any) {
+        viewModel?.randomizePlayers()
+    }
+    
     
     /*
     // MARK: - Navigation
@@ -72,7 +84,7 @@ class PlayerSetupViewController: UIViewController {
 
 }
 
-extension PlayerSetupViewController: PlayerSetupViewModelProtocol {
+extension PlayerSetupViewController: PlayerSetupViewModelViewProtocol {
     func reloadTableViewCell(index: Int) {
         DispatchQueue.main.async {
             self.playerTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)

@@ -23,14 +23,16 @@ final class PlayerSetupPositionTableViewDelegateTests: XCTestCase {
         tableViewMock = nil
     }
     
-    func getPlayerSetupCoordinator(withPlayerCount count: Int) -> PlayerSetupPlayerCoordinator {
+    func getPlayerViewModel(withPlayerCount count: Int) -> PlayerSetupViewModelProtocol {
         let players = Array(repeating: Player(name: "",
                                               position: 0), count: count)
-        return PlayerSetupPlayerCoordinatorMock(players: players)
+        let mock = PlayerSetupViewModelMock()
+        mock.players = players
+        return mock
     }
     
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (PlayerSetupPositionTableViewDelegate, UITableView) {
-        let sut = PlayerSetupPositionTableViewDelegate(playerSetupCoordinator: getPlayerSetupCoordinator(withPlayerCount: playerCount))
+        let sut = PlayerSetupPositionTableViewDelegate(playerViewModel: getPlayerViewModel(withPlayerCount: playerCount))
         let tableView = tableViewMock!
         tableView.delegate = sut
         tableView.dataSource = sut
@@ -40,7 +42,7 @@ final class PlayerSetupPositionTableViewDelegateTests: XCTestCase {
     
     // MARK: - Testing
 
-    func test_PlayerSetupPositionTableViewDelegate_WhenNumberOfRowsInSectionCalled_ShouldReturnTheNumberOfPlayersPlayerCoordinator() {
+    func test_PlayerSetupPositionTableViewDelegate_WhenNumberOfRowsInSectionCalled_ShouldReturnTheNumberOfPlayersViewModel() {
         // given
         let playerCount = Int.random(in: 1...10)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)

@@ -47,6 +47,7 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertNotNil(sut.randomizeButton)
         XCTAssertNotNil(sut.playerTableView)
         XCTAssertNotNil(sut.positionTableView)
+        XCTAssertNotNil(sut.tapToAddPlayerButton)
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewDelegateAndDataSource() {
@@ -134,6 +135,36 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         
         // then
         XCTAssertTrue(sut.playerTableView.isEditing)
+    }
+    
+    
+    // MARK: - Other Tests
+    
+    func test_PlayerSetupViewController_WhenTapToAddPlayerButtonTappedCalled_ShouldCallViewModelAddPlayer() {
+        
+        // given
+        let sut = viewController!
+        let viewModelMock = PlayerSetupViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.tapToAddPlayerButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(viewModelMock.addPlayerCalledCount, 1)
+    }
+    
+    func test_PlayerSetupViewController_WhenRandomizeButtonTapped_ShouldCallViewModelRandomizeFuntion() {
+        // given
+        let sut = viewController!
+        let viewModelMock = PlayerSetupViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.randomizeButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(viewModelMock.randomizePlayersCalledCount, 1)
     }
 
 }

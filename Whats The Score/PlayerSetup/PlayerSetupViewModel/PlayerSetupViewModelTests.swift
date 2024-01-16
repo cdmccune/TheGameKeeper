@@ -42,8 +42,8 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     func test_PlayerSetupViewModel_WhenDelegateChanged_ShouldCallDelegateBindViewToViewModel() {
         // given
-        var sut = getViewModelWithDefaultSettings()
-        let delegateMock = PlayerSetupViewModelDelegateMock()
+        let sut = getViewModelWithDefaultSettings()
+        let delegateMock = PlayerSetupViewModelViewProtocolMock()
         
         // when
         sut.delegate = delegateMock
@@ -57,7 +57,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledOutOfPlayerRange_ShouldDoNothing() {
         // given
-        var sut = getViewModelWithDefaultSettings()
+        let sut = getViewModelWithDefaultSettings()
         let player = Player(name: "", position: 0)
         sut.players = [player]
         
@@ -70,7 +70,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledInRangePlayer_ShouldChangeTheNameOfPlayer() {
         // given
-        var sut = getViewModelWithDefaultSettings()
+        let sut = getViewModelWithDefaultSettings()
         let player = Player(name: "", position: 0)
         sut.players = [player]
         
@@ -85,11 +85,11 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledInRange_ShouldCallReloadTableViewCellWithIndex() {
         // given
-        var sut = getViewModelWithDefaultSettings()
+        let sut = getViewModelWithDefaultSettings()
         let player = Player(name: "", position: 0)
         sut.players = [player]
         
-        let viewDelegate = PlayerSetupViewModelDelegateMock()
+        let viewDelegate = PlayerSetupViewModelViewProtocolMock()
         sut.delegate = viewDelegate
         
         // when
@@ -105,7 +105,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     func test_PlayerSetupViewModel_WhenMovePlayerAtCalledSourceOutsideRange_ShouldDoNothing() {
         // given
-        var sut = getViewModelWithDefaultSettings()
+        let sut = getViewModelWithDefaultSettings()
         let player1 = Player(name: UUID().uuidString, position: 0)
         let player2 = Player(name: UUID().uuidString, position: 0)
         let players = [player1, player2]
@@ -121,7 +121,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     func test_PlayerSetupViewModel_WhenMovePlayerAtCalledDestinationOutsideRange_ShouldDoNothing() {
         // given
-        var sut = getViewModelWithDefaultSettings()
+        let sut = getViewModelWithDefaultSettings()
         let player1 = Player(name: UUID().uuidString, position: 0)
         let player2 = Player(name: UUID().uuidString, position: 0)
         let players = [player1, player2]
@@ -137,7 +137,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     func test_PlayerSetupViewModel_WhenMovePlayerAtCalledInRange_ShouldChangePlayersPostionsInArrayAndPositionValue() {
         // given
-        var sut = getViewModelWithDefaultSettings()
+        let sut = getViewModelWithDefaultSettings()
         
         let player1Name = UUID().uuidString
         let player1 = Player(name: player1Name, position: 0)
@@ -160,33 +160,113 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     func test_PlayerSetupViewModel_WhenMovePlayerAtCalledInRange_ShouldCallViewDelegateBindViewModelToView() {
         // given
-        var sut = getViewModelWithDefaultSettings()
+        let sut = getViewModelWithDefaultSettings()
         
         let player1 = Player(name: "", position: 0)
         let player2 = Player(name: "", position: 1)
         let players = [player1, player2]
         sut.players = players
         
-        let viewDelegateMock = PlayerSetupViewModelDelegateMock()
+        let viewDelegateMock = PlayerSetupViewModelViewProtocolMock()
         sut.delegate = viewDelegateMock
-        var bindCount = viewDelegateMock.bindViewToViewModelCallCount
+        let bindCount = viewDelegateMock.bindViewToViewModelCallCount
         
         // when
         sut.movePlayerAt(0, to: 1)
         
         // then
         XCTAssertEqual(viewDelegateMock.bindViewToViewModelCallCount, bindCount + 1)
- 
+    }
+    
+    // MARK: - Add Player
+    
+    func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldAddPlayerToPlayersArray() {
+        // given
+        let sut = getViewModelWithDefaultSettings()
+        let player = Player(name: "", position: 0)
+        let players = Array(repeating: player, count: Int.random(in: 1...5))
+        sut.players = players
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(sut.players.count, players.indices.upperBound + 1)
+        XCTAssertTrue(sut.players.last?.hasDefaultName ?? false)
+        XCTAssertEqual(sut.players.last?.position, players.indices.upperBound)
+    }
+    
+    func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithDefaultSettings()
+        let viewDelegate = PlayerSetupViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        let calledCount = viewDelegate.bindViewToViewModelCallCount
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCallCount, calledCount + 1)
+    }
+    
+    
+    // MARK: - RandomizePlayers
+    
+    func test_PlayerSetupViewModel_WhenRandomizePlayersCalled_ShouldRandomizePlayers() {
+        // given
+        let sut = getViewModelWithDefaultSettings()
+        
+        var players = [Player]()
+        for i in 1...5 {
+            players.append(Player(name: "\(i)", position: 0))
+        }
+        sut.players = players
+        
+        // when
+        sut.randomizePlayers()
+        
+        // then
+        XCTAssertNotEqual(sut.players, players)
+        
+        for player in players {
+            XCTAssertNotNil(sut.players.first(where: { $0 == player }))
+        }
+    }
+    
+    func test_PlayerSetupViewModel_WhenRandomizePlayersCalled_ShouldCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithDefaultSettings()
+        let viewModelDelegate = PlayerSetupViewModelViewProtocolMock()
+        sut.delegate = viewModelDelegate
+        let callCount = viewModelDelegate.bindViewToViewModelCallCount
+        
+        // when
+        sut.randomizePlayers()
+        
+        // then
+        XCTAssertEqual(viewModelDelegate.bindViewToViewModelCallCount, callCount+1)
     }
 
 }
 
-struct PlayerSetupPlayerCoordinatorMock: PlayerSetupPlayerCoordinator {
-    var players: [Player]
+class PlayerSetupViewModelMock: PlayerSetupViewModelProtocol {
+    var players: [Player] = []
+    var delegate: PlayerSetupViewModelViewProtocol?
+    
+    var randomizePlayersCalledCount = 0
+    func randomizePlayers() {
+        randomizePlayersCalledCount += 1
+    }
+    
+    var addPlayerCalledCount = 0
+    func addPlayer() {
+        addPlayerCalledCount += 1
+    }
     
     var playerNameChangedIndex: Int?
     var playerNameChangedName: String?
-    mutating func playerNameChanged(withIndex index: Int, toName name: String) {
+    func playerNameChanged(withIndex index: Int, toName name: String) {
         self.playerNameChangedIndex = index
         self.playerNameChangedName = name
     }
@@ -194,14 +274,14 @@ struct PlayerSetupPlayerCoordinatorMock: PlayerSetupPlayerCoordinator {
     var movePlayerAtSourceRow: Int?
     var movePlayerAtDestinationRow: Int?
     var movePlayerAtCalledCount: Int = 0
-    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
+    func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
         self.movePlayerAtSourceRow = sourceRowIndex
         self.movePlayerAtDestinationRow = destinationRowIndex
         self.movePlayerAtCalledCount += 1
     }
 }
 
-class PlayerSetupViewModelDelegateMock: NSObject, PlayerSetupViewModelProtocol {
+class PlayerSetupViewModelViewProtocolMock: NSObject, PlayerSetupViewModelViewProtocol {
     
     var bindViewToViewModelCallCount = 0
     func bindViewToViewModel() {

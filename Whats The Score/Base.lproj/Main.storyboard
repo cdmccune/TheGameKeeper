@@ -27,13 +27,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's The Score" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gip-9B-ioQ">
-                                <rect key="frame" x="15" y="103" width="363" height="49"/>
+                                <rect key="frame" x="15" y="103" width="363" height="59"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="42"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="66F-Ce-HLQ">
-                                <rect key="frame" x="46.666666666666657" y="182" width="300" height="145"/>
+                                <rect key="frame" x="46.666666666666657" y="192" width="300" height="145"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nY1-O4-eaM">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="65"/>
@@ -395,6 +395,9 @@
                                                     </backgroundConfiguration>
                                                     <fontDescription key="titleFontDescription" name="Poppins-Regular" family="Poppins" pointSize="25"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="randomizeButtonTapped:" destination="pg7-xh-hcT" eventType="touchUpInside" id="Tne-U1-jLF"/>
+                                                </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="260" translatesAutoresizingMaskIntoConstraints="NO" id="YHY-Fn-YN4">
                                                 <rect key="frame" x="20" y="120" width="353" height="120"/>
@@ -422,6 +425,9 @@
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="+ Tap to add player"/>
+                                                <connections>
+                                                    <action selector="tapToAddPlayerButtonTapped:" destination="pg7-xh-hcT" eventType="touchUpInside" id="gDm-H0-Gbb"/>
+                                                </connections>
                                             </button>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="240" verticalCompressionResistancePriority="746" translatesAutoresizingMaskIntoConstraints="NO" id="eDU-Jq-tko">
                                                 <rect key="frame" x="76.666666666666671" y="285" width="239.66666666666663" height="562"/>
@@ -459,6 +465,7 @@
                         <outlet property="positionTableView" destination="90b-xw-cKA" id="4CE-qW-CtK"/>
                         <outlet property="randomizeButton" destination="jzZ-i4-LUU" id="q3P-in-Eh9"/>
                         <outlet property="tableViewStackViewHeightConstraint" destination="ov5-gg-hIr" id="YZc-pE-o9P"/>
+                        <outlet property="tapToAddPlayerButton" destination="WUF-Q6-cTp" id="cpA-Pu-O0Q"/>
                         <outlet property="titleLabel" destination="YnO-FG-5Yf" id="eVi-zc-Mlc"/>
                     </connections>
                 </viewController>
@@ -472,7 +479,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
