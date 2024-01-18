@@ -145,17 +145,22 @@ final class PlayerSetupViewModelTests: XCTestCase {
         let player2Name = UUID().uuidString
         let player2 = Player(name: player2Name, position: 1)
         
-        let players = [player1, player2]
+        let player3Name = UUID().uuidString
+        let player3 = Player(name: player3Name, position: 2)
+        
+        let players = [player1, player2, player3]
         sut.players = players
         
         // when
-        sut.movePlayerAt(0, to: 1)
+        sut.movePlayerAt(2, to: 0)
         
         // then
-        XCTAssertEqual(sut.players[0].name, player2Name)
+        XCTAssertEqual(sut.players[0].name, player3Name)
         XCTAssertEqual(sut.players[0].position, 0)
         XCTAssertEqual(sut.players[1].name, player1Name)
         XCTAssertEqual(sut.players[1].position, 1)
+        XCTAssertEqual(sut.players[2].name, player2Name)
+        XCTAssertEqual(sut.players[2].position, 2)
     }
     
     func test_PlayerSetupViewModel_WhenMovePlayerAtCalledInRange_ShouldCallViewDelegateBindViewModelToView() {

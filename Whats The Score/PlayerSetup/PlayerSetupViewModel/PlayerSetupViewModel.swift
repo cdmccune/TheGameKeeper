@@ -44,8 +44,9 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
         guard players.indices.contains(sourceRowIndex),
               players.indices.contains(destinationRowIndex) else { return }
         
-
-        players.swapAt(sourceRowIndex, destinationRowIndex)
+        let playerToMove = players[sourceRowIndex]
+        players.remove(at: sourceRowIndex)
+        players.insert(playerToMove, at: destinationRowIndex)
         players.setPositions()
         
         delegate?.bindViewToViewModel()
