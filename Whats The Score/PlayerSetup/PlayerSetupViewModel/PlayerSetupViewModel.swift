@@ -61,6 +61,16 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
         players.shuffle()
         delegate?.bindViewToViewModel()
     }
+    
+    func deletePlayerAt(_ index: Int) {
+        guard players.indices.contains(index) else {
+            return
+        }
+        
+        players.remove(at: index)
+        players.setPositions()
+        delegate?.bindViewToViewModel()
+    }
 }
 
 protocol PlayerSetupViewModelViewProtocol: NSObject {
@@ -76,4 +86,5 @@ protocol PlayerSetupViewModelProtocol {
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
     func addPlayer()
     func randomizePlayers()
+    func deletePlayerAt(_ index: Int)
 }

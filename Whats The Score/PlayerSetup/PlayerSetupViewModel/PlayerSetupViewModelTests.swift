@@ -252,7 +252,58 @@ final class PlayerSetupViewModelTests: XCTestCase {
         // then
         XCTAssertEqual(viewModelDelegate.bindViewToViewModelCallCount, callCount+1)
     }
+    
+    
+    // MARK: - DeletePlayerAt
+    
+    func test_PlayerSetupViewModel_WhenDeletePlayerAtCalledOutOfRange_ShouldNotAffectPlayersOrCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithDefaultSettings()
+        let viewModelDelegate = PlayerSetupViewModelViewProtocolMock()
+        sut.delegate = viewModelDelegate
+        let callCount = viewModelDelegate.bindViewToViewModelCallCount
+        
+        let player = Player(name: "", position: 0)
+        sut.players = [player]
+        
+        // when
+        sut.deletePlayerAt(1)
+        
+        // then
+        XCTAssertEqual([player], sut.players)
+        XCTAssertEqual(viewModelDelegate.bindViewToViewModelCallCount, callCount)
+    }
+    
+    func test_PlayerSetupViewModel_WhenDeletePlayerAtCalled_ShouldRemovePlayerFromIndexAndCallBindViewToViewModelAndSetPositions() {
+        // given
+        let sut = getViewModelWithDefaultSettings()
+        let viewModelDelegate = PlayerSetupViewModelViewProtocolMock()
+        sut.delegate = viewModelDelegate
+        let callCount = viewModelDelegate.bindViewToViewModelCallCount
+        
+        
+        let player1 = Player(name: UUID().uuidString, position: 0)
+        let player2 = Player(name: UUID().uuidString, position: 0)
+        let player3 = Player(name: UUID().uuidString, position: 0)
+        var players = [player1, player2, player3]
+        sut.players = [player1, player2, player3]
+        let playerToRemoveIndex = Int.random(in: 0...2)
+        
+        // when
+        sut.deletePlayerAt(playerToRemoveIndex)
+        players.remove(at: playerToRemoveIndex)
+        players.setPositions()
+        
+        // then
+        XCTAssertEqual(viewModelDelegate.bindViewToViewModelCallCount, callCount+1)
+        XCTAssertEqual(sut.players, players)
+        for (index, player) in sut.players.enumerated() {
+            XCTAssertEqual(player.position, index)
+        }
+    }
 
+    
+    // MARK: - End of Class
 }
 
 class PlayerSetupViewModelMock: PlayerSetupViewModelProtocol {
@@ -283,6 +334,11 @@ class PlayerSetupViewModelMock: PlayerSetupViewModelProtocol {
         self.movePlayerAtSourceRow = sourceRowIndex
         self.movePlayerAtDestinationRow = destinationRowIndex
         self.movePlayerAtCalledCount += 1
+    }
+    
+    var deletePlayerAtCalledCount = 0
+    func deletePlayerAt(_ index: Int) {
+        deletePlayerAtCalledCount += 1
     }
 }
 

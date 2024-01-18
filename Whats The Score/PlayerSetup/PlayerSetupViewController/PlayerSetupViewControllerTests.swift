@@ -122,19 +122,6 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         
         // then
         XCTAssertTrue(cell is PlayerSetupPlayerTableViewCell)
-        
-    }
-    
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewToEditing() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertTrue(sut.playerTableView.isEditing)
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetStartTabBarButtonAsRightNavBarItem() {
@@ -147,6 +134,20 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.navigationItem.rightBarButtonItem, sut.startBarButton)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewAsItsOwnDragDropDelegate() {
+        // given
+        let sut = viewController!
+        sut.viewModel = PlayerSetupViewModelMock()
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(sut.playerTableView.dragDelegate === sut.playerTableView)
+        XCTAssertTrue(sut.playerTableView.dropDelegate === sut.playerTableView)
     }
     
     

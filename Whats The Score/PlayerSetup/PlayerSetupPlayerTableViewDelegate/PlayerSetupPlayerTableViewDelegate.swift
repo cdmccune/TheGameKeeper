@@ -54,4 +54,11 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         .none
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            self.playerViewModel.deletePlayerAt(indexPath.row)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }

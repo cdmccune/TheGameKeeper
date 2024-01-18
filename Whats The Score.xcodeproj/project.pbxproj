@@ -13,6 +13,8 @@
 		24240EDD2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */; };
 		24240EDE2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */; };
 		2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242615692B59C4500092B145 /* ScoreboardViewController.swift */; };
+		2426156E2B59DF360092B145 /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426156D2B59DF360092B145 /* UITableViewExtensions.swift */; };
+		242615702B59E0BF0092B145 /* UITableViewExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426156F2B59E0BF0092B145 /* UITableViewExtensionsTests.swift */; };
 		243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228CC2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift */; };
 		243228CF2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 243228CD2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib */; };
 		243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228D32B4DBCD700C42C62 /* PlayerTests.swift */; };
@@ -72,6 +74,8 @@
 		24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewCell.swift; sourceTree = "<group>"; };
 		24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerSetupPositionTableViewCell.xib; sourceTree = "<group>"; };
 		242615692B59C4500092B145 /* ScoreboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewController.swift; sourceTree = "<group>"; };
+		2426156D2B59DF360092B145 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
+		2426156F2B59E0BF0092B145 /* UITableViewExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtensionsTests.swift; sourceTree = "<group>"; };
 		243228CC2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewCell.swift; sourceTree = "<group>"; };
 		243228CD2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerSetupPlayerTableViewCell.xib; sourceTree = "<group>"; };
 		243228D12B4DBC8C00C42C62 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 			children = (
 				2410F7192B5596D200860BA4 /* ViewControllerExtensions.swift */,
 				24BD233F2B56DFAB000FCBE4 /* ArrayExtensions */,
+				2426156C2B59DEF50092B145 /* UITableViewExtensions */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -181,6 +186,15 @@
 				242615692B59C4500092B145 /* ScoreboardViewController.swift */,
 			);
 			path = ScoreboardViewController;
+			sourceTree = "<group>";
+		};
+		2426156C2B59DEF50092B145 /* UITableViewExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				2426156D2B59DF360092B145 /* UITableViewExtensions.swift */,
+				2426156F2B59E0BF0092B145 /* UITableViewExtensionsTests.swift */,
+			);
+			path = UITableViewExtensions;
 			sourceTree = "<group>";
 		};
 		243228D02B4DB48F00C42C62 /* PlayerSetupPlayerTableViewCell */ = {
@@ -606,6 +620,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2426156E2B59DF360092B145 /* UITableViewExtensions.swift in Sources */,
 				243228E22B4EFD1100C42C62 /* DismissingTextFieldDelegate.swift in Sources */,
 				243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */,
 				24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */,
@@ -635,6 +650,7 @@
 			files = (
 				243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */,
 				24BD23432B56DFF4000FCBE4 /* ArrayExtensionsTests.swift in Sources */,
+				242615702B59E0BF0092B145 /* UITableViewExtensionsTests.swift in Sources */,
 				24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */,
 				243228E12B4EFC3000C42C62 /* DismissingTextFieldDelegateTests.swift in Sources */,
 				2437F70B2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */,

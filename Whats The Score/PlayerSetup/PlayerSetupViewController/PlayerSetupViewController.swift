@@ -33,7 +33,6 @@ class PlayerSetupViewController: UIViewController {
         super.viewDidLoad()
         self.setDelegates()
         self.registerNibs()
-        self.setTableViewFunctionality()
         self.setProgrammaticViewProperties()
     }
     
@@ -51,6 +50,8 @@ class PlayerSetupViewController: UIViewController {
         positionTableView.delegate = positionTableViewDelegate
         positionTableView.dataSource = positionTableViewDelegate
         
+        playerTableView.dragDelegate = playerTableView
+        playerTableView.dropDelegate = playerTableView
     }
     
     private func registerNibs() {
@@ -58,9 +59,10 @@ class PlayerSetupViewController: UIViewController {
         positionTableView.register(UINib(nibName: "PlayerSetupPositionTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPositionTableViewCell")
     }
     
-    private func setTableViewFunctionality() {
-        playerTableView.isEditing = true
-    }
+//    private func setTableViewFunctionality() {
+//        playerTableView.dragDelegate = playerTableView
+//        playerTableView.dropDelegate = playerTableView
+//    }
     
     private func setProgrammaticViewProperties() {
         self.navigationItem.rightBarButtonItem = startBarButton
