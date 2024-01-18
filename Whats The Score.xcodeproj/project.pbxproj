@@ -12,6 +12,7 @@
 		2410F71F2B55972F00860BA4 /* RootNavigationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2410F71E2B55972F00860BA4 /* RootNavigationControllerTests.swift */; };
 		24240EDD2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */; };
 		24240EDE2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */; };
+		2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242615692B59C4500092B145 /* ScoreboardViewController.swift */; };
 		243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228CC2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift */; };
 		243228CF2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 243228CD2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib */; };
 		243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228D32B4DBCD700C42C62 /* PlayerTests.swift */; };
@@ -70,6 +71,7 @@
 		2410F71E2B55972F00860BA4 /* RootNavigationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationControllerTests.swift; sourceTree = "<group>"; };
 		24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewCell.swift; sourceTree = "<group>"; };
 		24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerSetupPositionTableViewCell.xib; sourceTree = "<group>"; };
+		242615692B59C4500092B145 /* ScoreboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewController.swift; sourceTree = "<group>"; };
 		243228CC2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewCell.swift; sourceTree = "<group>"; };
 		243228CD2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerSetupPlayerTableViewCell.xib; sourceTree = "<group>"; };
 		243228D12B4DBC8C00C42C62 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -165,6 +167,22 @@
 			path = PlayerSetupPositionTableViewCell;
 			sourceTree = "<group>";
 		};
+		242615672B59C4270092B145 /* Scoreboard */ = {
+			isa = PBXGroup;
+			children = (
+				242615682B59C4370092B145 /* ScoreboardViewController */,
+			);
+			path = Scoreboard;
+			sourceTree = "<group>";
+		};
+		242615682B59C4370092B145 /* ScoreboardViewController */ = {
+			isa = PBXGroup;
+			children = (
+				242615692B59C4500092B145 /* ScoreboardViewController.swift */,
+			);
+			path = ScoreboardViewController;
+			sourceTree = "<group>";
+		};
 		243228D02B4DB48F00C42C62 /* PlayerSetupPlayerTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +247,7 @@
 				2437F70C2B40C06100BB75A1 /* HomeViewController */,
 				2437F71C2B40D0F600BB75A1 /* GameSetup */,
 				24EC1D792B44CAA40060D27D /* PlayerSetup */,
+				242615672B59C4270092B145 /* Scoreboard */,
 				2437F7222B40D31500BB75A1 /* Model */,
 				243228DA2B4EF9EA00C42C62 /* HelperClasses */,
 				2410F7182B5596BB00860BA4 /* Extensions */,
@@ -591,6 +610,7 @@
 				243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */,
 				24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */,
 				24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */,
+				2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */,
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
 				24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */,
 				24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */,

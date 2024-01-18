@@ -9,10 +9,10 @@ import UIKit
 
 class NavigationControllerPushMock: UINavigationController {
     var pushViewControllerCount = 0
-    var viewController: UIViewController?
+    var pushedViewController: UIViewController?
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        self.viewController = viewController
+        self.pushedViewController = viewController
         pushViewControllerCount += 1
     }
 }

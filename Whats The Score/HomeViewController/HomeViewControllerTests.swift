@@ -46,7 +46,7 @@ final class HomeViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(navigationControllerMock.pushViewControllerCount, 1)
-        XCTAssertTrue(navigationControllerMock.viewController is GameSetupViewController)
+        XCTAssertTrue(navigationControllerMock.pushedViewController is GameSetupViewController)
     }
     
 //    func test_HomeViewController_When<#action#>_Should<#assertion#>() {

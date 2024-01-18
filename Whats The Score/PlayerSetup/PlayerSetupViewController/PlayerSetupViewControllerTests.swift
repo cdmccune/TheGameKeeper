@@ -125,7 +125,7 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         
     }
     
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldShouldSetPlayerTableViewToEditing() {
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewToEditing() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -135,6 +135,18 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         
         // then
         XCTAssertTrue(sut.playerTableView.isEditing)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetStartTabBarButtonAsRightNavBarItem() {
+        // given
+        let sut = viewController!
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.navigationItem.rightBarButtonItem, sut.startBarButton)
     }
     
     
@@ -165,6 +177,41 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewModelMock.randomizePlayersCalledCount, 1)
+    }
+    
+    func test_PlayerSetupViewController_WhenStartBarButtonActionTriggered_ShouldCallStartBarButtonTapped() {
+        class PlayerSetupViewControllerStartBarButtonTappedMock: PlayerSetupViewController {
+            var startBarButtonTappedCalledCount = 0
+            override func startBarButtonTapped() {
+                startBarButtonTappedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = PlayerSetupViewControllerStartBarButtonTappedMock()
+        
+        // when
+        guard let action = sut.startBarButton.action else {
+            XCTFail("This button should have an action")
+            return
+        }
+        UIApplication.shared.sendAction(action, to: sut.startBarButton.target, from: sut, for: nil)
+        
+        // then
+        XCTAssertEqual(sut.startBarButtonTappedCalledCount, 1)
+    }
+    
+    func test_PlayerSetupViewController_WhenStartBarButtonTappedCalled_ShouldPushScoreboardViewControllerOnNavigationController() {
+        // given
+        let sut = viewController!
+        let navigationControllerMock = NavigationControllerPushMock()
+        navigationControllerMock.viewControllers = [sut]
+        
+        // when
+        sut.startBarButtonTapped()
+        
+        // then
+        XCTAssertTrue(navigationControllerMock.pushedViewController is ScoreboardViewController)
     }
 
 }

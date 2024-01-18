@@ -16,9 +16,9 @@ class PlayerSetupViewController: UIViewController {
     @IBOutlet weak var playerTableView: UITableView!
     @IBOutlet weak var positionTableView: UITableView!
     @IBOutlet weak var tapToAddPlayerButton: UIButton!
-    
-    
     @IBOutlet weak var tableViewStackViewHeightConstraint: NSLayoutConstraint!
+    
+    lazy var startBarButton = UIBarButtonItem(title: "Start", style: .done, target: self, action: #selector(startBarButtonTapped))
     
     
     // MARK: - Properties
@@ -34,6 +34,7 @@ class PlayerSetupViewController: UIViewController {
         self.setDelegates()
         self.registerNibs()
         self.setTableViewFunctionality()
+        self.setProgrammaticViewProperties()
     }
     
     private func setDelegates() {
@@ -61,6 +62,10 @@ class PlayerSetupViewController: UIViewController {
         playerTableView.isEditing = true
     }
     
+    private func setProgrammaticViewProperties() {
+        self.navigationItem.rightBarButtonItem = startBarButton
+    }
+    
     // MARK: - IBActions
     
     @IBAction func tapToAddPlayerButtonTapped(_ sender: Any) {
@@ -69,6 +74,11 @@ class PlayerSetupViewController: UIViewController {
     
     @IBAction func randomizeButtonTapped(_ sender: Any) {
         viewModel?.randomizePlayers()
+    }
+    
+    @objc func startBarButtonTapped() {
+        let scoreboardViewController = ScoreboardViewController()
+        navigationController?.pushViewController(scoreboardViewController, animated: true)
     }
     
     
