@@ -9,20 +9,11 @@ import Foundation
 
 class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     
-    init(game: Game) {
+    init(game: GameProtocol) {
         self.game = game
-        
-        var players: [Player] = []
-        for position in 0..<game.numberOfPlayers {
-            players.append(Player(name: "",
-                                  position: position))
-        }
-        
-        self.players = players
     }
     
-    var game: Game
-    var players: [Player]
+    var game: GameProtocol
     weak var delegate: PlayerSetupViewModelViewProtocol? {
         didSet {
             delegate?.bindViewToViewModel()
@@ -32,44 +23,28 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     
     // MARK: - Functions
     
-    
     func playerNameChanged(withIndex index: Int, toName name: String) {
-        guard players.indices.contains(index) else { return }
-        
-        players[index].name = name
+        game.playerNameChanged(withIndex: index, toName: name)
         delegate?.reloadTableViewCell(index: index)
     }
     
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
-        guard players.indices.contains(sourceRowIndex),
-              players.indices.contains(destinationRowIndex) else { return }
-        
-        let playerToMove = players[sourceRowIndex]
-        players.remove(at: sourceRowIndex)
-        players.insert(playerToMove, at: destinationRowIndex)
-        players.setPositions()
-        
+        game.movePlayerAt(sourceRowIndex, to: destinationRowIndex)
         delegate?.bindViewToViewModel()
     }
     
     func addPlayer() {
-        players.append(Player(name: "", position: players.indices.upperBound))
+        game.addPlayer()
         delegate?.bindViewToViewModel()
     }
     
     func randomizePlayers() {
-        players.shuffle()
-        players.setPositions()
+        game.randomizePlayers()
         delegate?.bindViewToViewModel()
     }
     
     func deletePlayerAt(_ index: Int) {
-        guard players.indices.contains(index) else {
-            return
-        }
-        
-        players.remove(at: index)
-        players.setPositions()
+        game.deletePlayerAt(index)
         delegate?.bindViewToViewModel()
     }
 }
@@ -80,7 +55,7 @@ protocol PlayerSetupViewModelViewProtocol: NSObject {
 }
 
 protocol PlayerSetupViewModelProtocol {
-    var players: [Player] {get set}
+    var game: GameProtocol {get set}
     var delegate: PlayerSetupViewModelViewProtocol? {get set}
     
     func playerNameChanged(withIndex index: Int, toName name: String)

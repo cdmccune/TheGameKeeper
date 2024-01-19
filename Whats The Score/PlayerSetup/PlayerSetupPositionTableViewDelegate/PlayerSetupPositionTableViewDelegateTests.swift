@@ -27,7 +27,8 @@ final class PlayerSetupPositionTableViewDelegateTests: XCTestCase {
         let players = Array(repeating: Player(name: "",
                                               position: 0), count: count)
         let mock = PlayerSetupViewModelMock()
-        mock.players = players
+        let gameMock = GameMock(players: players)
+        mock.game = gameMock
         return mock
     }
     

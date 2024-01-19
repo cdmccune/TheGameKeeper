@@ -18,26 +18,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
         
         return PlayerSetupViewModel(game: game)
     }
-    
-    // MARK: - Init
 
-    func test_PlayerSetupViewModel_WhenInitializedSet_ShouldSetupArrayOfPlayersWithLengthNumberOfPlayersAndCorrectNames() {
-        // given
-        let numberOfPlayers = Int.random(in: 1...10)
-        let game = Game(gameType: .round,
-                                        gameEndType: .none,
-                                        numberOfRounds: 0,
-                                        numberOfPlayers: numberOfPlayers)
-        
-        // when
-        let sut = PlayerSetupViewModel(game: game)
-        
-        // then
-        XCTAssertEqual(sut.players.count, numberOfPlayers)
-        XCTAssertEqual(sut.players.last?.name, "Player \(numberOfPlayers)")
-    }
-    
-    
     // MARK: - DidSet
     
     func test_PlayerSetupViewModel_WhenDelegateChanged_ShouldCallDelegateBindViewToViewModel() {
@@ -55,39 +36,27 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     // MARK: - Player Name Changed
     
-    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledOutOfPlayerRange_ShouldDoNothing() {
+    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalled_ShouldCallGamePlayerNameChanged() {
         // given
         let sut = getViewModelWithDefaultSettings()
-        let player = Player(name: "", position: 0)
-        sut.players = [player]
+        let index = Int.random(in: 0...5)
+        let newName = UUID().uuidString
+        
+        let gameMock = GameMock()
+        sut.game = gameMock
         
         // when
-        sut.playerNameChanged(withIndex: 1, toName: "test")
+        sut.playerNameChanged(withIndex: index, toName: newName)
         
         // then
-        XCTAssertEqual(sut.players[0], player)
+        XCTAssertEqual(gameMock.playerNameChangedCalledCount, 1)
+        XCTAssertEqual(gameMock.playerNameChangedIndex, index)
+        XCTAssertEqual(gameMock.playerNameChangedName, newName)
     }
     
-    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledInRangePlayer_ShouldChangeTheNameOfPlayer() {
+    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalled_ShouldCallReloadTableViewCellWithIndex() {
         // given
         let sut = getViewModelWithDefaultSettings()
-        let player = Player(name: "", position: 0)
-        sut.players = [player]
-        
-        let testString = UUID().uuidString
-        
-        // when
-        sut.playerNameChanged(withIndex: 0, toName: testString)
-        
-        // then
-        XCTAssertEqual(sut.players[0].name, testString)
-    }
-    
-    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledInRange_ShouldCallReloadTableViewCellWithIndex() {
-        // given
-        let sut = getViewModelWithDefaultSettings()
-        let player = Player(name: "", position: 0)
-        sut.players = [player]
         
         let viewDelegate = PlayerSetupViewModelViewProtocolMock()
         sut.delegate = viewDelegate
@@ -103,74 +72,27 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     // MARK: - Move Player At
     
-    func test_PlayerSetupViewModel_WhenMovePlayerAtCalledSourceOutsideRange_ShouldDoNothing() {
+    func test_PlayerSetupViewModel_WhenMovePlayerAtCalled_ShouldCallGameMovePlayerAt() {
         // given
         let sut = getViewModelWithDefaultSettings()
-        let player1 = Player(name: UUID().uuidString, position: 0)
-        let player2 = Player(name: UUID().uuidString, position: 0)
-        let players = [player1, player2]
-        sut.players = players
+        
+        let gameMock = GameMock()
+        sut.game = gameMock
+        
+        let sourceRowIndex = Int.random(in: 0...10)
+        let destinationRowIndex = Int.random(in: 0...10)
         
         // when
-        sut.movePlayerAt(4, to: 0)
-
+        sut.movePlayerAt(sourceRowIndex, to: destinationRowIndex)
         
         // then
-        XCTAssertEqual(sut.players, players)
+        XCTAssertEqual(gameMock.movePlayerAtSourceRowIndex, sourceRowIndex)
+        XCTAssertEqual(gameMock.movePlayerAtDestinationRowIndex, destinationRowIndex)
     }
-    
-    func test_PlayerSetupViewModel_WhenMovePlayerAtCalledDestinationOutsideRange_ShouldDoNothing() {
+ 
+    func test_PlayerSetupViewModel_WhenMovePlayerAtCalled_ShouldCallViewDelegateBindViewModelToView() {
         // given
         let sut = getViewModelWithDefaultSettings()
-        let player1 = Player(name: UUID().uuidString, position: 0)
-        let player2 = Player(name: UUID().uuidString, position: 0)
-        let players = [player1, player2]
-        sut.players = players
-        
-        // when
-        sut.movePlayerAt(0, to: 5)
-
-        
-        // then
-        XCTAssertEqual(sut.players, players)
-    }
-    
-    func test_PlayerSetupViewModel_WhenMovePlayerAtCalledInRange_ShouldChangePlayersPostionsInArrayAndPositionValue() {
-        // given
-        let sut = getViewModelWithDefaultSettings()
-        
-        let player1Name = UUID().uuidString
-        let player1 = Player(name: player1Name, position: 0)
-        
-        let player2Name = UUID().uuidString
-        let player2 = Player(name: player2Name, position: 1)
-        
-        let player3Name = UUID().uuidString
-        let player3 = Player(name: player3Name, position: 2)
-        
-        let players = [player1, player2, player3]
-        sut.players = players
-        
-        // when
-        sut.movePlayerAt(2, to: 0)
-        
-        // then
-        XCTAssertEqual(sut.players[0].name, player3Name)
-        XCTAssertEqual(sut.players[0].position, 0)
-        XCTAssertEqual(sut.players[1].name, player1Name)
-        XCTAssertEqual(sut.players[1].position, 1)
-        XCTAssertEqual(sut.players[2].name, player2Name)
-        XCTAssertEqual(sut.players[2].position, 2)
-    }
-    
-    func test_PlayerSetupViewModel_WhenMovePlayerAtCalledInRange_ShouldCallViewDelegateBindViewModelToView() {
-        // given
-        let sut = getViewModelWithDefaultSettings()
-        
-        let player1 = Player(name: "", position: 0)
-        let player2 = Player(name: "", position: 1)
-        let players = [player1, player2]
-        sut.players = players
         
         let viewDelegateMock = PlayerSetupViewModelViewProtocolMock()
         sut.delegate = viewDelegateMock
@@ -183,24 +105,23 @@ final class PlayerSetupViewModelTests: XCTestCase {
         XCTAssertEqual(viewDelegateMock.bindViewToViewModelCallCount, bindCount + 1)
     }
     
+    
     // MARK: - Add Player
     
-    func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldAddPlayerToPlayersArray() {
+    func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldCallGameAddPlayer() {
         // given
         let sut = getViewModelWithDefaultSettings()
-        let player = Player(name: "", position: 0)
-        let players = Array(repeating: player, count: Int.random(in: 1...5))
-        sut.players = players
+        
+        let gameMock = GameMock()
+        sut.game = gameMock
         
         // when
         sut.addPlayer()
         
         // then
-        XCTAssertEqual(sut.players.count, players.indices.upperBound + 1)
-        XCTAssertTrue(sut.players.last?.hasDefaultName ?? false)
-        XCTAssertEqual(sut.players.last?.position, players.indices.upperBound)
+        XCTAssertEqual(gameMock.addPlayerCalledCount, 1)
     }
-    
+
     func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldCallBindViewToViewModel() {
         // given
         let sut = getViewModelWithDefaultSettings()
@@ -218,31 +139,20 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     // MARK: - RandomizePlayers
     
-    func test_PlayerSetupViewModel_WhenRandomizePlayersCalled_ShouldRandomizePlayersAndSetTheirPositions() {
+    func test_PlayerSetupViewModel_WhenRandomizePlayersCalled_ShouldCallGameRandomizePlayers() {
         // given
         let sut = getViewModelWithDefaultSettings()
         
-        var players = [Player]()
-        for i in 1...5 {
-            players.append(Player(name: "\(i)", position: 0))
-        }
-        sut.players = players
+        let gameMock = GameMock()
+        sut.game = gameMock
         
         // when
         sut.randomizePlayers()
         
         // then
-        XCTAssertNotEqual(sut.players, players)
-        
-        for player in players {
-            XCTAssertNotNil(sut.players.first(where: { $0.name == player.name }))
-        }
-        
-        for (index, player) in sut.players.enumerated() {
-            XCTAssertEqual(player.position, index)
-        }
+        XCTAssertEqual(gameMock.randomizePlayersCalledCount, 1)
     }
-    
+
     func test_PlayerSetupViewModel_WhenRandomizePlayersCalled_ShouldCallBindViewToViewModel() {
         // given
         let sut = getViewModelWithDefaultSettings()
@@ -260,58 +170,27 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     // MARK: - DeletePlayerAt
     
-    func test_PlayerSetupViewModel_WhenDeletePlayerAtCalledOutOfRange_ShouldNotAffectPlayersOrCallBindViewToViewModel() {
+    func test_PlayerSetupViewModel_WhenDeletePlayerCalled_ShouldCallGameDeletePlayer() {
         // given
         let sut = getViewModelWithDefaultSettings()
-        let viewModelDelegate = PlayerSetupViewModelViewProtocolMock()
-        sut.delegate = viewModelDelegate
-        let callCount = viewModelDelegate.bindViewToViewModelCallCount
         
-        let player = Player(name: "", position: 0)
-        sut.players = [player]
+        let gameMock = GameMock()
+        sut.game = gameMock
+        let index = Int.random(in: 0...10)
         
         // when
-        sut.deletePlayerAt(1)
-        
-        // then
-        XCTAssertEqual([player], sut.players)
-        XCTAssertEqual(viewModelDelegate.bindViewToViewModelCallCount, callCount)
-    }
-    
-    func test_PlayerSetupViewModel_WhenDeletePlayerAtCalled_ShouldRemovePlayerFromIndexAndCallBindViewToViewModelAndSetPositions() {
-        // given
-        let sut = getViewModelWithDefaultSettings()
-        let viewModelDelegate = PlayerSetupViewModelViewProtocolMock()
-        sut.delegate = viewModelDelegate
-        let callCount = viewModelDelegate.bindViewToViewModelCallCount
-        
-        
-        let player1 = Player(name: UUID().uuidString, position: 0)
-        let player2 = Player(name: UUID().uuidString, position: 0)
-        let player3 = Player(name: UUID().uuidString, position: 0)
-        var players = [player1, player2, player3]
-        sut.players = [player1, player2, player3]
-        let playerToRemoveIndex = Int.random(in: 0...2)
-        
-        // when
-        sut.deletePlayerAt(playerToRemoveIndex)
-        players.remove(at: playerToRemoveIndex)
-        players.setPositions()
-        
-        // then
-        XCTAssertEqual(viewModelDelegate.bindViewToViewModelCallCount, callCount+1)
-        XCTAssertEqual(sut.players, players)
-        for (index, player) in sut.players.enumerated() {
-            XCTAssertEqual(player.position, index)
-        }
-    }
 
+        sut.deletePlayerAt(index)
+        
+        // then
+        XCTAssertEqual(gameMock.deletePlayerAtCalledCount, 1)
+    }
     
     // MARK: - End of Class
 }
 
 class PlayerSetupViewModelMock: PlayerSetupViewModelProtocol {
-    var players: [Player] = []
+    var game: GameProtocol = Game(gameType: .basic, gameEndType: .none, numberOfRounds: 0, numberOfPlayers: 0)
     var delegate: PlayerSetupViewModelViewProtocol?
     
     var randomizePlayersCalledCount = 0
