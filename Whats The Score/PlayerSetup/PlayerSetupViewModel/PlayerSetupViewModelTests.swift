@@ -218,7 +218,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     // MARK: - RandomizePlayers
     
-    func test_PlayerSetupViewModel_WhenRandomizePlayersCalled_ShouldRandomizePlayers() {
+    func test_PlayerSetupViewModel_WhenRandomizePlayersCalled_ShouldRandomizePlayersAndSetTheirPositions() {
         // given
         let sut = getViewModelWithDefaultSettings()
         
@@ -235,7 +235,11 @@ final class PlayerSetupViewModelTests: XCTestCase {
         XCTAssertNotEqual(sut.players, players)
         
         for player in players {
-            XCTAssertNotNil(sut.players.first(where: { $0 == player }))
+            XCTAssertNotNil(sut.players.first(where: { $0.name == player.name }))
+        }
+        
+        for (index, player) in sut.players.enumerated() {
+            XCTAssertEqual(player.position, index)
         }
     }
     

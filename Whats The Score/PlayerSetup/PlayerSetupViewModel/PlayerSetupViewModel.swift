@@ -59,6 +59,7 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     
     func randomizePlayers() {
         players.shuffle()
+        players.setPositions()
         delegate?.bindViewToViewModel()
     }
     
