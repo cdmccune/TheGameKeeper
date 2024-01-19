@@ -12,48 +12,48 @@ final class GameSetupViewModelTests: XCTestCase {
     
     // MARK: Setup functions
     
-    func getBasicGameSettings() -> GameSettings {
-        return GameSettings(gameType: .basic, gameEndType: .none, numberOfRounds: 1, numberOfPlayers: 2)
+    func getBasicGame() -> Game {
+        return Game(gameType: .basic, gameEndType: .none, numberOfRounds: 1, numberOfPlayers: 2)
     }
     
     
     // MARK: - Tests
     
-    func test_GameSetupViewModel_WhenDelegateIsSet_ShouldCallBindViewToGameSettings() {
+    func test_GameSetupViewModel_WhenDelegateIsSet_ShouldCallBindViewToGame() {
         // given
-        var sut = GameSetupViewModel(gameSettings: getBasicGameSettings())
+        var sut = GameSetupViewModel(game: getBasicGame())
         let delegateMock = GameSetupViewModelDelegateMock()
         
         // when
         sut.delegate = delegateMock
         
         // then
-        XCTAssertEqual(delegateMock.bindViewToGameSettingsCalledCount, 1)
+        XCTAssertEqual(delegateMock.bindViewToGameCalledCount, 1)
     }
 
-    func test_GameSetupViewModel_WhenGameSettingsValueChanged_ShouldCallBindViewToGameSettings() {
+    func test_GameSetupViewModel_WhenGameValueChanged_ShouldCallBindViewToGame() {
         // given
-        var sut = GameSetupViewModel(gameSettings: getBasicGameSettings())
+        var sut = GameSetupViewModel(game: getBasicGame())
         let delegateMock = GameSetupViewModelDelegateMock()
         sut.delegate = delegateMock
         
-        let calledCount = delegateMock.bindViewToGameSettingsCalledCount
+        let calledCount = delegateMock.bindViewToGameCalledCount
         
         // when
-        sut.gameSettings.gameEndType = .score
+        sut.game.gameEndType = .score
         
         // then
-        XCTAssertEqual(delegateMock.bindViewToGameSettingsCalledCount, calledCount + 1)
+        XCTAssertEqual(delegateMock.bindViewToGameCalledCount, calledCount + 1)
     }
     
     
     // MARK: - Mock
     
     class GameSetupViewModelDelegateMock: NSObject, GameSetupViewModelProtocol {
-        var bindViewToGameSettingsCalledCount = 0
+        var bindViewToGameCalledCount = 0
         
-        func bindViewToGameSettings(with gameSettings: GameSettings) {
-            bindViewToGameSettingsCalledCount += 1
+        func bindViewToGame(with game: Game) {
+            bindViewToGameCalledCount += 1
         }
     }
 

@@ -11,12 +11,12 @@ import XCTest
 final class PlayerSetupViewModelTests: XCTestCase {
     
     func getViewModelWithDefaultSettings() -> PlayerSetupViewModel {
-        let gameSettings = GameSettings(gameType: .basic,
+        let game = Game(gameType: .basic,
                                         gameEndType: .none,
                                         numberOfRounds: 1,
                                         numberOfPlayers: 2)
         
-        return PlayerSetupViewModel(gameSettings: gameSettings)
+        return PlayerSetupViewModel(game: game)
     }
     
     // MARK: - Init
@@ -24,13 +24,13 @@ final class PlayerSetupViewModelTests: XCTestCase {
     func test_PlayerSetupViewModel_WhenInitializedSet_ShouldSetupArrayOfPlayersWithLengthNumberOfPlayersAndCorrectNames() {
         // given
         let numberOfPlayers = Int.random(in: 1...10)
-        let gameSettings = GameSettings(gameType: .round,
+        let game = Game(gameType: .round,
                                         gameEndType: .none,
                                         numberOfRounds: 0,
                                         numberOfPlayers: numberOfPlayers)
         
         // when
-        let sut = PlayerSetupViewModel(gameSettings: gameSettings)
+        let sut = PlayerSetupViewModel(game: game)
         
         // then
         XCTAssertEqual(sut.players.count, numberOfPlayers)

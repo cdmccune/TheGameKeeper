@@ -9,11 +9,11 @@ import Foundation
 
 class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     
-    init(gameSettings: GameSettings) {
-        self.gameSettings = gameSettings
+    init(game: Game) {
+        self.game = game
         
         var players: [Player] = []
-        for position in 0..<gameSettings.numberOfPlayers {
+        for position in 0..<game.numberOfPlayers {
             players.append(Player(name: "",
                                   position: position))
         }
@@ -21,7 +21,7 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
         self.players = players
     }
     
-    var gameSettings: GameSettings
+    var game: Game
     var players: [Player]
     weak var delegate: PlayerSetupViewModelViewProtocol? {
         didSet {

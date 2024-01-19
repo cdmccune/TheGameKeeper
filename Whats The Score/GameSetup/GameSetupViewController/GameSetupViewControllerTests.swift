@@ -90,7 +90,7 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.gameTypeSegmentedControlValueChanged(4)
         
         // then
-        XCTAssertEqual(sut.viewModel?.gameSettings.gameType, GameType(rawValue: selectedSegment)!)
+        XCTAssertEqual(sut.viewModel?.game.gameType, GameType(rawValue: selectedSegment)!)
     }
     
     func test_GameSetupViewController_WhenGameEndTypeSegmentedControlChanged_ShouldChangeViewModelsGameEndType() {
@@ -105,7 +105,7 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.gameEndTypeSegmentedControlValueChanged(4)
         
         // then
-        XCTAssertEqual(sut.viewModel?.gameSettings.gameEndType, GameEndType(rawValue: selectedSegment)!)
+        XCTAssertEqual(sut.viewModel?.game.gameEndType, GameEndType(rawValue: selectedSegment)!)
     }
     
     func test_GameSetupViewController_WhenNumberOfRoundsChangedNonIntValue_ShouldNotChangeViewModelsNumberOfRounds() {
@@ -114,14 +114,14 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.loadView()
         
         let numberOfRounds = Int.random(in: 1...10)
-        sut.viewModel?.gameSettings.numberOfRounds = numberOfRounds
+        sut.viewModel?.game.numberOfRounds = numberOfRounds
         sut.numberOfRoundsTextField.text = ""
         
         // when
         sut.numberOfRoundsTextFieldValueChanged(4)
         
         // then
-        XCTAssertEqual(sut.viewModel?.gameSettings.numberOfRounds, numberOfRounds)
+        XCTAssertEqual(sut.viewModel?.game.numberOfRounds, numberOfRounds)
     }
     
     func test_GameSetupViewController_WhenNumberOfRoundsChanged_ShouldChangeViewModelsNumberOfRounds() {
@@ -136,7 +136,7 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.numberOfRoundsTextFieldValueChanged(4)
         
         // then
-        XCTAssertEqual(sut.viewModel?.gameSettings.numberOfRounds, numberOfRounds)
+        XCTAssertEqual(sut.viewModel?.game.numberOfRounds, numberOfRounds)
     }
     
     func test_GameSetupViewController_WhenEndingScoreChangedNotInt_ShouldNotChangeViewModelEndingScore() {
@@ -145,14 +145,14 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.loadView()
         
         let endingScore = Int.random(in: 1...10)
-        sut.viewModel?.gameSettings.endingScore = endingScore
+        sut.viewModel?.game.endingScore = endingScore
         sut.endingScoreTextField.text = ""
         
         // when
         sut.endingScoreTextFieldValueChanged(4)
         
         // then
-        XCTAssertEqual(sut.viewModel?.gameSettings.endingScore, endingScore)
+        XCTAssertEqual(sut.viewModel?.game.endingScore, endingScore)
     }
     
     func test_GameSetupViewController_WhenEndingScoreChanged_ShouldChangeViewModelEndingScore() {
@@ -167,7 +167,7 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.endingScoreTextFieldValueChanged(4)
         
         // then
-        XCTAssertEqual(sut.viewModel?.gameSettings.endingScore, endingScore)
+        XCTAssertEqual(sut.viewModel?.game.endingScore, endingScore)
     }
     
     func test_GameSetupViewController_WhenNumberOfPlayersChangedNotInt_ShouldNotChangeViewModelNumberOfPlayers() {
@@ -176,14 +176,14 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.loadView()
         
         let numberOfPlayers = Int.random(in: 1...10)
-        sut.viewModel?.gameSettings.numberOfPlayers = numberOfPlayers
+        sut.viewModel?.game.numberOfPlayers = numberOfPlayers
         sut.numberOfRoundsTextField.text = ""
         
         // when
         sut.numberOfPlayersTextFieldValueChanged(4)
         
         // then
-        XCTAssertEqual(sut.viewModel?.gameSettings.numberOfPlayers, numberOfPlayers)
+        XCTAssertEqual(sut.viewModel?.game.numberOfPlayers, numberOfPlayers)
     }
     
     func test_GameSetupViewController_WhenNumberOfPlayersChanged_ShouldChangeViewModelNumberOfPlayers() {
@@ -198,12 +198,12 @@ final class GameSetupViewControllerTests: XCTestCase {
         sut.numberOfPlayersTextFieldValueChanged(4)
         
         // then
-        XCTAssertEqual(sut.viewModel?.gameSettings.numberOfPlayers, numberOfPlayers)
+        XCTAssertEqual(sut.viewModel?.game.numberOfPlayers, numberOfPlayers)
     }
     
     // MARK: - Binding View
     
-    func test_GameSetupViewController_WhenBindViewToGameSettingsCalled_ShouldSetValuesFromSettingToSegmentedControlsAndTextFields() {
+    func test_GameSetupViewController_WhenBindViewToGameCalled_ShouldSetValuesFromSettingToSegmentedControlsAndTextFields() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -213,10 +213,10 @@ final class GameSetupViewControllerTests: XCTestCase {
         let numberOfRounds = Int.random(in: 1...10)
         let endingScore = Int.random(in: 1...10)
         let numberOfPlayers = Int.random(in: 1...10)
-        let gameSettings = GameSettings(gameType: gameType, gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore, numberOfPlayers: numberOfPlayers)
+        let game = Game(gameType: gameType, gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore, numberOfPlayers: numberOfPlayers)
         
         // when
-        sut.bindViewToGameSettings(with: gameSettings)
+        sut.bindViewToGame(with: game)
         
         // then
         XCTAssertEqual(sut.gameTypeSegmentedControl.selectedSegmentIndex, gameType.rawValue)
@@ -231,31 +231,31 @@ final class GameSetupViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
         
-        let gameSettings = GameSettings(gameType: .round,
+        let game = Game(gameType: .round,
                                         gameEndType: .round,
                                         numberOfRounds: 0,
                                         endingScore: nil,
                                         numberOfPlayers: 0)
         
         // when
-        sut.bindViewToGameSettings(with: gameSettings)
+        sut.bindViewToGame(with: game)
         
         // then
         XCTAssertEqual("", sut.endingScoreTextField.text)
     }
     
-    func test_GameSetupViewController_WhenBindViewToGameSettingsCalledBasicGameType_ShouldHideAndShowCorrectStackViews() {
+    func test_GameSetupViewController_WhenBindViewToGameCalledBasicGameType_ShouldHideAndShowCorrectStackViews() {
         // given
         let sut = viewController!
         sut.loadView()
         
-        let gameSettings = GameSettings(gameType: .basic,
+        let game = Game(gameType: .basic,
                                         gameEndType: .round,
                                         numberOfRounds: 0,
                                         numberOfPlayers: 0)
         
         // when
-        sut.bindViewToGameSettings(with: gameSettings)
+        sut.bindViewToGame(with: game)
         
         // then
         XCTAssertFalse(sut.gameTypeStackView.isHidden)
@@ -265,18 +265,18 @@ final class GameSetupViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.numberOfRoundsStackView.isHidden)
     }
     
-    func test_GameSetupViewController_WhenBindViewToGameSettingsCalledRoundGameTypeRoundGameEndType_ShouldHideAndShowCorrectStackViews() {
+    func test_GameSetupViewController_WhenBindViewToGameCalledRoundGameTypeRoundGameEndType_ShouldHideAndShowCorrectStackViews() {
         // given
         let sut = viewController!
         sut.loadView()
         
-        let gameSettings = GameSettings(gameType: .round,
+        let game = Game(gameType: .round,
                                         gameEndType: .round,
                                         numberOfRounds: 0,
                                         numberOfPlayers: 0)
         
         // when
-        sut.bindViewToGameSettings(with: gameSettings)
+        sut.bindViewToGame(with: game)
         
         // then
         XCTAssertFalse(sut.gameTypeStackView.isHidden)
@@ -286,18 +286,18 @@ final class GameSetupViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.endingScoreStackView.isHidden)
     }
     
-    func test_GameSetupViewController_WhenBindViewToGameSettingsCalledRoundGameTypeScoreGameEndType_ShouldHideAndShowCorrectStackViews() {
+    func test_GameSetupViewController_WhenBindViewToGameCalledRoundGameTypeScoreGameEndType_ShouldHideAndShowCorrectStackViews() {
         // given
         let sut = viewController!
         sut.loadView()
         
-        let gameSettings = GameSettings(gameType: .round,
+        let game = Game(gameType: .round,
                                         gameEndType: .score,
                                         numberOfRounds: 0,
                                         numberOfPlayers: 0)
         
         // when
-        sut.bindViewToGameSettings(with: gameSettings)
+        sut.bindViewToGame(with: game)
         
         // then
         XCTAssertFalse(sut.gameTypeStackView.isHidden)
@@ -307,18 +307,18 @@ final class GameSetupViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.numberOfRoundsStackView.isHidden)
     }
     
-    func test_GameSetupViewController_WhenBindViewToGameSettingsCalledRoundGameTypeNoneGameEndType_ShouldHideAndShowCorrectStackViews() {
+    func test_GameSetupViewController_WhenBindViewToGameCalledRoundGameTypeNoneGameEndType_ShouldHideAndShowCorrectStackViews() {
         // given
         let sut = viewController!
         sut.loadView()
         
-        let gameSettings = GameSettings(gameType: .round,
+        let game = Game(gameType: .round,
                                         gameEndType: .none,
                                         numberOfRounds: 0,
                                         numberOfPlayers: 0)
         
         // when
-        sut.bindViewToGameSettings(with: gameSettings)
+        sut.bindViewToGame(with: game)
         
         // then
         XCTAssertFalse(sut.gameTypeStackView.isHidden)
@@ -351,7 +351,7 @@ final class GameSetupViewControllerTests: XCTestCase {
         navigationControllerMock.viewControllers = [sut]
         
         let numberOfPlayers = Int.random(in: 100...10000)
-        sut.viewModel?.gameSettings.numberOfPlayers = numberOfPlayers
+        sut.viewModel?.game.numberOfPlayers = numberOfPlayers
         
         // when
         sut.continueButtonTapped(4)
@@ -359,7 +359,7 @@ final class GameSetupViewControllerTests: XCTestCase {
         // then
         let viewModel = (navigationControllerMock.pushedViewController as? PlayerSetupViewController)?.viewModel
         
-        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.gameSettings.numberOfPlayers, numberOfPlayers)
+        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.numberOfPlayers, numberOfPlayers)
     }
     
 }

@@ -28,11 +28,11 @@ final class PlayerSetupViewControllerTests: XCTestCase {
     // MARK: - Initialization
     
     func getBasicViewModel() -> PlayerSetupViewModel {
-        let emptyGameSettings = GameSettings(gameType: .basic,
+        let emptyGame = Game(gameType: .basic,
                                              gameEndType: .round,
                                              numberOfRounds: 0,
                                              numberOfPlayers: 0)
-        return PlayerSetupViewModel(gameSettings: emptyGameSettings)
+        return PlayerSetupViewModel(game: emptyGame)
     }
     
     func test_PlayerSetupViewController_WhenLoaded_ShouldHaveNonNilOutlets() {

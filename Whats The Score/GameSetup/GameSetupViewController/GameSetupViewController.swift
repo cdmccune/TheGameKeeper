@@ -11,7 +11,7 @@ class GameSetupViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        viewModel = GameSetupViewModel(gameSettings: GameSettings(gameType: .basic,
+        viewModel = GameSetupViewModel(game: Game(gameType: .basic,
                                                                   gameEndType: .none,
                                                                   numberOfRounds: 1,
                                                                   numberOfPlayers: 2))
@@ -59,7 +59,7 @@ class GameSetupViewController: UIViewController {
             return
         }
         
-        viewModel?.gameSettings.gameType = gameType
+        viewModel?.game.gameType = gameType
     }
     
     @IBAction func gameEndTypeSegmentedControlValueChanged(_ sender: Any) {
@@ -67,29 +67,29 @@ class GameSetupViewController: UIViewController {
             return
         }
         
-        viewModel?.gameSettings.gameEndType = gameEndType
+        viewModel?.game.gameEndType = gameEndType
     }
     
     @IBAction func numberOfRoundsTextFieldValueChanged(_ sender: Any) {
         guard let numberOfRounds = Int(numberOfRoundsTextField.text ?? "") else { return }
-        viewModel?.gameSettings.numberOfRounds = numberOfRounds
+        viewModel?.game.numberOfRounds = numberOfRounds
     }
     
     @IBAction func endingScoreTextFieldValueChanged(_ sender: Any) {
         guard let endingScore = Int(endingScoreTextField.text ?? "") else { return }
-        viewModel?.gameSettings.endingScore = endingScore
+        viewModel?.game.endingScore = endingScore
     }
     
     @IBAction func numberOfPlayersTextFieldValueChanged(_ sender: Any) {
         guard let numberOfPlayers = Int(numberOfPlayersTextField.text ?? "") else { return }
-        viewModel?.gameSettings.numberOfPlayers = numberOfPlayers
+        viewModel?.game.numberOfPlayers = numberOfPlayers
     }
     
     @IBAction func continueButtonTapped(_ sender: Any) {
-        guard let gameSettings = viewModel?.gameSettings else { return }
+        guard let game = viewModel?.game else { return }
         
         let playerSetupVC = storyboard?.instantiateViewController(withIdentifier: "PlayerSetupViewController") as? PlayerSetupViewController
-        playerSetupVC?.viewModel = PlayerSetupViewModel(gameSettings: gameSettings)
+        playerSetupVC?.viewModel = PlayerSetupViewModel(game: game)
         
         navigationController?.pushViewController(playerSetupVC!, animated: true)
     }
@@ -97,24 +97,24 @@ class GameSetupViewController: UIViewController {
 
 
 extension GameSetupViewController: GameSetupViewModelProtocol {
-    func bindViewToGameSettings(with gameSettings: GameSettings) {
+    func bindViewToGame(with game: Game) {
 
         // Setting Values
-        self.gameTypeSegmentedControl.selectedSegmentIndex = gameSettings.gameType.rawValue
-        self.gameEndTypeSegmentedControl.selectedSegmentIndex = gameSettings.gameEndType.rawValue
-        self.numberOfRoundsTextField.text = String(gameSettings.numberOfRounds)
-        self.numberOfPlayersTextField.text = String(gameSettings.numberOfPlayers)
+        self.gameTypeSegmentedControl.selectedSegmentIndex = game.gameType.rawValue
+        self.gameEndTypeSegmentedControl.selectedSegmentIndex = game.gameEndType.rawValue
+        self.numberOfRoundsTextField.text = String(game.numberOfRounds)
+        self.numberOfPlayersTextField.text = String(game.numberOfPlayers)
 
-        if let endingScore = gameSettings.endingScore {
+        if let endingScore = game.endingScore {
             self.endingScoreTextField.text = String(endingScore)
         } else {
             self.endingScoreTextField.text = ""
         }
         
         // Hiding and Showing
-        self.gameEndTypeStackView.isHidden = gameSettings.gameType == .basic
-        self.numberOfRoundsStackView.isHidden = gameSettings.gameType == .basic || gameSettings.gameEndType != .round
-        self.endingScoreStackView.isHidden = gameSettings.gameType == .round && gameSettings.gameEndType != .score
+        self.gameEndTypeStackView.isHidden = game.gameType == .basic
+        self.numberOfRoundsStackView.isHidden = game.gameType == .basic || game.gameEndType != .round
+        self.endingScoreStackView.isHidden = game.gameType == .round && game.gameEndType != .score
         
     }
 }

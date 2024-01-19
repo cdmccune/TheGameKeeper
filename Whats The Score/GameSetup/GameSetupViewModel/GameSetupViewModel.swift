@@ -9,20 +9,20 @@
 import Foundation
 
 struct GameSetupViewModel {
-    var gameSettings: GameSettings {
+    var game: Game {
         didSet {
-            delegate?.bindViewToGameSettings(with: gameSettings)
+            delegate?.bindViewToGame(with: game)
         }
     }
     
     weak var delegate: GameSetupViewModelProtocol? {
         didSet {
-            delegate?.bindViewToGameSettings(with: gameSettings)
+            delegate?.bindViewToGame(with: game)
         }
     }
     
 }
 
 protocol GameSetupViewModelProtocol: NSObject {
-    func bindViewToGameSettings(with gameSettings: GameSettings)
+    func bindViewToGame(with game: Game)
 }
