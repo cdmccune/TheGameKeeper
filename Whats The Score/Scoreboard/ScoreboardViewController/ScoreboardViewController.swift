@@ -9,6 +9,16 @@ import UIKit
 
 class ScoreboardViewController: UIViewController {
 
+    // MARK: - Outlets
+    
+    @IBOutlet weak var roundLabel: UILabel!
+    
+    
+    // MARK: - Properties
+    
+    var viewModel: ScoreboardViewModel?
+    
+    
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
 //

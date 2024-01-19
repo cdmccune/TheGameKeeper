@@ -79,7 +79,13 @@ class PlayerSetupViewController: UIViewController {
     }
     
     @objc func startBarButtonTapped() {
-        let scoreboardViewController = ScoreboardViewController()
+        guard let viewModel,
+              let scoreboardViewController = storyboard?.instantiateViewController(withIdentifier: "ScoreboardViewController") as? ScoreboardViewController else {
+            fatalError("This must work")
+        }
+        
+        scoreboardViewController.viewModel = ScoreboardViewModel()
+        
         navigationController?.pushViewController(scoreboardViewController, animated: true)
     }
     
