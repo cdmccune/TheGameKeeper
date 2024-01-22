@@ -33,10 +33,6 @@
 		2437F70B2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7092B40BF2F00BB75A1 /* GeneralMocks.swift */; };
 		2437F70F2B40C09500BB75A1 /* GameSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F70E2B40C09500BB75A1 /* GameSetupViewController.swift */; };
 		2437F7112B40C0AA00BB75A1 /* GameSetupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7102B40C0AA00BB75A1 /* GameSetupViewControllerTests.swift */; };
-		2437F7182B40C3BC00BB75A1 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2437F7142B40C3BC00BB75A1 /* Poppins-Bold.ttf */; };
-		2437F7192B40C3BC00BB75A1 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2437F7152B40C3BC00BB75A1 /* Poppins-Medium.ttf */; };
-		2437F71A2B40C3BC00BB75A1 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2437F7162B40C3BC00BB75A1 /* Poppins-SemiBold.ttf */; };
-		2437F71B2B40C3BC00BB75A1 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2437F7172B40C3BC00BB75A1 /* Poppins-Regular.ttf */; };
 		2437F71F2B40D11500BB75A1 /* GameSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F71E2B40D11500BB75A1 /* GameSetupViewModel.swift */; };
 		2437F7212B40D12200BB75A1 /* GameSetupViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7202B40D12200BB75A1 /* GameSetupViewModelTests.swift */; };
 		2437F7242B40D32800BB75A1 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7232B40D32800BB75A1 /* Game.swift */; };
@@ -99,10 +95,6 @@
 		2437F7092B40BF2F00BB75A1 /* GeneralMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralMocks.swift; sourceTree = "<group>"; };
 		2437F70E2B40C09500BB75A1 /* GameSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupViewController.swift; sourceTree = "<group>"; };
 		2437F7102B40C0AA00BB75A1 /* GameSetupViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupViewControllerTests.swift; sourceTree = "<group>"; };
-		2437F7142B40C3BC00BB75A1 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
-		2437F7152B40C3BC00BB75A1 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
-		2437F7162B40C3BC00BB75A1 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
-		2437F7172B40C3BC00BB75A1 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		2437F71E2B40D11500BB75A1 /* GameSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupViewModel.swift; sourceTree = "<group>"; };
 		2437F7202B40D12200BB75A1 /* GameSetupViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupViewModelTests.swift; sourceTree = "<group>"; };
 		2437F7232B40D32800BB75A1 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -110,6 +102,7 @@
 		244A46382B5AD9C60033199F /* ScoreboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModel.swift; sourceTree = "<group>"; };
 		244A463A2B5AD9CE0033199F /* ScoreboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModelTests.swift; sourceTree = "<group>"; };
 		244A463D2B5AF7920033199F /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameTests.swift; path = Player/GameTests.swift; sourceTree = "<group>"; };
+		246600532B5E13C6004F8512 /* Notable-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Notable-Regular.ttf"; sourceTree = "<group>"; };
 		24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModel.swift; sourceTree = "<group>"; };
 		24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModelTests.swift; sourceTree = "<group>"; };
 		24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewDelegate.swift; sourceTree = "<group>"; };
@@ -314,20 +307,9 @@
 		2437F7122B40C3A800BB75A1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				2437F7132B40C3AF00BB75A1 /* Poppins */,
+				246600532B5E13C6004F8512 /* Notable-Regular.ttf */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		2437F7132B40C3AF00BB75A1 /* Poppins */ = {
-			isa = PBXGroup;
-			children = (
-				2437F7142B40C3BC00BB75A1 /* Poppins-Bold.ttf */,
-				2437F7152B40C3BC00BB75A1 /* Poppins-Medium.ttf */,
-				2437F7172B40C3BC00BB75A1 /* Poppins-Regular.ttf */,
-				2437F7162B40C3BC00BB75A1 /* Poppins-SemiBold.ttf */,
-			);
-			path = Poppins;
 			sourceTree = "<group>";
 		};
 		2437F71C2B40D0F600BB75A1 /* GameSetup */ = {
@@ -558,13 +540,9 @@
 			files = (
 				2437F6EF2B40AAE100BB75A1 /* LaunchScreen.storyboard in Resources */,
 				2437F6EC2B40AAE100BB75A1 /* Assets.xcassets in Resources */,
-				2437F71B2B40C3BC00BB75A1 /* Poppins-Regular.ttf in Resources */,
 				243228CF2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib in Resources */,
 				24240EDE2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib in Resources */,
 				2437F6EA2B40AAE000BB75A1 /* Main.storyboard in Resources */,
-				2437F71A2B40C3BC00BB75A1 /* Poppins-SemiBold.ttf in Resources */,
-				2437F7182B40C3BC00BB75A1 /* Poppins-Bold.ttf in Resources */,
-				2437F7192B40C3BC00BB75A1 /* Poppins-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
