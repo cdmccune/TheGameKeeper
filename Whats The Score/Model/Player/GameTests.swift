@@ -207,6 +207,7 @@ class GameMock: GameProtocol {
     var numberOfRounds: Int = 0
     var endingScore: Int?
     var numberOfPlayers: Int = 0
+    var currentRound: Int = 0
     var players: [Player] = []
     
     var playerNameChangedCalledCount = 0

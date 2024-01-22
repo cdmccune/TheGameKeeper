@@ -16,24 +16,38 @@ class ScoreboardViewController: UIViewController {
     
     // MARK: - Properties
     
-    var viewModel: ScoreboardViewModel?
+    var viewModel: ScoreboardViewModelProtocol?
     
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        // Do any additional setup after loading the view.
-//    }
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        setDelegates()
     }
-    */
+    
+    private func setDelegates() {
+        self.viewModel?.delegate = self
+    }
+    
 
+    // MARK: - IBActions
+    
+    @IBAction func endRoundButtonTapped(_ sender: Any) {
+        viewModel?.endCurrentRound()
+    }
+    
+    @IBAction func endGameButtonTapped(_ sender: Any) {
+        viewModel?.endGame()
+    }
+    
+}
+
+extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
+    func bindViewToViewModel() {
+        guard let viewModel else { return }
+        let game = viewModel.game
+        
+        roundLabel.isHidden = game.gameType != .round
+        roundLabel.text = "Round \(game.currentRound)"
+    }
 }

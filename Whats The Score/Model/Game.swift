@@ -11,6 +11,7 @@ protocol GameProtocol {
     var gameType: GameType { get set }
     var gameEndType: GameEndType { get set }
     var numberOfRounds: Int { get set }
+    var currentRound: Int { get set }
     var endingScore: Int? { get set }
     var numberOfPlayers: Int { get }
     var players: [Player] { get }
@@ -23,19 +24,25 @@ protocol GameProtocol {
 }
 
 struct Game: GameProtocol {
-    
     init(basicGameWithPlayers players: [Player]) {
         self.gameType = .basic
         self.gameEndType = .none
         self.numberOfRounds = 1
+        self.currentRound = 1
         self.numberOfPlayers = players.count
         self.players = players
     }
     
-    init(gameType: GameType, gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int? = nil, numberOfPlayers: Int) {
+    init(gameType: GameType,
+         gameEndType: GameEndType,
+         numberOfRounds: Int,
+         currentRound: Int = 1,
+         endingScore: Int? = nil,
+         numberOfPlayers: Int) {
         self.gameType = gameType
         self.gameEndType = gameEndType
         self.numberOfRounds = numberOfRounds
+        self.currentRound = currentRound
         self.endingScore = endingScore
         self.numberOfPlayers = numberOfPlayers
         
@@ -50,6 +57,7 @@ struct Game: GameProtocol {
     var gameType: GameType
     var gameEndType: GameEndType
     var numberOfRounds: Int
+    var currentRound: Int
     var endingScore: Int?
     var numberOfPlayers: Int
     

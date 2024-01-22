@@ -84,7 +84,7 @@ class PlayerSetupViewController: UIViewController {
             fatalError("This must work")
         }
         
-        scoreboardViewController.viewModel = ScoreboardViewModel()
+        scoreboardViewController.viewModel = ScoreboardViewModel(game: viewModel.game)
         
         navigationController?.pushViewController(scoreboardViewController, animated: true)
     }
