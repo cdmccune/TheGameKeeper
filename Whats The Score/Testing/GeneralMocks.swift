@@ -6,6 +6,7 @@
 //
 
 import UIKit
+@testable import Whats_The_Score
 
 class NavigationControllerPushMock: UINavigationController {
     var pushViewControllerCount = 0
@@ -34,4 +35,19 @@ class TableViewDelegateMock: NSObject, UITableViewDelegate, UITableViewDataSourc
         return cell
     }
     
+}
+
+class DispatchQueueMainMock: DispatchQueueProtocol {
+    
+    var asyncAfterCalledCount = 0
+    func asyncAfter(deadline: DispatchTime, execute work: @escaping @convention(block) () -> Void) {
+        asyncAfterCalledCount += 1
+        work()
+    }
+    
+    var asyncCalledCount = 0
+    func async(execute work: @escaping @convention(block) () -> Void) {
+        asyncCalledCount += 1
+        work()
+    }
 }

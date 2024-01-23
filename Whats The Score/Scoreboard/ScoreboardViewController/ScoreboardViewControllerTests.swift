@@ -73,6 +73,24 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     
     // MARK: - Bind View To View Model
+    
+    func test_ScoreboardViewController_WhenBindViewModelToViewCalled_ShouldCallDispatchAsync() {
+        // given
+        // given
+        let sut = viewController!
+        
+        let gameMock = GameMock()
+        let viewModelMock = ScoreboardViewModelMock(game: gameMock)
+        sut.viewModel = viewModelMock
+        let dispatchQueueMock = DispatchQueueMainMock()
+        
+        // when
+        sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: dispatchQueueMock)
+        
+        // then
+        XCTAssertEqual(dispatchQueueMock.asyncCalledCount, 1)
+    }
 
     func test_ScoreboardViewController_WhenViewModelGameHasRoundGameTypeAndBindViewModelToViewCalled_ShouldShowRoundLabel() {
         // given
@@ -81,9 +99,11 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let gameMock = GameMock()
         gameMock.gameType = .round
         let viewModelMock = ScoreboardViewModelMock(game: gameMock)
+        sut.viewModel = viewModelMock
         
         // when
         sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
         XCTAssertFalse(sut.roundLabel.isHidden)
@@ -100,7 +120,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // when
         sut.loadView()
-        sut.bindViewToViewModel()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
         XCTAssertTrue(sut.roundLabel.isHidden)
@@ -119,7 +139,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // when
         sut.loadView()
-        sut.bindViewToViewModel()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
         XCTAssertEqual(sut.roundLabel.text, "Round \(currentRound)")

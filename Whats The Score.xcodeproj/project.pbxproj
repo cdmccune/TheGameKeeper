@@ -29,7 +29,6 @@
 		2437F6EF2B40AAE100BB75A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2437F6ED2B40AAE100BB75A1 /* LaunchScreen.storyboard */; };
 		2437F6F72B40BA6600BB75A1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F6F62B40BA6600BB75A1 /* HomeViewController.swift */; };
 		2437F7072B40BB1B00BB75A1 /* HomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F6F82B40BABF00BB75A1 /* HomeViewControllerTests.swift */; };
-		2437F70A2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7092B40BF2F00BB75A1 /* GeneralMocks.swift */; };
 		2437F70B2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7092B40BF2F00BB75A1 /* GeneralMocks.swift */; };
 		2437F70F2B40C09500BB75A1 /* GameSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F70E2B40C09500BB75A1 /* GameSetupViewController.swift */; };
 		2437F7112B40C0AA00BB75A1 /* GameSetupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7102B40C0AA00BB75A1 /* GameSetupViewControllerTests.swift */; };
@@ -40,6 +39,7 @@
 		244A46392B5AD9C60033199F /* ScoreboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244A46382B5AD9C60033199F /* ScoreboardViewModel.swift */; };
 		244A463B2B5AD9CE0033199F /* ScoreboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244A463A2B5AD9CE0033199F /* ScoreboardViewModelTests.swift */; };
 		244A463E2B5AF7920033199F /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244A463D2B5AF7920033199F /* GameTests.swift */; };
+		244EDF042B602F3F0091F019 /* ProtocolsForTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244EDF032B602F3F0091F019 /* ProtocolsForTests.swift */; };
 		24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */; };
 		24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */; };
 		24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */; };
@@ -102,6 +102,7 @@
 		244A46382B5AD9C60033199F /* ScoreboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModel.swift; sourceTree = "<group>"; };
 		244A463A2B5AD9CE0033199F /* ScoreboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModelTests.swift; sourceTree = "<group>"; };
 		244A463D2B5AF7920033199F /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameTests.swift; path = Player/GameTests.swift; sourceTree = "<group>"; };
+		244EDF032B602F3F0091F019 /* ProtocolsForTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolsForTests.swift; sourceTree = "<group>"; };
 		246600532B5E13C6004F8512 /* Notable-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Notable-Regular.ttf"; sourceTree = "<group>"; };
 		24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModel.swift; sourceTree = "<group>"; };
 		24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModelTests.swift; sourceTree = "<group>"; };
@@ -282,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				2437F7092B40BF2F00BB75A1 /* GeneralMocks.swift */,
+				244EDF032B602F3F0091F019 /* ProtocolsForTests.swift */,
 			);
 			path = Testing;
 			sourceTree = "<group>";
@@ -636,8 +638,8 @@
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
 				24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */,
 				24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */,
+				244EDF042B602F3F0091F019 /* ProtocolsForTests.swift in Sources */,
 				243228D72B4DBD8600C42C62 /* Player.swift in Sources */,
-				2437F70A2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */,
 				2437F6E32B40AAE000BB75A1 /* AppDelegate.swift in Sources */,
 				2437F70F2B40C09500BB75A1 /* GameSetupViewController.swift in Sources */,
 				2437F6E52B40AAE000BB75A1 /* SceneDelegate.swift in Sources */,

@@ -21,7 +21,11 @@ class ScoreboardViewModel: ScoreboardViewModelProtocol {
     }
     
     var game: GameProtocol
-    weak var delegate: ScoreboardViewModelViewProtocol?
+    weak var delegate: ScoreboardViewModelViewProtocol? {
+        didSet {
+            delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+        }
+    }
     
     func endCurrentRound() {
     }
@@ -32,5 +36,5 @@ class ScoreboardViewModel: ScoreboardViewModelProtocol {
 }
 
 protocol ScoreboardViewModelViewProtocol: NSObject {
-    func bindViewToViewModel()
+    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol)
 }

@@ -43,11 +43,13 @@ class ScoreboardViewController: UIViewController {
 }
 
 extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
-    func bindViewToViewModel() {
-        guard let viewModel else { return }
-        let game = viewModel.game
-        
-        roundLabel.isHidden = game.gameType != .round
-        roundLabel.text = "Round \(game.currentRound)"
+    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol) {
+        dispatchQueue.async {
+            guard let viewModel = self.viewModel else { return }
+            let game = viewModel.game
+            
+            self.roundLabel.isHidden = game.gameType != .round
+            self.roundLabel.text = "Round \(game.currentRound)"
+        }
     }
 }
