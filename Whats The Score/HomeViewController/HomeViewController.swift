@@ -27,6 +27,22 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(gameSetupVC!, animated: true)
     }
     
+    @IBAction func quickStartButtonTapped(_ sender: Any) {
+        guard let scoreboardVC = storyboard?.instantiateViewController(withIdentifier: "ScoreboardViewController") as? ScoreboardViewController else {
+            fatalError("Couldn't find ScoreboardViewController")
+        }
+        
+        let game = Game(gameType: .basic,
+                        gameEndType: .none,
+                        numberOfRounds: 0,
+                        numberOfPlayers: 2)
+        
+        let viewModel = ScoreboardViewModel(game: game)
+        scoreboardVC.viewModel = viewModel
+        
+        navigationController?.pushViewController(scoreboardVC, animated: true)
+    }
+
     
     /*
     // MARK: - Navigation

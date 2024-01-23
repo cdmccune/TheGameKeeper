@@ -51,6 +51,9 @@
                                             </backgroundConfiguration>
                                             <fontDescription key="titleFontDescription" name="Poppins-Regular" family="Poppins" pointSize="30"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="quickStartButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XV7-av-7oc"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gmK-qk-bQF">
                                         <rect key="frame" x="0.0" y="80" width="300" height="65"/>

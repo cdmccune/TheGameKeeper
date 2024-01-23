@@ -49,15 +49,57 @@ final class HomeViewControllerTests: XCTestCase {
         XCTAssertTrue(navigationControllerMock.pushedViewController is GameSetupViewController)
     }
     
-//    func test_HomeViewController_When<#action#>_Should<#assertion#>() {
-//        // given
-//        let sut = <#System Under Test#>
-//
-//        // when
-//        <#when#>
-//
-//        // then
-//        <#then#>
-//    }
+    
+    // MARK: - Quick Start
+    
+    func test_HomeViewController_WhenQuickStartButtonTapped_ShouldPushScoreboardViewController() {
+        // given
+        let sut = viewController!
+        
+        let navigationControllerMock = NavigationControllerPushMock()
+        navigationControllerMock.viewControllers = [sut]
+        
+        // when
+        sut.quickStartButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(navigationControllerMock.pushViewControllerCount, 1)
+        XCTAssertTrue(navigationControllerMock.pushedViewController is ScoreboardViewController)
+    }
+    
+    func test_HomeViewController_WhenQuickStartButtonTapped_ShouldPushScoreboardViewControllerWithViewModel() {
+        // given
+        let sut = viewController!
+        
+        let navigationControllerMock = NavigationControllerPushMock()
+        navigationControllerMock.viewControllers = [sut]
+        
+        // when
+        sut.quickStartButtonTapped(0)
+        
+        // then
+        let scoreboardVC = navigationControllerMock.pushedViewController as? ScoreboardViewController
+        let scoreboardViewModel = scoreboardVC?.viewModel
+        XCTAssertNotNil(scoreboardViewModel)
+    }
+    
+    func test_HomeViewController_WhenQuickStartButtonTapped_ShouldPushScoreboardViewControllerWithViewModelWithCorrectGameSettings() {
+        // given
+        let sut = viewController!
+        
+        let navigationControllerMock = NavigationControllerPushMock()
+        navigationControllerMock.viewControllers = [sut]
+        
+        // when
+        sut.quickStartButtonTapped(0)
+        
+        // then
+        let scoreboardVC = navigationControllerMock.pushedViewController as? ScoreboardViewController
+        let scoreboardViewModel = scoreboardVC?.viewModel
+        let game = scoreboardViewModel?.game
+        XCTAssertEqual(game?.gameEndType, GameEndType.none)
+        XCTAssertEqual(game?.gameType, .basic)
+        XCTAssertEqual(game?.players.count, 2)
+    }
 
 }
