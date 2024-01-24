@@ -53,6 +53,7 @@
 		24CD526E2B6167A500C481A8 /* ScoreboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CD526C2B6167A500C481A8 /* ScoreboardTableViewCell.swift */; };
 		24CD526F2B6167A500C481A8 /* ScoreboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24CD526D2B6167A500C481A8 /* ScoreboardTableViewCell.xib */; };
 		24CD52722B6167B400C481A8 /* ScoreboardTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CD52712B6167B400C481A8 /* ScoreboardTableViewCellTests.swift */; };
+		24CD52732B616AA000C481A8 /* Notable-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 246600532B5E13C6004F8512 /* Notable-Regular.ttf */; };
 		24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */; };
 		24D68E1A2B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */; };
 		24DAC6B72B52F1C90069C7C9 /* Whats The Score Tests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */; };
@@ -572,6 +573,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2437F6EF2B40AAE100BB75A1 /* LaunchScreen.storyboard in Resources */,
+				24CD52732B616AA000C481A8 /* Notable-Regular.ttf in Resources */,
 				24CD526F2B6167A500C481A8 /* ScoreboardTableViewCell.xib in Resources */,
 				2437F6EC2B40AAE100BB75A1 /* Assets.xcassets in Resources */,
 				243228CF2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib in Resources */,
