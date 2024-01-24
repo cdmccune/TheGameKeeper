@@ -89,7 +89,11 @@ class GameSetupViewController: UIViewController {
         guard let game = viewModel?.game else { return }
         
         let playerSetupVC = storyboard?.instantiateViewController(withIdentifier: "PlayerSetupViewController") as? PlayerSetupViewController
-        playerSetupVC?.viewModel = PlayerSetupViewModel(game: game)
+        let newGame = Game(gameType: game.gameType,
+                        gameEndType: game.gameEndType,
+                        numberOfRounds: game.numberOfRounds,
+                        numberOfPlayers: game.numberOfPlayers)
+        playerSetupVC?.viewModel = PlayerSetupViewModel(game: newGame)
         
         navigationController?.pushViewController(playerSetupVC!, animated: true)
     }

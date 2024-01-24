@@ -9,6 +9,9 @@
 import Foundation
 
 struct GameSetupViewModel {
+    
+    #warning("Need to reconfigure this, breaking down from game into the individual options. Probably using Observable.")
+    
     var game: Game {
         didSet {
             delegate?.bindViewToGame(with: game)
