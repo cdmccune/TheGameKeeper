@@ -36,10 +36,43 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.viewModel = viewModelMock
         
         // when
+        sut.loadView()
         sut.viewDidLoad()
         
         // then
         XCTAssertTrue(viewModelMock.delegate is ScoreboardViewController)
+    }
+    
+    func test_ScoreboardViewController_WhenViewDidLoad_ShouldSetTableViewDelegateAndDatasource() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock(game: GameMock())
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(sut.tableView.delegate is ScoreboardTableViewDelegateDatasource)
+        XCTAssertTrue(sut.tableView.dataSource is ScoreboardTableViewDelegateDatasource)
+    }
+    
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldRegisterScoreboardTableViewCellInTableView() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock(game: GameMock())
+        sut.viewModel = viewModelMock
+        
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        let cell = sut.tableView.dequeueReusableCell(withIdentifier: "ScoreboardTableViewCell")
+        
+        XCTAssertTrue(cell is ScoreboardTableViewCell)
     }
     
     

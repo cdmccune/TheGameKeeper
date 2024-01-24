@@ -12,21 +12,35 @@ class ScoreboardViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var roundLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     
     
     // MARK: - Properties
     
     var viewModel: ScoreboardViewModelProtocol?
+    private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setDelegates()
+        registerNibs()
     }
     
     private func setDelegates() {
-        self.viewModel?.delegate = self
+        guard viewModel != nil else { return }
+        
+        let tableViewDelegate = ScoreboardTableViewDelegateDatasource(viewModel: viewModel!)
+        self.tableViewDelegate = tableViewDelegate
+        
+        viewModel!.delegate = self
+        tableView.delegate = tableViewDelegate
+        tableView.dataSource = tableViewDelegate
+    }
+    
+    private func registerNibs() {
+        tableView.register(UINib(nibName: "ScoreboardTableViewCell", bundle: nil), forCellReuseIdentifier: "ScoreboardTableViewCell")
     }
     
 

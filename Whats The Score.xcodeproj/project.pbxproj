@@ -48,6 +48,11 @@
 		24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423472B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift */; };
 		24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BD233D2B56DE9E000FCBE4 /* ArrayExtensions.swift */; };
 		24BD23432B56DFF4000FCBE4 /* ArrayExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BD23422B56DFF4000FCBE4 /* ArrayExtensionsTests.swift */; };
+		24CD52692B61622500C481A8 /* ScoreboardTableViewDelegateDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CD52682B61622500C481A8 /* ScoreboardTableViewDelegateDatasource.swift */; };
+		24CD526B2B61622C00C481A8 /* ScoreboardTableViewDelegateDatasourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CD526A2B61622C00C481A8 /* ScoreboardTableViewDelegateDatasourceTests.swift */; };
+		24CD526E2B6167A500C481A8 /* ScoreboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CD526C2B6167A500C481A8 /* ScoreboardTableViewCell.swift */; };
+		24CD526F2B6167A500C481A8 /* ScoreboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24CD526D2B6167A500C481A8 /* ScoreboardTableViewCell.xib */; };
+		24CD52722B6167B400C481A8 /* ScoreboardTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CD52712B6167B400C481A8 /* ScoreboardTableViewCellTests.swift */; };
 		24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */; };
 		24D68E1A2B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */; };
 		24DAC6B72B52F1C90069C7C9 /* Whats The Score Tests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */; };
@@ -113,6 +118,11 @@
 		24B89C582B52E66C005FD953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24BD233D2B56DE9E000FCBE4 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		24BD23422B56DFF4000FCBE4 /* ArrayExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensionsTests.swift; sourceTree = "<group>"; };
+		24CD52682B61622500C481A8 /* ScoreboardTableViewDelegateDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardTableViewDelegateDatasource.swift; sourceTree = "<group>"; };
+		24CD526A2B61622C00C481A8 /* ScoreboardTableViewDelegateDatasourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardTableViewDelegateDatasourceTests.swift; sourceTree = "<group>"; };
+		24CD526C2B6167A500C481A8 /* ScoreboardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardTableViewCell.swift; sourceTree = "<group>"; };
+		24CD526D2B6167A500C481A8 /* ScoreboardTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScoreboardTableViewCell.xib; sourceTree = "<group>"; };
+		24CD52712B6167B400C481A8 /* ScoreboardTableViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardTableViewCellTests.swift; sourceTree = "<group>"; };
 		24D68E172B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegate.swift; sourceTree = "<group>"; };
 		24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegateTests.swift; sourceTree = "<group>"; };
 		24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Whats The Score Tests.xctestplan"; sourceTree = SOURCE_ROOT; };
@@ -177,8 +187,10 @@
 		242615672B59C4270092B145 /* Scoreboard */ = {
 			isa = PBXGroup;
 			children = (
+				24CD52672B61620300C481A8 /* ScoreboardTableViewDelegateDatasource */,
 				244A46372B5AD9BF0033199F /* ScoreboardViewModel */,
 				242615682B59C4370092B145 /* ScoreboardViewController */,
+				24CD52702B6167AB00C481A8 /* ScoreboardTableViewCell */,
 			);
 			path = Scoreboard;
 			sourceTree = "<group>";
@@ -395,6 +407,25 @@
 			path = ArrayExtensions;
 			sourceTree = "<group>";
 		};
+		24CD52672B61620300C481A8 /* ScoreboardTableViewDelegateDatasource */ = {
+			isa = PBXGroup;
+			children = (
+				24CD52682B61622500C481A8 /* ScoreboardTableViewDelegateDatasource.swift */,
+				24CD526A2B61622C00C481A8 /* ScoreboardTableViewDelegateDatasourceTests.swift */,
+			);
+			path = ScoreboardTableViewDelegateDatasource;
+			sourceTree = "<group>";
+		};
+		24CD52702B6167AB00C481A8 /* ScoreboardTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				24CD526C2B6167A500C481A8 /* ScoreboardTableViewCell.swift */,
+				24CD526D2B6167A500C481A8 /* ScoreboardTableViewCell.xib */,
+				24CD52712B6167B400C481A8 /* ScoreboardTableViewCellTests.swift */,
+			);
+			path = ScoreboardTableViewCell;
+			sourceTree = "<group>";
+		};
 		24D68E152B505F8C00AD35AC /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -541,6 +572,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2437F6EF2B40AAE100BB75A1 /* LaunchScreen.storyboard in Resources */,
+				24CD526F2B6167A500C481A8 /* ScoreboardTableViewCell.xib in Resources */,
 				2437F6EC2B40AAE100BB75A1 /* Assets.xcassets in Resources */,
 				243228CF2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib in Resources */,
 				24240EDE2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib in Resources */,
@@ -635,6 +667,7 @@
 				24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */,
 				2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */,
 				244A46392B5AD9C60033199F /* ScoreboardViewModel.swift in Sources */,
+				24CD526E2B6167A500C481A8 /* ScoreboardTableViewCell.swift in Sources */,
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
 				24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */,
 				24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */,
@@ -644,6 +677,7 @@
 				2437F70F2B40C09500BB75A1 /* GameSetupViewController.swift in Sources */,
 				2437F6E52B40AAE000BB75A1 /* SceneDelegate.swift in Sources */,
 				2410F71D2B55970F00860BA4 /* RootNavigationController.swift in Sources */,
+				24CD52692B61622500C481A8 /* ScoreboardTableViewDelegateDatasource.swift in Sources */,
 				24240EDD2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift in Sources */,
 				2437F71F2B40D11500BB75A1 /* GameSetupViewModel.swift in Sources */,
 				2437F6F72B40BA6600BB75A1 /* HomeViewController.swift in Sources */,
@@ -660,6 +694,8 @@
 				243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */,
 				244A463E2B5AF7920033199F /* GameTests.swift in Sources */,
 				24BD23432B56DFF4000FCBE4 /* ArrayExtensionsTests.swift in Sources */,
+				24CD52722B6167B400C481A8 /* ScoreboardTableViewCellTests.swift in Sources */,
+				24CD526B2B61622C00C481A8 /* ScoreboardTableViewDelegateDatasourceTests.swift in Sources */,
 				242615702B59E0BF0092B145 /* UITableViewExtensionsTests.swift in Sources */,
 				24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */,
 				244A46362B5AD8DF0033199F /* ScoreboardViewControllerTests.swift in Sources */,
