@@ -10,6 +10,8 @@
 		2410F71A2B5596D200860BA4 /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2410F7192B5596D200860BA4 /* ViewControllerExtensions.swift */; };
 		2410F71D2B55970F00860BA4 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2410F71C2B55970F00860BA4 /* RootNavigationController.swift */; };
 		2410F71F2B55972F00860BA4 /* RootNavigationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2410F71E2B55972F00860BA4 /* RootNavigationControllerTests.swift */; };
+		2423E2FF2B62BAE300253356 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2423E2FE2B62BAE300253356 /* Observable.swift */; };
+		2423E3012B62BB5300253356 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2423E3002B62BB5300253356 /* ObservableTests.swift */; };
 		24240EDD2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */; };
 		24240EDE2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */; };
 		2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242615692B59C4500092B145 /* ScoreboardViewController.swift */; };
@@ -77,6 +79,8 @@
 		2410F7192B5596D200860BA4 /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
 		2410F71C2B55970F00860BA4 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		2410F71E2B55972F00860BA4 /* RootNavigationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationControllerTests.swift; sourceTree = "<group>"; };
+		2423E2FE2B62BAE300253356 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		2423E3002B62BB5300253356 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
 		24240EDB2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewCell.swift; sourceTree = "<group>"; };
 		24240EDC2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerSetupPositionTableViewCell.xib; sourceTree = "<group>"; };
 		242615692B59C4500092B145 /* ScoreboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewController.swift; sourceTree = "<group>"; };
@@ -176,6 +180,15 @@
 			path = RootNavigationController;
 			sourceTree = "<group>";
 		};
+		2423E2FD2B62BAD400253356 /* Observable */ = {
+			isa = PBXGroup;
+			children = (
+				2423E2FE2B62BAE300253356 /* Observable.swift */,
+				2423E3002B62BB5300253356 /* ObservableTests.swift */,
+			);
+			path = Observable;
+			sourceTree = "<group>";
+		};
 		24240EDF2B486EB70082CCD3 /* PlayerSetupPositionTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +248,7 @@
 		243228DA2B4EF9EA00C42C62 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				2423E2FD2B62BAD400253356 /* Observable */,
 				243228DD2B4EFC0A00C42C62 /* DismissingTextFieldDelegate */,
 			);
 			path = HelperClasses;
@@ -673,6 +687,7 @@
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
 				24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */,
 				24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */,
+				2423E2FF2B62BAE300253356 /* Observable.swift in Sources */,
 				244EDF042B602F3F0091F019 /* ProtocolsForTests.swift in Sources */,
 				243228D72B4DBD8600C42C62 /* Player.swift in Sources */,
 				2437F6E32B40AAE000BB75A1 /* AppDelegate.swift in Sources */,
@@ -694,6 +709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */,
+				2423E3012B62BB5300253356 /* ObservableTests.swift in Sources */,
 				244A463E2B5AF7920033199F /* GameTests.swift in Sources */,
 				24BD23432B56DFF4000FCBE4 /* ArrayExtensionsTests.swift in Sources */,
 				24CD52722B6167B400C481A8 /* ScoreboardTableViewCellTests.swift in Sources */,
