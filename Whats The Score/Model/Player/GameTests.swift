@@ -204,7 +204,7 @@ class GameMock: GameProtocol {
     
     var gameType: GameType = .basic
     var gameEndType: GameEndType = .none
-    var numberOfRounds: Int = 0
+    var numberOfRounds: Int? 
     var endingScore: Int?
     var numberOfPlayers: Int = 0
     var currentRound: Int = 0

@@ -10,51 +10,32 @@ import XCTest
 
 final class GameSetupViewModelTests: XCTestCase {
     
-    // MARK: Setup functions
-    
-    func getBasicGame() -> Game {
-        return Game(gameType: .basic, gameEndType: .none, numberOfRounds: 1, numberOfPlayers: 2)
-    }
-    
-    
-    // MARK: - Tests
-    
-    func test_GameSetupViewModel_WhenDelegateIsSet_ShouldCallBindViewToGame() {
+    func test_GameSetupViewModel_WhenSetInitialValuesCalled_ShouldSetValuesCorrectly() {
         // given
-        var sut = GameSetupViewModel(game: getBasicGame())
-        let delegateMock = GameSetupViewModelDelegateMock()
+        let sut = GameSetupViewModel()
+        
+        sut.gameType.value = .round
+        sut.gameEndType.value = .score
+        sut.numberOfRounds.value = 10
+        sut.endingScore.value = 10
+        sut.numberOfPlayers.value = 10
         
         // when
-        sut.delegate = delegateMock
+        sut.setInitialValues()
         
         // then
-        XCTAssertEqual(delegateMock.bindViewToGameCalledCount, 1)
+        XCTAssertEqual(sut.gameType.value, .basic)
+        XCTAssertEqual(sut.gameEndType.value, GameEndType.none)
+        XCTAssertNil(sut.numberOfRounds.value)
+        XCTAssertNil(sut.endingScore.value)
+        XCTAssertEqual(sut.numberOfPlayers.value, 2)
     }
 
-    func test_GameSetupViewModel_WhenGameValueChanged_ShouldCallBindViewToGame() {
-        // given
-        var sut = GameSetupViewModel(game: getBasicGame())
-        let delegateMock = GameSetupViewModelDelegateMock()
-        sut.delegate = delegateMock
-        
-        let calledCount = delegateMock.bindViewToGameCalledCount
-        
-        // when
-        sut.game.gameEndType = .score
-        
-        // then
-        XCTAssertEqual(delegateMock.bindViewToGameCalledCount, calledCount + 1)
-    }
-    
-    
-    // MARK: - Mock
-    
-    class GameSetupViewModelDelegateMock: NSObject, GameSetupViewModelProtocol {
-        var bindViewToGameCalledCount = 0
-        
-        func bindViewToGame(with game: Game) {
-            bindViewToGameCalledCount += 1
-        }
-    }
+}
 
+class GameSetupViewModelMock: GameSetupViewModel {
+    var setInitialValuesCalledCount = 0
+    override func setInitialValues() {
+        setInitialValuesCalledCount += 1
+    }
 }

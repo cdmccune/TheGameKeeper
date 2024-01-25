@@ -8,24 +8,20 @@
 
 import Foundation
 
-struct GameSetupViewModel {
+class GameSetupViewModel {
     
-    #warning("Need to reconfigure this, breaking down from game into the individual options. Probably using Observable.")
+    var gameType: Observable<GameType> = Observable(.basic)
+    var gameEndType: Observable<GameEndType> = Observable(.none)
+    var numberOfRounds: Observable<Int> = Observable(1)
+    var endingScore: Observable<Int> = Observable(0)
+    var numberOfPlayers: Observable<Int> = Observable(2)
     
-    var game: Game {
-        didSet {
-            delegate?.bindViewToGame(with: game)
-        }
+    
+    func setInitialValues() {
+        gameType.value = .basic
+        gameEndType.value = GameEndType.none
+        numberOfRounds.value = nil
+        endingScore.value = nil
+        numberOfPlayers.value = 2
     }
-    
-    weak var delegate: GameSetupViewModelProtocol? {
-        didSet {
-            delegate?.bindViewToGame(with: game)
-        }
-    }
-    
-}
-
-protocol GameSetupViewModelProtocol: NSObject {
-    func bindViewToGame(with game: Game)
 }

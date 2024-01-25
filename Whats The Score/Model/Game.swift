@@ -10,10 +10,9 @@ import Foundation
 protocol GameProtocol {
     var gameType: GameType { get set }
     var gameEndType: GameEndType { get set }
-    var numberOfRounds: Int { get set }
+    var numberOfRounds: Int? { get set }
     var currentRound: Int { get set }
     var endingScore: Int? { get set }
-    var numberOfPlayers: Int { get }
     var players: [Player] { get }
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String)
@@ -27,15 +26,13 @@ struct Game: GameProtocol {
     init(basicGameWithPlayers players: [Player]) {
         self.gameType = .basic
         self.gameEndType = .none
-        self.numberOfRounds = 1
         self.currentRound = 1
-        self.numberOfPlayers = players.count
         self.players = players
     }
     
     init(gameType: GameType,
          gameEndType: GameEndType,
-         numberOfRounds: Int,
+         numberOfRounds: Int? = nil,
          currentRound: Int = 1,
          endingScore: Int? = nil,
          numberOfPlayers: Int) {
@@ -44,7 +41,6 @@ struct Game: GameProtocol {
         self.numberOfRounds = numberOfRounds
         self.currentRound = currentRound
         self.endingScore = endingScore
-        self.numberOfPlayers = numberOfPlayers
         
         var players = [Player]()
         for i in 0..<numberOfPlayers {
@@ -56,10 +52,9 @@ struct Game: GameProtocol {
     
     var gameType: GameType
     var gameEndType: GameEndType
-    var numberOfRounds: Int
+    var numberOfRounds: Int?
     var currentRound: Int
     var endingScore: Int?
-    var numberOfPlayers: Int
     
     var players: [Player]
     

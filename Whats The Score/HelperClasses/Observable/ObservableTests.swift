@@ -13,7 +13,7 @@ final class ObservableTests: XCTestCase {
     func test_Observable_WhenValueChanged_ShouldSetNewValue() {
         // given
         let sut = Observable(0)
-        var newValue = Int.random(in: 1...10)
+        let newValue = Int.random(in: 1...10)
         
         // when
         sut.value = newValue
@@ -25,7 +25,7 @@ final class ObservableTests: XCTestCase {
     func test_Observable_WhenValueChanged_ShouldCallValueChangedFunction() {
         // given
         let sut = Observable(0)
-        var newValue = Int.random(in: 1...10)
+        let newValue = Int.random(in: 1...10)
         let expectation = XCTestExpectation(description: "Value changed should be called")
         
         sut.valueChanged = { value in

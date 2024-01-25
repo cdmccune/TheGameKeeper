@@ -11,10 +11,7 @@ class GameSetupViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        viewModel = GameSetupViewModel(game: Game(gameType: .basic,
-                                                                  gameEndType: .none,
-                                                                  numberOfRounds: 1,
-                                                                  numberOfPlayers: 2))
+        viewModel = GameSetupViewModel()
     }
     
     // MARK: - Outlets
@@ -48,7 +45,49 @@ class GameSetupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel?.delegate = self
+        setBindings()
+        viewModel?.setInitialValues()
+    }
+    
+    
+    // MARK: - Private Functions
+    
+    private func setBindings() {
+        viewModel?.gameType.valueChanged = { [weak self] gameType in
+            guard let newIndex = gameType?.rawValue else { return }
+            self?.gameTypeSegmentedControl.selectedSegmentIndex = newIndex
+            
+            self?.handleHidingAndShowingStackViews()
+        }
+        
+        viewModel?.gameEndType.valueChanged = { [weak self] gameEndType in
+            guard let newIndex = gameEndType?.rawValue else { return }
+            self?.gameEndTypeSegmentedControl.selectedSegmentIndex = newIndex
+            
+            self?.handleHidingAndShowingStackViews()
+        }
+        
+        viewModel?.numberOfRounds.valueChanged = { [weak self] numberOfRounds in
+            let text: String? = numberOfRounds == nil ? nil : String(numberOfRounds ?? 0)
+            self?.numberOfRoundsTextField.text = text
+        }
+        
+        viewModel?.numberOfPlayers.valueChanged = { [weak self] numberOfPlayers in
+            let text: String? = numberOfPlayers == nil ? nil : String(numberOfPlayers ?? 0)
+            self?.numberOfPlayersTextField.text = text
+        }
+        
+        viewModel?.endingScore.valueChanged = { [weak self] endingScore in
+            let text: String? = endingScore == nil ? nil : String(endingScore ?? 0)
+            self?.endingScoreTextField.text = text
+        }
+    }
+    
+    private func handleHidingAndShowingStackViews() {
+        self.gameEndTypeStackView.isHidden = viewModel?.gameType.value == .basic
+        
+        self.numberOfRoundsStackView.isHidden = viewModel?.gameType.value == .basic || viewModel?.gameEndType.value != .round
+        self.endingScoreStackView.isHidden = viewModel?.gameType.value != .round || viewModel?.gameEndType.value != .score
     }
     
     
@@ -59,7 +98,7 @@ class GameSetupViewController: UIViewController {
             return
         }
         
-        viewModel?.game.gameType = gameType
+        viewModel?.gameType.value = gameType
     }
     
     @IBAction func gameEndTypeSegmentedControlValueChanged(_ sender: Any) {
@@ -67,58 +106,35 @@ class GameSetupViewController: UIViewController {
             return
         }
         
-        viewModel?.game.gameEndType = gameEndType
+        viewModel?.gameEndType.value = gameEndType
     }
     
     @IBAction func numberOfRoundsTextFieldValueChanged(_ sender: Any) {
         guard let numberOfRounds = Int(numberOfRoundsTextField.text ?? "") else { return }
-        viewModel?.game.numberOfRounds = numberOfRounds
+        viewModel?.numberOfRounds.value = numberOfRounds
     }
     
     @IBAction func endingScoreTextFieldValueChanged(_ sender: Any) {
         guard let endingScore = Int(endingScoreTextField.text ?? "") else { return }
-        viewModel?.game.endingScore = endingScore
+        viewModel?.endingScore.value = endingScore
     }
     
     @IBAction func numberOfPlayersTextFieldValueChanged(_ sender: Any) {
         guard let numberOfPlayers = Int(numberOfPlayersTextField.text ?? "") else { return }
-        viewModel?.game.numberOfPlayers = numberOfPlayers
+        viewModel?.numberOfPlayers.value = numberOfPlayers
     }
     
     @IBAction func continueButtonTapped(_ sender: Any) {
-        guard let game = viewModel?.game else { return }
+        guard let viewModel else { return }
         
         let playerSetupVC = storyboard?.instantiateViewController(withIdentifier: "PlayerSetupViewController") as? PlayerSetupViewController
-        let newGame = Game(gameType: game.gameType,
-                        gameEndType: game.gameEndType,
-                        numberOfRounds: game.numberOfRounds,
-                        numberOfPlayers: game.numberOfPlayers)
+        let newGame = Game(gameType: viewModel.gameType.value ?? .basic,
+                           gameEndType: viewModel.gameEndType.value ?? .none,
+                           numberOfRounds: viewModel.numberOfRounds.value, 
+                           endingScore: viewModel.endingScore.value,
+                           numberOfPlayers: viewModel.numberOfPlayers.value ?? 2)
         playerSetupVC?.viewModel = PlayerSetupViewModel(game: newGame)
         
         navigationController?.pushViewController(playerSetupVC!, animated: true)
-    }
-}
-
-
-extension GameSetupViewController: GameSetupViewModelProtocol {
-    func bindViewToGame(with game: Game) {
-
-        // Setting Values
-        self.gameTypeSegmentedControl.selectedSegmentIndex = game.gameType.rawValue
-        self.gameEndTypeSegmentedControl.selectedSegmentIndex = game.gameEndType.rawValue
-        self.numberOfRoundsTextField.text = String(game.numberOfRounds)
-        self.numberOfPlayersTextField.text = String(game.numberOfPlayers)
-
-        if let endingScore = game.endingScore {
-            self.endingScoreTextField.text = String(endingScore)
-        } else {
-            self.endingScoreTextField.text = ""
-        }
-        
-        // Hiding and Showing
-        self.gameEndTypeStackView.isHidden = game.gameType == .basic
-        self.numberOfRoundsStackView.isHidden = game.gameType == .basic || game.gameEndType != .round
-        self.endingScoreStackView.isHidden = game.gameType == .round && game.gameEndType != .score
-        
     }
 }
