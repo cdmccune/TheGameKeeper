@@ -28,6 +28,14 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ScoreboardTableViewCell", for: indexPath) as? ScoreboardTableViewCell else { fatalError("ScoreboardTableViewCell not found") }
         
+        guard viewModel.game.players.indices.contains(indexPath.row) else {
+            cell.setupCellForError()
+            return cell
+        }
+        
+        let player = viewModel.game.players[indexPath.row]
+        cell.setupCellWith(player)
+        
         return cell
     }
     

@@ -6,30 +6,58 @@
 //
 
 import XCTest
+@testable import Whats_The_Score
 
 final class ScoreboardTableViewCellTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    // MARK: - Setup
+    
+    var tableViewCell: ScoreboardTableViewCell?
+    
+    override func setUp() {
+        let nibs = Bundle.main.loadNibNamed("ScoreboardTableViewCell", owner: nil)
+        tableViewCell = nibs?.first(where: { $0 is ScoreboardTableViewCell}) as? ScoreboardTableViewCell
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    override func tearDown() {
+        tableViewCell = nil
     }
+    
+    // MARK: - Testing
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func test_ScoreboardTableViewCell_WhenLoadedFromNibCalled_ShouldHaveNonNilOutlets() {
+        // given
+        // when
+        let sut = tableViewCell!
+        
+        // then
+        XCTAssertNotNil(sut.playerNameLabel)
+        XCTAssertNotNil(sut.playerScoreLabel)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func test_ScoreboardTableViewCell_WhenSetupCellWithCalled_ShouldSetPlayerNameToPlayerNameLabel() {
+        // given
+        let sut = tableViewCell!
+        let playerName = UUID().uuidString
+        let player = Player(name: playerName, position: 0)
+        
+        // when
+        sut.setupCellWith(player)
+        
+        // then
+        XCTAssertEqual(sut.playerNameLabel.text, playerName)
+    }
+    
+    func test_ScoreboardTableViewCell_WhenSetupCellForErrorCalled_ShouldSetPlayerNameLabelToErrorAndPlayerScoreToTripleZeros() {
+        // given
+        let sut = tableViewCell!
+        
+        // when
+        sut.setupCellForError()
+        
+        // then
+        XCTAssertEqual(sut.playerNameLabel.text, "Error")
+        XCTAssertEqual(sut.playerScoreLabel.text, "000")
     }
 
 }

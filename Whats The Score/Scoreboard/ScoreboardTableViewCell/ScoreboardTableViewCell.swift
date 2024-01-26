@@ -8,6 +8,19 @@
 import UIKit
 
 class ScoreboardTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var playerNameLabel: UILabel!
+    @IBOutlet weak var playerScoreLabel: UILabel!
+    
+    
+    func setupCellWith(_ player: Player) {
+        self.playerNameLabel.text = player.name
+    }
+    
+    func setupCellForError() {
+        self.playerNameLabel.text = "Error"
+        self.playerScoreLabel.text = "000"
+    }
 
 //    override func awakeFromNib() {
 //        super.awakeFromNib()

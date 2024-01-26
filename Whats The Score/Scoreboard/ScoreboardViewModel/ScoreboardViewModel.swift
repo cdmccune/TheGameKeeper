@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ScoreboardViewModelProtocol {
-    var game: GameProtocol { get }
+    var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     
     func endCurrentRound()

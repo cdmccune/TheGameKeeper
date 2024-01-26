@@ -17,7 +17,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     override func setUp() {
         tableViewMock = UITableView()
-        tableViewMock?.register(UINib(nibName: "ScoreboardTableViewCell", bundle: nil), forCellReuseIdentifier: "ScoreboardTableViewCell")
+        tableViewMock?.register(ScoreboardTableViewCellMock.self, forCellReuseIdentifier: "ScoreboardTableViewCell")
     }
     
     override func tearDown() {
@@ -38,7 +38,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     }
     
     
-    // MARK: - Testing
+    // MARK: - NumberOfRowsInSection
     
     func test_ScoreboardTableViewDelegateDatasource_WhenNumberOfRowsInSectionCalled_ShouldReturnViewModelGamePlayersCount() {
         // given
@@ -52,6 +52,9 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         XCTAssertEqual(playerCount, playerCountSut)
     }
     
+    
+    // MARK: - CellForRowAt
+    
     func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldReturnScoreboardTableViewCell() {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
@@ -61,6 +64,47 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         
         // then
         XCTAssertTrue(cell is ScoreboardTableViewCell)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldCallCellsSetupCellWithPlayerAtIndex() {
+        // given
+        var (sut, tableView) = getSutAndTableView(withPlayerCount: 3)
+        
+        let playerName = UUID().uuidString
+        let player = Player(name: name, position: Int.random(in: 1...10))
+        sut.viewModel.game.players[2] = player
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 2, section: 0)) as? ScoreboardTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupCellWithCalledCount, 1)
+        XCTAssertEqual(cell?.setupVellWithPlayer, player)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledOutOfIndexForPlayer_ShouldCallCellsSetupCellForError() {
+        // given
+        var (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 2, section: 0)) as? ScoreboardTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupCellForErrorCalledCount, 1)
+    }
+    
+    class ScoreboardTableViewCellMock: ScoreboardTableViewCell {
+        var setupCellWithCalledCount = 0
+        var setupVellWithPlayer: Player?
+        override func setupCellWith(_ player: Player) {
+            setupVellWithPlayer = player
+            setupCellWithCalledCount += 1
+        }
+        
+        var setupCellForErrorCalledCount = 0
+        override func setupCellForError() {
+            setupCellForErrorCalledCount += 1
+        }
     }
 
 }

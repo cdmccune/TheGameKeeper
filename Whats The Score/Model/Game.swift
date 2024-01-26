@@ -13,7 +13,7 @@ protocol GameProtocol {
     var numberOfRounds: Int? { get set }
     var currentRound: Int { get set }
     var endingScore: Int? { get set }
-    var players: [Player] { get }
+    var players: [Player] { get set }
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String)
     mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
