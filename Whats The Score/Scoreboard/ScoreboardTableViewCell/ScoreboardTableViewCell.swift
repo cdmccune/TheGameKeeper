@@ -15,6 +15,7 @@ class ScoreboardTableViewCell: UITableViewCell {
     
     func setupCellWith(_ player: Player) {
         self.playerNameLabel.text = player.name
+        self.playerScoreLabel.text = String(player.score)
     }
     
     func setupCellForError() {

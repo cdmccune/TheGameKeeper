@@ -8,13 +8,15 @@
 import Foundation
 
 struct Player {
-    init(name: String, position: Int) {
+    init(name: String, position: Int, score: Int = 0) {
         self._name = name
         self.position = position
+        self.score = score
     }
     
     private var _name: String = ""
     var position: Int
+    var score: Int
     
     var name: String {
         get {

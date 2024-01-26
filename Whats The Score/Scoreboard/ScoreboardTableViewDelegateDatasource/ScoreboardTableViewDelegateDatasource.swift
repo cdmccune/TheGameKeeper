@@ -39,5 +39,8 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.startEditingPlayerScoreAt(indexPath.row)
+    }
     
 }

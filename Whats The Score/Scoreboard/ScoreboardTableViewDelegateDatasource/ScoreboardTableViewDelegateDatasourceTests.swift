@@ -68,10 +68,10 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldCallCellsSetupCellWithPlayerAtIndex() {
         // given
-        var (sut, tableView) = getSutAndTableView(withPlayerCount: 3)
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 3)
         
         let playerName = UUID().uuidString
-        let player = Player(name: name, position: Int.random(in: 1...10))
+        let player = Player(name: playerName, position: Int.random(in: 1...10))
         sut.viewModel.game.players[2] = player
         
         // when
@@ -84,7 +84,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledOutOfIndexForPlayer_ShouldCallCellsSetupCellForError() {
         // given
-        var (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 2, section: 0)) as? ScoreboardTableViewCellMock
@@ -92,6 +92,28 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         // then
         XCTAssertEqual(cell?.setupCellForErrorCalledCount, 1)
     }
+    
+    
+    // MARK: - DidSelectRowAt
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenDidSelectRowAtCalled_ShouldCallViewModelStartEditingPlayerScoreAtWithRow() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let index = Int.random(in: 0...10)
+        
+        // when
+        sut.tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
+        
+        // then
+        XCTAssertEqual(viewModelMock.editPlayerScoreAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock.editPlayerScoreAtIndex, index)
+    }
+    
+    
+    // MARK: - Classes
     
     class ScoreboardTableViewCellMock: ScoreboardTableViewCell {
         var setupCellWithCalledCount = 0
@@ -106,5 +128,4 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
             setupCellForErrorCalledCount += 1
         }
     }
-
 }

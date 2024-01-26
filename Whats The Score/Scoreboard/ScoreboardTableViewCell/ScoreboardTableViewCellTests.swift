@@ -23,7 +23,7 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         tableViewCell = nil
     }
     
-    // MARK: - Testing
+    // MARK: - LoadedFromNib
 
     func test_ScoreboardTableViewCell_WhenLoadedFromNibCalled_ShouldHaveNonNilOutlets() {
         // given
@@ -34,6 +34,9 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         XCTAssertNotNil(sut.playerNameLabel)
         XCTAssertNotNil(sut.playerScoreLabel)
     }
+    
+    
+    // MARK: - SetupCellWith
     
     func test_ScoreboardTableViewCell_WhenSetupCellWithCalled_ShouldSetPlayerNameToPlayerNameLabel() {
         // given
@@ -47,6 +50,22 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         // then
         XCTAssertEqual(sut.playerNameLabel.text, playerName)
     }
+    
+    func test_ScoreboardTableViewCell_WhenSetupCellWithCalled_ShouldSetPlayerScoreLabelTextToScore() {
+        // given
+        let sut = tableViewCell!
+        let playerScore = Int.random(in: 0...1000)
+        let player = Player(name: "", position: 0, score: playerScore)
+        
+        // when
+        sut.setupCellWith(player)
+        
+        // then
+        XCTAssertEqual(sut.playerScoreLabel.text, String(playerScore))
+    }
+    
+    
+    // MARK: - SetupCellForError
     
     func test_ScoreboardTableViewCell_WhenSetupCellForErrorCalled_ShouldSetPlayerNameLabelToErrorAndPlayerScoreToTripleZeros() {
         // given

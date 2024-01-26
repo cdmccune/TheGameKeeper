@@ -76,6 +76,26 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - Binding
+    
+    #warning("Working on Scoreboard presenting popover view (modalPresentationStyle) when viewModelPlayerToEditScore is changed.")
+    
+//    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSet_ShouldPresentPlayerScoreEditorPopover() {
+//        // given
+//        let sut = viewController!
+//        let viewModelMock = ScoreboardViewModelMock()
+//        sut.viewModel = viewModelMock
+//        sut.loadView()
+//        sut.viewDidLoad()
+//        
+//        // when
+//        viewModelMock.playerToEditScore.value = Player(name: "", position: 0)
+//        
+//        // then
+//        XCTAssertEqual(sut.viewcon, <#T##expression2: Equatable##Equatable#>)
+//    }
+    
+    
     // MARK: - IBActions
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallViewModelEndCurrentRound() {
