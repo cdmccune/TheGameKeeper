@@ -26,6 +26,7 @@ class ScoreboardViewController: UIViewController {
 
         setDelegates()
         registerNibs()
+        setBindings()
     }
     
     private func setDelegates() {
@@ -41,6 +42,25 @@ class ScoreboardViewController: UIViewController {
     
     private func registerNibs() {
         tableView.register(UINib(nibName: "ScoreboardTableViewCell", bundle: nil), forCellReuseIdentifier: "ScoreboardTableViewCell")
+    }
+    
+    private func setBindings() {
+        viewModel?.playerToEditScore.valueChanged = { [weak self] player in
+            guard let player = player else { return }
+            self?.editPlayerScore(for: player)
+        }
+    }
+    
+    private func editPlayerScore(for player: Player) {
+        guard viewModel != nil else { return }
+        
+        let editPlayerScoreVC = ScoreboardPlayerEditScorePopoverViewController(nibName: "ScoreboardPlayerEditScorePopoverViewController", bundle: nil)
+        
+        editPlayerScoreVC.player = player
+        editPlayerScoreVC.delegate = viewModel!
+        editPlayerScoreVC.modalPresentationStyle = .overCurrentContext
+        
+        present(editPlayerScoreVC, animated: true)
     }
     
 

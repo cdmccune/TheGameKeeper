@@ -101,12 +101,12 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
 }
 
-class ScoreboardViewModelMock: ScoreboardViewModelProtocol {
+class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     init(game: GameProtocol) {
         self.game = game
     }
     
-    init() {
+    override init() {
         self.game = GameMock()
     }
     
@@ -139,5 +139,8 @@ class ScoreboardViewModelMock: ScoreboardViewModelProtocol {
     var endGameCalledCount = 0
     func endGame() {
         endGameCalledCount += 1
+    }
+    
+    func edit(player: Player, scoreBy change: Int) {
     }
 }
