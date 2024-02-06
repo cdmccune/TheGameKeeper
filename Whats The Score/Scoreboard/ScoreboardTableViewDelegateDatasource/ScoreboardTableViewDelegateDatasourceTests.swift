@@ -108,8 +108,8 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         sut.tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
         
         // then
-        XCTAssertEqual(viewModelMock.editPlayerScoreAtCalledCount, 1)
-        XCTAssertEqual(viewModelMock.editPlayerScoreAtIndex, index)
+        XCTAssertEqual(viewModelMock.startEditingPlayerScoreAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock.startEditingPlayerScoreAtIndex, index)
     }
     
     

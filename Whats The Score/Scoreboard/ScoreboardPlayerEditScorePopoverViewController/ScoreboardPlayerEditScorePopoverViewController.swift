@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ScoreboardplayerEditScorePopoverDelegate: NSObject {
+protocol ScoreboardplayerEditScorePopoverDelegate: AnyObject {
     func edit(player: Player, scoreBy change: Int)
 }
 
