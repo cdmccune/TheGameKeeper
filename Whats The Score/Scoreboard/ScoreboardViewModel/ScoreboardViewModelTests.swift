@@ -106,7 +106,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         let editPlayer = Player(name: "", position: 0)
         
         // when
-        sut.edit(player: editPlayer, scoreBy: 1)
+        sut.editScore(for: editPlayer, by: 1)
         
         // then
         XCTAssertEqual(players, sut.game.players)
@@ -135,7 +135,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         let playerToEdit = Int.random(in: 0...2)
         
         // when
-        sut.edit(player: players[playerToEdit], scoreBy: scoreChange)
+        sut.editScore(for: players[playerToEdit], by: scoreChange)
         
         // then
         XCTAssertEqual(sut.editPlayerScoreAtCalledCount, 1)
@@ -155,6 +155,7 @@ final class ScoreboardViewModelTests: XCTestCase {
 }
 
 class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
+    
     init(game: GameProtocol) {
         self.game = game
     }
@@ -194,6 +195,13 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
         endGameCalledCount += 1
     }
     
-    func edit(player: Player, scoreBy change: Int) {
+    var startEditingPlayerAtCalledCount = 0
+    var startEditingPlayerAtIndex: Int?
+    func startEditingPlayerAt(_ index: Int) {
+        startEditingPlayerAtCalledCount += 1
+        startEditingPlayerAtIndex = index
+    }
+    
+    func editScore(for player: Player, by change: Int) {
     }
 }

@@ -93,6 +93,21 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         XCTAssertEqual(cell?.setupCellForErrorCalledCount, 1)
     }
     
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldShouldSetCellsEditPlayerFunctionToCallViewModelStartEditingPlayer() {
+        // given
+        let count = Int.random(in: 2...10)
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: count)
+        
+        let indexRow = Int.random(in: 1...count)
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: indexRow, section: 0)) as? ScoreboardTableViewCellMock
+        cell?.editPlayer?()
+        
+        // then
+        let viewModelMock = sut.viewModel as? ScoreboardViewModelMock
+        XCTAssertEqual(viewModelMock?.startEditingPlayerAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock?.startEditingPlayerAtIndex, indexRow)
+    }
     
     // MARK: - DidSelectRowAt
     

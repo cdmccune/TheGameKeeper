@@ -35,6 +35,9 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
         
         let player = viewModel.game.players[indexPath.row]
         cell.setupCellWith(player)
+        cell.editPlayer = {
+            self.viewModel.startEditingPlayerAt(indexPath.row)
+        }
         
         return cell
     }

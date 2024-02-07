@@ -12,6 +12,8 @@ class ScoreboardTableViewCell: UITableViewCell {
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var playerScoreLabel: UILabel!
     
+    var editPlayer: (()->Void)?
+    
     
     func setupCellWith(_ player: Player) {
         self.playerNameLabel.text = player.name

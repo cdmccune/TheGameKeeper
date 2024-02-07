@@ -282,7 +282,7 @@ class ScoreboardPlayerEditScorePopoverDelegateMock: ScoreboardPlayerEditScorePop
     var editChange: Int?
     var editCalledCount = 0
     
-    func edit(player: Whats_The_Score.Player, scoreBy change: Int) {
+    func editScore(for player: Whats_The_Score.Player, by change: Int) {
         editCalledCount += 1
         editPlayer = player
         editChange = change

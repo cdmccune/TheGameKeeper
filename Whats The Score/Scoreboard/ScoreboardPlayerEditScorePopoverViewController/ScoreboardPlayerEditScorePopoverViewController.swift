@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ScoreboardPlayerEditScorePopoverDelegate: AnyObject {
-    func edit(player: Player, scoreBy change: Int)
+    func editScore(for player: Player, by change: Int)
 }
 
 class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
@@ -66,7 +66,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
               let pointsInt = Int(pointsText),
               pointsInt > 0 else { return }
         
-        delegate?.edit(player: player, scoreBy: pointsInt)
+        delegate?.editScore(for: player, by: pointsInt)
         self.dismiss(animated: true)
     }
     
@@ -76,7 +76,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
               let pointsInt = Int(pointsText),
               pointsInt > 0 else { return }
         
-        delegate?.edit(player: player, scoreBy: (-1 * pointsInt))
+        delegate?.editScore(for: player, by: (-1 * pointsInt))
         self.dismiss(animated: true)
     }
     

@@ -279,7 +279,6 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // given
         let sut = viewController!
         
-        let currentRound = Int.random(in: 1...10)
         let gameMock = GameMock()
         gameMock.gameType = .basic
         let viewModelMock = ScoreboardViewModelMock(game: gameMock)

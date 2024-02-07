@@ -16,6 +16,7 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate {
     func editPlayerScoreAt(_ index: Int, byAdding: Int)
     func endCurrentRound()
     func endGame()
+    func startEditingPlayerAt(_ index: Int)
 }
 
 class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
@@ -58,6 +59,10 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
+    func startEditingPlayerAt(_ index: Int) {
+        
+    }
+    
     func endCurrentRound() {
     }
     
@@ -68,7 +73,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
 }
 
 extension ScoreboardViewModel: ScoreboardPlayerEditScorePopoverDelegate {
-    func edit(player: Player, scoreBy change: Int) {
+    func editScore(for player: Player, by change: Int) {
         guard let index = game.players.firstIndex(of: player) else { return }
         
 //        game.players[index].score += change
