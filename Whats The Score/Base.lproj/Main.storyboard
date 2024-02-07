@@ -554,6 +554,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="filterButtonStackView" destination="MqA-gq-D7o" id="B7R-A9-L6I"/>
                         <outlet property="roundLabel" destination="3DQ-xe-Gm3" id="CGM-u4-0Fp"/>
                         <outlet property="tableView" destination="cCi-B3-Ky9" id="aci-wx-OQA"/>
                     </connections>

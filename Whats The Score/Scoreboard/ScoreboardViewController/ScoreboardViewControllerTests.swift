@@ -275,6 +275,24 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.roundLabel.text, "Round \(currentRound)")
     }
     
+    func test_ScoreboardViewController_WhenViewModelGameTypeBasicBindViewModelToViewCalled_ShouldHideFilterButtonsStackView() {
+        // given
+        let sut = viewController!
+        
+        let currentRound = Int.random(in: 1...10)
+        let gameMock = GameMock()
+        gameMock.gameType = .basic
+        let viewModelMock = ScoreboardViewModelMock(game: gameMock)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertTrue(sut.filterButtonStackView.isHidden)
+    }
+    
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalled_ShouldCallReloadDataOnTheTableView() {
         
         class UITableViewReloadDataMock: UITableView {

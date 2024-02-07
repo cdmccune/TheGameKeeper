@@ -13,7 +13,7 @@ class ScoreboardViewController: UIViewController {
     
     @IBOutlet weak var roundLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var filterButtonStackView: UIStackView!
     
     // MARK: - Properties
     
@@ -88,6 +88,9 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             
             self.roundLabel.isHidden = game.gameType != .round
             self.roundLabel.text = "Round \(game.currentRound)"
+            
+            self.filterButtonStackView.isHidden = game.gameType == .basic
+            
             self.tableView.reloadData()
         }
     }

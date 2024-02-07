@@ -22,6 +22,13 @@ class ScoreboardTableViewCell: UITableViewCell {
         self.playerNameLabel.text = "Error"
         self.playerScoreLabel.text = "000"
     }
+    
+    
+    @IBAction func gearButtonTapped(_ sender: Any) {
+        
+    }
+    
+    
 
 //    override func awakeFromNib() {
 //        super.awakeFromNib()
