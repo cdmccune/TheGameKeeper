@@ -55,6 +55,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
         guard game.players.indices.contains(index) else { return }
         
         game.players[index].score += change
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
     func endCurrentRound() {

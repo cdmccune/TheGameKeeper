@@ -85,11 +85,13 @@ final class ScoreboardViewModelTests: XCTestCase {
         let viewModelViewDelegate = ScoreboardViewModelViewProtocolMock()
         sut.delegate = viewModelViewDelegate
         
+        let previousBindCount = viewModelViewDelegate.bindViewToViewModelCalledCount
+        
         // when
         sut.editPlayerScoreAt(0, byAdding: 0)
         
         // then
-        XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, 1)
+        XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
     }
     
 
