@@ -19,6 +19,7 @@ class ScoreboardViewController: UIViewController {
     
     var viewModel: ScoreboardViewModelProtocol?
     private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
+    var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     
     
     override func viewDidLoad() {
@@ -54,13 +55,16 @@ class ScoreboardViewController: UIViewController {
     private func editPlayerScore(for player: Player) {
         guard viewModel != nil else { return }
         
-        let editPlayerScoreVC = ScoreboardPlayerEditScorePopoverViewController(nibName: "ScoreboardPlayerEditScorePopoverViewController", bundle: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let editPlayerScoreVC = storyboard.instantiateViewController(withIdentifier: "ScoreboardPlayerEditScorePopoverViewController") as? ScoreboardPlayerEditScorePopoverViewController else { fatalError("ScoreboardPlayerEditScorePopoverViewController not instatiated")}
+        
         
         editPlayerScoreVC.player = player
         editPlayerScoreVC.delegate = viewModel!
-        editPlayerScoreVC.modalPresentationStyle = .overCurrentContext
         
-        present(editPlayerScoreVC, animated: true)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerScoreVC, withWidth: 300, andHeight: 200)
+        
+        self.present(editPlayerScoreVC, animated: true)
     }
     
 

@@ -105,7 +105,8 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertNil(sut.viewControllerPresented)
     }
     
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldPresentPlayerScoreEditorPopoverWithOverCurrentContextModalStyle() {
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldPresentPlayerScoreEditorPopover() {
+        
         // given
         let sut = ScoreboardViewControllerPresentMock()
         let viewModelMock = ScoreboardViewModelMock()
@@ -121,8 +122,33 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(sut.presentCalledCount, 1)
         XCTAssertTrue(sut.viewControllerPresented is ScoreboardPlayerEditScorePopoverViewController)
-        XCTAssertEqual((sut.viewControllerPresented as? ScoreboardPlayerEditScorePopoverViewController)?.modalPresentationStyle, .overCurrentContext)
     }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
+        
+        // given
+        let sut = ScoreboardViewController()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let tableView = UITableView()
+        sut.tableView = tableView
+        
+        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
+        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToEditScore.value = Player(name: "", position: 0)
+        
+        // then
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 200)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is ScoreboardPlayerEditScorePopoverViewController)
+    }
+    
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldSetPlayerScoreEditorPopoverPlayerAndDelegateToViewModel() {
         // given
@@ -248,4 +274,5 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(sut.roundLabel.text, "Round \(currentRound)")
     }
+    
 }

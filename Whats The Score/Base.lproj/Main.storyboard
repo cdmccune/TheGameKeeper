@@ -562,6 +562,31 @@
             </objects>
             <point key="canvasLocation" x="3488" y="-2"/>
         </scene>
+        <!--Scoreboard Player Edit Score Popover View Controller-->
+        <scene sceneID="i43-A8-LKh">
+            <objects>
+                <viewController storyboardIdentifier="ScoreboardPlayerEditScorePopoverViewController" id="cDR-LM-XeX" customClass="ScoreboardPlayerEditScorePopoverViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PgQ-oI-qip">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Test Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aN4-GK-1tc">
+                                <rect key="frame" x="77" y="88" width="146" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="esS-uv-f0U"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <size key="freeformSize" width="300" height="200"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lq8-zX-bD5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4645" y="-279"/>
+        </scene>
     </scenes>
     <resources>
         <namedColor name="AccentColor">
