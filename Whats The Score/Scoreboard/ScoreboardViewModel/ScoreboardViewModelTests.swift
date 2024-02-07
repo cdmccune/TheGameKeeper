@@ -94,6 +94,57 @@ final class ScoreboardViewModelTests: XCTestCase {
         XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
     }
     
+    
+    // MARK: - ScoreboardPlayerEditPopoverEdit function
+    
+    func test_ScoreboardViewModel_WhenEditCalledWithPlayerNotInGame_ShouldNotChangePlayers() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let players = [Player(name: UUID().uuidString, position: 0)]
+        sut.game.players = players
+        
+        let editPlayer = Player(name: "", position: 0)
+        
+        // when
+        sut.edit(player: editPlayer, scoreBy: 1)
+        
+        // then
+        XCTAssertEqual(players, sut.game.players)
+    }
+    
+    func test_ScoreboardViewModel_WhenEditCalledWithPlayerInGame_ShouldCallEditPlayerScoreAtWithIndexAndChange() {
+        
+        class ScoreboardViewModelEditPlayerScoreAtMock: ScoreboardViewModel {
+            var editPlayerScoreAtCalledCount = 0
+            override func editPlayerScoreAt(_ index: Int, byAdding change: Int) {
+                editPlayerScoreAtCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = ScoreboardViewModelEditPlayerScoreAtMock(game: Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0))
+        
+        let player1 = Player(name: "", position: 0)
+        let player2 = Player(name: UUID().uuidString, position: 0)
+        let player3 = Player(name: "", position: 0)
+        let players = [player1, player2, player3]
+        sut.game.players = players
+        
+        let scoreChange = Int.random(in: -10...10)
+        
+        let playerToEdit = Int.random(in: 0...2)
+        
+        // when
+        sut.edit(player: players[playerToEdit], scoreBy: scoreChange)
+        
+        // then
+        XCTAssertEqual(sut.editPlayerScoreAtCalledCount, 1)
+        
+    }
+    
+    
+    // MARK: - Classes
+    
 
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
         var bindViewToViewModelCalledCount = 0

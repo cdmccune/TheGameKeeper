@@ -72,7 +72,7 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         // given
         let sut = viewController!
         sut.loadView()
-        var textFieldMock = UITextFieldBecomeFirstResponderMock()
+        let textFieldMock = UITextFieldBecomeFirstResponderMock()
         sut.pointsTextField = textFieldMock
         
         // when

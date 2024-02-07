@@ -88,6 +88,7 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             
             self.roundLabel.isHidden = game.gameType != .round
             self.roundLabel.text = "Round \(game.currentRound)"
+            self.tableView.reloadData()
         }
     }
 }

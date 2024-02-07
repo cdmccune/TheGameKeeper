@@ -275,4 +275,28 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.roundLabel.text, "Round \(currentRound)")
     }
     
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalled_ShouldCallReloadDataOnTheTableView() {
+        
+        class UITableViewReloadDataMock: UITableView {
+            var reloadDataCalledCount = 0
+            override func reloadData() {
+                reloadDataCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let tableView = UITableViewReloadDataMock()
+        sut.tableView = tableView
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(tableView.reloadDataCalledCount, 1)
+    }
+    
 }

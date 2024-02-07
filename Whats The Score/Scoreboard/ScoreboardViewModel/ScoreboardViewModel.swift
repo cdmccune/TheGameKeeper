@@ -69,7 +69,10 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
 
 extension ScoreboardViewModel: ScoreboardPlayerEditScorePopoverDelegate {
     func edit(player: Player, scoreBy change: Int) {
-    
+        guard let index = game.players.firstIndex(of: player) else { return }
+        
+//        game.players[index].score += change
+        editPlayerScoreAt(index, byAdding: change)
     }
 }
 
