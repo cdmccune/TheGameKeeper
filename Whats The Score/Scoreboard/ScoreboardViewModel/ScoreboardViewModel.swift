@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ScoreboardViewModelProtocol: ScoreboardplayerEditScorePopoverDelegate {
+protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate {
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var playerToEditScore: Observable<Player> { get set }
@@ -66,7 +66,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     
 }
 
-extension ScoreboardViewModel: ScoreboardplayerEditScorePopoverDelegate {
+extension ScoreboardViewModel: ScoreboardPlayerEditScorePopoverDelegate {
     func edit(player: Player, scoreBy change: Int) {
     
     }
