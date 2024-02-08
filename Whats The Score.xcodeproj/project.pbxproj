@@ -49,6 +49,8 @@
 		24836D222B72F5430038D8D2 /* DefaultPopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24836D212B72F5430038D8D2 /* DefaultPopoverPresenter.swift */; };
 		24836D242B72F5FD0038D8D2 /* DefaultPopoverPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24836D232B72F5FD0038D8D2 /* DefaultPopoverPresenterTests.swift */; };
 		248E958E2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248E958C2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift */; };
+		2496A0732B753B94006AC047 /* EditPlayerPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2496A0722B753B94006AC047 /* EditPlayerPopoverViewController.swift */; };
+		2496A0752B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2496A0742B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift */; };
 		24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */; };
 		24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */; };
 		24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */; };
@@ -128,6 +130,8 @@
 		24836D212B72F5430038D8D2 /* DefaultPopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPopoverPresenter.swift; sourceTree = "<group>"; };
 		24836D232B72F5FD0038D8D2 /* DefaultPopoverPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPopoverPresenterTests.swift; sourceTree = "<group>"; };
 		248E958C2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardPlayerEditScorePopoverViewController.swift; sourceTree = "<group>"; };
+		2496A0722B753B94006AC047 /* EditPlayerPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlayerPopoverViewController.swift; sourceTree = "<group>"; };
+		2496A0742B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlayerPopoverViewControllerTests.swift; sourceTree = "<group>"; };
 		24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModel.swift; sourceTree = "<group>"; };
 		24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModelTests.swift; sourceTree = "<group>"; };
 		24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewDelegate.swift; sourceTree = "<group>"; };
@@ -216,7 +220,7 @@
 		242615672B59C4270092B145 /* Scoreboard */ = {
 			isa = PBXGroup;
 			children = (
-				248E958B2B6BF02000710FC1 /* ScoreboardPlayerEditScorePopoverViewController */,
+				248E958B2B6BF02000710FC1 /* ScoreboardPlayerEditScorePopover */,
 				24CD52672B61620300C481A8 /* ScoreboardTableViewDelegateDatasource */,
 				244A46372B5AD9BF0033199F /* ScoreboardViewModel */,
 				242615682B59C4370092B145 /* ScoreboardViewController */,
@@ -311,6 +315,7 @@
 				2437F71C2B40D0F600BB75A1 /* GameSetup */,
 				24EC1D792B44CAA40060D27D /* PlayerSetup */,
 				242615672B59C4270092B145 /* Scoreboard */,
+				2496A0712B753A41006AC047 /* EditPlayerPopover */,
 				2437F7222B40D31500BB75A1 /* Model */,
 				243228DA2B4EF9EA00C42C62 /* HelperClasses */,
 				2410F7182B5596BB00860BA4 /* Extensions */,
@@ -422,13 +427,22 @@
 			path = DefaultPopoverPresenter;
 			sourceTree = "<group>";
 		};
-		248E958B2B6BF02000710FC1 /* ScoreboardPlayerEditScorePopoverViewController */ = {
+		248E958B2B6BF02000710FC1 /* ScoreboardPlayerEditScorePopover */ = {
 			isa = PBXGroup;
 			children = (
 				248E958C2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift */,
 				243E983F2B73F59E0097130A /* ScoreboardPlayerEditScorePopoverViewControllerTests.swift */,
 			);
-			path = ScoreboardPlayerEditScorePopoverViewController;
+			path = ScoreboardPlayerEditScorePopover;
+			sourceTree = "<group>";
+		};
+		2496A0712B753A41006AC047 /* EditPlayerPopover */ = {
+			isa = PBXGroup;
+			children = (
+				2496A0722B753B94006AC047 /* EditPlayerPopoverViewController.swift */,
+				2496A0742B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift */,
+			);
+			path = EditPlayerPopover;
 			sourceTree = "<group>";
 		};
 		24A4233A2B45B8320047CCD3 /* PlayerSetupViewModel */ = {
@@ -736,6 +750,7 @@
 				244EDF042B602F3F0091F019 /* ProtocolsForTests.swift in Sources */,
 				243228D72B4DBD8600C42C62 /* Player.swift in Sources */,
 				2437F6E32B40AAE000BB75A1 /* AppDelegate.swift in Sources */,
+				2496A0732B753B94006AC047 /* EditPlayerPopoverViewController.swift in Sources */,
 				2437F70F2B40C09500BB75A1 /* GameSetupViewController.swift in Sources */,
 				24836D222B72F5430038D8D2 /* DefaultPopoverPresenter.swift in Sources */,
 				2437F6E52B40AAE000BB75A1 /* SceneDelegate.swift in Sources */,
@@ -763,6 +778,7 @@
 				24BD23432B56DFF4000FCBE4 /* ArrayExtensionsTests.swift in Sources */,
 				24CD52722B6167B400C481A8 /* ScoreboardTableViewCellTests.swift in Sources */,
 				24836D1D2B72DC980038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift in Sources */,
+				2496A0752B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift in Sources */,
 				243E98402B73F59E0097130A /* ScoreboardPlayerEditScorePopoverViewControllerTests.swift in Sources */,
 				24CD526B2B61622C00C481A8 /* ScoreboardTableViewDelegateDatasourceTests.swift in Sources */,
 				242615702B59E0BF0092B145 /* UITableViewExtensionsTests.swift in Sources */,
