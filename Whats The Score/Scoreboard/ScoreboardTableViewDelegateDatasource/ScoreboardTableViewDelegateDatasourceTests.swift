@@ -26,8 +26,8 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (ScoreboardTableViewDelegateDatasource, UITableView) {
         let players = Array(repeating: Player(name: "", position: 0), count: playerCount)
-        let gameMock = GameMock(players: players)
-        let viewModelMock = ScoreboardViewModelMock(game: gameMock)
+        let viewModelMock = ScoreboardViewModelMock()
+        viewModelMock.sortedPlayers = players
         
         let sut = ScoreboardTableViewDelegateDatasource(viewModel: viewModelMock)
         let tableView = tableViewMock!
@@ -40,7 +40,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     // MARK: - NumberOfRowsInSection
     
-    func test_ScoreboardTableViewDelegateDatasource_WhenNumberOfRowsInSectionCalled_ShouldReturnViewModelGamePlayersCount() {
+    func test_ScoreboardTableViewDelegateDatasource_WhenNumberOfRowsInSectionCalled_ShouldReturnViewModelSortedPlayersCount() {
         // given
         let playerCount = Int.random(in: 1...10)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: playerCount)
@@ -71,8 +71,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 3)
         
         let playerName = UUID().uuidString
-        let player = Player(name: playerName, position: Int.random(in: 1...10))
-        sut.viewModel.game.players[2] = player
+        let player = sut.viewModel.sortedPlayers[2]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 2, section: 0)) as? ScoreboardTableViewCellMock

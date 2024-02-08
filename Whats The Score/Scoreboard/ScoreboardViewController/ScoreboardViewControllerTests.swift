@@ -251,6 +251,27 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - Binding SortPreference
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndSortPreferenceSet_ShouldCallTableViewReloadData() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let tableViewMock = UITableViewReloadDataMock()
+        sut.tableView = tableViewMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.sortPreference.value = .score
+        
+        // then
+        XCTAssertEqual(tableViewMock.reloadDataCalledCount, 1)
+    }
+    
+    
     // MARK: - IBActions
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallViewModelEndCurrentRound() {
@@ -384,13 +405,6 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalled_ShouldCallReloadDataOnTheTableView() {
-        
-        class UITableViewReloadDataMock: UITableView {
-            var reloadDataCalledCount = 0
-            override func reloadData() {
-                reloadDataCalledCount += 1
-            }
-        }
         
         // given
         let sut = viewController!

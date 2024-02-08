@@ -12,6 +12,8 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var playerToEditScore: Observable<Player> { get set }
     var playerToEdit: Observable<Player> { get set }
+    var sortPreference: Observable<ScoreboardSortPreference> { get set }
+    var sortedPlayers: [Player] { get }
     
     func startEditingPlayerScoreAt(_ index: Int)
     func editPlayerScoreAt(_ index: Int, byAdding: Int)
@@ -44,6 +46,17 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     
     var playerToEditScore: Observable<Player> = Observable(Player(name: "", position: 0))
     var playerToEdit: Observable<Player> = Observable(Player(name: "", position: 0))
+    var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
+    var sortedPlayers: [Player] {
+        return game.players.sorted {player1, player2 in
+            switch sortPreference.value ?? .score {
+            case .score:
+                return player1.score > player2.score
+            case .position:
+                return player1.position < player2.position
+            }
+        }
+    }
     
     
     // MARK: - Functions
@@ -55,13 +68,6 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
         self.playerToEditScore.value = player
     }
     
-    func editPlayerScoreAt(_ index: Int, byAdding change: Int) {
-        guard game.players.indices.contains(index) else { return }
-        
-        game.players[index].score += change
-        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
-    }
-    
     func startEditingPlayerAt(_ index: Int) {
         guard game.players.indices.contains(index) else { return }
         
@@ -69,6 +75,13 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
         self.playerToEdit.value = player
     }
     
+    func editPlayerScoreAt(_ index: Int, byAdding change: Int) {
+        guard game.players.indices.contains(index) else { return }
+        
+        game.players[index].score += change
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+    }
+
     func addPlayer() {
         game.addPlayer()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)

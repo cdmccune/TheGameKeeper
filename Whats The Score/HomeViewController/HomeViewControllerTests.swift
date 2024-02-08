@@ -100,6 +100,7 @@ final class HomeViewControllerTests: XCTestCase {
         XCTAssertEqual(game?.gameEndType, GameEndType.none)
         XCTAssertEqual(game?.gameType, .basic)
         XCTAssertEqual(game?.players.count, 2)
+        XCTAssertEqual(scoreboardViewModel?.sortPreference.value, .score)
     }
 
 }

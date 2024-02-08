@@ -30,6 +30,49 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - SortedPlayers
+    
+    func test_ScoreboardViewModel_WhenSortPreferenceIsScore_ShouldReturnPlayersSortedByScore() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.sortPreference.value = .score
+        var players = [Player]()
+        for _ in 0...Int.random(in: 5...10) {
+            players.append(Player(name: "",
+                                  position: Int.random(in: -1000...1000),
+                                  score: Int.random(in: -1000...1000)))
+        }
+        sut.game.players = players
+        
+        // when
+        let viewModelSortedPlayers = sut.sortedPlayers
+        let actualSortedPlayers = players.sorted { $0.score > $1.score }
+        
+        // then
+        XCTAssertEqual(viewModelSortedPlayers, actualSortedPlayers)
+    }
+    
+    func test_ScoreboardViewModel_WhenSortPreferenceIsTurn_ShouldReturnPlayersSortedByTurn() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.sortPreference.value = .position
+        var players = [Player]()
+        for _ in 0...Int.random(in: 5...10) {
+            players.append(Player(name: "",
+                                  position: Int.random(in: -1000...1000),
+                                  score: Int.random(in: -1000...1000)))
+        }
+        sut.game.players = players
+        
+        // when
+        let viewModelSortedPlayers = sut.sortedPlayers
+        let actualSortedPlayers = players.sorted { $0.position < $1.position }
+        
+        // then
+        XCTAssertEqual(viewModelSortedPlayers, actualSortedPlayers)
+    }
+    
+    
     // MARK: - StartEditingPlayerScoreAt
     
     func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledInRange_ShouldSetValueOfPlayerToEditScore() {
@@ -292,6 +335,8 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     var delegate: ScoreboardViewModelViewProtocol?
     var playerToEditScore: Observable<Player> = Observable(Player(name: "", position: 0))
     var playerToEdit: Observable<Player> = Observable(Player(name: "", position: 0))
+    var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
+    var sortedPlayers: [Player] = []
     
     var startEditingPlayerScoreAtCalledCount = 0
     var startEditingPlayerScoreAtIndex: Int?

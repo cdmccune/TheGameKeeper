@@ -59,7 +59,7 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         XCTAssertTrue(targets.contains(sut))
     }
     
-    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalled_CallBecomFirstResponderOnPointsTextField() {
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalled_CallBecomeFirstResponderOnPointsTextField() {
         
         class UITextFieldBecomeFirstResponderMock: UITextField {
             var becomeFirstResponderCalledCount = 0
@@ -82,7 +82,7 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(textFieldMock.becomeFirstResponderCalledCount, 1)
     }
     
-    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalled_HaveAddAndSubtractButtonsDisables() {
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalled_HaveAddAndSubtractButtonsDisabled() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -93,6 +93,22 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         // then
         XCTAssertFalse(sut.addButton.isEnabled)
         XCTAssertFalse(sut.subtractButton.isEnabled)
+    }
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalled_ShouldSetLabelTextToPlayerName() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerName = UUID().uuidString
+        let player = Player(name: playerName, position: 0)
+        sut.player = player
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.playerLabel.text, playerName)
     }
     
     

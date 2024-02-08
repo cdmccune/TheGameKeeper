@@ -51,6 +51,7 @@
 		248E958E2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248E958C2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift */; };
 		2496A0732B753B94006AC047 /* EditPlayerPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2496A0722B753B94006AC047 /* EditPlayerPopoverViewController.swift */; };
 		2496A0752B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2496A0742B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift */; };
+		2496A0782B7590C0006AC047 /* ScoreboardSortPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2496A0772B7590C0006AC047 /* ScoreboardSortPreference.swift */; };
 		24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */; };
 		24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */; };
 		24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */; };
@@ -132,6 +133,7 @@
 		248E958C2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardPlayerEditScorePopoverViewController.swift; sourceTree = "<group>"; };
 		2496A0722B753B94006AC047 /* EditPlayerPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlayerPopoverViewController.swift; sourceTree = "<group>"; };
 		2496A0742B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlayerPopoverViewControllerTests.swift; sourceTree = "<group>"; };
+		2496A0772B7590C0006AC047 /* ScoreboardSortPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardSortPreference.swift; sourceTree = "<group>"; };
 		24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModel.swift; sourceTree = "<group>"; };
 		24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModelTests.swift; sourceTree = "<group>"; };
 		24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewDelegate.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				244A46372B5AD9BF0033199F /* ScoreboardViewModel */,
 				242615682B59C4370092B145 /* ScoreboardViewController */,
 				24CD52702B6167AB00C481A8 /* ScoreboardTableViewCell */,
+				2496A0762B7590AA006AC047 /* Model */,
 			);
 			path = Scoreboard;
 			sourceTree = "<group>";
@@ -443,6 +446,14 @@
 				2496A0742B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift */,
 			);
 			path = EditPlayerPopover;
+			sourceTree = "<group>";
+		};
+		2496A0762B7590AA006AC047 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2496A0772B7590C0006AC047 /* ScoreboardSortPreference.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		24A4233A2B45B8320047CCD3 /* PlayerSetupViewModel */ = {
@@ -761,6 +772,7 @@
 				2437F71F2B40D11500BB75A1 /* GameSetupViewModel.swift in Sources */,
 				2437F6F72B40BA6600BB75A1 /* HomeViewController.swift in Sources */,
 				248E958E2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift in Sources */,
+				2496A0782B7590C0006AC047 /* ScoreboardSortPreference.swift in Sources */,
 				2437F7242B40D32800BB75A1 /* Game.swift in Sources */,
 				2410F71A2B5596D200860BA4 /* ViewControllerExtensions.swift in Sources */,
 				24EC1D7C2B44CC600060D27D /* PlayerSetupViewController.swift in Sources */,

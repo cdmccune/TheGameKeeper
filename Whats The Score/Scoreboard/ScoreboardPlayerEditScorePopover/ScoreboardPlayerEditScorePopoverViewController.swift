@@ -34,6 +34,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
         super.viewDidLoad()
         
         addTargets()
+        setupViews()
         pointsTextField.becomeFirstResponder()
     }
     
@@ -57,6 +58,9 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
         addButton.isEnabled = true
     }
     
+    private func setupViews() {
+        playerLabel.text = player?.name
+    }
     
     // MARK: - IBActions
     

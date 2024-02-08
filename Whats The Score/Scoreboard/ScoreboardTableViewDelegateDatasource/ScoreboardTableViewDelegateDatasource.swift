@@ -22,18 +22,18 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
     // MARK: - Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.game.players.count
+        return viewModel.sortedPlayers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ScoreboardTableViewCell", for: indexPath) as? ScoreboardTableViewCell else { fatalError("ScoreboardTableViewCell not found") }
         
-        guard viewModel.game.players.indices.contains(indexPath.row) else {
+        guard viewModel.sortedPlayers.indices.contains(indexPath.row) else {
             cell.setupCellForError()
             return cell
         }
         
-        let player = viewModel.game.players[indexPath.row]
+        let player = viewModel.sortedPlayers[indexPath.row]
         cell.setupCellWith(player)
         cell.editPlayer = {
             self.viewModel.startEditingPlayerAt(indexPath.row)

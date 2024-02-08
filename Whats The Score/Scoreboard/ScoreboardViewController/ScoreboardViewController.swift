@@ -55,6 +55,10 @@ class ScoreboardViewController: UIViewController {
             guard let player = player else { return }
             self?.editPlayer(player)
         }
+        
+        viewModel?.sortPreference.valueChanged = { [weak self] _ in
+            self?.tableView.reloadData()
+        }
     }
     
     private func editPlayerScore(for player: Player) {

@@ -51,3 +51,11 @@ class DispatchQueueMainMock: DispatchQueueProtocol {
         work()
     }
 }
+
+
+class UITableViewReloadDataMock: UITableView {
+    var reloadDataCalledCount = 0
+    override func reloadData() {
+        reloadDataCalledCount += 1
+    }
+}
