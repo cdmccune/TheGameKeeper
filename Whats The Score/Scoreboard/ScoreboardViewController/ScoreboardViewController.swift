@@ -50,13 +50,18 @@ class ScoreboardViewController: UIViewController {
             guard let player = player else { return }
             self?.editPlayerScore(for: player)
         }
+        
+        viewModel?.playerToEdit.valueChanged = { [weak self] player in
+            guard let player = player else { return }
+            self?.editPlayer(player)
+        }
     }
     
     private func editPlayerScore(for player: Player) {
         guard viewModel != nil else { return }
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let editPlayerScoreVC = storyboard.instantiateViewController(withIdentifier: "ScoreboardPlayerEditScorePopoverViewController") as? ScoreboardPlayerEditScorePopoverViewController else { fatalError("ScoreboardPlayerEditScorePopoverViewController not instatiated")}
+        guard let editPlayerScoreVC = storyboard.instantiateViewController(withIdentifier: "ScoreboardPlayerEditScorePopoverViewController") as? ScoreboardPlayerEditScorePopoverViewController else { fatalError("ScoreboardPlayerEditScorePopoverViewController not instantiated")}
         
         
         editPlayerScoreVC.player = player
@@ -65,6 +70,21 @@ class ScoreboardViewController: UIViewController {
         defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerScoreVC, withWidth: 300, andHeight: 200)
         
         self.present(editPlayerScoreVC, animated: true)
+    }
+    
+    private func editPlayer(_ player: Player) {
+        guard viewModel != nil else { return }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let editPlayerVC = storyboard.instantiateViewController(withIdentifier: "EditPlayerPopoverViewController") as? EditPlayerPopoverViewController else { fatalError("EditPlayerPopoverViewController not instantiated")}
+        
+        
+        editPlayerVC.player = player
+        editPlayerVC.delegate = viewModel!
+        
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerVC, withWidth: 300, andHeight: 180)
+        
+        self.present(editPlayerVC, animated: true)
     }
     
 

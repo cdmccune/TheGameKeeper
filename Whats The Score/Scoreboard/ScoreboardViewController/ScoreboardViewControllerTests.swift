@@ -76,16 +76,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     
-    // MARK: - Binding
-    
-    class ScoreboardViewControllerPresentMock: ScoreboardViewController {
-        var presentCalledCount = 0
-        var viewControllerPresented: UIViewController?
-        override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-            presentCalledCount += 1
-            self.viewControllerPresented = viewControllerToPresent
-        }
-    }
+    // MARK: - Binding PlayerToEditScore
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNil_ShouldNotPresentPlayerScoreEditorPopover() {
         // given
@@ -170,6 +161,93 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let playerScoreEditorVC = sut.viewControllerPresented as? ScoreboardPlayerEditScorePopoverViewController
         XCTAssertEqual(playerScoreEditorVC?.player, player)
         XCTAssertTrue(playerScoreEditorVC?.delegate is ScoreboardViewModelMock)
+    }
+    
+    
+    // MARK: - Binding PlayerToEdit
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNil_ShouldNotPresentEditPlayerPopover() {
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let tableView = UITableView()
+        sut.tableView = tableView
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToEdit.value = nil
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 0)
+        XCTAssertNil(sut.viewControllerPresented)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldPresentEditPlayerPopover() {
+        
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let tableView = UITableView()
+        sut.tableView = tableView
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToEdit.value = Player(name: "", position: 0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertTrue(sut.viewControllerPresented is EditPlayerPopoverViewController)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
+        
+        // given
+        let sut = ScoreboardViewController()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let tableView = UITableView()
+        sut.tableView = tableView
+        
+        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
+        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToEdit.value = Player(name: "", position: 0)
+        
+        // then
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 180)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EditPlayerPopoverViewController)
+    }
+    
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldSetEditPlayerPopoverPlayerAndDelegateToViewModel() {
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let tableView = UITableView()
+        sut.tableView = tableView
+        
+        let player = Player(name: "", position: 0)
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToEdit.value = player
+        
+        // then
+        let playerEditorVC = sut.viewControllerPresented as? EditPlayerPopoverViewController
+        XCTAssertEqual(playerEditorVC?.player, player)
+        XCTAssertTrue(playerEditorVC?.delegate is ScoreboardViewModelMock)
     }
     
     
@@ -316,4 +394,15 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(tableView.reloadDataCalledCount, 1)
     }
     
+    
+    // MARK: - Classes
+    
+    class ScoreboardViewControllerPresentMock: ScoreboardViewController {
+        var presentCalledCount = 0
+        var viewControllerPresented: UIViewController?
+        override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+            presentCalledCount += 1
+            self.viewControllerPresented = viewControllerToPresent
+        }
+    }
 }

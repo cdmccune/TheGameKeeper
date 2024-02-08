@@ -78,5 +78,23 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.playerNameLabel.text, "Error")
         XCTAssertEqual(sut.playerScoreLabel.text, "000")
     }
-
+    
+    
+    // MARK: - GearButtonTapped
+    
+    func test_ScoreboardTableViewCell_WhenGearButtonTappedCalled_ShouldCallEditPlayerFunction() {
+        // given
+        let sut = tableViewCell!
+        let expectation = XCTestExpectation(description: "Edit player should be called")
+        
+        // when
+        sut.editPlayer = {
+            expectation.fulfill()
+        }
+        
+        sut.gearButtonTapped(0)
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
 }

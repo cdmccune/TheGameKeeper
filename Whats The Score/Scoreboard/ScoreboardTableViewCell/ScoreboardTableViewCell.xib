@@ -23,41 +23,47 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="frB-Hf-bzR">
-                        <rect key="frame" x="20" y="10" width="290" height="44"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="frB-Hf-bzR">
+                        <rect key="frame" x="20" y="0.0" width="300" height="64"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHE-cK-EvS">
-                                <rect key="frame" x="0.0" y="0.0" width="206" height="44"/>
+                                <rect key="frame" x="0.0" y="10" width="191.33333333333334" height="44"/>
                                 <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="001" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvc-Dm-sxC">
-                                <rect key="frame" x="206" y="0.0" width="48.333333333333343" height="44"/>
+                                <rect key="frame" x="196.33333333333334" y="15.666666666666668" width="48.333333333333343" height="32.666666666666657"/>
                                 <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fn0-m3-wAW">
-                                <rect key="frame" x="254.33333333333329" y="0.0" width="35.666666666666657" height="44"/>
+                                <rect key="frame" x="249.66666666666671" y="0.0" width="50.333333333333343" height="64"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="10" maxY="0.0"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="7" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal">
-                                    <imageReference key="image" image="gearshape.fill" catalog="system" symbolScale="small"/>
+                                    <imageReference key="image" image="gearshape.fill" catalog="system" symbolScale="medium"/>
                                 </state>
                                 <connections>
                                     <action selector="gearButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="HDq-KE-brn"/>
                                 </connections>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="mHE-cK-EvS" secondAttribute="bottom" constant="10" id="3ZR-ig-hdG"/>
+                            <constraint firstItem="mHE-cK-EvS" firstAttribute="top" secondItem="frB-Hf-bzR" secondAttribute="top" constant="10" id="JB7-gr-moj"/>
+                            <constraint firstAttribute="bottom" secondItem="fn0-m3-wAW" secondAttribute="bottom" id="V3g-Td-2BL"/>
+                            <constraint firstItem="fn0-m3-wAW" firstAttribute="top" secondItem="frB-Hf-bzR" secondAttribute="top" id="bBa-U9-vsW"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="frB-Hf-bzR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="0Jf-BP-FJr"/>
-                    <constraint firstAttribute="bottom" secondItem="frB-Hf-bzR" secondAttribute="bottom" constant="10" id="JzS-zo-eDv"/>
-                    <constraint firstAttribute="trailing" secondItem="frB-Hf-bzR" secondAttribute="trailing" constant="10" id="NEl-Mp-pqJ"/>
+                    <constraint firstItem="frB-Hf-bzR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0Jf-BP-FJr"/>
+                    <constraint firstAttribute="bottom" secondItem="frB-Hf-bzR" secondAttribute="bottom" id="JzS-zo-eDv"/>
+                    <constraint firstAttribute="trailing" secondItem="frB-Hf-bzR" secondAttribute="trailing" id="NEl-Mp-pqJ"/>
                     <constraint firstItem="frB-Hf-bzR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Yq9-DZ-TVj"/>
                 </constraints>
             </tableViewCellContentView>

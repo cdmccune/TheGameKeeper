@@ -29,5 +29,6 @@ class DefaultPopoverPresenter: DefaultPopoverPresenterProtocol {
         viewController.preferredContentSize = CGSize(width: width, height: height)
         viewController.popoverPresentationController?.delegate = delegate
         
+        viewController.hideKeyboardWhenTappedAround()
     }
 }

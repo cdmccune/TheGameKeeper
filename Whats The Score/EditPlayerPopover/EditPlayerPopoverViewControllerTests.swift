@@ -110,6 +110,26 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(delegateMock.finishedEditingPlayer, player)
     }
     
+    func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldDismissView() {
+        
+        class EditPlayerPopoverViewControllerDismissMock: EditPlayerPopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = EditPlayerPopoverViewControllerDismissMock()
+        sut.player = Player(name: "", position: 0)
+        
+        // when
+        sut.saveButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
+    
     
     // MARK: - Classes
     

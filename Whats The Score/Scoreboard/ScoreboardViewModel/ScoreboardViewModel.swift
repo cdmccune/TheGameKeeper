@@ -7,10 +7,11 @@
 
 import Foundation
 
-protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate {
+protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol {
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var playerToEditScore: Observable<Player> { get set }
+    var playerToEdit: Observable<Player> { get set }
     
     func startEditingPlayerScoreAt(_ index: Int)
     func editPlayerScoreAt(_ index: Int, byAdding: Int)
@@ -41,6 +42,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     // MARK: - Observables
     
     var playerToEditScore: Observable<Player> = Observable(Player(name: "", position: 0))
+    var playerToEdit: Observable<Player> = Observable(Player(name: "", position: 0))
     
     
     // MARK: - Functions
@@ -60,7 +62,10 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     }
     
     func startEditingPlayerAt(_ index: Int) {
+        guard game.players.indices.contains(index) else { return }
         
+        let player = game.players[index]
+        self.playerToEdit.value = player
     }
     
     func endCurrentRound() {
@@ -76,8 +81,15 @@ extension ScoreboardViewModel: ScoreboardPlayerEditScorePopoverDelegate {
     func editScore(for player: Player, by change: Int) {
         guard let index = game.players.firstIndex(of: player) else { return }
         
-//        game.players[index].score += change
         editPlayerScoreAt(index, byAdding: change)
+    }
+}
+
+extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
+    func finishedEditing(_ player: Player) {
+        guard let index = game.players.firstIndex(of: player) else { return }
+        game.players[index] = player
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 }
 

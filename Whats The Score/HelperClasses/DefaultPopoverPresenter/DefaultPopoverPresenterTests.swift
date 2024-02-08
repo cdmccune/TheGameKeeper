@@ -122,6 +122,25 @@ final class DefaultPopoverPresenterTests: XCTestCase {
         // then
         XCTAssertTrue(popoverViewController.popoverPresentationController?.delegate is NoAdaptivePresentationStylePopoverPresentationDelegate)
     }
+    
+    func test_DefaultPopoverPresenter_WhenSetupPopoverCenteredCalled_ShouldCallHideKeyboardWhenTappedAroundOnViewController() {
+        
+        class UIViewControllerHideKeyboardWhenTappedAround: UIViewController {
+            var hideKeyboardWhenTappedAroundCalledCount = 0
+            override func hideKeyboardWhenTappedAround() {
+                hideKeyboardWhenTappedAroundCalledCount += 1
+            }
+        }
+        // given
+        let sut = DefaultPopoverPresenter()
+        let popoverViewController = UIViewControllerHideKeyboardWhenTappedAround()
+        
+        // when
+        sut.setupPopoverCentered(onView: UIView(), withPopover: popoverViewController, withWidth: 0, andHeight: 0)
+        
+        // then
+        XCTAssertEqual(popoverViewController.hideKeyboardWhenTappedAroundCalledCount, 1)
+    }
 
 }
 

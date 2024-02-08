@@ -57,6 +57,7 @@ class EditPlayerPopoverViewController: UIViewController {
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let player else { return }
         delegate?.finishedEditing(player)
+        self.dismiss(animated: true)
     }
     
 }
