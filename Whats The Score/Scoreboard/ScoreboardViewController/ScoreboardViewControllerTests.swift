@@ -279,6 +279,19 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(viewModelMock.endGameCalledCount, 1)
     }
     
+    func test_ScoreboardViewController_WhenAddPlayerTapped_ShouldCallViewModelAddPlayer() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock(game: GameMock())
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.addPlayerTapped(0)
+        
+        // then
+        XCTAssertEqual(viewModelMock.addPlayerCalledCount, 1)
+    }
+    
     
     // MARK: - Bind View To View Model
     

@@ -233,6 +233,41 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - AddPlayer
+    
+    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallAddPlayerOnGame() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let gameMock = GameMock()
+        sut.game = gameMock
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(gameMock.addPlayerCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallBindViewModelToView() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let gameMock = GameMock()
+        sut.game = gameMock
+        
+        let bindViewToViewModelCalledCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCount + 1)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
@@ -272,6 +307,11 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
         editPlayerScoreAtCalledCount += 1
         editPlayerScoreAtIndex = index
         editPlayerScoreAtChange = change
+    }
+    
+    var addPlayerCalledCount = 0
+    func addPlayer() {
+        addPlayerCalledCount += 1
     }
     
     var endCurrentRoundCalledCount = 0

@@ -524,6 +524,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="+ Tap to add player"/>
+                                        <connections>
+                                            <action selector="addPlayerTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="qvF-UF-rZG"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="txo-KT-kJR">
                                         <rect key="frame" x="0.0" y="690.33333333333337" width="393" height="34.333333333333371"/>

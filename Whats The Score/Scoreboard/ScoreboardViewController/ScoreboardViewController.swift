@@ -98,6 +98,11 @@ class ScoreboardViewController: UIViewController {
         viewModel?.endGame()
     }
     
+    @IBAction func addPlayerTapped(_ sender: Any) {
+        viewModel?.addPlayer()
+    }
+    
+    
 }
 
 extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
