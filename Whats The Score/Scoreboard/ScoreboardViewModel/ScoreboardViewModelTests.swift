@@ -313,6 +313,39 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - ResetGame
+    
+    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldSetAllPlayersScoresToZero() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let players = Array(repeating: Player(name: "", position: 0, score: Int.random(in: 1...10)), count: 5)
+        sut.game.players = players
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        sut.game.players.forEach { player in
+            XCTAssertEqual(player.score, 0)
+        }
+    }
+    
+    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindViewToViewModelCalledCountBefore = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCountBefore + 1)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
@@ -376,6 +409,11 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     func startEditingPlayerAt(_ index: Int) {
         startEditingPlayerAtCalledCount += 1
         startEditingPlayerAtIndex = index
+    }
+    
+    var resetGameCalledCount = 0
+    func resetGame() {
+        resetGameCalledCount += 1
     }
     
     func editScore(for player: Player, by change: Int) {

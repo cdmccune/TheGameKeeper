@@ -15,12 +15,13 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     var sortPreference: Observable<ScoreboardSortPreference> { get set }
     var sortedPlayers: [Player] { get }
     
+    func startEditingPlayerAt(_ index: Int)
     func startEditingPlayerScoreAt(_ index: Int)
     func editPlayerScoreAt(_ index: Int, byAdding: Int)
     func addPlayer()
     func endCurrentRound()
     func endGame()
-    func startEditingPlayerAt(_ index: Int)
+    func resetGame()
 }
 
 class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
@@ -91,6 +92,11 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     }
     
     func endGame() {
+    }
+    
+    func resetGame() {
+        game.players.indices.forEach { game.players[$0].score = 0 }
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
     

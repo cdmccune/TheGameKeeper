@@ -20,6 +20,7 @@ class ScoreboardViewController: UIViewController {
     var viewModel: ScoreboardViewModelProtocol?
     private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
     var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
+    lazy var resetBarButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetButtonTapped))
     
     
     override func viewDidLoad() {
@@ -28,6 +29,7 @@ class ScoreboardViewController: UIViewController {
         setDelegates()
         registerNibs()
         setBindings()
+        setupViews()
     }
     
     private func setDelegates() {
@@ -59,6 +61,10 @@ class ScoreboardViewController: UIViewController {
         viewModel?.sortPreference.valueChanged = { [weak self] _ in
             self?.tableView.reloadData()
         }
+    }
+    
+    private func setupViews() {
+        navigationItem.rightBarButtonItem = resetBarButton
     }
     
     private func editPlayerScore(for player: Player) {
@@ -104,6 +110,20 @@ class ScoreboardViewController: UIViewController {
     
     @IBAction func addPlayerTapped(_ sender: Any) {
         viewModel?.addPlayer()
+    }
+    
+    @objc func resetButtonTapped() {
+        let alert = UIAlertController(title: "Are you sure you want to reset?", message: "This will erase all of the game data and player scores", preferredStyle: .alert)
+        
+        let cancelAction = TestableUIAlertAction.createWith(title: "Cancel", style: .cancel) { _ in }
+        let resetAction = TestableUIAlertAction.createWith(title: "Reset", style: .destructive) { _ in
+            self.viewModel?.resetGame()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(resetAction)
+        
+        self.present(alert, animated: true)
     }
     
     

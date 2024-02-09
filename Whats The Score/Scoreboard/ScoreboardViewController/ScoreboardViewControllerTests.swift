@@ -27,6 +27,43 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - Properties
+    
+    func test_ScoreboardViewController_WhenResetBarButtonSet_ShouldHaveResetBarButtonCorrectTitleAndTarget() {
+        // given
+        let sut = viewController!
+        
+        // when
+        let barButton = sut.resetBarButton
+        
+        // then
+        XCTAssertEqual(barButton.title, "Reset")
+        XCTAssertEqual(barButton.target as? ScoreboardViewController, sut)
+    }
+    
+    func test_ScoreboardViewController_WhenResetBarButtonActionCalled_ShouldCallResetButtonTapped() {
+        
+        class ScoreboardViewControllerResetButtonTappedMock: ScoreboardViewController {
+            var resetBarButtonCalledCount = 0
+            override func resetButtonTapped() {
+                resetBarButtonCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = ScoreboardViewControllerResetButtonTappedMock()
+        
+        let tableView = UITableView()
+        sut.tableView = tableView
+        
+        // when
+        _ = sut.resetBarButton.target?.perform(sut.resetBarButton.action, with: sut.resetBarButton)
+        
+        // then
+        XCTAssertEqual(sut.resetBarButtonCalledCount, 1)
+    }
+    
+    
     // MARK: - ViewDidLoad
     
     func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetSelfAsViewModelsDelegate() {
@@ -61,7 +98,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldRegisterScoreboardTableViewCellInTableView() {
         // given
         let sut = viewController!
-        let viewModelMock = ScoreboardViewModelMock(game: GameMock())
+        let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
         
@@ -73,6 +110,20 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let cell = sut.tableView.dequeueReusableCell(withIdentifier: "ScoreboardTableViewCell")
         
         XCTAssertTrue(cell is ScoreboardTableViewCell)
+    }
+    
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetNavigationItemRightBarButtonToResetBarButton() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.navigationItem.rightBarButtonItem, sut.resetBarButton)
     }
     
     
@@ -311,6 +362,89 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewModelMock.addPlayerCalledCount, 1)
+    }
+    
+    
+    // MARK: - resetButtonTapped
+    
+    func test_ScoreboardViewController_WhenResetButtonTapped_ShouldPresentAlertWithCorrectTitle() {
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped()
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.title, "Are you sure you want to reset?")
+    }
+    
+    func test_ScoreboardViewController_WhenResetButtonTapped_ShouldPresentAlertWithCorrectMessage() {
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped()
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "This will erase all of the game data and player scores")
+    }
+    
+    func test_ScoreboardViewController_WhenResetButtonTapped_ShouldPresentAlertWithFirstActionCancel() {
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped()
+        
+        // then
+        let cancelAction = (sut.viewControllerPresented as? UIAlertController)?.actions.first
+        XCTAssertNotNil(cancelAction)
+        XCTAssertEqual(cancelAction?.title, "Cancel")
+        XCTAssertEqual(cancelAction?.style, .cancel)
+    }
+    
+    func test_ScoreboardViewController_WhenResetButtonTapped_ShouldPresentAlertWithTwoActions() {
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped()
+        
+        // then
+        let actions = (sut.viewControllerPresented as? UIAlertController)?.actions
+        XCTAssertEqual(actions?.count, 2)
+    }
+    
+    func test_ScoreboardViewController_WhenResetButtonTapped_ShouldPresentAlertWithFirstActionReset() {
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped()
+        
+        // then
+        let resetAction = (sut.viewControllerPresented as? UIAlertController)?.actions.last
+        XCTAssertNotNil(resetAction)
+        XCTAssertEqual(resetAction?.title, "Reset")
+        XCTAssertEqual(resetAction?.style, .destructive)
+    }
+    
+    func test_ScoreboardViewController_WhenResetButtonTapped_ShouldSetResetActionHandlerToBeResetHandler() {
+        // given
+        let sut = ScoreboardViewControllerPresentMock()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.resetButtonTapped()
+        let resetAction = (sut.viewControllerPresented as? UIAlertController)?.actions.last as? TestableUIAlertAction
+      
+        resetAction?.handler!(UIAlertAction(title: "", style: .destructive))
+        
+        // then
+        XCTAssertEqual(viewModelMock.resetGameCalledCount, 1)
     }
     
     
