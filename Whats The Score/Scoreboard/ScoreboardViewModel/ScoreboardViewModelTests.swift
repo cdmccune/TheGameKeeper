@@ -75,21 +75,6 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - StartEditingPlayerScoreAt
     
-    func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledInRange_ShouldSetValueOfPlayerToEditScore() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let name = UUID().uuidString
-        let player = Player(name: name, position: 0)
-        let players = [player]
-        sut.game.players = players
-        
-        // when
-        sut.startEditingPlayerScoreAt(0)
-        
-        // then
-        XCTAssertEqual(sut.playerToEditScore.value, player)
-    }
-    
     func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledOutOfRange_ShouldNotSetValueOfPlayerToEditScore() {
         // given
         let sut = getViewModelWithBasicGame()
@@ -103,22 +88,24 @@ final class ScoreboardViewModelTests: XCTestCase {
         XCTAssertNil(sut.playerToEditScore.value)
     }
     
-    
-    // MARK: - StartEditingPlayerAt
-    
-    func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledInRange_ShouldSetValueOfPlayerToEditScore() {
+    func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledWhenReorderedByScore_ShouldSetCorrectPlayerAsPlayerToEditScore() {
+        
         // given
         let sut = getViewModelWithBasicGame()
-        let player = Player(name: "", position: 0)
-        let players = [player]
+        sut.sortPreference.value = .score
+        var players = Array(repeating: Player(name: "", position: 0), count: 5)
+        players[3].score = 1
         sut.game.players = players
         
         // when
-        sut.startEditingPlayerAt(0)
+        sut.startEditingPlayerScoreAt(0)
         
         // then
-        XCTAssertEqual(sut.playerToEdit.value, player)
+        XCTAssertEqual(sut.playerToEditScore.value, players[3])
     }
+    
+    
+    // MARK: - StartEditingPlayerAt
     
     func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledOutOfRange_ShouldNotSetValueOfPlayerToEditScore() {
         // given
@@ -131,6 +118,21 @@ final class ScoreboardViewModelTests: XCTestCase {
         
         // then
         XCTAssertNil(sut.playerToEdit.value)
+    }
+    
+    func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledWhenReorderedByScore_ShouldSetCorrectPlayerAsPlayerToEditScore() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.sortPreference.value = .score
+        var players = Array(repeating: Player(name: "", position: 0), count: 5)
+        players[3].score = 1
+        sut.game.players = players
+        
+        // when
+        sut.startEditingPlayerAt(0)
+        
+        // then
+        XCTAssertEqual(sut.playerToEdit.value, players[3])
     }
     
     

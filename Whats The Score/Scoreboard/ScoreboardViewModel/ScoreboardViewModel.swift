@@ -62,16 +62,16 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     // MARK: - Functions
     
     func startEditingPlayerScoreAt(_ index: Int) {
-        guard game.players.indices.contains(index) else { return }
+        guard sortedPlayers.indices.contains(index) else { return }
         
-        let player = game.players[index]
+        let player = sortedPlayers[index]
         self.playerToEditScore.value = player
     }
     
     func startEditingPlayerAt(_ index: Int) {
-        guard game.players.indices.contains(index) else { return }
+        guard sortedPlayers.indices.contains(index) else { return }
         
-        let player = game.players[index]
+        let player = sortedPlayers[index]
         self.playerToEdit.value = player
     }
     
