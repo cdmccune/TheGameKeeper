@@ -126,6 +126,21 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.navigationItem.rightBarButtonItem, sut.resetBarButton)
     }
     
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetScoreSortButtonAlphaTo1AndTurnOrderSortButtonAlphaToPoint5() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.scoreSortButton.alpha, 1.0)
+        XCTAssertEqual(sut.turnOrderSortButton.alpha, 0.5)
+    }
+    
     
     // MARK: - Binding PlayerToEditScore
     
@@ -137,6 +152,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         let tableView = UITableView()
         sut.tableView = tableView
+        let scoreButton = UIButton()
+        sut.scoreSortButton = scoreButton
+        let turnButton = UIButton()
+        sut.turnOrderSortButton = turnButton
         
         // when
         sut.viewDidLoad()
@@ -156,6 +175,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         let tableView = UITableView()
         sut.tableView = tableView
+        let scoreButton = UIButton()
+        sut.scoreSortButton = scoreButton
+        let turnButton = UIButton()
+        sut.turnOrderSortButton = turnButton
         
         // when
         sut.viewDidLoad()
@@ -175,6 +198,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         let tableView = UITableView()
         sut.tableView = tableView
+        let scoreButton = UIButton()
+        sut.scoreSortButton = scoreButton
+        let turnButton = UIButton()
+        sut.turnOrderSortButton = turnButton
         
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
@@ -200,6 +227,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         let tableView = UITableView()
         sut.tableView = tableView
+        let scoreButton = UIButton()
+        sut.scoreSortButton = scoreButton
+        let turnButton = UIButton()
+        sut.turnOrderSortButton = turnButton
         
         let playerName = UUID().uuidString
         let player = Player(name: playerName, position: 0)
@@ -217,15 +248,24 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     // MARK: - Binding PlayerToEdit
     
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNil_ShouldNotPresentEditPlayerPopover() {
-        // given
+    func getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded() -> ([UIView], ScoreboardViewControllerPresentMock) {
         let sut = ScoreboardViewControllerPresentMock()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
         
         let tableView = UITableView()
         sut.tableView = tableView
-        
+        let scoreButton = UIButton()
+        sut.scoreSortButton = scoreButton
+        let turnButton = UIButton()
+        sut.turnOrderSortButton = turnButton
+        return ([tableView, scoreButton, turnButton], sut)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNil_ShouldNotPresentEditPlayerPopover() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+  
         // when
         sut.viewDidLoad()
         viewModelMock.playerToEdit.value = nil
@@ -238,12 +278,9 @@ final class ScoreboardViewControllerTests: XCTestCase {
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldPresentEditPlayerPopover() {
         
         // given
-        let sut = ScoreboardViewControllerPresentMock()
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
-        
-        let tableView = UITableView()
-        sut.tableView = tableView
         
         // when
         sut.viewDidLoad()
@@ -257,12 +294,9 @@ final class ScoreboardViewControllerTests: XCTestCase {
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
         
         // given
-        let sut = ScoreboardViewController()
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
-        
-        let tableView = UITableView()
-        sut.tableView = tableView
         
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
@@ -282,12 +316,9 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldSetEditPlayerPopoverPlayerAndDelegateToViewModel() {
         // given
-        let sut = ScoreboardViewControllerPresentMock()
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
-        
-        let tableView = UITableView()
-        sut.tableView = tableView
         
         let player = Player(name: "", position: 0)
         
@@ -320,6 +351,40 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(tableViewMock.reloadDataCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndSortPreferenceSetPosition_SetScoreSortPreferenceButtonAlphaToPoint5AndTurnTo1() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+    
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.sortPreference.value = .position
+        
+        // then
+        XCTAssertEqual(sut.scoreSortButton.alpha, 0.5, accuracy: 0.01)
+        XCTAssertEqual(sut.turnOrderSortButton.alpha, 1)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndSortPreferenceSetScore_SetScoreSortPreferenceButtonAlphaTo1AndTurnToPoint5() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+    
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.sortPreference.value = .score
+        
+        // then
+        XCTAssertEqual(sut.scoreSortButton.alpha, 1)
+        XCTAssertEqual(sut.turnOrderSortButton.alpha, 0.5, accuracy: 0.01)
     }
     
     
@@ -362,6 +427,34 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewModelMock.addPlayerCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewController_WhenScoreSortButtonTappedCalled_ShouldSetViewModelSortPreferenceToScore() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        sut.viewModel?.sortPreference.value = .position
+        
+        // when
+        sut.scoreSortButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.viewModel?.sortPreference.value, .score)
+    }
+    
+    func test_ScoreboardViewController_WhenTurnOrderSortButtonTappedCalled_ShouldSetViewModelSortPreferenceToPosition() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        sut.viewModel?.sortPreference.value = .score
+        
+        // when
+        sut.turnOrderSortButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.viewModel?.sortPreference.value, .position)
     }
     
     

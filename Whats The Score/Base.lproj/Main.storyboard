@@ -496,25 +496,33 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MqA-gq-D7o">
-                                        <rect key="frame" x="0.0" y="64" width="393" height="34.333333333333343"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MqA-gq-D7o">
+                                        <rect key="frame" x="0.0" y="64" width="393" height="39"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A2j-tM-tB9">
-                                                <rect key="frame" x="0.0" y="0.0" width="196.66666666666666" height="34.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="196.66666666666666" height="39"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Turn Order"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Turn Order">
+                                                    <fontDescription key="titleFontDescription" name="Notable-Regular" family="Notable" pointSize="19"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="turnOrderSortButtonTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="fcH-eX-efJ"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhl-B8-pxI">
-                                                <rect key="frame" x="196.66666666666663" y="0.0" width="196.33333333333337" height="34.333333333333336"/>
+                                                <rect key="frame" x="196.66666666666663" y="0.0" width="196.33333333333337" height="39"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Score">
                                                     <fontDescription key="titleFontDescription" name="Notable-Regular" family="Notable" pointSize="20"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="scoreSortButtonTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="ncI-T9-giQ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cCi-B3-Ky9">
-                                        <rect key="frame" x="0.0" y="98.333333333333371" width="393" height="557"/>
+                                        <rect key="frame" x="0.0" y="103" width="393" height="552.33333333333337"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3o-tW-ZLn">
@@ -559,7 +567,9 @@
                     <connections>
                         <outlet property="filterButtonStackView" destination="MqA-gq-D7o" id="B7R-A9-L6I"/>
                         <outlet property="roundLabel" destination="3DQ-xe-Gm3" id="CGM-u4-0Fp"/>
+                        <outlet property="scoreSortButton" destination="fhl-B8-pxI" id="pbg-VH-aiS"/>
                         <outlet property="tableView" destination="cCi-B3-Ky9" id="aci-wx-OQA"/>
+                        <outlet property="turnOrderSortButton" destination="A2j-tM-tB9" id="y8u-Zn-unC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ez-W0-EYd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

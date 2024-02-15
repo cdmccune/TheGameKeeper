@@ -15,6 +15,9 @@ class ScoreboardViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var filterButtonStackView: UIStackView!
     
+    @IBOutlet weak var turnOrderSortButton: UIButton!
+    @IBOutlet weak var scoreSortButton: UIButton!
+    
     // MARK: - Properties
     
     var viewModel: ScoreboardViewModelProtocol?
@@ -58,13 +61,18 @@ class ScoreboardViewController: UIViewController {
             self?.editPlayer(player)
         }
         
-        viewModel?.sortPreference.valueChanged = { [weak self] _ in
+        viewModel?.sortPreference.valueChanged = { [weak self] sortPreference in
             self?.tableView.reloadData()
+            self?.scoreSortButton.alpha = sortPreference == .score ? 1 : 0.5
+            self?.turnOrderSortButton.alpha = sortPreference == .position ? 1 : 0.5
         }
     }
     
     private func setupViews() {
         navigationItem.rightBarButtonItem = resetBarButton
+        
+        self.scoreSortButton.alpha = 1
+        self.turnOrderSortButton.alpha = 0.5
     }
     
     private func editPlayerScore(for player: Player) {
@@ -97,11 +105,11 @@ class ScoreboardViewController: UIViewController {
         self.present(editPlayerVC, animated: true)
     }
     
-
     // MARK: - IBActions
     
     @IBAction func endRoundButtonTapped(_ sender: Any) {
         viewModel?.endCurrentRound()
+        
     }
     
     @IBAction func endGameButtonTapped(_ sender: Any) {
@@ -110,6 +118,14 @@ class ScoreboardViewController: UIViewController {
     
     @IBAction func addPlayerTapped(_ sender: Any) {
         viewModel?.addPlayer()
+    }
+    
+    @IBAction func scoreSortButtonTapped(_ sender: Any) {
+        viewModel?.sortPreference.value = .score
+    }
+    
+    @IBAction func turnOrderSortButtonTapped(_ sender: Any) {
+        viewModel?.sortPreference.value = .position
     }
     
     @objc func resetButtonTapped() {
