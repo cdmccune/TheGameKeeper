@@ -11,11 +11,11 @@ class EndRoundPopoverViewController: UIViewController {
     
     var players: [Player]?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//        // Do any additional setup after loading the view.
+//    }
     
 
     /*

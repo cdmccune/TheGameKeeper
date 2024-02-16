@@ -484,6 +484,21 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     // MARK: - EndRoundButtonTapped
     
+    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalledUnderOnePlayer_ShouldNotPresentEndRoundPopover() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
+        let viewModelMock = ScoreboardViewModelMock()
+        viewModelMock.sortedPlayers = []
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 0)
+    }
+    
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
         
         // given
@@ -491,24 +506,76 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        sut.viewModel = ScoreboardViewModelMock()
+        let viewModelMock = ScoreboardViewModelMock()
+        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
+        sut.viewModel = viewModelMock
+        
         
         // when
         sut.endRoundButtonTapped(0)
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
-//        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-//        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 200)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EndRoundPopoverViewController)
+    }
+    
+    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallEndRoundPopoverHeightHelperGetPopoverHeightForWithCorrectParameters() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        
+        let endRoundPopoverHeightHelperMock = EndRoundPopoverHeightHelperMock()
+        sut.endRoundPopoverHeightHelper = endRoundPopoverHeightHelperMock
+        
+        let rectHeight = CGFloat.random(in: 0...100)
+        let viewMock = UIViewSafeAreaLayoutFrameMock(safeAreaFrame: CGRect(x: 0, y: 0, width: 0, height: rectHeight))
+        sut.view = viewMock
+        
+        let viewModelMock = ScoreboardViewModelMock()
+        let playerCount = Int.random(in: 1...10)
+        viewModelMock.sortedPlayers = Array(repeating: Player(name: "", position: 0), count: playerCount)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForSafeAreaHeight, rectHeight)
+        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForPlayerCount, playerCount)
+        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallSetupPopoverCenteredWithHeightFromEndRoundPopoverHeightHelper() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        
+        let heightToReturn = CGFloat.random(in: 0...10000)
+        let endRoundPopoverHeightHelperMock = EndRoundPopoverHeightHelperMock()
+        endRoundPopoverHeightHelperMock.heightToReturn = heightToReturn
+        
+        sut.endRoundPopoverHeightHelper = endRoundPopoverHeightHelperMock
+        
+        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
+        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
+        let viewModelMock = ScoreboardViewModelMock()
+        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, heightToReturn)
     }
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopover() {
         // given
         let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
-        sut.viewModel = ScoreboardViewModelMock()
+        let viewModelMock = ScoreboardViewModelMock()
+        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
+        sut.viewModel = viewModelMock
         
         // when
         sut.endRoundButtonTapped(0)
@@ -518,14 +585,14 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.viewControllerPresented is EndRoundPopoverViewController)
     }
     
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithPlayers() {
+    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithSortedPlayers() {
         // given
         let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
         
         let viewModelMock = ScoreboardViewModelMock()
         let players = [Player(name: "", position: 0)]
-        viewModelMock.game.players = players
+        viewModelMock.sortedPlayers = players
         sut.viewModel = viewModelMock
         
         // when

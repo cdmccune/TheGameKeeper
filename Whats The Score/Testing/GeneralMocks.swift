@@ -59,3 +59,18 @@ class UITableViewReloadDataMock: UITableView {
         reloadDataCalledCount += 1
     }
 }
+
+class UIViewSafeAreaLayoutFrameMock: UIView {
+    init(safeAreaFrame: CGRect) {
+        self.privateSafeAreaFrame = safeAreaFrame
+        super.init(frame: safeAreaFrame)
+    }
+    private var privateSafeAreaFrame: CGRect
+    override var safeAreaFrame: CGRect {
+        privateSafeAreaFrame
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

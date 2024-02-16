@@ -793,14 +793,58 @@
                     <view key="view" contentMode="scaleToFill" id="taL-xW-gKP">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c2x-Wu-syi">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Round #" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TzC-ag-sfr">
+                                        <rect key="frame" x="83.333333333333329" y="10" width="133.66666666666669" height="30"/>
+                                        <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="23"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="5hi-kd-FQc">
+                                        <rect key="frame" x="10" y="45" width="280" height="110"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </tableView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="icO-di-f32">
+                                        <rect key="frame" x="103" y="160" width="94" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="NTw-MX-VNE"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="tintColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="+"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Save" cornerStyle="capsule">
+                                            <fontDescription key="titleFontDescription" name="Notable-Regular" family="Notable" pointSize="23"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="saveButtonTapped:" destination="Y3g-S3-D9N" eventType="touchUpInside" id="mOu-Pj-0Co"/>
+                                            <action selector="subtractButtonTapped:" destination="cDR-LM-XeX" eventType="touchUpInside" id="j5Z-01-mQh"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="5hi-kd-FQc" firstAttribute="leading" secondItem="c2x-Wu-syi" secondAttribute="leading" constant="10" id="A7o-U8-Ye6"/>
+                                    <constraint firstAttribute="trailing" secondItem="5hi-kd-FQc" secondAttribute="trailing" constant="10" id="MwB-jY-1Tn"/>
+                                </constraints>
+                                <edgeInsets key="layoutMargins" top="10" left="0.0" bottom="10" right="0.0"/>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="ycO-Ap-oAf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="c2x-Wu-syi" firstAttribute="leading" secondItem="taL-xW-gKP" secondAttribute="leading" id="dCJ-jG-sdj"/>
+                            <constraint firstItem="ycO-Ap-oAf" firstAttribute="trailing" secondItem="c2x-Wu-syi" secondAttribute="trailing" id="dRj-dX-B6w"/>
+                            <constraint firstItem="c2x-Wu-syi" firstAttribute="top" secondItem="taL-xW-gKP" secondAttribute="top" id="duL-tN-2rZ"/>
+                            <constraint firstAttribute="bottom" secondItem="c2x-Wu-syi" secondAttribute="bottom" id="fyL-N0-SyW"/>
+                        </constraints>
                     </view>
                     <size key="freeformSize" width="300" height="200"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FbH-k9-wKK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2719" y="654"/>
+            <point key="canvasLocation" x="4258" y="449"/>
         </scene>
     </scenes>
     <resources>

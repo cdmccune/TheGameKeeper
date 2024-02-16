@@ -24,6 +24,7 @@ class ScoreboardViewController: UIViewController {
     private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
     var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     lazy var resetBarButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetButtonTapped))
+    lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper()
     
     
     override func viewDidLoad() {
@@ -129,16 +130,19 @@ class ScoreboardViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func endRoundButtonTapped(_ sender: Any) {
-        guard viewModel != nil else { return }
+        guard let viewModel = viewModel,
+              !viewModel.sortedPlayers.isEmpty else { return }
+        
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
         
         
-        endRoundPopoverVC.players = viewModel?.game.players
+        endRoundPopoverVC.players = viewModel.sortedPlayers
 //        endRoundPopoverVC.delegate = viewModel!
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: 180)
+        let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: viewModel.sortedPlayers.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height)
         
         self.present(endRoundPopoverVC, animated: true)
     }
