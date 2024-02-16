@@ -333,6 +333,125 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - Binding PlayerToDelete
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNil_ShouldNotPresentAnything() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToDelete.value = nil
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 0)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNotNil_ShouldPresentAlertWithCorrectTitle() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToDelete.value = Player(name: "", position: 0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.title, "Delete Player")
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNotNil_ShouldPresentAlertWithCorrectMessage() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let playerName = UUID().uuidString
+        let player = Player(name: playerName, position: 0)
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToDelete.value = player
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "Are you sure you want to remove \(playerName) from this game?")
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNotNil_ShouldPresentAlertWithFirstActionCancel() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToDelete.value = Player(name: "", position: 0)
+        
+        // then
+        let cancelAction = (sut.viewControllerPresented as? UIAlertController)?.actions.first
+        XCTAssertNotNil(cancelAction)
+        XCTAssertEqual(cancelAction?.title, "Cancel")
+        XCTAssertEqual(cancelAction?.style, .cancel)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNotNil_ShouldPresentAlertWithTwoActions() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToDelete.value = Player(name: "", position: 0)
+        
+        // then
+        let actions = (sut.viewControllerPresented as? UIAlertController)?.actions
+        XCTAssertEqual(actions?.count, 2)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNil_ShouldPresentAlertWithLastActionDelete() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToDelete.value = Player(name: "", position: 0)
+        
+        // then
+        let resetAction = (sut.viewControllerPresented as? UIAlertController)?.actions.last
+        XCTAssertNotNil(resetAction)
+        XCTAssertEqual(resetAction?.title, "Delete")
+        XCTAssertEqual(resetAction?.style, .destructive)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNil_ShouldSetDeleteActionHandlerToBeViewModelDeletePlayer() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let player = Player(name: "", position: 0)
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.playerToDelete.value = player
+        let deleteAction = (sut.viewControllerPresented as? UIAlertController)?.actions.last as? TestableUIAlertAction
+      
+        deleteAction?.handler!(UIAlertAction(title: "", style: .destructive))
+        
+        // then
+        XCTAssertEqual(viewModelMock.deletePlayerCalledCount, 1)
+        XCTAssertEqual(viewModelMock.deletePlayerPlayer, player)
+    }
+
+    
     // MARK: - Binding SortPreference
     
     func test_ScoreboardViewController_WhenBindingsSetAndSortPreferenceSet_ShouldCallTableViewReloadData() {

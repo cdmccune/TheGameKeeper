@@ -23,7 +23,7 @@ class Observable<ObservedType> {
         }
     }
 
-    init(_ value: ObservedType) {
+    init(_ value: ObservedType?) {
         _value = value
     }
     

@@ -11,7 +11,7 @@ import Foundation
 class GameSetupViewModel {
     
     var gameType: Observable<GameType> = Observable(.basic)
-    var gameEndType: Observable<GameEndType> = Observable(.none)
+    var gameEndType: Observable<GameEndType> = Observable(GameEndType.none)
     var numberOfRounds: Observable<Int> = Observable(1)
     var endingScore: Observable<Int> = Observable(0)
     var numberOfPlayers: Observable<Int> = Observable(2)

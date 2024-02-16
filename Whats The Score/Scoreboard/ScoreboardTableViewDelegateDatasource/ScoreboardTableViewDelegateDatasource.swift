@@ -46,4 +46,11 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
         viewModel.startEditingPlayerScoreAt(indexPath.row)
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            self.viewModel.startDeletingPlayerAt(indexPath.row)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
 }

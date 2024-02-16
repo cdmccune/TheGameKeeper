@@ -278,6 +278,65 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - StartDeletingPlayerAt
+    
+    func test_ScoreboardViewModel_WhenStartDeletingPlayerAtCalledOutOfRange_ShouldNotSetPlayerToDelete() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.players = []
+        
+        // when
+        sut.startDeletingPlayerAt(0)
+        
+        // then
+        XCTAssertNil(sut.playerToDelete.value)
+    }
+    
+    func test_ScoreboardViewModel_WhenStartDeletingPlayerAtCalledInRange_ShouldSetPlayerToDelete() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let player = Player(name: "", position: 0)
+        sut.game.players = [player]
+        
+        // when
+        sut.startDeletingPlayerAt(0)
+        
+        // then
+        XCTAssertEqual(sut.playerToDelete.value, player)
+    }
+    
+    
+    // MARK: - DeletePlayer
+    
+    func test_ScoreboardViewModel_WhenDeletePlayerCalled_ShouldRemovePlayerFromCurrentGame() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let player = Player(name: "", position: 0)
+        sut.game.players = [player]
+        
+        // when
+        sut.deletePlayer(player)
+        
+        // then
+        XCTAssertEqual(sut.game.players.count, 0)
+    }
+    
+    func test_ScoreboardViewModel_WhenDeletePlayerCalled_ShouldCallBindViewModelToView() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let previousBindCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.deletePlayer(Player(name: "", position: 0))
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
+    }
+    
+    
     // MARK: - AddPlayer
     
     func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallAddPlayerOnGame() {
@@ -370,6 +429,7 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     var delegate: ScoreboardViewModelViewProtocol?
     var playerToEditScore: Observable<Player> = Observable(Player(name: "", position: 0))
     var playerToEdit: Observable<Player> = Observable(Player(name: "", position: 0))
+    var playerToDelete: Observable<Player> = Observable(Player(name: "", position: 0))
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
     var sortedPlayers: [Player] = []
     
@@ -409,6 +469,20 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     func startEditingPlayerAt(_ index: Int) {
         startEditingPlayerAtCalledCount += 1
         startEditingPlayerAtIndex = index
+    }
+    
+    var startDeletingPlayerAtCalledCount = 0
+    var startDeletingPlayerAtIndex: Int?
+    func startDeletingPlayerAt(_ index: Int) {
+        startDeletingPlayerAtCalledCount += 1
+        startDeletingPlayerAtIndex = index
+    }
+    
+    var deletePlayerPlayer: Player?
+    var deletePlayerCalledCount = 0
+    func deletePlayer(_ player: Player) {
+        self.deletePlayerPlayer = player
+        self.deletePlayerCalledCount += 1
     }
     
     var resetGameCalledCount = 0

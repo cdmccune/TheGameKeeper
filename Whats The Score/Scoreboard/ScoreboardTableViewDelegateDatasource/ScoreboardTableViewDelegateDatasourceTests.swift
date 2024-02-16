@@ -127,6 +127,43 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     }
     
     
+    // MARK: - TrailingSwipeActions
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenTrailingSwipeActionsConfiguartionForRowAt_ShouldReturnOneActionWithDeleteTitle() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertNotNil(swipeActionsConfig?.actions.first)
+        XCTAssertEqual(swipeActionsConfig?.actions.first?.title, "Delete")
+        XCTAssertEqual(swipeActionsConfig?.actions.first?.style, .destructive)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenDeleteSwipeActionCalled_ShouldCallViewModelDeletePlayerAt() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        let index = Int.random(in: 0...10)
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: index, section: 0))
+        guard let action = swipeActionsConfig?.actions.first else {
+            XCTFail("This should have a delete action")
+            return
+        }
+        
+        action.handler(action, UIView(), {_ in})
+        
+        // then
+        XCTAssertEqual(viewModelMock.startDeletingPlayerAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock.startDeletingPlayerAtIndex, index)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardTableViewCellMock: ScoreboardTableViewCell {

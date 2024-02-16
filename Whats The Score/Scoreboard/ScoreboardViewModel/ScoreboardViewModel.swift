@@ -12,12 +12,15 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var playerToEditScore: Observable<Player> { get set }
     var playerToEdit: Observable<Player> { get set }
+    var playerToDelete: Observable<Player> { get set }
     var sortPreference: Observable<ScoreboardSortPreference> { get set }
     var sortedPlayers: [Player] { get }
     
     func startEditingPlayerAt(_ index: Int)
     func startEditingPlayerScoreAt(_ index: Int)
     func editPlayerScoreAt(_ index: Int, byAdding: Int)
+    func startDeletingPlayerAt(_ index: Int)
+    func deletePlayer(_ player: Player)
     func addPlayer()
     func endCurrentRound()
     func endGame()
@@ -45,8 +48,9 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     
     // MARK: - Observables
     
-    var playerToEditScore: Observable<Player> = Observable(Player(name: "", position: 0))
-    var playerToEdit: Observable<Player> = Observable(Player(name: "", position: 0))
+    var playerToEditScore: Observable<Player> = Observable(nil)
+    var playerToEdit: Observable<Player> = Observable(nil)
+    var playerToDelete: Observable<Player> = Observable(nil)
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
     var sortedPlayers: [Player] {
         return game.players.sorted {player1, player2 in
@@ -80,6 +84,18 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
         guard game.players.indices.contains(index) else { return }
         
         game.players[index].score += change
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+    }
+    
+    func startDeletingPlayerAt(_ index: Int) {
+        guard sortedPlayers.indices.contains(index) else { return }
+        
+        let player = sortedPlayers[index]
+        self.playerToDelete.value = player
+    }
+    
+    func deletePlayer(_ player: Player) {
+        game.deletePlayerAt(player.position)
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 

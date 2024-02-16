@@ -66,6 +66,10 @@ class ScoreboardViewController: UIViewController {
             self?.scoreSortButton.alpha = sortPreference == .score ? 1 : 0.5
             self?.turnOrderSortButton.alpha = sortPreference == .position ? 1 : 0.5
         }
+        
+        viewModel?.playerToDelete.valueChanged = { [weak self] _ in
+            self?.presentDeletePlayerAlert()
+        }
     }
     
     private func setupViews() {
@@ -103,6 +107,23 @@ class ScoreboardViewController: UIViewController {
         defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerVC, withWidth: 300, andHeight: 180)
         
         self.present(editPlayerVC, animated: true)
+    }
+    
+    private func presentDeletePlayerAlert() {
+        guard let player = viewModel?.playerToDelete.value else { return }
+                
+                
+        let alert = UIAlertController(title: "Delete Player", message: "Are you sure you want to remove \(player.name) from this game?", preferredStyle: .alert)
+        
+        let cancelAction = TestableUIAlertAction.createWith(title: "Cancel", style: .cancel) { _ in }
+        let deleteAction = TestableUIAlertAction.createWith(title: "Delete", style: .destructive) { _ in
+            self.viewModel?.deletePlayer(player)
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        
+        self.present(alert, animated: true)
     }
     
     // MARK: - IBActions
