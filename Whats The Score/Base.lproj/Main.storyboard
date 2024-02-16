@@ -841,6 +841,10 @@
                         </constraints>
                     </view>
                     <size key="freeformSize" width="300" height="200"/>
+                    <connections>
+                        <outlet property="roundLabel" destination="TzC-ag-sfr" id="7mg-8S-ya9"/>
+                        <outlet property="tableView" destination="5hi-kd-FQc" id="X79-ci-GQA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FbH-k9-wKK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

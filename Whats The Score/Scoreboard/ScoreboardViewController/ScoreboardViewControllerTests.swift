@@ -585,7 +585,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.viewControllerPresented is EndRoundPopoverViewController)
     }
     
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithSortedPlayers() {
+    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithSortedPlayersAndRoundNumber() {
         // given
         let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
@@ -593,6 +593,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let viewModelMock = ScoreboardViewModelMock()
         let players = [Player(name: "", position: 0)]
         viewModelMock.sortedPlayers = players
+        
+        let currentRound = Int.random(in: 1...1000)
+        viewModelMock.game.currentRound = currentRound
+        
         sut.viewModel = viewModelMock
         
         // when
@@ -601,6 +605,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
         XCTAssertEqual(endRoundPopoverVC?.players, players)
+        XCTAssertEqual(endRoundPopoverVC?.round, currentRound)
     }
     
     

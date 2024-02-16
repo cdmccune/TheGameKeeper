@@ -20,7 +20,7 @@ final class EndRoundPopoverHeightHelperTests: XCTestCase {
         let height = sut.getPopoverHeightFor(playerCount: playerCount, andSafeAreaHeight: safeAreaHeight)
         
         // then
-        let expectedHeight = CGFloat(90 + (playerCount * 35) + (playerCount - 1))
+        let expectedHeight = CGFloat(90 + (playerCount * 45) + (playerCount - 1))
         XCTAssertEqual(height, expectedHeight)
     }
     

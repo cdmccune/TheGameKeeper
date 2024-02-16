@@ -139,7 +139,7 @@ class ScoreboardViewController: UIViewController {
         
         
         endRoundPopoverVC.players = viewModel.sortedPlayers
-//        endRoundPopoverVC.delegate = viewModel!
+        endRoundPopoverVC.round = viewModel.game.currentRound
         
         let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: viewModel.sortedPlayers.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
         defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height)

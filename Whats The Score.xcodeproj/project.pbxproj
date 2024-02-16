@@ -47,6 +47,9 @@
 		2457FA2D2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2457FA2C2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift */; };
 		2457FA2F2B7FDDC000CF7F40 /* EndRoundPopoverHeightHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2457FA2E2B7FDDC000CF7F40 /* EndRoundPopoverHeightHelper.swift */; };
 		2457FA322B7FDE6700CF7F40 /* EndRoundPopoverHeightHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2457FA312B7FDE6700CF7F40 /* EndRoundPopoverHeightHelperTests.swift */; };
+		2457FA372B800D6300CF7F40 /* EndRoundPopoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2457FA352B800D6300CF7F40 /* EndRoundPopoverTableViewCell.swift */; };
+		2457FA382B800D6300CF7F40 /* EndRoundPopoverTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2457FA362B800D6300CF7F40 /* EndRoundPopoverTableViewCell.xib */; };
+		2457FA3B2B8014DC00CF7F40 /* EndRoundPopoverTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2457FA3A2B8014DC00CF7F40 /* EndRoundPopoverTableViewCellTests.swift */; };
 		24836D1B2B72DC890038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24836D1A2B72DC890038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegate.swift */; };
 		24836D1D2B72DC980038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24836D1C2B72DC980038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift */; };
 		24836D1F2B72E0BE0038D8D2 /* ViewControllerExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24836D1E2B72E0BE0038D8D2 /* ViewControllerExtensionsTests.swift */; };
@@ -133,6 +136,9 @@
 		2457FA2C2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundPopoverViewControllerTests.swift; sourceTree = "<group>"; };
 		2457FA2E2B7FDDC000CF7F40 /* EndRoundPopoverHeightHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundPopoverHeightHelper.swift; sourceTree = "<group>"; };
 		2457FA312B7FDE6700CF7F40 /* EndRoundPopoverHeightHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundPopoverHeightHelperTests.swift; sourceTree = "<group>"; };
+		2457FA352B800D6300CF7F40 /* EndRoundPopoverTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundPopoverTableViewCell.swift; sourceTree = "<group>"; };
+		2457FA362B800D6300CF7F40 /* EndRoundPopoverTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EndRoundPopoverTableViewCell.xib; sourceTree = "<group>"; };
+		2457FA3A2B8014DC00CF7F40 /* EndRoundPopoverTableViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundPopoverTableViewCellTests.swift; sourceTree = "<group>"; };
 		246600532B5E13C6004F8512 /* Notable-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Notable-Regular.ttf"; sourceTree = "<group>"; };
 		24836D1A2B72DC890038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAdaptivePresentationStylePopoverPresentationDelegate.swift; sourceTree = "<group>"; };
 		24836D1C2B72DC980038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift; sourceTree = "<group>"; };
@@ -427,8 +433,8 @@
 		2457FA292B7FD3F200CF7F40 /* EndRoundPopover */ = {
 			isa = PBXGroup;
 			children = (
-				2457FA2A2B7FD45700CF7F40 /* EndRoundPopoverViewController.swift */,
-				2457FA2C2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift */,
+				2457FA342B800D4000CF7F40 /* TableViewCell */,
+				2457FA332B800D3000CF7F40 /* ViewController */,
 				2457FA302B7FDE5300CF7F40 /* HeightHelper */,
 			);
 			path = EndRoundPopover;
@@ -441,6 +447,25 @@
 				2457FA312B7FDE6700CF7F40 /* EndRoundPopoverHeightHelperTests.swift */,
 			);
 			path = HeightHelper;
+			sourceTree = "<group>";
+		};
+		2457FA332B800D3000CF7F40 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2457FA2A2B7FD45700CF7F40 /* EndRoundPopoverViewController.swift */,
+				2457FA2C2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2457FA342B800D4000CF7F40 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				2457FA352B800D6300CF7F40 /* EndRoundPopoverTableViewCell.swift */,
+				2457FA362B800D6300CF7F40 /* EndRoundPopoverTableViewCell.xib */,
+				2457FA3A2B8014DC00CF7F40 /* EndRoundPopoverTableViewCellTests.swift */,
+			);
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 		24836D192B72DC650038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegate */ = {
@@ -699,6 +724,7 @@
 				24CD52732B616AA000C481A8 /* Notable-Regular.ttf in Resources */,
 				24CD526F2B6167A500C481A8 /* ScoreboardTableViewCell.xib in Resources */,
 				2437F6EC2B40AAE100BB75A1 /* Assets.xcassets in Resources */,
+				2457FA382B800D6300CF7F40 /* EndRoundPopoverTableViewCell.xib in Resources */,
 				243228CF2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib in Resources */,
 				24240EDE2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.xib in Resources */,
 				2437F6EA2B40AAE000BB75A1 /* Main.storyboard in Resources */,
@@ -787,6 +813,7 @@
 			files = (
 				2426156E2B59DF360092B145 /* UITableViewExtensions.swift in Sources */,
 				243228E22B4EFD1100C42C62 /* DismissingTextFieldDelegate.swift in Sources */,
+				2457FA372B800D6300CF7F40 /* EndRoundPopoverTableViewCell.swift in Sources */,
 				243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */,
 				24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */,
 				24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */,
@@ -834,6 +861,7 @@
 				24836D1D2B72DC980038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift in Sources */,
 				2496A0752B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift in Sources */,
 				243E98402B73F59E0097130A /* ScoreboardPlayerEditScorePopoverViewControllerTests.swift in Sources */,
+				2457FA3B2B8014DC00CF7F40 /* EndRoundPopoverTableViewCellTests.swift in Sources */,
 				24CD526B2B61622C00C481A8 /* ScoreboardTableViewDelegateDatasourceTests.swift in Sources */,
 				242615702B59E0BF0092B145 /* UITableViewExtensionsTests.swift in Sources */,
 				24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */,
