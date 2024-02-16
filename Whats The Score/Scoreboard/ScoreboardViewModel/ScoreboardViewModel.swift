@@ -22,7 +22,6 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     func startDeletingPlayerAt(_ index: Int)
     func deletePlayer(_ player: Player)
     func addPlayer()
-    func endCurrentRound()
     func endGame()
     func resetGame()
 }
@@ -102,9 +101,6 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     func addPlayer() {
         game.addPlayer()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
-    }
-    
-    func endCurrentRound() {
     }
     
     func endGame() {

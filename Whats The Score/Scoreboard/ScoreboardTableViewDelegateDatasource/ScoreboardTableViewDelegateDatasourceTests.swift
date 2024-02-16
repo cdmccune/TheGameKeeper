@@ -70,7 +70,6 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 3)
         
-        let playerName = UUID().uuidString
         let player = sut.viewModel.sortedPlayers[2]
         
         // when
@@ -78,7 +77,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupCellWithCalledCount, 1)
-        XCTAssertEqual(cell?.setupVellWithPlayer, player)
+        XCTAssertEqual(cell?.setupCellWithPlayer, player)
     }
     
     func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledOutOfIndexForPlayer_ShouldCallCellsSetupCellForError() {
@@ -168,9 +167,9 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     class ScoreboardTableViewCellMock: ScoreboardTableViewCell {
         var setupCellWithCalledCount = 0
-        var setupVellWithPlayer: Player?
+        var setupCellWithPlayer: Player?
         override func setupCellWith(_ player: Player) {
-            setupVellWithPlayer = player
+            setupCellWithPlayer = player
             setupCellWithCalledCount += 1
         }
         

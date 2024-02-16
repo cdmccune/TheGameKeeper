@@ -454,11 +454,6 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
         addPlayerCalledCount += 1
     }
     
-    var endCurrentRoundCalledCount = 0
-    func endCurrentRound() {
-        endCurrentRoundCalledCount += 1
-    }
-    
     var endGameCalledCount = 0
     func endGame() {
         endGameCalledCount += 1

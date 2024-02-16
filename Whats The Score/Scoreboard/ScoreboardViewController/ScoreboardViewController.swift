@@ -129,8 +129,18 @@ class ScoreboardViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func endRoundButtonTapped(_ sender: Any) {
-        viewModel?.endCurrentRound()
+        guard viewModel != nil else { return }
         
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
+        
+        
+        endRoundPopoverVC.players = viewModel?.game.players
+//        endRoundPopoverVC.delegate = viewModel!
+        
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: 180)
+        
+        self.present(endRoundPopoverVC, animated: true)
     }
     
     @IBAction func endGameButtonTapped(_ sender: Any) {
