@@ -168,4 +168,26 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(cell?.setupErrorCellCalledCount, 1)
     }
+    
+    func test_EndRoundPopoverViewController_WhenCellForRowAtCalled_ShouldSetCellsTextFieldDidChangeHandlerToChangeCorrectPlayersScore() {
+        // given
+        let sut = viewController!
+        
+        let tableViewMock = UITableView()
+        tableViewMock.register(EndRoundPopoverTableViewCellMock.self, forCellReuseIdentifier: "EndRoundPopoverTableViewCell")
+        let startingScore = Int.random(in: 1...1000)
+        let scoreChange = Int.random(in: 1...1000)
+        
+        let playerCount = Int.random(in: 2...5)
+        sut.players = Array(repeating: Player(name: "", position: 0, score: startingScore), count: playerCount)
+        
+        let randomPlayer = Int.random(in: 0...playerCount-1)
+        
+        // when
+        let cell = sut.tableView(tableViewMock, cellForRowAt: IndexPath(row: randomPlayer, section: 0)) as? EndRoundPopoverTableViewCellMock
+        cell?.textFieldDidChangeHandler?(scoreChange)
+        
+        // then
+        XCTAssertEqual(sut.players?[randomPlayer].score, startingScore + scoreChange)
+    }
 }

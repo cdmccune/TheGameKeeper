@@ -36,6 +36,23 @@ final class EndRoundPopoverTableViewCellTests: XCTestCase {
     }
     
     
+    // MARK: - AwakeFromNib
+    
+    func test_EndRoundPopoverTableViewCell_WhenAwakeFromNibCalled_ShouldAddTargetToTextFieldThatCalledTextFieldDidChange() {
+        // given
+        let sut = EndRoundPopoverTableViewCellMock()
+        let textField = UITextField()
+        sut.scoreTextField = textField
+        
+        // when
+        sut.awakeFromNib()
+        textField.sendActions(for: .editingChanged)
+        
+        // then
+        XCTAssertEqual(sut.textFieldDidChangeCalledCount, 1)
+    }
+    
+    
     // MARK: - SetupViewPropertiesFor
 
     func test_EndRoundPopoverTableViewCell_WhenSetupViewPropertiesForCalled_ShouldSetPlayerNameLabelTextToPlayerName() {
@@ -66,6 +83,55 @@ final class EndRoundPopoverTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.playerNameLabel.text, "Error")
     }
 
+    
+    // MARK: - TextFieldDidChange
+    
+    func test_EndRoundPopoverTableViewCell_WhenTextFieldDidChangeCalledTextIsInt_ShouldCallTextFieldValueChangedHandlerWithCorrectText() {
+        // given
+        let sut = tableViewCell!
+        
+        let textField = UITextField()
+        let randomNumber = Int.random(in: 1...10)
+        textField.text = "\(randomNumber)"
+        
+        sut.scoreTextField = textField
+        
+        let expectation = XCTestExpectation(description: "TextFieldDidChangeHandler should be called ")
+        
+        sut.textFieldDidChangeHandler = { scoreChange in
+            expectation.fulfill()
+            XCTAssertEqual(scoreChange, randomNumber)
+        }
+        
+        // when
+        sut.textFieldDidChange(UITextField())
+        
+        wait(for: [expectation])
+    }
+    
+    func test_EndRoundPopoverTableViewCell_WhenTextFieldDidChangeCalledTextNil_ShouldCallTextFieldValueChangedHandlerWithZero() {
+        // given
+        let sut = tableViewCell!
+        
+        let textField = UITextField()
+        textField.text = nil
+        
+        sut.scoreTextField = textField
+        
+        let expectation = XCTestExpectation(description: "TextFieldDidChangeHandler should be called ")
+        
+        sut.textFieldDidChangeHandler = { scoreChange in
+            expectation.fulfill()
+            XCTAssertEqual(scoreChange, 0)
+        }
+        
+        // when
+        sut.textFieldDidChange(UITextField())
+        
+        wait(for: [expectation])
+    }
+    
+    
 }
 
 class EndRoundPopoverTableViewCellMock: EndRoundPopoverTableViewCell {
@@ -79,5 +145,10 @@ class EndRoundPopoverTableViewCellMock: EndRoundPopoverTableViewCell {
     var setupErrorCellCalledCount = 0
     override func setupErrorCell() {
         setupErrorCellCalledCount += 1
+    }
+    
+    var textFieldDidChangeCalledCount = 0
+    override func textFieldDidChange(_ textfield: UITextField) {
+        textFieldDidChangeCalledCount += 1
     }
 }

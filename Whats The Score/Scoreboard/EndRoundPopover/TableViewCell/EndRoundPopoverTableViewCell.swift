@@ -16,6 +16,17 @@ class EndRoundPopoverTableViewCell: UITableViewCell {
     @IBOutlet weak var scoreTextField: UITextField!
     
     
+    // MARK: - Properties
+    
+    var textFieldDidChangeHandler: ((Int) -> Void)?
+    
+    
+    // MARK: - LifeCycle
+    
+    override func awakeFromNib() {
+        scoreTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+    }
+    
     // MARK: - Functions
     
     func setupViewProperties(for player: Player) {
@@ -25,6 +36,13 @@ class EndRoundPopoverTableViewCell: UITableViewCell {
     func setupErrorCell() {
         playerNameLabel.text = "Error"
     }
+    
+    @objc func textFieldDidChange(_ textfield: UITextField) {
+        let number = Int(scoreTextField.text ?? "0") ?? 0
+        textFieldDidChangeHandler?(number)
+    }
+    
+    // MARK: - IBActions
     
     
 }

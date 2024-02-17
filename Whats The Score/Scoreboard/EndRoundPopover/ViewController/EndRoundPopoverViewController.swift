@@ -79,6 +79,9 @@ extension EndRoundPopoverViewController: UITableViewDelegate, UITableViewDataSou
         }
         
         cell.setupViewProperties(for: players[indexPath.row])
+        cell.textFieldDidChangeHandler = { scoreChange in
+            self.players?[indexPath.row].score += scoreChange
+        }
         
         return cell
     }
