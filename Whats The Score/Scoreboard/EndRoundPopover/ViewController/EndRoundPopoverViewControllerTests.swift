@@ -197,6 +197,50 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
     }
     
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldAddTextFieldsInPlayerStackViewsToTextFields() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let players = Array(repeating: Player(name: "", position: 0), count: Int.random(in: 2...10))
+        sut.players = players
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.enumerated().forEach { (index, stackView) in
+            XCTAssertEqual(sut.textFields[index], stackView.textField)
+        }
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetNextAsReturnKeyStyleToEveryTextFieldExceptDoneToTheLastOne() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let players = Array(repeating: Player(name: "", position: 0), count: Int.random(in: 2...10))
+        sut.players = players
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        sut.textFields.enumerated().forEach { (index, textField) in
+            if index == sut.textFields.count - 1 {
+                XCTAssertEqual(textField.returnKeyType, .done)
+            } else {
+                XCTAssertEqual(textField.returnKeyType, .next)
+            }
+        }
+    }
+
+    
     // MARK: - TextFieldEditingBegan
     
     func test_EndRoundPopoverViewController_WhenTextFieldEditingBeganCalledTextFieldIsInCurrentFrameOfPlayerScrollView_ShouldNotChangeScrollViewContentOffset() {

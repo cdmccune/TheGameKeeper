@@ -10,11 +10,26 @@ import UIKit
 
 class StackViewTextFieldDelegate: NSObject, UITextFieldDelegate {
     
+    // MARK: - Init
+    
     init(delegate: StackViewTextFieldDelegateDelegate) {
         self.delegate = delegate
     }
     
+    
+    // MARK: - Delegate
+    
     weak var delegate: StackViewTextFieldDelegateDelegate?
+    
+    
+    // MARK: - Functions
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.textFieldEditingBegan(index: textField.tag)
+    }
+
+
+    
 }
 
 protocol StackViewTextFieldDelegateDelegate: NSObject {

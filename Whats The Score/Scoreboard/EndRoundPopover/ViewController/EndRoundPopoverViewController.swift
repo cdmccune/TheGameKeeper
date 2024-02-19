@@ -47,6 +47,9 @@ class EndRoundPopoverViewController: UIViewController {
             let textField = UITextField()
             let textFieldDelegate = StackViewTextFieldDelegate(delegate: self)
             textField.tag = i
+            textFields.append(textField)
+            textField.returnKeyType = (i == players.count-1) ? .done : .next
+            
             playerStackView.addArrangedSubview(EndRoundPopoverPlayerStackView(player: players[i], textField: textField, textFieldDelegate: textFieldDelegate))
         }
     }
@@ -58,18 +61,6 @@ class EndRoundPopoverViewController: UIViewController {
             roundLabel.text = "Round ???"
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension EndRoundPopoverViewController: StackViewTextFieldDelegateDelegate {

@@ -600,7 +600,7 @@
                                                 <rect key="frame" x="89" y="0.0" width="102" height="95.333333333333329"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="0" textAlignment="right" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="he4-Ns-wXb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="95.333333333333343"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="95.333333333333329"/>
                                                         <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="72"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
@@ -809,7 +809,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i7q-Hi-phz">
                                                 <rect key="frame" x="0.0" y="0.0" width="280" height="110"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="byF-OR-Dj1">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="byF-OR-Dj1">
                                                         <rect key="frame" x="0.0" y="0.0" width="280" height="110"/>
                                                     </stackView>
                                                 </subviews>

@@ -6,30 +6,52 @@
 //
 
 import XCTest
+@testable import Whats_The_Score
 
 final class StackViewTextFieldDelegateTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func test_StackViewTextFieldDelegate_WhenTextFieldDidBeginEditing_ShouldCallDelegateTextFieldEditingBeganWithTextFieldTag() {
+        // given
+        let delegate = StackViewTextFieldDelegateDelegateMock()
+        let sut = StackViewTextFieldDelegate(delegate: delegate)
+        
+        let index = Int.random(in: 1...1000)
+        let textField = UITextField()
+        textField.tag = index
+        
+        // when
+        sut.textFieldDidBeginEditing(textField)
+        
+        // then
+        XCTAssertEqual(delegate.textFieldEditingBeganIndex, index)
+        XCTAssertEqual(delegate.textFieldEditingBeganCalledCount, 1)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+}
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+class StackViewTextFieldDelegateDelegateMock: NSObject, StackViewTextFieldDelegateDelegate {
+    var textFieldEditingBeganCalledCount = 0
+    var textFieldEditingBeganIndex: Int?
+    func textFieldEditingBegan(index: Int) {
+        textFieldEditingBeganCalledCount += 1
+        textFieldEditingBeganIndex = index
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    var textFieldShouldReturnCalledCount = 0
+    var textFieldShouldReturnIndex: Int?
+    func textFieldShouldReturn(for index: Int) {
+        textFieldShouldReturnCalledCount += 1
+        textFieldShouldReturnIndex = index
     }
-
+    
+    var textFieldValueChangedCalledCount = 0
+    var textFieldValueChangedIndex: Int?
+    var textFieldValueChangedNewValue: Int?
+    func textFieldValueChanged(forIndex index: Int, to newValue: Int) {
+        textFieldValueChangedCalledCount += 1
+        textFieldValueChangedIndex = index
+        textFieldValueChangedNewValue = newValue
+    }
+    
+    
 }
