@@ -12,13 +12,20 @@ class EndRoundPopoverViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var roundLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var playerScrollView: UIScrollView!
+    @IBOutlet weak var playerStackView: UIStackView!
+    
+//    @IBOutlet weak var tableView: UITableView!
     
     
     // MARK: - Properties
     
     var players: [Player]?
     var round: Int?
+    var playerCellHeight = 45
+    var playerSeparator = 3
+    var textFields: [UITextField] = []
+    var playerScoreChanges: [Int] = []
     
     
     // MARK: - LifeCycles
@@ -26,21 +33,22 @@ class EndRoundPopoverViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setDelegates()
-        registerNibs()
         setupViews()
+        setupPlayerStackView()
+        playerScoreChanges = Array(repeating: 0, count: players?.count ?? 0)
     }
     
     
     // MARK: - Private Functions
     
-    private func setDelegates() {
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-    
-    private func registerNibs() {
-        tableView.register(UINib(nibName: "EndRoundPopoverTableViewCell", bundle: nil), forCellReuseIdentifier: "EndRoundPopoverTableViewCell")
+    private func setupPlayerStackView() {
+        guard let players = players else { return }
+        for i in players.indices {
+            let textField = UITextField()
+            let textFieldDelegate = StackViewTextFieldDelegate(delegate: self)
+            textField.tag = i
+            playerStackView.addArrangedSubview(EndRoundPopoverPlayerStackView(player: players[i], textField: textField, textFieldDelegate: textFieldDelegate))
+        }
     }
     
     private func setupViews() {
@@ -64,28 +72,31 @@ class EndRoundPopoverViewController: UIViewController {
 
 }
 
-extension EndRoundPopoverViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return players?.count ?? 0
+extension EndRoundPopoverViewController: StackViewTextFieldDelegateDelegate {
+    func textFieldValueChanged(forIndex index: Int, to newValue: Int) {
+        guard playerScoreChanges.indices.contains(index) else { return }
+        playerScoreChanges[index] = newValue
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EndRoundPopoverTableViewCell", for: indexPath) as?  EndRoundPopoverTableViewCell else { fatalError("EndRoundPopoverTableViewCell wasn't registered")}
+    func textFieldShouldReturn(for index: Int) {
+        guard textFields.indices.contains(index) else { return }
         
-        guard let players,
-              players.indices.contains(indexPath.row) else {
-            cell.setupErrorCell()
-            return cell
+        if textFields.indices.contains(index + 1) {
+            textFields[index + 1].becomeFirstResponder()
+        } else {
+            textFields[index].endEditing(true)
         }
+    }
+    
+    func textFieldEditingBegan(index: Int) {
+        let textFieldIndex = index
+        let textfieldY = 48 * textFieldIndex
+        let bottomOfScrollView = playerScrollView.contentOffset.y + playerScrollView.frame.height
         
-        cell.scoreTextField.tag = indexPath.row + 1
-        cell.textFieldDelegate = HighlightNextCellInTableViewTextFieldDelegate(tableView: tableView)
-        cell.scoreTextField.delegate = cell.textFieldDelegate
-        cell.setupViewProperties(for: players[indexPath.row])
-        cell.textFieldDidChangeHandler = { scoreChange in
-            self.players?[indexPath.row].score += scoreChange
+        if !(Int(textfieldY) < Int(bottomOfScrollView)) {
+            let yCoordinate = Int(textfieldY) - Int(playerScrollView.frame.height) + 48
+            let point = CGPoint(x: 0, y: yCoordinate)
+            playerScrollView.contentOffset = point
         }
-        
-        return cell
     }
 }

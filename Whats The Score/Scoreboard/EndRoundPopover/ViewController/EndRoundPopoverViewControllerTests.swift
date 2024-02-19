@@ -37,38 +37,13 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         // then
-        XCTAssertNotNil(sut.tableView)
+        XCTAssertNotNil(sut.playerScrollView)
+        XCTAssertNotNil(sut.playerStackView)
         XCTAssertNotNil(sut.roundLabel)
     }
     
     
     // MARK: - ViewDidLoad
-    
-    func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldSetTableViewDelegateAndDatasource() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertTrue(sut.tableView.delegate is EndRoundPopoverViewController)
-        XCTAssertTrue(sut.tableView.dataSource is EndRoundPopoverViewController)
-    }
-    
-    func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldRegisterNibForTableView() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        let cell = sut.tableView.dequeueReusableCell(withIdentifier: "EndRoundPopoverTableViewCell")
-        XCTAssertTrue(cell is EndRoundPopoverTableViewCell)
-    }
     
     func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldSetRoundTextToCurrentRound() {
         // given
@@ -99,127 +74,238 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.roundLabel.text, "Round ???")
     }
     
-    
-    // MARK: - TableViewNumberOfRows
-    
-    func test_EndRoundPopoverViewController_WhenNumberOfRowsInSectionCalled_ShouldReturnPlayerCount() {
+    func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldSetPlayerScoreChangesToAnArrayOfZerosWithLengthOfPlayers() {
         // given
         let sut = viewController!
         sut.loadView()
+        
+        let playerCount = Int.random(in: 1...15)
+        sut.players = Array(repeating: Player(name: "", position: 0), count: playerCount)
+        
+        // when
         sut.viewDidLoad()
         
+        // then
+        let arrayOfZeros = Array(repeating: 0, count: playerCount)
+        XCTAssertEqual(sut.playerScoreChanges, arrayOfZeros)
+    }
+    
+    
+    // MARK: - PlayerStackView
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldAddPlayerCountOfEndRoundPopoverPlayerStackView() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
         let playerCount = Int.random(in: 1...10)
+        sut.players = Array(repeating: Player(name: "", position: 0), count: playerCount)
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.playerStackView.subviews.count, playerCount)
+        XCTAssertTrue(sut.playerStackView.subviews is [EndRoundPopoverPlayerStackView])
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerForEndRoundPopoverPlayerStackView() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let players = Array(repeating: Player(name: "", position: 0), count: playerCount)
+        sut.players = players
+        let randomPlayerIndex = Int.random(in: 0...playerCount-1)
+        
+        // when
+        sut.viewDidLoad()
+        let endRoundPopoverPlayerStackView = sut.playerStackView.subviews[randomPlayerIndex] as? EndRoundPopoverPlayerStackView
+        
+        // then
+        XCTAssertEqual(endRoundPopoverPlayerStackView?.player, players[randomPlayerIndex])
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldTagForEndRoundPopoverPlayerStackView() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
         let players = Array(repeating: Player(name: "", position: 0), count: playerCount)
         sut.players = players
         
         // when
-        let count = sut.tableView(UITableView(), numberOfRowsInSection: 0)
+        sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(count, playerCount)
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.enumerated().forEach { (index, stackView) in
+            XCTAssertEqual(stackView.textField.tag, index)
+        }
     }
     
-
-    // MARK: - TableViewCellForRowAt
-    
-    func test_EndRoundPopoverViewController_WhenCellForRowAtCalled_ShouldReturnEndRoundPopoverTableViewCell() {
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldDelegateAsStackViewTextFieldDelegateForEndRoundPopoverPlayerStackViewsTextField() {
         // given
         let sut = viewController!
         sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let players = Array(repeating: Player(name: "", position: 0), count: playerCount)
+        sut.players = players
+        
+        // when
         sut.viewDidLoad()
         
-        // when
-        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
-        
         // then
-        XCTAssertTrue(cell is EndRoundPopoverTableViewCell)
-    }
-
-    func test_EndRoundPopoverViewController_WhenCellForRowAtCalledInRange_ShouldCallCellSetupViewPropertiesForPlayer() {
-        // given
-        let sut = viewController!
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
         
-        let tableViewMock = UITableView()
-        tableViewMock.register(EndRoundPopoverTableViewCellMock.self, forCellReuseIdentifier: "EndRoundPopoverTableViewCell")
-        
-        let player = Player(name: "", position: 0)
-        sut.players = [player]
-        
-        // when
-        let cell = sut.tableView(tableViewMock, cellForRowAt: IndexPath(row: 0, section: 0)) as? EndRoundPopoverTableViewCellMock
-        
-        // then
-        XCTAssertEqual(cell?.setupViewPropertiesCalledCount, 1)
-        XCTAssertEqual(cell?.setupViewPropertiesPlayer, player)
+        stackViews.forEach { (stackView) in
+            XCTAssertTrue(stackView.textField.delegate is StackViewTextFieldDelegate)
+        }
     }
     
-    func test_EndRoundPopoverViewController_WhenCellForRowAtCalledOutOfRange_ShouldCallCellSetupErrorCell() {
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetSelfAsEndRoundPopoverPlayerStackViewsTextFieldsStackViewTextFieldDelegate() {
         // given
         let sut = viewController!
+        sut.loadView()
         
-        let tableViewMock = UITableView()
-        tableViewMock.register(EndRoundPopoverTableViewCellMock.self, forCellReuseIdentifier: "EndRoundPopoverTableViewCell")
-        
-        sut.players = []
+        let playerCount = Int.random(in: 2...10)
+        let players = Array(repeating: Player(name: "", position: 0), count: playerCount)
+        sut.players = players
         
         // when
-        let cell = sut.tableView(tableViewMock, cellForRowAt: IndexPath(row: 0, section: 0)) as? EndRoundPopoverTableViewCellMock
+        sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(cell?.setupErrorCellCalledCount, 1)
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.forEach { (stackView) in
+            let textFieldDelegate = stackView.textField.delegate as? StackViewTextFieldDelegate
+            XCTAssertTrue(textFieldDelegate?.delegate is EndRoundPopoverViewController)
+        }
     }
     
-    func test_EndRoundPopoverViewController_WhenCellForRowAtCalled_ShouldSetCellsTextFieldDidChangeHandlerToChangeCorrectPlayersScore() {
+    // MARK: - TextFieldEditingBegan
+    
+    func test_EndRoundPopoverViewController_WhenTextFieldEditingBeganCalledTextFieldIsInCurrentFrameOfPlayerScrollView_ShouldNotChangeScrollViewContentOffset() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let completePlayerCellHeight = sut.playerCellHeight + sut.playerSeparator
+        
+        sut.playerScrollView.frame = CGRect(x: 0, y: 0, width: 0, height: completePlayerCellHeight * 2)
+        sut.playerScrollView.contentOffset.y = 0
+        
+        
+        // when
+        sut.textFieldEditingBegan(index: 0)
+        
+        // then
+        XCTAssertEqual(sut.playerScrollView.contentOffset.y, 0)
+    }
+    
+    func test_EndRoundPopoverViewController_WhenTextFieldEditingBeganCalledTextFieldIsOutOfCurrentFrameOfPlayerScrollView_ShouldChangeScrollViewOffsetToPlaceTextFieldAtBottomOfScrollView() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let completePlayerCellHeight = sut.playerCellHeight + sut.playerSeparator
+        let scrollViewHeight = 2 * completePlayerCellHeight
+        let playerToPanTo = Int.random(in: 3...10)
+        
+        sut.playerScrollView.frame = CGRect(x: 0, y: 0, width: 0, height: completePlayerCellHeight * 2)
+        sut.playerScrollView.contentOffset.y = 0
+        
+        
+        // when
+        sut.textFieldEditingBegan(index: playerToPanTo)
+        
+        // then
+        let newContentOffset = playerToPanTo * completePlayerCellHeight - scrollViewHeight + completePlayerCellHeight
+        XCTAssertEqual(Int(sut.playerScrollView.contentOffset.y), newContentOffset)
+    }
+    
+    
+    // MARK: - TextField Should Return
+    
+    func test_EndRoundPopoverViewController_WhenTextFieldShouldReturnForCalledForNotLastTextField_ShouldCallBecomeFirstResponderOnNextTextField() {
+        
+        class UITextFieldBecomeFirstResponderMock: UITextField {
+            var becomeFirstResponderCalledCount = 0
+            override func becomeFirstResponder() -> Bool {
+                becomeFirstResponderCalledCount += 1
+                return false
+            }
+        }
+        
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let textFields = [UITextFieldBecomeFirstResponderMock(), UITextFieldBecomeFirstResponderMock()]
+        sut.textFields = textFields
+        
+        // when
+        sut.textFieldShouldReturn(for: 0)
+        
+        // then
+        XCTAssertEqual(textFields[1].becomeFirstResponderCalledCount, 1)
+    }
+    
+    func test_EndRoundPopoverViewController_WhenTextFieldShouldReturnForCalledForLastTextField_ShouldCallEndEditingOnThatTextField() {
+        
+        class UITextFieldEndEditingMock: UITextField {
+            var endEditingCalledCount = 0
+            override func endEditing(_ force: Bool) -> Bool {
+                endEditingCalledCount += 1
+                return false
+            }
+        }
+        
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let textFields = [UITextFieldEndEditingMock(), UITextFieldEndEditingMock()]
+        sut.textFields = textFields
+        
+        // when
+        sut.textFieldShouldReturn(for: 1)
+        
+        // then
+        XCTAssertEqual(textFields[1].endEditingCalledCount, 1)
+    }
+    
+    
+    // MARK: - TextFieldValueChanged
+    
+    func test_EndRoundPopoverViewController_WhenTextFieldValueChangedCalled_ShouldSetPlayerScoreChangesAtCorrectIndexToNewValue() {
         // given
         let sut = viewController!
         
-        let tableViewMock = UITableView()
-        tableViewMock.register(EndRoundPopoverTableViewCellMock.self, forCellReuseIdentifier: "EndRoundPopoverTableViewCell")
-        let startingScore = Int.random(in: 1...1000)
-        let scoreChange = Int.random(in: 1...1000)
-        
-        let playerCount = Int.random(in: 2...5)
-        sut.players = Array(repeating: Player(name: "", position: 0, score: startingScore), count: playerCount)
-        
+        let playerCount = Int.random(in: 3...15)
         let randomPlayer = Int.random(in: 0...playerCount-1)
+        let randomScore = Int.random(in: 1...10000)
+        
+        sut.playerScoreChanges = Array(repeating: 0, count: playerCount)
         
         // when
-        let cell = sut.tableView(tableViewMock, cellForRowAt: IndexPath(row: randomPlayer, section: 0)) as? EndRoundPopoverTableViewCellMock
-        cell?.textFieldDidChangeHandler?(scoreChange)
+        sut.textFieldValueChanged(forIndex: randomPlayer, to: randomScore)
         
         // then
-        XCTAssertEqual(sut.players?[randomPlayer].score, startingScore + scoreChange)
-    }
-    
-    func test_EndRoundPopoverViewController_WhenCellForRowAtCalled_ShouldSetTextFieldDelegateToHighlightNextCellDelegate() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.viewDidLoad()
-        
-        sut.players = [Player(name: "", position: 0)]
-        
-        // when
-        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? EndRoundPopoverTableViewCell
-        
-        // then
-        XCTAssertTrue(cell?.textFieldDelegate is HighlightNextCellInTableViewTextFieldDelegate)
-        XCTAssertTrue(cell?.scoreTextField.delegate is HighlightNextCellInTableViewTextFieldDelegate)
-    }
-    
-    func test_EndRoundPopoverViewController_WhenCellForRowAtCalled_ShouldSetScoreTextFieldTagToCorrectNumber() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.viewDidLoad()
-        
-        sut.players = Array(repeating: Player(name: "", position: 0), count: 5)
-        let randomIndex = Int.random(in: 0...4)
-        
-        // when
-        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: randomIndex, section: 0)) as? EndRoundPopoverTableViewCell
-        
-        // then
-        XCTAssertEqual(cell?.scoreTextField.tag, randomIndex + 1)
+        XCTAssertEqual(sut.playerScoreChanges[randomPlayer], randomScore)
     }
 }
