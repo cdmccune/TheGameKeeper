@@ -19,6 +19,7 @@ class EndRoundPopoverTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     var textFieldDidChangeHandler: ((Int) -> Void)?
+    var textFieldDelegate: HighlightNextCellInTableViewTextFieldDelegate?
     
     
     // MARK: - LifeCycle
@@ -41,8 +42,4 @@ class EndRoundPopoverTableViewCell: UITableViewCell {
         let number = Int(scoreTextField.text ?? "0") ?? 0
         textFieldDidChangeHandler?(number)
     }
-    
-    // MARK: - IBActions
-    
-    
 }

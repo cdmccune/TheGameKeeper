@@ -78,6 +78,9 @@ extension EndRoundPopoverViewController: UITableViewDelegate, UITableViewDataSou
             return cell
         }
         
+        cell.scoreTextField.tag = indexPath.row + 1
+        cell.textFieldDelegate = HighlightNextCellInTableViewTextFieldDelegate(tableView: tableView)
+        cell.scoreTextField.delegate = cell.textFieldDelegate
         cell.setupViewProperties(for: players[indexPath.row])
         cell.textFieldDidChangeHandler = { scoreChange in
             self.players?[indexPath.row].score += scoreChange

@@ -74,3 +74,12 @@ class UIViewSafeAreaLayoutFrameMock: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+
+class UIViewBecomeFirstResponderMock: UIView {
+    var becomeFirstResponderCalledCount = 0
+    override func becomeFirstResponder() -> Bool {
+        self.becomeFirstResponderCalledCount += 1
+        return true
+    }
+}

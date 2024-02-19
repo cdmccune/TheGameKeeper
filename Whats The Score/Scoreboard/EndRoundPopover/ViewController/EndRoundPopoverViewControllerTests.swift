@@ -190,4 +190,36 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(sut.players?[randomPlayer].score, startingScore + scoreChange)
     }
+    
+    func test_EndRoundPopoverViewController_WhenCellForRowAtCalled_ShouldSetTextFieldDelegateToHighlightNextCellDelegate() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        sut.players = [Player(name: "", position: 0)]
+        
+        // when
+        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? EndRoundPopoverTableViewCell
+        
+        // then
+        XCTAssertTrue(cell?.textFieldDelegate is HighlightNextCellInTableViewTextFieldDelegate)
+        XCTAssertTrue(cell?.scoreTextField.delegate is HighlightNextCellInTableViewTextFieldDelegate)
+    }
+    
+    func test_EndRoundPopoverViewController_WhenCellForRowAtCalled_ShouldSetScoreTextFieldTagToCorrectNumber() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        sut.players = Array(repeating: Player(name: "", position: 0), count: 5)
+        let randomIndex = Int.random(in: 0...4)
+        
+        // when
+        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: randomIndex, section: 0)) as? EndRoundPopoverTableViewCell
+        
+        // then
+        XCTAssertEqual(cell?.scoreTextField.tag, randomIndex + 1)
+    }
 }
