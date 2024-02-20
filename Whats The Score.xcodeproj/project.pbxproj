@@ -21,6 +21,8 @@
 		243206C12B83F5D0000CCE75 /* EndRoundPopoverPlayerStackViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243206C02B83F5D0000CCE75 /* EndRoundPopoverPlayerStackViewTests.swift */; };
 		243206C42B83FC1B000CCE75 /* StackViewTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243206C32B83FC1B000CCE75 /* StackViewTextFieldDelegate.swift */; };
 		243206C62B8411C1000CCE75 /* StackViewTextFieldDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243206C52B8411C1000CCE75 /* StackViewTextFieldDelegateTests.swift */; };
+		243206CB2B842264000CCE75 /* StackViewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243206CA2B842264000CCE75 /* StackViewTextField.swift */; };
+		243206CD2B8426E9000CCE75 /* StackViewTextFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243206CC2B8426E9000CCE75 /* StackViewTextFieldTests.swift */; };
 		243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228CC2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift */; };
 		243228CF2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 243228CD2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib */; };
 		243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228D32B4DBCD700C42C62 /* PlayerTests.swift */; };
@@ -109,6 +111,8 @@
 		243206C02B83F5D0000CCE75 /* EndRoundPopoverPlayerStackViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundPopoverPlayerStackViewTests.swift; sourceTree = "<group>"; };
 		243206C32B83FC1B000CCE75 /* StackViewTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewTextFieldDelegate.swift; sourceTree = "<group>"; };
 		243206C52B8411C1000CCE75 /* StackViewTextFieldDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewTextFieldDelegateTests.swift; sourceTree = "<group>"; };
+		243206CA2B842264000CCE75 /* StackViewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewTextField.swift; sourceTree = "<group>"; };
+		243206CC2B8426E9000CCE75 /* StackViewTextFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewTextFieldTests.swift; sourceTree = "<group>"; };
 		243228CC2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewCell.swift; sourceTree = "<group>"; };
 		243228CD2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerSetupPlayerTableViewCell.xib; sourceTree = "<group>"; };
 		243228D12B4DBC8C00C42C62 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -278,13 +282,31 @@
 			path = PlayerStackView;
 			sourceTree = "<group>";
 		};
-		243206C22B83FBEF000CCE75 /* StackViewTextFieldDelegate */ = {
+		243206C22B83FBEF000CCE75 /* TextFieldDelegate */ = {
 			isa = PBXGroup;
 			children = (
 				243206C32B83FC1B000CCE75 /* StackViewTextFieldDelegate.swift */,
 				243206C52B8411C1000CCE75 /* StackViewTextFieldDelegateTests.swift */,
 			);
-			path = StackViewTextFieldDelegate;
+			path = TextFieldDelegate;
+			sourceTree = "<group>";
+		};
+		243206C82B8421B4000CCE75 /* StackViewTextFieldSystem */ = {
+			isa = PBXGroup;
+			children = (
+				243206C92B84224A000CCE75 /* TextField */,
+				243206C22B83FBEF000CCE75 /* TextFieldDelegate */,
+			);
+			path = StackViewTextFieldSystem;
+			sourceTree = "<group>";
+		};
+		243206C92B84224A000CCE75 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				243206CA2B842264000CCE75 /* StackViewTextField.swift */,
+				243206CC2B8426E9000CCE75 /* StackViewTextFieldTests.swift */,
+			);
+			path = TextField;
 			sourceTree = "<group>";
 		};
 		243228D02B4DB48F00C42C62 /* PlayerSetupPlayerTableViewCell */ = {
@@ -313,7 +335,7 @@
 				24836D192B72DC650038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegate */,
 				2423E2FD2B62BAD400253356 /* Observable */,
 				243228DD2B4EFC0A00C42C62 /* DismissingTextFieldDelegate */,
-				243206C22B83FBEF000CCE75 /* StackViewTextFieldDelegate */,
+				243206C82B8421B4000CCE75 /* StackViewTextFieldSystem */,
 			);
 			path = HelperClasses;
 			sourceTree = "<group>";
@@ -822,6 +844,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2426156E2B59DF360092B145 /* UITableViewExtensions.swift in Sources */,
+				243206CB2B842264000CCE75 /* StackViewTextField.swift in Sources */,
 				243228E22B4EFD1100C42C62 /* DismissingTextFieldDelegate.swift in Sources */,
 				243228CE2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.swift in Sources */,
 				24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */,
@@ -891,6 +914,7 @@
 				2457FA322B7FDE6700CF7F40 /* EndRoundPopoverHeightHelperTests.swift in Sources */,
 				24EC1D7E2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift in Sources */,
 				24D68E1A2B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift in Sources */,
+				243206CD2B8426E9000CCE75 /* StackViewTextFieldTests.swift in Sources */,
 				243228D92B4EEE2800C42C62 /* PlayerSetupPlayerTableViewCellTests.swift in Sources */,
 				2410F71F2B55972F00860BA4 /* RootNavigationControllerTests.swift in Sources */,
 			);

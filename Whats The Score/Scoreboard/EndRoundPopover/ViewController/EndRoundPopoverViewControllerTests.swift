@@ -127,7 +127,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(endRoundPopoverPlayerStackView?.player, players[randomPlayerIndex])
     }
     
-    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldTagForEndRoundPopoverPlayerStackView() {
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldIndexAndActionDelegateToSelf() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -146,11 +146,35 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
         
         stackViews.enumerated().forEach { (index, stackView) in
-            XCTAssertEqual(stackView.textField.tag, index)
+            XCTAssertTrue((stackView.textField as? StackViewTextField)?.actionDelegate is EndRoundPopoverViewController)
+            XCTAssertEqual((stackView.textField as? StackViewTextField)?.index, index)
         }
     }
     
-    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldDelegateAsStackViewTextFieldDelegateForEndRoundPopoverPlayerStackViewsTextField() {
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetIsLastPropertyWhichAffectsTheToolbarItemTitle() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let players = Array(repeating: Player(name: "", position: 0), count: playerCount)
+        sut.players = players
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.enumerated().forEach { (index, stackView) in
+            XCTAssertEqual((stackView.textField.inputAccessoryView as? UIToolbar)?.items?.first?.title, index == stackViews.count-1 ? "Done" : "Next")
+        }
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldDelegateForEndRoundPopoverPlayerStackViewsTextField() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -169,7 +193,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
         
         stackViews.forEach { (stackView) in
-            XCTAssertTrue(stackView.textField.delegate is StackViewTextFieldDelegate)
+            XCTAssertTrue(stackView.textFieldDelegate is StackViewTextFieldDelegate)
         }
     }
     
@@ -192,7 +216,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
         
         stackViews.forEach { (stackView) in
-            let textFieldDelegate = stackView.textField.delegate as? StackViewTextFieldDelegate
+            let textFieldDelegate = stackView.textFieldDelegate as? StackViewTextFieldDelegate
             XCTAssertTrue(textFieldDelegate?.delegate is EndRoundPopoverViewController)
         }
     }
@@ -219,26 +243,29 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
     }
     
-    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetNextAsReturnKeyStyleToEveryTextFieldExceptDoneToTheLastOne() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let players = Array(repeating: Player(name: "", position: 0), count: Int.random(in: 2...10))
-        sut.players = players
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        sut.textFields.enumerated().forEach { (index, textField) in
-            if index == sut.textFields.count - 1 {
-                XCTAssertEqual(textField.returnKeyType, .done)
-            } else {
-                XCTAssertEqual(textField.returnKeyType, .next)
-            }
-        }
-    }
+    
+//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetNextAsReturnKeyStyleToEveryTextFieldExceptDoneToTheLastOne() {
+//        // given
+//        let sut = viewController!
+//        sut.loadView()
+//        
+//        let players = Array(repeating: Player(name: "", position: 0), count: Int.random(in: 2...10))
+//        sut.players = players
+//        
+//        // when
+//        sut.viewDidLoad()
+//        
+//        // then
+//        sut.textFields.enumerated().forEach { (index, textField) in
+//            if index == sut.textFields.count - 1 {
+//                XCTAssertEqual(textField.returnKeyType, .done)
+//            } else {
+//                XCTAssertEqual(textField.returnKeyType, .next)
+//            }
+//        }
+//    }
+    
+    
 
     
     // MARK: - TextFieldEditingBegan
@@ -347,7 +374,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.playerScoreChanges = Array(repeating: 0, count: playerCount)
         
         // when
-        sut.textFieldValueChanged(forIndex: randomPlayer, to: randomScore)
+        sut.textFieldValueChanged(forIndex: randomPlayer, to: "\(randomScore)")
         
         // then
         XCTAssertEqual(sut.playerScoreChanges[randomPlayer], randomScore)

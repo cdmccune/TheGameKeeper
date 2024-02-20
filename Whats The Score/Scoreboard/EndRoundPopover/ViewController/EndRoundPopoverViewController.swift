@@ -44,7 +44,9 @@ class EndRoundPopoverViewController: UIViewController {
     private func setupPlayerStackView() {
         guard let players = players else { return }
         for i in players.indices {
-            let textField = UITextField()
+            let textField = StackViewTextField(delegate: self,
+                                               isLast: i == players.count - 1,
+                                               index: i)
             let textFieldDelegate = StackViewTextFieldDelegate(delegate: self)
             textField.tag = i
             textFields.append(textField)
@@ -64,9 +66,9 @@ class EndRoundPopoverViewController: UIViewController {
 }
 
 extension EndRoundPopoverViewController: StackViewTextFieldDelegateDelegate {
-    func textFieldValueChanged(forIndex index: Int, to newValue: Int) {
+    func textFieldValueChanged(forIndex index: Int, to newValue: String?) {
         guard playerScoreChanges.indices.contains(index) else { return }
-        playerScoreChanges[index] = newValue
+        playerScoreChanges[index] = Int(newValue ?? "0") ?? 0
     }
     
     func textFieldShouldReturn(for index: Int) {

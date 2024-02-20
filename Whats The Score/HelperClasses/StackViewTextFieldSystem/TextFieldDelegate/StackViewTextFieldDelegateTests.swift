@@ -46,8 +46,8 @@ class StackViewTextFieldDelegateDelegateMock: NSObject, StackViewTextFieldDelega
     
     var textFieldValueChangedCalledCount = 0
     var textFieldValueChangedIndex: Int?
-    var textFieldValueChangedNewValue: Int?
-    func textFieldValueChanged(forIndex index: Int, to newValue: Int) {
+    var textFieldValueChangedNewValue: String?
+    func textFieldValueChanged(forIndex index: Int, to newValue: String?) {
         textFieldValueChangedCalledCount += 1
         textFieldValueChangedIndex = index
         textFieldValueChangedNewValue = newValue

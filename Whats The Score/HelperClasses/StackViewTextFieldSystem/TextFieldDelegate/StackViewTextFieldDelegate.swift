@@ -35,5 +35,5 @@ class StackViewTextFieldDelegate: NSObject, UITextFieldDelegate {
 protocol StackViewTextFieldDelegateDelegate: NSObject {
     func textFieldEditingBegan(index: Int)
     func textFieldShouldReturn(for index: Int)
-    func textFieldValueChanged(forIndex index: Int, to newValue: Int)
+    func textFieldValueChanged(forIndex index: Int, to newValue: String?)
 }
