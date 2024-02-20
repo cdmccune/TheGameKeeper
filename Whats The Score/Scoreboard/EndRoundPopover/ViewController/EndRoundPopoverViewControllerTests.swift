@@ -282,6 +282,81 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
     }
     
+    // MARK: - EndRoundButtonTapped
+    
+    func test_EndRoundPopoverViewController_WhenEndRoundButtonTappedCalledPlayerArrayNotEqualToPlayerScore_ShouldNotCallEndRound() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        sut.players = [Player(name: "", position: 0)]
+        sut.playerScoreChanges = [0, 0]
+        
+        let endRoundDelegateMock = EndRoundPopoverDelegateProtocolMock()
+        sut.delegate = endRoundDelegateMock
+        
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(endRoundDelegateMock.endRoundCalledCount, 0)
+    }
+    
+    func test_EndRoundPopoverViewController_WhenEndRoundButtonTappedCalledPlayerArrayNotEqualToPlayerScore_ShouldCallEndRoundWithPlayers() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let players = Array(repeating: Player(name: "", position: 0, score: Int.random(in: 1...10000)), count: playerCount)
+        
+        var scoreChanges: [Int] = []
+        for _ in 0..<playerCount {
+            scoreChanges.append(Int.random(in: -1000...1000))
+        }
+        
+        sut.players = players
+        sut.playerScoreChanges = scoreChanges
+        
+        let endRoundDelegateMock = EndRoundPopoverDelegateProtocolMock()
+        sut.delegate = endRoundDelegateMock
+        
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        var expectedDictionary: [Player: Int] = [:]
+        for i in 0..<playerCount {
+            expectedDictionary[players[i]] = scoreChanges[i]
+        }
+        
+        XCTAssertEqual(endRoundDelegateMock.endRoundCalledCount, 1)
+        XCTAssertEqual(endRoundDelegateMock.endRoundChangeDictionary, expectedDictionary)
+    }
+    
+    func test_EndRoundPopoverViewController_WhenEndRoundButtonTapped_ShouldDismissItself() {
+        
+        class EndRoundPopoverViewControllerDismissMock: EndRoundPopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = EndRoundPopoverViewControllerDismissMock()
+        sut.players = []
+        sut.playerScoreChanges = []
+        
+        
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
+    
+    
     // MARK: - TextFieldEditingBegan
     
     func test_EndRoundPopoverViewController_WhenTextFieldEditingBeganCalledTextFieldIsInCurrentFrameOfPlayerScrollView_ShouldNotChangeScrollViewContentOffset() {
@@ -398,5 +473,18 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.playerScoreChanges[randomPlayer], randomScore)
+    }
+    
+    
+    // MARK: - Classes
+}
+
+
+class EndRoundPopoverDelegateProtocolMock: EndRoundPopoverDelegateProtocol {
+    var endRoundCalledCount = 0
+    var endRoundChangeDictionary: [Player: Int]?
+    func endRound(withChanges changeDictionary: [Player: Int]) {
+        endRoundCalledCount += 1
+        endRoundChangeDictionary = changeDictionary
     }
 }

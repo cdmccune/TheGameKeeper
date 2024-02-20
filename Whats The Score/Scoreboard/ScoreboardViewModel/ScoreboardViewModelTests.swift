@@ -372,6 +372,59 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - EndRound
+    
+    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldAddTheScoresToThePlayers() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        let startingScore = Int.random(in: 1...100)
+        let players = Array(0...9).map { index in Player(name: "", position: index, score: startingScore) }
+        sut.game.players = players
+        
+        var dictionaryToSend: [Player: Int] = [:]
+        players.forEach { dictionaryToSend[$0] = Int.random(in: 1...1000) }
+        
+        // when
+        sut.endRound(withChanges: dictionaryToSend)
+        
+        // then
+        
+        sut.game.players.forEach { player in
+            XCTAssertEqual(player.score, (dictionaryToSend[player] ?? 0) + startingScore)
+        }
+    }
+    
+    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldIncrementGameCurrentRound() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let currentRound = Int.random(in: 0...5)
+        sut.game.currentRound = currentRound
+        
+        // when
+        sut.endRound(withChanges: [:])
+        
+        // then
+        XCTAssertEqual(sut.game.currentRound, currentRound + 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindViewToViewModelCalledCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.endRound(withChanges: [:])
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCount + 1)
+    }
+    
+    
     // MARK: - ResetGame
     
     func test_ScoreboardViewModel_WhenResetGameCalled_ShouldSetAllPlayersScoresToZero() {
@@ -416,7 +469,6 @@ final class ScoreboardViewModelTests: XCTestCase {
 }
 
 class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
-    
     init(game: GameProtocol) {
         self.game = game
     }
@@ -490,4 +542,6 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     
     func finishedEditing(_ player: Player) {
     }
+    
+    func endRound(withChanges changeDictionary: [Whats_The_Score.Player: Int]) {}
 }

@@ -522,7 +522,7 @@
                                         </subviews>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cCi-B3-Ky9">
-                                        <rect key="frame" x="0.0" y="103" width="393" height="552.33333333333348"/>
+                                        <rect key="frame" x="0.0" y="103" width="393" height="552.33333333333337"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3o-tW-ZLn">
@@ -834,17 +834,18 @@
                                         <viewLayoutGuide key="frameLayoutGuide" id="kjM-TL-rQA"/>
                                     </scrollView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="icO-di-f32">
-                                        <rect key="frame" x="103" y="160" width="94" height="30"/>
+                                        <rect key="frame" x="56.666666666666657" y="160" width="187" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="NTw-MX-VNE"/>
                                         </constraints>
                                         <color key="tintColor" systemColor="tintColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="+"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Save" cornerStyle="capsule">
+                                        <buttonConfiguration key="configuration" style="filled" title="End Round" cornerStyle="capsule">
                                             <fontDescription key="titleFontDescription" name="Notable-Regular" family="Notable" pointSize="23"/>
                                         </buttonConfiguration>
                                         <connections>
+                                            <action selector="endRoundButtonTapped:" destination="GK6-J0-t8t" eventType="touchUpInside" id="rVL-xY-YkD"/>
                                             <action selector="saveButtonTapped:" destination="Y3g-S3-D9N" eventType="touchUpInside" id="mOu-Pj-0Co"/>
                                             <action selector="subtractButtonTapped:" destination="cDR-LM-XeX" eventType="touchUpInside" id="j5Z-01-mQh"/>
                                         </connections>
@@ -883,19 +884,19 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

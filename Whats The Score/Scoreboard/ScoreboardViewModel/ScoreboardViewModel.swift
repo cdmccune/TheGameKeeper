@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol {
+protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol {
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var playerToEditScore: Observable<Player> { get set }
@@ -26,7 +26,7 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     func resetGame()
 }
 
-class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
+class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopoverDelegateProtocol {
     
     // MARK: - Init
     
@@ -103,7 +103,20 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
+    func endRound(withChanges changeDictionary: [Player: Int]) {
+        changeDictionary.forEach { (player, scoreChange) in
+            if let index = game.players.firstIndex(of: player) {
+                game.players[index].score += scoreChange
+            }
+        }
+        
+        game.currentRound += 1
+        
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+    }
+    
     func endGame() {
+        
     }
     
     func resetGame() {

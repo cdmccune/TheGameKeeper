@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Player {
+struct Player: Hashable {
     init(name: String, position: Int, score: Int = 0, id: UUID = UUID()) {
         self._name = name
         self.position = position
@@ -33,6 +33,10 @@ struct Player {
     
     var hasDefaultName: Bool {
             _name.isEmpty
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
 

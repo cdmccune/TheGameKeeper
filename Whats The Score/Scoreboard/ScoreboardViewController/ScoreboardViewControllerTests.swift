@@ -640,7 +640,21 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
         XCTAssertEqual(endRoundPopoverVC?.playerViewHeight, playerViewHeight)
         XCTAssertEqual(endRoundPopoverVC?.playerSeparatorHeight, playerSeperatorHeight)
+    }
+    
+    func test_ScoreboardViewController_WhenEndRoundButtonTapped_ShouldSetViewModelAsEndRoundVCDelegate() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
+        sut.viewModel = viewModelMock
         
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
+        XCTAssertTrue(endRoundPopoverVC?.delegate is ScoreboardViewModelMock)
     }
     
     

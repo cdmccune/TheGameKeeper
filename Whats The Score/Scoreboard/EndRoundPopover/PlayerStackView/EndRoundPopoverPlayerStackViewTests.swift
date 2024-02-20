@@ -77,7 +77,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        let sut = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
+        let _ = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         XCTAssertEqual(textField.borderStyle, .roundedRect)
@@ -92,7 +92,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        let sut = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
+        let _ = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         let constraints = textField.constraints

@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol EndRoundPopoverDelegateProtocol {
+    func endRound(withChanges changeDictionary: [Player: Int])
+}
+
 class EndRoundPopoverViewController: UIViewController {
     
     // MARK: - Outlets
@@ -15,11 +19,9 @@ class EndRoundPopoverViewController: UIViewController {
     @IBOutlet weak var playerScrollView: UIScrollView!
     @IBOutlet weak var playerStackView: UIStackView!
     
-//    @IBOutlet weak var tableView: UITableView!
-    
-    
     // MARK: - Properties
     
+    var delegate: EndRoundPopoverDelegateProtocol?
     var players: [Player]?
     var round: Int?
     var playerViewHeight: Int?
@@ -50,7 +52,6 @@ class EndRoundPopoverViewController: UIViewController {
             let textFieldDelegate = StackViewTextFieldDelegate(delegate: self)
             textField.tag = i
             textFields.append(textField)
-            textField.returnKeyType = (i == players.count-1) ? .done : .next
             
             let singlePlayerStackView = EndRoundPopoverPlayerStackView(player: players[i], textField: textField, textFieldDelegate: textFieldDelegate)
             
@@ -68,6 +69,23 @@ class EndRoundPopoverViewController: UIViewController {
         } else {
             roundLabel.text = "Round ???"
         }
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func endRoundButtonTapped(_ sender: Any) {
+        guard let players,
+              players.count == playerScoreChanges.count else {
+            return
+        }
+        
+        var returnedDictionary: [Player: Int] = [:]
+        players.enumerated().forEach { (index, player) in
+            returnedDictionary[player] = playerScoreChanges[index]
+        }
+        
+        delegate?.endRound(withChanges: returnedDictionary)
+        self.dismiss(animated: true)
     }
 }
 
