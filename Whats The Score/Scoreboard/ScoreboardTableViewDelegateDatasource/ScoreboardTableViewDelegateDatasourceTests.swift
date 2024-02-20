@@ -91,7 +91,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         XCTAssertEqual(cell?.setupCellForErrorCalledCount, 1)
     }
     
-    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldShouldSetCellsEditPlayerFunctionToCallViewModelStartEditingPlayer() {
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldSetCellsEditPlayerFunctionToCallViewModelStartEditingPlayer() {
         // given
         let count = Int.random(in: 2...10)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: count)

@@ -63,6 +63,18 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.resetBarButtonCalledCount, 1)
     }
     
+    func test_ScoreboardViewController_WhenEndRoundPopoverHieghtHelperCreated_ShouldHavePlayerHeightOf45AndSeparatorOf3() {
+        // given
+        let sut = viewController!
+        
+        // when
+        let endRoundPopoverHeightHelper = sut.endRoundPopoverHeightHelper
+        
+        // then
+        XCTAssertEqual(endRoundPopoverHeightHelper.playerViewHeight, 45)
+        XCTAssertEqual(endRoundPopoverHeightHelper.playerSeperatorHeight, 3)
+    }
+    
     
     // MARK: - ViewDidLoad
     
@@ -606,6 +618,29 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
         XCTAssertEqual(endRoundPopoverVC?.players, players)
         XCTAssertEqual(endRoundPopoverVC?.round, currentRound)
+    }
+    
+    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithHeightHelperPlayerViewHeightAndPlayerSeperatorHeight() {
+        // given
+        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
+        
+        let playerViewHeight = Int.random(in: 1...1000)
+        let playerSeperatorHeight = Int.random(in: 1...1000)
+        sut.endRoundPopoverHeightHelper = EndRoundPopoverHeightHelper(playerViewHeight: playerViewHeight, playerSeperatorHeight: playerSeperatorHeight)
+        
+        let viewModelMock = ScoreboardViewModelMock()
+        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
+        XCTAssertEqual(endRoundPopoverVC?.playerViewHeight, playerViewHeight)
+        XCTAssertEqual(endRoundPopoverVC?.playerSeparatorHeight, playerSeperatorHeight)
+        
     }
     
     

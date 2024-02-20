@@ -12,7 +12,10 @@ final class EndRoundPopoverHeightHelperTests: XCTestCase {
 
     func test_EndRoundPopoverHeightHelper_WhenSafeAreaHeightIsLargerThanContent_ShouldReturnFullContentSize() {
         // given
-        let sut = EndRoundPopoverHeightHelper()
+        
+        let playerViewHeight = Int.random(in: 1...1000)
+        let playerSeparatorHeight = Int.random(in: 1...1000)
+        let sut = EndRoundPopoverHeightHelper(playerViewHeight: playerViewHeight, playerSeperatorHeight: playerSeparatorHeight)
         let playerCount = Int.random(in: 1...10)
         let safeAreaHeight: CGFloat = 100000
         
@@ -20,13 +23,13 @@ final class EndRoundPopoverHeightHelperTests: XCTestCase {
         let height = sut.getPopoverHeightFor(playerCount: playerCount, andSafeAreaHeight: safeAreaHeight)
         
         // then
-        let expectedHeight = CGFloat(90 + (playerCount * 45) + (playerCount - 1))
+        let expectedHeight = CGFloat(90 + (playerCount * playerViewHeight) + playerSeparatorHeight*(playerCount - 1))
         XCTAssertEqual(height, expectedHeight)
     }
     
     func test_EndRoundPopoverHeightHelper_WhenScreenHeightIsSmallerThanContent_ShouldReturnSafeAreaMinus40() {
         // given
-        let sut = EndRoundPopoverHeightHelper()
+        let sut = EndRoundPopoverHeightHelper(playerViewHeight: 100, playerSeperatorHeight: 100)
         let playerCount: Int = 10000
         let safeAreaHeight: CGFloat = 100
         
@@ -42,6 +45,9 @@ final class EndRoundPopoverHeightHelperTests: XCTestCase {
 }
 
 class EndRoundPopoverHeightHelperMock: EndRoundPopoverHeightHelperProtocol {
+    var playerViewHeight: Int = 0
+    var playerSeperatorHeight: Int = 0
+    
     var heightToReturn: CGFloat?
     
     var getPopoverHeightForPlayerCount: Int?

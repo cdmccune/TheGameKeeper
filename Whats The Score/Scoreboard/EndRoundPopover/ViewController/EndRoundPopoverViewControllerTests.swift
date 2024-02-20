@@ -170,7 +170,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
         
         stackViews.enumerated().forEach { (index, stackView) in
-            XCTAssertEqual((stackView.textField.inputAccessoryView as? UIToolbar)?.items?.first?.title, index == stackViews.count-1 ? "Done" : "Next")
+            XCTAssertEqual((stackView.textField.inputAccessoryView as? UIToolbar)?.items?.last?.title, index == stackViews.count-1 ? "Done" : "Next")
         }
     }
     
@@ -243,30 +243,44 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
     }
     
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerStackViewSpacingToPlayerSeparatorHeight() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        sut.players = []
+        
+        let separatorHeight = Int.random(in: 1...1000)
+        sut.playerSeparatorHeight = separatorHeight
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(Int(sut.playerStackView.spacing), separatorHeight)
+    }
     
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetNextAsReturnKeyStyleToEveryTextFieldExceptDoneToTheLastOne() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let players = Array(repeating: Player(name: "", position: 0), count: Int.random(in: 2...10))
-//        sut.players = players
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        sut.textFields.enumerated().forEach { (index, textField) in
-//            if index == sut.textFields.count - 1 {
-//                XCTAssertEqual(textField.returnKeyType, .done)
-//            } else {
-//                XCTAssertEqual(textField.returnKeyType, .next)
-//            }
-//        }
-//    }
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerStackViewsSubviewsHeightToPlayerViewHeight() {
+        // given
+        let sut = viewController!
+        sut.loadView()
     
-    
-
+        sut.players = Array(repeating: Player(name: "", position: 0), count: 2)
+        
+        let playerViewHeight = Int.random(in: 1...1000)
+        sut.playerViewHeight = playerViewHeight
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        sut.playerStackView.subviews.forEach { playerView in
+            let constraints = playerView.constraints
+            
+            XCTAssertTrue(constraints.contains(where: { $0.firstAttribute == .height &&
+                $0.constant == CGFloat(playerViewHeight)}))
+        }
+    }
     
     // MARK: - TextFieldEditingBegan
     
@@ -275,7 +289,10 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
         
-        let completePlayerCellHeight = sut.playerCellHeight + sut.playerSeparator
+        sut.playerViewHeight = Int.random(in: 1...100)
+        sut.playerSeparatorHeight = Int.random(in: 1...100)
+        
+        let completePlayerCellHeight = (sut.playerViewHeight ?? 0) + (sut.playerSeparatorHeight ?? 0)
         
         sut.playerScrollView.frame = CGRect(x: 0, y: 0, width: 0, height: completePlayerCellHeight * 2)
         sut.playerScrollView.contentOffset.y = 0
@@ -293,7 +310,10 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
         
-        let completePlayerCellHeight = sut.playerCellHeight + sut.playerSeparator
+        sut.playerViewHeight = Int.random(in: 1...100)
+        sut.playerSeparatorHeight = Int.random(in: 1...100)
+        
+        let completePlayerCellHeight = (sut.playerViewHeight ?? 0) + (sut.playerSeparatorHeight ?? 0)
         let scrollViewHeight = 2 * completePlayerCellHeight
         let playerToPanTo = Int.random(in: 3...10)
         

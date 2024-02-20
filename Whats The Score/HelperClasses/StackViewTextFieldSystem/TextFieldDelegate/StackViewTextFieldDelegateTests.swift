@@ -29,7 +29,7 @@ final class StackViewTextFieldDelegateTests: XCTestCase {
 
 }
 
-class StackViewTextFieldDelegateDelegateMock: NSObject, StackViewTextFieldDelegateDelegate {
+class StackViewTextFieldDelegateDelegateMock: NSObject, StackViewTextFieldDelegateDelegateProtocol {
     var textFieldEditingBeganCalledCount = 0
     var textFieldEditingBeganIndex: Int?
     func textFieldEditingBegan(index: Int) {

@@ -8,12 +8,16 @@
 import Foundation
 
 protocol EndRoundPopoverHeightHelperProtocol {
+    var playerViewHeight: Int {get set}
+    var playerSeperatorHeight: Int {get set}
     func getPopoverHeightFor(playerCount: Int, andSafeAreaHeight safeAreaHeight: CGFloat) -> CGFloat
 }
 
 struct EndRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol {
+    var playerViewHeight: Int
+    var playerSeperatorHeight: Int
     func getPopoverHeightFor(playerCount: Int, andSafeAreaHeight safeAreaHeight: CGFloat) -> CGFloat {
-        let contentHeight = CGFloat(90 + (playerCount * 45) + (playerCount - 1))
+        let contentHeight = CGFloat(90 + (playerCount * playerViewHeight) + playerSeperatorHeight * (playerCount - 1))
         return min(safeAreaHeight - 40, contentHeight)
     }
 }

@@ -22,8 +22,8 @@ class EndRoundPopoverViewController: UIViewController {
     
     var players: [Player]?
     var round: Int?
-    var playerCellHeight = 45
-    var playerSeparator = 3
+    var playerViewHeight: Int?
+    var playerSeparatorHeight: Int?
     var textFields: [UITextField] = []
     var playerScoreChanges: [Int] = []
     
@@ -52,8 +52,14 @@ class EndRoundPopoverViewController: UIViewController {
             textFields.append(textField)
             textField.returnKeyType = (i == players.count-1) ? .done : .next
             
-            playerStackView.addArrangedSubview(EndRoundPopoverPlayerStackView(player: players[i], textField: textField, textFieldDelegate: textFieldDelegate))
+            let singlePlayerStackView = EndRoundPopoverPlayerStackView(player: players[i], textField: textField, textFieldDelegate: textFieldDelegate)
+            
+            singlePlayerStackView.heightAnchor.constraint(equalToConstant: CGFloat(playerViewHeight ?? 0)).isActive = true
+            
+            self.playerStackView.addArrangedSubview(singlePlayerStackView)
         }
+        
+        playerStackView.spacing = CGFloat(playerSeparatorHeight ?? 0)
     }
     
     private func setupViews() {
@@ -65,7 +71,7 @@ class EndRoundPopoverViewController: UIViewController {
     }
 }
 
-extension EndRoundPopoverViewController: StackViewTextFieldDelegateDelegate {
+extension EndRoundPopoverViewController: StackViewTextFieldDelegateDelegateProtocol {
     func textFieldValueChanged(forIndex index: Int, to newValue: String?) {
         guard playerScoreChanges.indices.contains(index) else { return }
         playerScoreChanges[index] = Int(newValue ?? "0") ?? 0
@@ -83,11 +89,12 @@ extension EndRoundPopoverViewController: StackViewTextFieldDelegateDelegate {
     
     func textFieldEditingBegan(index: Int) {
         let textFieldIndex = index
-        let textfieldY = 48 * textFieldIndex
+        let completePlayerHeight = (playerViewHeight ?? 0) + (playerSeparatorHeight ?? 0)
+        let textfieldY = completePlayerHeight * textFieldIndex
         let bottomOfScrollView = playerScrollView.contentOffset.y + playerScrollView.frame.height
         
         if !(Int(textfieldY) < Int(bottomOfScrollView)) {
-            let yCoordinate = Int(textfieldY) - Int(playerScrollView.frame.height) + 48
+            let yCoordinate = Int(textfieldY) - Int(playerScrollView.frame.height) + completePlayerHeight
             let point = CGPoint(x: 0, y: yCoordinate)
             playerScrollView.contentOffset = point
         }

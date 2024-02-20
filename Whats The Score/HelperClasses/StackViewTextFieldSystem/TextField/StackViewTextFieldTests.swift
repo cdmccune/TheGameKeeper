@@ -27,7 +27,19 @@ final class StackViewTextFieldTests: XCTestCase {
     
     // MARK: - Toolbar
     
-    func test_StackViewTextField_WhenInitializedIsLast_ShouldSetToolBarAsDone() {
+    func test_StackViewTextField_WhenInitialized_ShouldSetFirstItemInToolbarAsBlankItem() {
+        // given
+        // when
+        let sut = StackViewTextField(delegate: StackViewTextFieldDelegateDelegateMock(), isLast: true, index: 0)
+        
+        // then
+        let toolbar = sut.inputAccessoryView as? UIToolbar
+        XCTAssertNil(toolbar?.items?.first?.title)
+        XCTAssertNil(toolbar?.items?.first?.action)
+        XCTAssertNil(toolbar?.items?.first?.target)
+    }
+    
+    func test_StackViewTextField_WhenInitializedIsLast_ShouldSetToolBarActionAsDone() {
         // given
         // when
         let sut = StackViewTextField(delegate: StackViewTextFieldDelegateDelegateMock(), isLast: true, index: Int.random(in: 1...1000))
@@ -35,10 +47,10 @@ final class StackViewTextFieldTests: XCTestCase {
         // then
         let toolbar = sut.inputAccessoryView as? UIToolbar
         XCTAssertNotNil(toolbar)
-        XCTAssertEqual(toolbar?.items?.first?.title, "Done")
+        XCTAssertEqual(toolbar?.items?.last?.title, "Done")
     }
     
-    func test_StackViewTextField_WhenInitializedIsLastFalse_ShouldSetToolBarAsNext() {
+    func test_StackViewTextField_WhenInitializedIsLastFalse_ShouldSetToolBarActionAsNext() {
         // given
         // when
         let sut = StackViewTextField(delegate: StackViewTextFieldDelegateDelegateMock(), isLast: false, index: Int.random(in: 1...1000))
@@ -46,7 +58,7 @@ final class StackViewTextFieldTests: XCTestCase {
         // then
         let toolbar = sut.inputAccessoryView as? UIToolbar
         XCTAssertNotNil(toolbar)
-        XCTAssertEqual(toolbar?.items?.first?.title, "Next")
+        XCTAssertEqual(toolbar?.items?.last?.title, "Next")
     }
     
     func test_StackViewTextField_WhenInitializedAndToolbarActionTriggered_ShouldCallActionDelegateTextFieldShouldReturnWithIndex() {
@@ -57,7 +69,7 @@ final class StackViewTextFieldTests: XCTestCase {
         // when
         let sut = StackViewTextField(delegate: actionDelegate, isLast: true, index: index)
         let toolbar = sut.inputAccessoryView as? UIToolbar
-        sut.sendAction(toolbar!.items!.first!.action!, to: sut, for: nil)
+        sut.sendAction(toolbar!.items!.last!.action!, to: sut, for: nil)
         
         // then
         XCTAssertEqual(actionDelegate.textFieldShouldReturnCalledCount, 1)

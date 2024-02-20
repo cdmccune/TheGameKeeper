@@ -44,16 +44,4 @@ class EndRoundPopoverPlayerStackView: UIStackView {
         
         textField.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
-    
-        #warning("Need to write tests for visual properties and adding subviews")
-    
-    
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }

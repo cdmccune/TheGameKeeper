@@ -74,3 +74,5 @@ class UIViewSafeAreaLayoutFrameMock: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+class UITextFieldDelegateMock: NSObject, UITextFieldDelegate { }

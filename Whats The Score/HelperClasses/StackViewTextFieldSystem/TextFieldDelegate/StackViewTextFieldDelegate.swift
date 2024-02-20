@@ -12,14 +12,14 @@ class StackViewTextFieldDelegate: NSObject, UITextFieldDelegate {
     
     // MARK: - Init
     
-    init(delegate: StackViewTextFieldDelegateDelegate) {
+    init(delegate: StackViewTextFieldDelegateDelegateProtocol) {
         self.delegate = delegate
     }
     
     
     // MARK: - Delegate
     
-    weak var delegate: StackViewTextFieldDelegateDelegate?
+    weak var delegate: StackViewTextFieldDelegateDelegateProtocol?
     
     
     // MARK: - Functions
@@ -29,10 +29,9 @@ class StackViewTextFieldDelegate: NSObject, UITextFieldDelegate {
     }
 
 
-    
 }
 
-protocol StackViewTextFieldDelegateDelegate: NSObject {
+protocol StackViewTextFieldDelegateDelegateProtocol: NSObject {
     func textFieldEditingBegan(index: Int)
     func textFieldShouldReturn(for index: Int)
     func textFieldValueChanged(forIndex index: Int, to newValue: String?)
