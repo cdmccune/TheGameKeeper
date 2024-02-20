@@ -13,6 +13,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     // MARK: - Setup
     
     var viewController: ScoreboardViewController!
+    var views: [UIView]?
 
     override func setUp() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -158,7 +159,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNil_ShouldNotPresentPlayerScoreEditorPopover() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -174,7 +175,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldPresentPlayerScoreEditorPopover() {
         
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -190,7 +191,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
         
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -212,7 +213,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldSetPlayerScoreEditorPopoverPlayerAndDelegateToViewModel() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
 
@@ -233,7 +234,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     // MARK: - Binding PlayerToEdit
     
-    func getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded() -> ([UIView], ScoreboardViewControllerPresentMock) {
+    func getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded() -> (ScoreboardViewControllerPresentMock) {
         let sut = ScoreboardViewControllerPresentMock()
         
         let view = UIView()
@@ -244,12 +245,19 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.scoreSortButton = scoreButton
         let turnButton = UIButton()
         sut.turnOrderSortButton = turnButton
-        return ([tableView, scoreButton, turnButton], sut)
+        
+        views = [tableView, scoreButton, turnButton]
+        
+        addTeardownBlock {
+            self.views = nil
+        }
+        
+        return sut
     }
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNil_ShouldNotPresentEditPlayerPopover() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
   
@@ -265,7 +273,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldPresentEditPlayerPopover() {
         
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -281,7 +289,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
         
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -303,7 +311,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldSetEditPlayerPopoverPlayerAndDelegateToViewModel() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -324,7 +332,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNil_ShouldNotPresentAnything() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -338,7 +346,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNotNil_ShouldPresentAlertWithCorrectTitle() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -353,7 +361,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNotNil_ShouldPresentAlertWithCorrectMessage() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -371,7 +379,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNotNil_ShouldPresentAlertWithFirstActionCancel() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -388,7 +396,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNotNil_ShouldPresentAlertWithTwoActions() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -403,7 +411,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNil_ShouldPresentAlertWithLastActionDelete() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -420,7 +428,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNil_ShouldSetDeleteActionHandlerToBeViewModelDeletePlayer() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         sut.viewModel = viewModelMock
         
@@ -498,7 +506,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalledUnderOnePlayer_ShouldNotPresentEndRoundPopover() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
         let viewModelMock = ScoreboardViewModelMock()
         viewModelMock.sortedPlayers = []
@@ -514,7 +522,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
         
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
@@ -535,7 +543,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallEndRoundPopoverHeightHelperGetPopoverHeightForWithCorrectParameters() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         
         let endRoundPopoverHeightHelperMock = EndRoundPopoverHeightHelperMock()
         sut.endRoundPopoverHeightHelper = endRoundPopoverHeightHelperMock
@@ -560,7 +568,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallSetupPopoverCenteredWithHeightFromEndRoundPopoverHeightHelper() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         
         let heightToReturn = CGFloat.random(in: 0...10000)
         let endRoundPopoverHeightHelperMock = EndRoundPopoverHeightHelperMock()
@@ -583,7 +591,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopover() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
         let viewModelMock = ScoreboardViewModelMock()
         viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
@@ -599,7 +607,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithSortedPlayersAndRoundNumber() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
         
         let viewModelMock = ScoreboardViewModelMock()
@@ -622,7 +630,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithHeightHelperPlayerViewHeightAndPlayerSeperatorHeight() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
         
         let playerViewHeight = Int.random(in: 1...1000)
@@ -644,7 +652,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     func test_ScoreboardViewController_WhenEndRoundButtonTapped_ShouldSetViewModelAsEndRoundVCDelegate() {
         // given
-        let (views, sut) = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
         viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
         sut.viewModel = viewModelMock
