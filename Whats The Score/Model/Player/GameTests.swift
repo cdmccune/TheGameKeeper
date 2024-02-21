@@ -193,10 +193,48 @@ final class GameTests: XCTestCase {
             XCTAssertEqual(player.position, index)
         }
     }
+    
+    
+    // MARK: - Winning Players
+    
+    func test_Game_WhenWinningPlayersIsReadOnePlayerWithTopScore_ShouldReturnArrayWithThatPlayer() {
+        // given
+        var sut = Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0)
+        
+        let player1 = Player(name: "", position: 0, score: 1)
+        let player2 = Player(name: "", position: 0, score: 2)
+        let player3 = Player(name: "", position: 0, score: 3)
+        
+        sut.players = [player1, player2, player3]
+        
+        // when
+        let winningPlayers = sut.winningPlayers
+        
+        // then
+        XCTAssertEqual(winningPlayers, [player3])
+    }
+    
+    func test_Game_WhenWinningPlayersIsReadMultiplePlayersWithTopScore_ShouldReturnArrayWithThosePlayers() {
+        // given
+        var sut = Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0)
+        
+        let player1 = Player(name: "", position: 0, score: 1)
+        let player2 = Player(name: "", position: 0, score: 2)
+        let player3 = Player(name: "", position: 0, score: 2)
+        
+        sut.players = [player1, player2, player3]
+        
+        // when
+        let winningPlayers = sut.winningPlayers
+        
+        // then
+        XCTAssertEqual(winningPlayers.count, 2)
+        XCTAssertTrue(winningPlayers.contains(player2))
+        XCTAssertTrue(winningPlayers.contains(player3))
+    }
 }
 
 class GameMock: GameProtocol {
-    
     convenience init(players: [Player]) {
         self.init()
         self.players = players
@@ -209,6 +247,7 @@ class GameMock: GameProtocol {
     var numberOfPlayers: Int = 0
     var currentRound: Int = 0
     var players: [Player] = []
+    var winningPlayers: [Player] = []
     
     var playerNameChangedCalledCount = 0
     var playerNameChangedIndex: Int?

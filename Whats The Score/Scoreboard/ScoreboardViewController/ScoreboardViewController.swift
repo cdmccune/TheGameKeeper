@@ -18,6 +18,11 @@ class ScoreboardViewController: UIViewController {
     @IBOutlet weak var turnOrderSortButton: UIButton!
     @IBOutlet weak var scoreSortButton: UIButton!
     
+    @IBOutlet weak var progressBarStackView: UIStackView!
+    @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var progressBarLeftLabel: UILabel!
+    @IBOutlet weak var progressBarRightLabel: UILabel!
+    
     // MARK: - Properties
     
     var viewModel: ScoreboardViewModelProtocol?
@@ -195,6 +200,45 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             self.filterButtonStackView.isHidden = game.gameType == .basic
             
             self.tableView.reloadData()
+            
+            guard game.gameType == .round,
+                  game.gameEndType != .none else {
+                self.progressBarStackView.isHidden = true
+                return
+            }
+            
+            self.progressBarStackView.isHidden = false
+            
+            if game.gameEndType == .round,
+               let numberOfRounds = game.numberOfRounds {
+                self.progressBar.progress = Float(game.currentRound - 1)/Float(numberOfRounds)
+                self.progressBarRightLabel.text = "\(numberOfRounds)"
+                
+                let numberOfRoundsLeft = numberOfRounds - (game.currentRound - 1)
+                
+                if numberOfRoundsLeft > 1 {
+                    self.progressBarLeftLabel.text = "\(numberOfRoundsLeft) rounds left"
+                } else {
+                    self.progressBarLeftLabel.text = "last round"
+                }
+            } else if game.gameEndType == .score,
+                      let endingScore = game.endingScore {
+                let topScore = game.winningPlayers.first?.score ?? 0
+                self.progressBar.progress = (Float(topScore))/Float(endingScore)
+                
+                self.progressBarRightLabel.text = "\(endingScore)"
+                
+                let pointsToWin = endingScore - (game.winningPlayers.first?.score ?? 0)
+                let pointsOrPoint = pointsToWin > 1 ? "pts" : "pt"
+                
+                if game.winningPlayers.count == 1 {
+                    let playerName = game.winningPlayers.first?.name ?? ""
+                    
+                    self.progressBarLeftLabel.text = "\(playerName) needs \(pointsToWin) \(pointsOrPoint) to win"
+                } else {
+                    self.progressBarLeftLabel.text = "Multiple players need \(pointsToWin) \(pointsOrPoint) to win"
+                }
+            }
         }
     }
 }

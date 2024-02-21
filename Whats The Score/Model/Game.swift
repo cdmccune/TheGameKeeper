@@ -14,6 +14,7 @@ protocol GameProtocol {
     var currentRound: Int { get set }
     var endingScore: Int? { get set }
     var players: [Player] { get set }
+    var winningPlayers: [Player] { get }
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String)
     mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
@@ -57,6 +58,11 @@ struct Game: GameProtocol {
     var endingScore: Int?
     
     var players: [Player]
+    
+    var winningPlayers: [Player] {
+        let sortedPlayers = players.sorted { $0.score>$1.score }
+        return players.filter { $0.score == (sortedPlayers.first?.score ?? 0) }
+    }
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String) {
         guard players.indices.contains(index) else { return }

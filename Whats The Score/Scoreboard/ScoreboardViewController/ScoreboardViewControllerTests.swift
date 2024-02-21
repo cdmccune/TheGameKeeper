@@ -28,6 +28,28 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - Initialization
+    
+    func test_ScoreboardViewController_WhenViewLoaded_ShouldHaveNonNilOutlets() {
+        // given
+        let sut = viewController!
+        
+        // when
+        sut.loadView()
+        
+        // then
+        XCTAssertNotNil(sut.roundLabel)
+        XCTAssertNotNil(sut.tableView)
+        XCTAssertNotNil(sut.filterButtonStackView)
+        XCTAssertNotNil(sut.turnOrderSortButton)
+        XCTAssertNotNil(sut.scoreSortButton)
+        XCTAssertNotNil(sut.progressBarStackView)
+        XCTAssertNotNil(sut.progressBar)
+        XCTAssertNotNil(sut.progressBarLeftLabel)
+        XCTAssertNotNil(sut.progressBarRightLabel)
+    }
+    
+    
     // MARK: - Properties
     
     func test_ScoreboardViewController_WhenResetBarButtonSet_ShouldHaveResetBarButtonCorrectTitleAndTarget() {
@@ -913,6 +935,264 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(tableView.reloadDataCalledCount, 1)
     }
     
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameNone_ShouldMakeProgressBarStackViewHidden() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        sut.viewModel?.game.gameEndType = .none
+        sut.viewModel?.game.gameType = .round
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertTrue(sut.progressBarStackView.isHidden)
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledGameTypeBasic_ShouldMakeProgressBarStackViewHidden() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        sut.viewModel?.game.gameEndType = .round
+        sut.viewModel?.game.gameType = .basic
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertTrue(sut.progressBarStackView.isHidden)
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameNotNone_ShouldMakeProgressBarStackViewNotHidden() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        sut.viewModel?.game.gameEndType = .round
+        sut.viewModel?.game.gameType = .round
+        
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertFalse(sut.progressBarStackView.isHidden)
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRound_ShouldSetProgressToOneLessOfCurrentRoundDividedByTotalRounds() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        sut.viewModel?.game.gameEndType = .round
+        sut.viewModel?.game.gameType = .round
+        
+        let totalNumberOfRounds = Int.random(in: 6...10)
+        sut.viewModel?.game.numberOfRounds = totalNumberOfRounds
+        
+        let currentRound = Int.random(in: 1...5)
+        sut.viewModel?.game.currentRound = currentRound
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        let expectedProgress: Float = (Float(currentRound - 1))/Float(totalNumberOfRounds)
+        XCTAssertEqual(sut.progressBar.progress, expectedProgress)
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRound_ShouldSetProgressRightLabelToNumberOfRounds() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        sut.viewModel?.game.gameEndType = .round
+        sut.viewModel?.game.gameType = .round
+        
+        let totalNumberOfRounds = Int.random(in: 6...10)
+        sut.viewModel?.game.numberOfRounds = totalNumberOfRounds
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.progressBarRightLabel.text, "\(totalNumberOfRounds)")
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRoundMultipleRoundsLeft_ShouldSetProgressBarLeftLabelTextToHowManyRoundsAreLeftMultiple() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        sut.viewModel?.game.gameEndType = .round
+        sut.viewModel?.game.gameType = .round
+        
+        let totalNumberOfRounds = Int.random(in: 6...10)
+        sut.viewModel?.game.numberOfRounds = totalNumberOfRounds
+        
+        let currentRound = Int.random(in: 1...5)
+        sut.viewModel?.game.currentRound = currentRound
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        let numberOfRoundsLeft = totalNumberOfRounds - (currentRound - 1)
+        XCTAssertEqual(sut.progressBarLeftLabel.text, "\(numberOfRoundsLeft) rounds left")
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRoundMultipleRoundsLeft_ShouldSetProgressBarLeftLabelTextToLastRound() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        sut.viewModel?.game.gameEndType = .round
+        sut.viewModel?.game.gameType = .round
+        
+        let totalNumberOfRounds = 4
+        sut.viewModel?.game.numberOfRounds = totalNumberOfRounds
+        
+        let currentRound = 4
+        sut.viewModel?.game.currentRound = currentRound
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.progressBarLeftLabel.text, "last round")
+    }
+
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScore_ShouldSetProgressEqualToWinningPlayersScoreDividedByGameEndScore() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        var game = GameMock()
+        game.gameEndType = .score
+        game.gameType = .round
+        
+        let topPlayerScore = Int.random(in: 1...5)
+        game.winningPlayers = [Player(name: "", position: 0, score: topPlayerScore)]
+        
+        let endingScore = Int.random(in: 6...10)
+        game.endingScore = endingScore
+        
+        sut.viewModel?.game = game
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        let expectedProgress: Float = (Float(topPlayerScore))/Float(endingScore)
+        XCTAssertEqual(sut.progressBar.progress, expectedProgress)
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreOneWinningPlayerSinglePoint_ShouldSetProgressBarLeftLabelTextToPlayerNeeds1PtToWin() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        var game = GameMock()
+        game.gameEndType = .score
+        game.gameType = .round
+        
+        let topPlayerScore = 5
+        let playerName = UUID().uuidString
+        game.winningPlayers = [Player(name: playerName, position: 0, score: topPlayerScore)]
+        
+        let endingScore = 6
+        game.endingScore = endingScore
+        
+        sut.viewModel?.game = game
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.progressBarLeftLabel.text, "\(playerName) needs 1 pt to win")
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreOneWinningPlayer_ShouldSetProgressBarLeftLabelTextToPlayerNeedsxPtsToWin() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        var game = GameMock()
+        game.gameEndType = .score
+        game.gameType = .round
+        
+        let topPlayerScore = Int.random(in: 1...5)
+        let playerName = UUID().uuidString
+        game.winningPlayers = [Player(name: playerName, position: 0, score: topPlayerScore)]
+        
+        let endingScore = Int.random(in: 6...10)
+        game.endingScore = endingScore
+        
+        sut.viewModel?.game = game
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.progressBarLeftLabel.text, "\(playerName) needs \(endingScore-topPlayerScore) pts to win")
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreMultipleWinningPlayers_ShouldSetProgressBarLeftLabelTextToMultiplePlayersNeedxPntsToWin() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        var game = GameMock()
+        game.gameEndType = .score
+        game.gameType = .round
+        
+        let topPlayerScore = Int.random(in: 1...5)
+        game.winningPlayers = [Player(name: "", position: 0, score: topPlayerScore),
+                               Player(name: "", position: 0, score: topPlayerScore)]
+        
+        let endingScore = Int.random(in: 6...10)
+        game.endingScore = endingScore
+        
+        sut.viewModel?.game = game
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.progressBarLeftLabel.text, "Multiple players need \(endingScore-topPlayerScore) pts to win")
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScore_ShouldSetProgressBarRightLabelTextToEndingScore() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        
+        var game = GameMock()
+        game.gameEndType = .score
+        game.gameType = .round
+        
+        let endingScore = Int.random(in: 6...10)
+        game.endingScore = endingScore
+        
+        sut.viewModel?.game = game
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.progressBarRightLabel.text, "\(endingScore)")
+    }
     
     // MARK: - Classes
     

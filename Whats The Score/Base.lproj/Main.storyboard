@@ -497,11 +497,46 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jDl-y9-hI9">
+                                        <rect key="frame" x="0.0" y="64" width="393" height="30.333333333333329"/>
+                                        <subviews>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="iDK-ji-bg5">
+                                                <rect key="frame" x="10" y="0.0" width="373" height="10"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="10" id="SrG-TL-wXK"/>
+                                                </constraints>
+                                            </progressView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bO0-za-ncr">
+                                                <rect key="frame" x="0.0" y="9.9999999999999982" width="393" height="20.333333333333329"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="4 Rounds Left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wE3-tm-SKg">
+                                                        <rect key="frame" x="10" y="0.0" width="362.33333333333331" height="20.333333333333332"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwo-a5-6m4">
+                                                        <rect key="frame" x="372.33333333333331" y="0.0" width="10.666666666666686" height="20.333333333333332"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <edgeInsets key="layoutMargins" top="0.0" left="10" bottom="0.0" right="10"/>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="iDK-ji-bg5" firstAttribute="leading" secondItem="jDl-y9-hI9" secondAttribute="leading" constant="10" id="HNY-lK-Q1U"/>
+                                            <constraint firstAttribute="trailing" secondItem="bO0-za-ncr" secondAttribute="trailing" id="Z8k-mF-qtc"/>
+                                            <constraint firstItem="bO0-za-ncr" firstAttribute="leading" secondItem="jDl-y9-hI9" secondAttribute="leading" id="cMs-5e-ODt"/>
+                                            <constraint firstAttribute="trailing" secondItem="iDK-ji-bg5" secondAttribute="trailing" constant="10" id="s6T-iq-FPt"/>
+                                        </constraints>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MqA-gq-D7o">
-                                        <rect key="frame" x="0.0" y="64" width="393" height="39"/>
+                                        <rect key="frame" x="0.0" y="94.333333333333343" width="393" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A2j-tM-tB9">
-                                                <rect key="frame" x="0.0" y="0.0" width="196.66666666666666" height="39"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="196.66666666666666" height="40"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Turn Order">
                                                     <fontDescription key="titleFontDescription" name="Notable-Regular" family="Notable" pointSize="19"/>
@@ -511,7 +546,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhl-B8-pxI">
-                                                <rect key="frame" x="196.66666666666663" y="0.0" width="196.33333333333337" height="39"/>
+                                                <rect key="frame" x="196.66666666666663" y="0.0" width="196.33333333333337" height="40"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Score">
                                                     <fontDescription key="titleFontDescription" name="Notable-Regular" family="Notable" pointSize="20"/>
@@ -523,11 +558,11 @@
                                         </subviews>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cCi-B3-Ky9">
-                                        <rect key="frame" x="0.0" y="103" width="393" height="552.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="134.33333333333334" width="393" height="352.33333333333326"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3o-tW-ZLn">
-                                        <rect key="frame" x="0.0" y="655.33333333333337" width="393" height="35"/>
+                                        <rect key="frame" x="0.0" y="486.66666666666663" width="393" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="b32-3X-kP5"/>
                                         </constraints>
@@ -538,7 +573,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="txo-KT-kJR">
-                                        <rect key="frame" x="0.0" y="690.33333333333337" width="393" height="34.333333333333371"/>
+                                        <rect key="frame" x="0.0" y="521.66666666666663" width="393" height="203"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="End Round"/>
                                         <connections>
@@ -567,6 +602,10 @@
                     </view>
                     <connections>
                         <outlet property="filterButtonStackView" destination="MqA-gq-D7o" id="B7R-A9-L6I"/>
+                        <outlet property="progressBar" destination="iDK-ji-bg5" id="EBW-dA-CU8"/>
+                        <outlet property="progressBarLeftLabel" destination="wE3-tm-SKg" id="cu8-mG-a66"/>
+                        <outlet property="progressBarRightLabel" destination="Lwo-a5-6m4" id="8D9-CW-Fqw"/>
+                        <outlet property="progressBarStackView" destination="jDl-y9-hI9" id="2er-dn-osd"/>
                         <outlet property="roundLabel" destination="3DQ-xe-Gm3" id="CGM-u4-0Fp"/>
                         <outlet property="scoreSortButton" destination="fhl-B8-pxI" id="pbg-VH-aiS"/>
                         <outlet property="tableView" destination="cCi-B3-Ky9" id="aci-wx-OQA"/>
@@ -763,6 +802,7 @@
                                 <rect key="frame" x="270" y="5" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="ax1-Bi-9AC"/>
+                                    <constraint firstAttribute="width" secondItem="AcL-Ks-X5i" secondAttribute="height" id="cru-sk-2r5"/>
                                 </constraints>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -774,12 +814,12 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="QKg-cB-pEO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="4yG-GX-0Vx" firstAttribute="leading" secondItem="ZsR-C3-Eg3" secondAttribute="leading" id="T1i-8n-niv"/>
                             <constraint firstAttribute="trailing" secondItem="AcL-Ks-X5i" secondAttribute="trailing" constant="5" id="TUH-eq-xez"/>
                             <constraint firstItem="4yG-GX-0Vx" firstAttribute="top" secondItem="ZsR-C3-Eg3" secondAttribute="top" id="X1p-T0-92L"/>
-                            <constraint firstItem="AcL-Ks-X5i" firstAttribute="width" secondItem="AcL-Ks-X5i" secondAttribute="height" id="cru-sk-2r5"/>
                             <constraint firstItem="AcL-Ks-X5i" firstAttribute="top" secondItem="ZsR-C3-Eg3" secondAttribute="top" constant="5" id="jz6-Ac-6lY"/>
                             <constraint firstAttribute="trailing" secondItem="4yG-GX-0Vx" secondAttribute="trailing" id="v2l-IU-Vai"/>
                             <constraint firstAttribute="bottom" secondItem="4yG-GX-0Vx" secondAttribute="bottom" id="vU4-YX-exY"/>
