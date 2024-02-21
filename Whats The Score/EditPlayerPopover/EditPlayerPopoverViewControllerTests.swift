@@ -131,6 +131,28 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - ExitButtonTapped
+    
+    func test_EditPlayerPopoverViewController_WhenExitButtonTappedCalled_ShouldDismissView() {
+        
+        class EditPlayerPopoverViewControllerDismissMock: EditPlayerPopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = EditPlayerPopoverViewControllerDismissMock()
+        
+        // when
+        sut.exitButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
+    
+    
     // MARK: - Classes
     
     class EditPlayerPopoverDelegateMock: EditPlayerPopoverDelegateProtocol {

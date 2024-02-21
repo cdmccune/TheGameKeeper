@@ -60,4 +60,9 @@ class EditPlayerPopoverViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
+    @IBAction func exitButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
+    
 }

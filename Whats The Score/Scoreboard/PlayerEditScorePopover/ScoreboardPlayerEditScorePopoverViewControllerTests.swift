@@ -290,6 +290,27 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(sut.dismissedCalledCount, 1)
     }
+    
+    
+    // MARK: - ExitButtonTapped
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenExitButtonTappedCalled_ShouldDismissItself() {
+        class ScoreboardPlayerEditScorePopoverViewControllerDismissMock: ScoreboardPlayerEditScorePopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = ScoreboardPlayerEditScorePopoverViewControllerDismissMock()
+        
+        // when
+        sut.exitButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
 
 }
 

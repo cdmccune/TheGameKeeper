@@ -105,7 +105,7 @@ class ScoreboardViewController: UIViewController {
         editPlayerVC.player = player
         editPlayerVC.delegate = viewModel!
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerVC, withWidth: 300, andHeight: 180)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerVC, withWidth: 300, andHeight: 100)
         
         self.present(editPlayerVC, animated: true)
     }

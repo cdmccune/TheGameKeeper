@@ -357,6 +357,27 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - ExitButtonTapped
+    
+    func test_EndRoundPopoverViewController_WhenExitButtonTappedCalled_ShouldDismissItself() {
+        class EndRoundPopoverViewControllerDismissMock: EndRoundPopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = EndRoundPopoverViewControllerDismissMock()
+        
+        // when
+        sut.exitButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
+    
+    
     // MARK: - TextFieldEditingBegan
     
     func test_EndRoundPopoverViewController_WhenTextFieldEditingBeganCalledTextFieldIsInCurrentFrameOfPlayerScrollView_ShouldNotChangeScrollViewContentOffset() {
