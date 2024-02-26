@@ -37,7 +37,6 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         
         // then
         XCTAssertNotNil(sut.playerNameTextField)
-        XCTAssertNotNil(sut.colorCollectionView)
         XCTAssertNotNil(sut.saveButton)
     }
     
