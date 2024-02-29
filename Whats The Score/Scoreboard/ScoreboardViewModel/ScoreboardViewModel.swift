@@ -124,6 +124,16 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
+    func isEndOfGame() -> Bool {
+        switch game.gameEndType {
+        case .none:
+            return false
+        case .round:
+            return game.currentRound >= game.numberOfRounds ?? 0
+        case .score:
+            return game.players.contains { $0.score >= game.endingScore ?? 0 }
+        }
+    }
     
 }
 

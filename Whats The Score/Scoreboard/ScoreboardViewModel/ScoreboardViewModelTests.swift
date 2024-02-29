@@ -458,6 +458,77 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - IsEndOfGameCheck
+    
+    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledNoneEndGameType_ShouldReturnFalse() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.gameEndType = .none
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledRoundEndGameTypeCurrentRoundLessThanGameNumberOfRounds_ShouldReturnFalse() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.gameEndType = .round
+        sut.game.currentRound = 0
+        sut.game.numberOfRounds = 4
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledRoundEndGameTypeCurrentRoundEqualToGameNumberOfRounds_ShouldReturnTrue() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.gameEndType = .round
+        sut.game.currentRound = 4
+        sut.game.numberOfRounds = 4
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertTrue(isEndOfGame)
+    }
+    
+    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanEndingScore_ShouldReturnFalse() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.gameEndType = .score
+        sut.game.players = [Player(name: "", position: 0, score: 10)]
+        sut.game.endingScore = 100
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanWinningScore_ShouldReturnTrue() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.gameEndType = .score
+        sut.game.players = [Player(name: "", position: 0, score: 100)]
+        sut.game.endingScore = 100
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertTrue(isEndOfGame)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
