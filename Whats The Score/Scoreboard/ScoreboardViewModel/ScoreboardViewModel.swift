@@ -64,6 +64,8 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         }
     }
     
+    var dispatchQueue: DispatchQueueProtocol = DispatchQueue.main
+    
     
     // MARK: - Functions
     
@@ -86,6 +88,12 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         
         game.players[index].score += change
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+        
+        if isEndOfGame() {
+            dispatchQueue.asyncAfter(deadline: .now() + 1.0) {
+                self.shouldShowEndGamePopup.value = true
+            }
+        }
     }
     
     func startDeletingPlayerAt(_ index: Int) {
