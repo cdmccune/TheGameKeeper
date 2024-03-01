@@ -111,16 +111,30 @@ final class DefaultPopoverPresenterTests: XCTestCase {
         XCTAssertEqual(popoverViewController.preferredContentSize, goalSize)
     }
     
-    func test_DefaultPopoverPresenter_WhenSetupPopoverCenteredCalled_ShouldSetViewControllersPopoverPresentationControllerDelegateToNoAdaptivePresentationStylePopoverPresentationDelegate() {
+    func test_DefaultPopoverPresenter_WhenSetupPopoverCenteredCalledTapToExitTrue_ShouldSetViewControllersPopoverPresentationControllerDelegateToNoAdaptivePresentationStylePopoverPresentationDelegateTapToExitTrue() {
         // given
         let sut = DefaultPopoverPresenter()
         let popoverViewController = UIViewController()
         
         // when
-        sut.setupPopoverCentered(onView: UIView(), withPopover: popoverViewController, withWidth: 0, andHeight: 0)
+        sut.setupPopoverCentered(onView: UIView(), withPopover: popoverViewController, withWidth: 0, andHeight: 0, tapToExit: true)
         
         // then
         XCTAssertTrue(popoverViewController.popoverPresentationController?.delegate is NoAdaptivePresentationStylePopoverPresentationDelegate)
+        XCTAssertTrue((popoverViewController.popoverPresentationController?.delegate as? NoAdaptivePresentationStylePopoverPresentationDelegate)?.tapToExit ?? false)
+    }
+    
+    func test_DefaultPopoverPresenter_WhenSetupPopoverCenteredCalledTapToExitFalse_ShouldSetViewControllersPopoverPresentationControllerDelegateToNoAdaptivePresentationStylePopoverPresentationDelegateTapToExitFalse() {
+        // given
+        let sut = DefaultPopoverPresenter()
+        let popoverViewController = UIViewController()
+        
+        // when
+        sut.setupPopoverCentered(onView: UIView(), withPopover: popoverViewController, withWidth: 0, andHeight: 0, tapToExit: false)
+        
+        // then
+        XCTAssertTrue(popoverViewController.popoverPresentationController?.delegate is NoAdaptivePresentationStylePopoverPresentationDelegate)
+        XCTAssertFalse((popoverViewController.popoverPresentationController?.delegate as? NoAdaptivePresentationStylePopoverPresentationDelegate)?.tapToExit ?? true)
     }
     
     func test_DefaultPopoverPresenter_WhenSetupPopoverCenteredCalled_ShouldCallHideKeyboardWhenTappedAroundOnViewController() {
@@ -152,12 +166,14 @@ class DefaultPopoverPresenterMock: DefaultPopoverPresenterProtocol {
     var setupPopoverCenteredHeight: CGFloat?
 //    var setupPopoverCenteredDelegate: UIPopoverPresentationControllerDelegate?
     var setupPopoverCenteredView: UIView?
+    var setupPopoverCenteredTapToExit: Bool?
     
-    func setupPopoverCentered(onView view: UIView, withPopover viewController: UIViewController, withWidth width: CGFloat, andHeight height: CGFloat) {
+    func setupPopoverCentered(onView view: UIView, withPopover viewController: UIViewController, withWidth width: CGFloat, andHeight height: CGFloat, tapToExit: Bool = false) {
         self.setupPopoverCenteredCalledCount += 1
         self.setupPopoverCenteredPopoverVC = viewController
         self.setupPopoverCenteredWidth = width
         self.setupPopoverCenteredHeight = height
         self.setupPopoverCenteredView = view
+        self.setupPopoverCenteredTapToExit = tapToExit
     }
 }

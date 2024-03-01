@@ -76,6 +76,12 @@ class ScoreboardViewController: UIViewController {
         viewModel?.playerToDelete.valueChanged = { [weak self] _ in
             self?.presentDeletePlayerAlert()
         }
+        
+        viewModel?.shouldShowEndGamePopup.valueChanged = { [weak self] shouldShow in
+            guard shouldShow ?? false else { return }
+            self?.presentEndGamePopoverView()
+            self?.viewModel?.shouldShowEndGamePopup.value = false
+        }
     }
     
     private func setupViews() {
@@ -95,7 +101,7 @@ class ScoreboardViewController: UIViewController {
         editPlayerScoreVC.player = player
         editPlayerScoreVC.delegate = viewModel!
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerScoreVC, withWidth: 300, andHeight: 200)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerScoreVC, withWidth: 300, andHeight: 200, tapToExit: true)
         
         self.present(editPlayerScoreVC, animated: true)
     }
@@ -110,7 +116,7 @@ class ScoreboardViewController: UIViewController {
         editPlayerVC.player = player
         editPlayerVC.delegate = viewModel!
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerVC, withWidth: 300, andHeight: 100)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerVC, withWidth: 300, andHeight: 100, tapToExit: true)
         
         self.present(editPlayerVC, animated: true)
     }
@@ -132,6 +138,19 @@ class ScoreboardViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
+    private func presentEndGamePopoverView() {
+        guard let game = viewModel?.game else { return }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let endGamePopoverVC = storyboard.instantiateViewController(withIdentifier: "EndGamePopoverViewController") as? EndGamePopoverViewController else {
+            fatalError("EndGamePopoverViewController not instantiated")
+        }
+        
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 200, tapToExit: false)
+        
+        self.present(endGamePopoverVC, animated: true)
+    }
+    
     // MARK: - IBActions
     
     @IBAction func endRoundButtonTapped(_ sender: Any) {
@@ -150,7 +169,7 @@ class ScoreboardViewController: UIViewController {
         endRoundPopoverVC.delegate = viewModel
         
         let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: viewModel.sortedPlayers.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height, tapToExit: true)
         
         self.present(endRoundPopoverVC, animated: true)
     }

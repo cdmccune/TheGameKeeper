@@ -14,6 +14,7 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     var playerToEdit: Observable<Player> { get set }
     var playerToDelete: Observable<Player> { get set }
     var sortPreference: Observable<ScoreboardSortPreference> { get set }
+    var shouldShowEndGamePopup: Observable<Bool> { get set }
     var sortedPlayers: [Player] { get }
     
     func startEditingPlayerAt(_ index: Int)
@@ -51,6 +52,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     var playerToEdit: Observable<Player> = Observable(nil)
     var playerToDelete: Observable<Player> = Observable(nil)
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
+    var shouldShowEndGamePopup: Observable<Bool> = Observable(false)
     var sortedPlayers: [Player] {
         return game.players.sorted {player1, player2 in
             switch sortPreference.value ?? .score {
@@ -109,18 +111,23 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
                 game.players[index].score += scoreChange
             }
         }
-        
         game.currentRound += 1
-        
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+        
+        if isEndOfGame() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.endGame()
+            }
+        }
     }
     
     func endGame() {
-        
+        self.shouldShowEndGamePopup.value = true
     }
     
     func resetGame() {
         game.players.indices.forEach { game.players[$0].score = 0 }
+        game.currentRound = 1
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
@@ -129,7 +136,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         case .none:
             return false
         case .round:
-            return game.currentRound >= game.numberOfRounds ?? 0
+            return game.currentRound > game.numberOfRounds ?? 0
         case .score:
             return game.players.contains { $0.score >= game.endingScore ?? 0 }
         }

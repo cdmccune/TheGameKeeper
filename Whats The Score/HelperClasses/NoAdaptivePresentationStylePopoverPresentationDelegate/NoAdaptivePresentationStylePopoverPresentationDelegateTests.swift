@@ -20,5 +20,27 @@ final class NoAdaptivePresentationStylePopoverPresentationDelegateTests: XCTestC
         // then
         XCTAssertEqual(style, .none)
     }
+    
+    func test_NoAdaptivePresentationStylePopoverPresentationDelegate_WhenInitializedWithTapToExitFalse_ShouldReturnFalseForPresentationControllerShouldDismiss() {
+        // given
+        let sut = NoAdaptivePresentationStylePopoverPresentationDelegate(tapToExit: false)
+        
+        // when
+        let bool = sut.presentationControllerShouldDismiss(UIPresentationController(presentedViewController: UIViewController(), presenting: nil))
+        
+        // then
+        XCTAssertFalse(bool)
+    }
+    
+    func test_NoAdaptivePresentationStylePopoverPresentationDelegate_WhenInitializedWith_ShouldReturnTrueForPresentationControllerShouldDismiss() {
+        // given
+        let sut = NoAdaptivePresentationStylePopoverPresentationDelegate()
+        
+        // when
+        let bool = sut.presentationControllerShouldDismiss(UIPresentationController(presentedViewController: UIViewController(), presenting: nil))
+        
+        // then
+        XCTAssertTrue(bool)
+    }
 
 }
