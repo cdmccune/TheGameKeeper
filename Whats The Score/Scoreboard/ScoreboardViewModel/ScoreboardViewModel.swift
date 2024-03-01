@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol {
+protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate {
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var playerToEditScore: Observable<Player> { get set }
@@ -15,6 +15,8 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     var playerToDelete: Observable<Player> { get set }
     var sortPreference: Observable<ScoreboardSortPreference> { get set }
     var shouldShowEndGamePopup: Observable<Bool> { get set }
+    var shouldGoToEndGameScreen: Observable<Bool> { get set }
+    var shouldShowKeepPlayingPopup: Observable<Bool> { get set }
     var sortedPlayers: [Player] { get }
     
     func startEditingPlayerAt(_ index: Int)
@@ -53,6 +55,9 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     var playerToDelete: Observable<Player> = Observable(nil)
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
     var shouldShowEndGamePopup: Observable<Bool> = Observable(false)
+    var shouldGoToEndGameScreen: Observable<Bool> = Observable(false)
+    var shouldShowKeepPlayingPopup: Observable<Bool> = Observable(false)
+    
     var sortedPlayers: [Player] {
         return game.players.sorted {player1, player2 in
             switch sortPreference.value ?? .score {
@@ -144,9 +149,9 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         case .none:
             return false
         case .round:
-            return game.currentRound > game.numberOfRounds ?? 0
+            return game.currentRound > game.numberOfRounds
         case .score:
-            return game.players.contains { $0.score >= game.endingScore ?? 0 }
+            return game.players.contains { $0.score >= game.endingScore }
         }
     }
     
@@ -166,6 +171,18 @@ extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
         game.players[index] = player
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
+}
+
+extension ScoreboardViewModel: EndGamePopoverDelegate {
+    func goToEndGameScreen() {
+        shouldGoToEndGameScreen.value = true
+    }
+    
+    func showKeepPlayingPopup() {
+        shouldShowKeepPlayingPopup.value = true
+    }
+    
+    
 }
 
 protocol ScoreboardViewModelViewProtocol: NSObject {

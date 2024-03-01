@@ -681,6 +681,31 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - GoToEndGameScreen
+    
+    func test_ScoreboardViewModel_WhenGoToEndGameScreenCalled_ShouldSetValueOfShouldGoToEndGameScreenToTrue() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        // when
+        sut.goToEndGameScreen()
+        
+        // then
+        XCTAssertTrue(sut.shouldGoToEndGameScreen.value ?? false)
+    }
+    
+    func test_ScoreboardViewModel_WhenShowKeepPlayingPopupCalled_ShouldSetValueOfShouldShowKeepPlayingPopupToTrue() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        // when
+        sut.showKeepPlayingPopup()
+        
+        // then
+        XCTAssertTrue(sut.shouldShowKeepPlayingPopup.value ?? false)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
@@ -714,6 +739,7 @@ final class ScoreboardViewModelTests: XCTestCase {
 }
 
 class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
+    
     init(game: GameProtocol) {
         self.game = game
     }
@@ -728,6 +754,8 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     var playerToEdit: Observable<Player> = Observable(Player(name: "", position: 0))
     var playerToDelete: Observable<Player> = Observable(Player(name: "", position: 0))
     var shouldShowEndGamePopup: Observable<Bool> = Observable(false)
+    var shouldShowKeepPlayingPopup: Observable<Bool> = Observable(false)
+    var shouldGoToEndGameScreen: Observable<Bool> = Observable(false)
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
     var sortedPlayers: [Player] = []
     
@@ -790,4 +818,8 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     }
     
     func endRound(withChanges changeDictionary: [Whats_The_Score.Player: Int]) {}
+    
+    func goToEndGameScreen() {}
+    
+    func showKeepPlayingPopup() {}
 }

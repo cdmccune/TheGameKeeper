@@ -81,6 +81,10 @@
 		24D68E1A2B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */; };
 		24D71FD22B923AAA0043CC62 /* EndGamePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FD12B923AAA0043CC62 /* EndGamePopoverViewController.swift */; };
 		24D71FD82B92656C0043CC62 /* EndGamePopoverViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FD72B92656C0043CC62 /* EndGamePopoverViewControllerTests.swift */; };
+		24D71FDC2B928F1A0043CC62 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FDB2B928F1A0043CC62 /* EndGameViewController.swift */; };
+		24D71FDE2B928F240043CC62 /* EndGameViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FDD2B928F240043CC62 /* EndGameViewControllerTests.swift */; };
+		24D71FE32B9292E90043CC62 /* KeepPlayingPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FE22B9292E90043CC62 /* KeepPlayingPopoverViewController.swift */; };
+		24D71FE52B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FE42B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift */; };
 		24DAC6B72B52F1C90069C7C9 /* Whats The Score Tests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */; };
 		24EC1D7C2B44CC600060D27D /* PlayerSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */; };
 		24EC1D7E2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */; };
@@ -176,6 +180,10 @@
 		24D68E192B505FCD00AD35AC /* PlayerSetupNameTextFieldDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupNameTextFieldDelegateTests.swift; sourceTree = "<group>"; };
 		24D71FD12B923AAA0043CC62 /* EndGamePopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGamePopoverViewController.swift; sourceTree = "<group>"; };
 		24D71FD72B92656C0043CC62 /* EndGamePopoverViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGamePopoverViewControllerTests.swift; sourceTree = "<group>"; };
+		24D71FDB2B928F1A0043CC62 /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
+		24D71FDD2B928F240043CC62 /* EndGameViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewControllerTests.swift; sourceTree = "<group>"; };
+		24D71FE22B9292E90043CC62 /* KeepPlayingPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepPlayingPopoverViewController.swift; sourceTree = "<group>"; };
+		24D71FE42B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepPlayingPopoverViewControllerTests.swift; sourceTree = "<group>"; };
 		24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Whats The Score Tests.xctestplan"; sourceTree = SOURCE_ROOT; };
 		24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewController.swift; sourceTree = "<group>"; };
 		24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewControllerTests.swift; sourceTree = "<group>"; };
@@ -254,6 +262,7 @@
 				248E958B2B6BF02000710FC1 /* PlayerEditScorePopover */,
 				2457FA292B7FD3F200CF7F40 /* EndRoundPopover */,
 				24D71FCF2B923A800043CC62 /* EndGamePopover */,
+				24D71FE02B9292C50043CC62 /* KeepPlayingPopover */,
 				2496A0762B7590AA006AC047 /* Model */,
 			);
 			path = Scoreboard;
@@ -383,6 +392,7 @@
 				2437F71C2B40D0F600BB75A1 /* GameSetup */,
 				24EC1D792B44CAA40060D27D /* PlayerSetup */,
 				242615672B59C4270092B145 /* Scoreboard */,
+				24D71FD92B928EF90043CC62 /* End Game */,
 				2496A0712B753A41006AC047 /* EditPlayerPopover */,
 				2437F7222B40D31500BB75A1 /* Model */,
 				243228DA2B4EF9EA00C42C62 /* HelperClasses */,
@@ -657,6 +667,40 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		24D71FD92B928EF90043CC62 /* End Game */ = {
+			isa = PBXGroup;
+			children = (
+				24D71FDA2B928F0D0043CC62 /* ViewController */,
+			);
+			path = "End Game";
+			sourceTree = "<group>";
+		};
+		24D71FDA2B928F0D0043CC62 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				24D71FDB2B928F1A0043CC62 /* EndGameViewController.swift */,
+				24D71FDD2B928F240043CC62 /* EndGameViewControllerTests.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		24D71FE02B9292C50043CC62 /* KeepPlayingPopover */ = {
+			isa = PBXGroup;
+			children = (
+				24D71FE12B9292D40043CC62 /* ViewController */,
+			);
+			path = KeepPlayingPopover;
+			sourceTree = "<group>";
+		};
+		24D71FE12B9292D40043CC62 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				24D71FE22B9292E90043CC62 /* KeepPlayingPopoverViewController.swift */,
+				24D71FE42B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		24EC1D792B44CAA40060D27D /* PlayerSetup */ = {
 			isa = PBXGroup;
 			children = (
@@ -880,6 +924,7 @@
 				24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */,
 				24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */,
 				2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */,
+				24D71FE32B9292E90043CC62 /* KeepPlayingPopoverViewController.swift in Sources */,
 				244A46392B5AD9C60033199F /* ScoreboardViewModel.swift in Sources */,
 				24CD526E2B6167A500C481A8 /* ScoreboardTableViewCell.swift in Sources */,
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
@@ -905,6 +950,7 @@
 				2437F6F72B40BA6600BB75A1 /* HomeViewController.swift in Sources */,
 				248E958E2B6BF05F00710FC1 /* ScoreboardPlayerEditScorePopoverViewController.swift in Sources */,
 				243206C42B83FC1B000CCE75 /* StackViewTextFieldDelegate.swift in Sources */,
+				24D71FDC2B928F1A0043CC62 /* EndGameViewController.swift in Sources */,
 				2496A0782B7590C0006AC047 /* ScoreboardSortPreference.swift in Sources */,
 				2437F7242B40D32800BB75A1 /* Game.swift in Sources */,
 				2410F71A2B5596D200860BA4 /* ViewControllerExtensions.swift in Sources */,
@@ -921,6 +967,7 @@
 				243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */,
 				2423E3012B62BB5300253356 /* ObservableTests.swift in Sources */,
 				244A463E2B5AF7920033199F /* GameTests.swift in Sources */,
+				24D71FE52B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift in Sources */,
 				24BD23432B56DFF4000FCBE4 /* ArrayExtensionsTests.swift in Sources */,
 				24CD52722B6167B400C481A8 /* ScoreboardTableViewCellTests.swift in Sources */,
 				24836D1D2B72DC980038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift in Sources */,
@@ -939,6 +986,7 @@
 				2437F7112B40C0AA00BB75A1 /* GameSetupViewControllerTests.swift in Sources */,
 				244A463B2B5AD9CE0033199F /* ScoreboardViewModelTests.swift in Sources */,
 				24A423432B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift in Sources */,
+				24D71FDE2B928F240043CC62 /* EndGameViewControllerTests.swift in Sources */,
 				2437F7072B40BB1B00BB75A1 /* HomeViewControllerTests.swift in Sources */,
 				243206C12B83F5D0000CCE75 /* EndRoundPopoverPlayerStackViewTests.swift in Sources */,
 				2437F7212B40D12200BB75A1 /* GameSetupViewModelTests.swift in Sources */,

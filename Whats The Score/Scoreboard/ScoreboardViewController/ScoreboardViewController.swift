@@ -82,6 +82,24 @@ class ScoreboardViewController: UIViewController {
             self?.presentEndGamePopoverView()
             self?.viewModel?.shouldShowEndGamePopup.value = false
         }
+        
+        viewModel?.shouldGoToEndGameScreen.valueChanged = { [weak self] shouldShow in
+            guard shouldShow ?? false else { return }
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let endGameViewController = storyboard.instantiateViewController(withIdentifier: "EndGameViewController") as? EndGameViewController else {
+                fatalError("EndGameViewController couldn't be instantiated")
+            }
+            
+            
+            self?.navigationController?.pushViewController(endGameViewController, animated: true)
+        }
+        
+        viewModel?.shouldShowKeepPlayingPopup.valueChanged = { [weak self] shouldShow in
+            guard shouldShow ?? false else { return }
+            self?.presentKeepPlayingPopoverView()
+            self?.viewModel?.shouldShowKeepPlayingPopup.value = false
+        }
     }
     
     private func setupViews() {
@@ -147,10 +165,24 @@ class ScoreboardViewController: UIViewController {
         }
         
         endGamePopoverVC.game = game
+        endGamePopoverVC.delegate = viewModel
         
         defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 165, tapToExit: false)
         
         self.present(endGamePopoverVC, animated: true)
+    }
+    
+    private func presentKeepPlayingPopoverView() {
+        guard let game = viewModel?.game else { return }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let keepPlayingPopoverVC = storyboard.instantiateViewController(withIdentifier: "KeepPlayingPopoverViewController") as? KeepPlayingPopoverViewController else {
+            fatalError("KeepPlayingPopoverViewController not instantiated")
+        }
+        
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 165, tapToExit: false)
+        
+        self.present(keepPlayingPopoverVC, animated: true)
     }
     
     // MARK: - IBActions
