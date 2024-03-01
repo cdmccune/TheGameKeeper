@@ -232,6 +232,34 @@ final class GameTests: XCTestCase {
         XCTAssertTrue(winningPlayers.contains(player2))
         XCTAssertTrue(winningPlayers.contains(player3))
     }
+    
+    // MARK: - isEqualTo
+    
+    func test_Game_WhenIsEqualToCalledDifferentIDs_ShouldReturnFalse() {
+        // given
+        let sut = Game(basicGameWithPlayers: [])
+        var secondGame = GameMock()
+        secondGame.id = UUID()
+        
+        // when
+        let bool = sut.isEqualTo(game: secondGame)
+        
+        // then
+        XCTAssertFalse(bool)
+    }
+    
+    func test_Game_WhenIsEqualToCalledSameIDs_ShouldReturnTrue() {
+        // given
+        let sut = Game(basicGameWithPlayers: [])
+        var secondGame = GameMock()
+        secondGame.id = sut.id
+        
+        // when
+        let bool = sut.isEqualTo(game: secondGame)
+        
+        // then
+        XCTAssertTrue(bool)
+    }
 }
 
 class GameMock: GameProtocol {
@@ -240,10 +268,11 @@ class GameMock: GameProtocol {
         self.players = players
     }
     
+    var id: UUID = UUID()
     var gameType: GameType = .basic
     var gameEndType: GameEndType = .none
-    var numberOfRounds: Int? 
-    var endingScore: Int?
+    var numberOfRounds: Int = 2
+    var endingScore: Int = 10
     var numberOfPlayers: Int = 0
     var currentRound: Int = 0
     var players: [Player] = []
@@ -280,5 +309,9 @@ class GameMock: GameProtocol {
     var deletePlayerAtCalledCount = 0
     func deletePlayerAt(_ index: Int) {
         deletePlayerAtCalledCount += 1
+    }
+    
+    func isEqualTo(game: GameProtocol) -> Bool {
+        game.id == self.id
     }
 }

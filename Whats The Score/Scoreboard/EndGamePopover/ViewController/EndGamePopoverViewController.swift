@@ -7,14 +7,50 @@
 
 import UIKit
 
+protocol EndGamePopoverDelegate: AnyObject {
+    func goToEndGameScreen()
+}
+
 class EndGamePopoverViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var gameOverDescriptionLabel: UILabel!
+    
+    // MARK: - Properties
+    
+    var delegate: EndGamePopoverDelegate?
+    var game: GameProtocol?
+    
+    
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setupViews()
     }
     
+    
+    // MARK: - Functions
+    
+    private func setupViews() {
+        guard let game = game else { return }
+        
+        if game.gameEndType == .round {
+            gameOverDescriptionLabel.text = "You completed \(game.numberOfRounds) rounds"
+        } else if game.gameEndType == .score {
+            let playerNameText = game.winningPlayers.count == 1 ? game.winningPlayers.first?.name ?? "" : "Multiple players"
+            gameOverDescriptionLabel.text = playerNameText + " reached \(game.endingScore) points"
+        }
+    }
+    
+    
+    // MARK: - IBActions
+    
+    @IBAction func finishGameButtonTapped(_ sender: Any) {
+        delegate?.goToEndGameScreen()
+    }
 
     /*
     // MARK: - Navigation

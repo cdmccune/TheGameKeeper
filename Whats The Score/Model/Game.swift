@@ -10,17 +10,19 @@ import Foundation
 protocol GameProtocol {
     var gameType: GameType { get set }
     var gameEndType: GameEndType { get set }
-    var numberOfRounds: Int? { get set }
+    var numberOfRounds: Int { get set }
     var currentRound: Int { get set }
-    var endingScore: Int? { get set }
+    var endingScore: Int { get set }
     var players: [Player] { get set }
     var winningPlayers: [Player] { get }
+    var id: UUID { get }
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String)
     mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
     mutating func addPlayer()
     mutating func randomizePlayers()
     mutating func deletePlayerAt(_ index: Int)
+    func isEqualTo(game: GameProtocol) -> Bool
 }
 
 struct Game: GameProtocol {
@@ -29,13 +31,15 @@ struct Game: GameProtocol {
         self.gameEndType = .none
         self.currentRound = 1
         self.players = players
+        self.numberOfRounds = 2
+        self.endingScore = 10
     }
     
     init(gameType: GameType,
          gameEndType: GameEndType,
-         numberOfRounds: Int? = nil,
+         numberOfRounds: Int = 2,
          currentRound: Int = 1,
-         endingScore: Int? = nil,
+         endingScore: Int = 10,
          numberOfPlayers: Int) {
         self.gameType = gameType
         self.gameEndType = gameEndType
@@ -50,12 +54,12 @@ struct Game: GameProtocol {
         self.players = players
     }
     
-    
+    var id: UUID = UUID()
     var gameType: GameType
     var gameEndType: GameEndType
-    var numberOfRounds: Int?
+    var numberOfRounds: Int
     var currentRound: Int
-    var endingScore: Int?
+    var endingScore: Int
     
     var players: [Player]
     
@@ -95,6 +99,10 @@ struct Game: GameProtocol {
         
         players.remove(at: index)
         players.setPositions()
+    }
+    
+    func isEqualTo(game: GameProtocol) -> Bool {
+        game.id == self.id
     }
 }
 

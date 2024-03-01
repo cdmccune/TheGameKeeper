@@ -543,7 +543,7 @@ final class ScoreboardViewModelTests: XCTestCase {
     
         
         sut.endGameCompletion = {
-            XCTFail()
+            XCTFail("End game should not be called")
         }
         
         // when

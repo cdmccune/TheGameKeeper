@@ -558,8 +558,8 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
-        //        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        //        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 200)
+                XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
+                XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 165)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EndGamePopoverViewController)
         XCTAssertFalse(viewModelMock.shouldShowEndGamePopup.value ?? true)
@@ -579,6 +579,27 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         XCTAssertTrue(sut.viewControllerPresented is EndGamePopoverViewController)
         XCTAssertEqual(sut.presentCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowEndGamePopupSetTrue_ShouldSetGameAsViewModelsGame() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        let game = Game(basicGameWithPlayers: [])
+        
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.shouldShowEndGamePopup.value = true
+        
+        // then
+        guard let game = (sut.viewControllerPresented as? EndGamePopoverViewController)?.game else {
+            XCTFail("Game should not be nil")
+            return
+        }
+        
+        XCTAssertTrue(sut.viewModel?.game.isEqualTo(game: game) ?? false)
     }
     
     // MARK: - EndRoundButtonTapped

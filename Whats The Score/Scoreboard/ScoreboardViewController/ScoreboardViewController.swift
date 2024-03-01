@@ -146,7 +146,9 @@ class ScoreboardViewController: UIViewController {
             fatalError("EndGamePopoverViewController not instantiated")
         }
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 200, tapToExit: false)
+        endGamePopoverVC.game = game
+        
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 165, tapToExit: false)
         
         self.present(endGamePopoverVC, animated: true)
     }
@@ -228,26 +230,24 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             
             self.progressBarStackView.isHidden = false
             
-            if game.gameEndType == .round,
-               let numberOfRounds = game.numberOfRounds {
-                self.progressBar.progress = Float(game.currentRound - 1)/Float(numberOfRounds)
-                self.progressBarRightLabel.text = "\(numberOfRounds)"
+            if game.gameEndType == .round {
+                self.progressBar.progress = Float(game.currentRound - 1)/Float(game.numberOfRounds)
+                self.progressBarRightLabel.text = "\(game.numberOfRounds)"
                 
-                let numberOfRoundsLeft = numberOfRounds - (game.currentRound - 1)
+                let numberOfRoundsLeft = game.numberOfRounds - (game.currentRound - 1)
                 
                 if numberOfRoundsLeft > 1 {
                     self.progressBarLeftLabel.text = "\(numberOfRoundsLeft) rounds left"
                 } else {
                     self.progressBarLeftLabel.text = "last round"
                 }
-            } else if game.gameEndType == .score,
-                      let endingScore = game.endingScore {
+            } else if game.gameEndType == .score {
                 let topScore = game.winningPlayers.first?.score ?? 0
-                self.progressBar.progress = (Float(topScore))/Float(endingScore)
+                self.progressBar.progress = (Float(topScore))/Float(game.endingScore)
                 
-                self.progressBarRightLabel.text = "\(endingScore)"
+                self.progressBarRightLabel.text = "\(game.endingScore)"
                 
-                let pointsToWin = endingScore - (game.winningPlayers.first?.score ?? 0)
+                let pointsToWin = game.endingScore - (game.winningPlayers.first?.score ?? 0)
                 let pointsOrPoint = pointsToWin > 1 ? "pts" : "pt"
                 
                 if game.winningPlayers.count == 1 {

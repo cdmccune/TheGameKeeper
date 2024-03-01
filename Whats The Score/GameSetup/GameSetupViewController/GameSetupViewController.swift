@@ -130,8 +130,8 @@ class GameSetupViewController: UIViewController {
         let playerSetupVC = storyboard?.instantiateViewController(withIdentifier: "PlayerSetupViewController") as? PlayerSetupViewController
         let newGame = Game(gameType: viewModel.gameType.value ?? .basic,
                            gameEndType: viewModel.gameEndType.value ?? .none,
-                           numberOfRounds: viewModel.numberOfRounds.value, 
-                           endingScore: viewModel.endingScore.value,
+                           numberOfRounds: viewModel.numberOfRounds.value ?? 2,
+                           endingScore: viewModel.endingScore.value ?? 10,
                            numberOfPlayers: viewModel.numberOfPlayers.value ?? 2)
         playerSetupVC?.viewModel = PlayerSetupViewModel(game: newGame)
         
