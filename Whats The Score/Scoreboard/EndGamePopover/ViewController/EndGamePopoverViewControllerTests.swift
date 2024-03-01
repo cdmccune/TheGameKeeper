@@ -112,11 +112,31 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(delegateMock.goToEndGameScreenCalledCount, 1)
     }
     
+    // MARK: - KeepPlayingButtonTapped
+    
+    func test_EndGamePopoverViewController_WhenKeepPlayingButtonTapped_ShouldCallDelegateShowKeepPlayingPopup() {
+        // given
+        let sut = viewController!
+        let delegateMock = EndGamePopoverDelegateMock()
+        sut.delegate = delegateMock
+        
+        // when
+        sut.keepPlayingButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegateMock.showKeepPlayingPopupCalledCount, 1)
+    }
+    
     // MARK: - Classes
     class EndGamePopoverDelegateMock: NSObject, EndGamePopoverDelegate {
         var goToEndGameScreenCalledCount = 0
         func goToEndGameScreen() {
             goToEndGameScreenCalledCount += 1
+        }
+        
+        var showKeepPlayingPopupCalledCount = 0
+        func showKeepPlayingPopup() {
+            showKeepPlayingPopupCalledCount += 1
         }
     }
 }

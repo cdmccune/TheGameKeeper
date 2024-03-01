@@ -984,6 +984,9 @@
                                         <buttonConfiguration key="configuration" style="filled" title="Keep Playing" cornerStyle="capsule">
                                             <fontDescription key="titleFontDescription" name="Notable-Regular" family="Notable" pointSize="15"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="keepPlayingButtonTapped:" destination="4oT-Vc-WYn" eventType="touchUpInside" id="iKf-fh-hlc"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dkX-Oi-XdT">
                                         <rect key="frame" x="30" y="125" width="240" height="30"/>
@@ -1012,6 +1015,7 @@
                                 <edgeInsets key="layoutMargins" top="10" left="10" bottom="10" right="10"/>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="BkL-b4-hYH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="v5E-Gy-s7W" secondAttribute="bottom" id="DeS-na-Paw"/>

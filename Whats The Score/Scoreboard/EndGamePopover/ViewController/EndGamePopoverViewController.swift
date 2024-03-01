@@ -9,6 +9,7 @@ import UIKit
 
 protocol EndGamePopoverDelegate: AnyObject {
     func goToEndGameScreen()
+    func showKeepPlayingPopup()
 }
 
 class EndGamePopoverViewController: UIViewController {
@@ -51,6 +52,11 @@ class EndGamePopoverViewController: UIViewController {
     @IBAction func finishGameButtonTapped(_ sender: Any) {
         delegate?.goToEndGameScreen()
     }
+    
+    @IBAction func keepPlayingButtonTapped(_ sender: Any) {
+        delegate?.showKeepPlayingPopup()
+    }
+    
 
     /*
     // MARK: - Navigation
