@@ -112,6 +112,24 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(delegateMock.goToEndGameScreenCalledCount, 1)
     }
     
+    func test_EndGamePopoverViewController_WhenFinishGameTapped_ShouldDismissItself() {
+        class EndGamePopoverViewControllerDismissMock: EndGamePopoverViewController {
+            var dismissCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = EndGamePopoverViewControllerDismissMock()
+        
+        // when
+        sut.finishGameButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissCalledCount, 1)
+    }
+    
     // MARK: - KeepPlayingButtonTapped
     
     func test_EndGamePopoverViewController_WhenKeepPlayingButtonTapped_ShouldCallDelegateShowKeepPlayingPopup() {
@@ -125,6 +143,24 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(delegateMock.showKeepPlayingPopupCalledCount, 1)
+    }
+    
+    func test_EndGamePopoverViewController_WhenKeepPlayingButtonTapped_ShouldDismissItself() {
+        class EndGamePopoverViewControllerDismissMock: EndGamePopoverViewController {
+            var dismissCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = EndGamePopoverViewControllerDismissMock()
+        
+        // when
+        sut.keepPlayingButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissCalledCount, 1)
     }
     
     // MARK: - Classes

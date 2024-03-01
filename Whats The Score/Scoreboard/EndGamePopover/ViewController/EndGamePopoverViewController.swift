@@ -51,10 +51,12 @@ class EndGamePopoverViewController: UIViewController {
     
     @IBAction func finishGameButtonTapped(_ sender: Any) {
         delegate?.goToEndGameScreen()
+        self.dismiss(animated: true)
     }
     
     @IBAction func keepPlayingButtonTapped(_ sender: Any) {
         delegate?.showKeepPlayingPopup()
+        self.dismiss(animated: true)
     }
     
 
