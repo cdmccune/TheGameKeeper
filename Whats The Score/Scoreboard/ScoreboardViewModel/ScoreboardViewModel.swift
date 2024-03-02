@@ -175,11 +175,15 @@ extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
 
 extension ScoreboardViewModel: EndGamePopoverDelegate {
     func goToEndGameScreen() {
-        shouldGoToEndGameScreen.value = true
+        dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
+            self.shouldGoToEndGameScreen.value = true
+        }
     }
     
     func showKeepPlayingPopup() {
-        shouldShowKeepPlayingPopup.value = true
+        dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
+            self.shouldShowKeepPlayingPopup.value = true
+        }
     }
     
     
