@@ -43,11 +43,50 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
-    func test_EndGamePopoverViewController_WhenViewDidLoadCalledGameRound_ShouldSetDescriptionLabelTextToRoundText() {
+    func test_EndGamePopoverViewController_WhenViewDidLoadCalledBasicGame_ShouldSetDescriptionLabelTextToBlank() {
+        // given
+        let sut = viewController!
+        let game = GameIsEndOfGameMock()
+        game.gameType = .basic
+        sut.game = game
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.gameOverDescriptionLabel.text, "")
+    }
+    
+    func test_EndGamePopoverViewController_WhenViewDidLoadCalledNotEndGameRoundGameType_ShouldSetDescriptionLabelToYouManuallyEndedTheGame() {
+        // given
+        let sut = viewController!
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = false
+        game.gameType = .round
+        
+        let currentRound = Int.random(in: 1...10)
+        game.currentRound = currentRound
+        
+        sut.game = game
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.gameOverDescriptionLabel.text, "You manually ended the game on round \(currentRound)")
+    }
+    
+    func test_EndGamePopoverViewController_WhenViewDidLoadCalledIsEndGameTrueRoundEndGameType_ShouldSetDescriptionLabelTextToRoundText() {
         // given
         let sut = viewController!
         let numberOfRounds = Int.random(in: 2...10)
-        let game = Game(gameType: .round, gameEndType: .round, numberOfRounds: numberOfRounds, numberOfPlayers: 0)
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        game.gameType = .round
+        game.gameEndType = .round
+        game.numberOfRounds = numberOfRounds
         sut.game = game
         
         // when
@@ -59,41 +98,49 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.gameOverDescriptionLabel.text, "You completed \(numberOfRounds) rounds")
     }
     
-    func test_EndGamePopoverViewController_WhenViewDidLoadCalledScore1Player_ShouldSetDescriptionLabelTextToPlayerNameReachedPoints() {
+    func test_EndGamePopoverViewController_WhenViewDidLoadCalledIsEndGameTrueScoreEndGameType_ShouldSetDescriptionLabelTextToPlayerNameReachedPoints() {
         // given
         let sut = viewController!
         
         let endingScore = Int.random(in: 2...100)
         let playerName = UUID().uuidString
         let player = Player(name: playerName, position: 0)
-        let game = GameMock()
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
         game.winningPlayers = [player]
         game.endingScore = endingScore
+        game.gameType = .round
+        game.gameEndType = .score
+        sut.game = game
         
         // when
         sut.loadView()
         sut.viewDidLoad()
         
         // then
-        sut.gameOverDescriptionLabel.text = playerName + " reached \(endingScore) points"
+        XCTAssertEqual(sut.gameOverDescriptionLabel.text, playerName + " reached \(endingScore) points")
     }
     
-    func test_EndGamePopoverViewController_WhenViewDidLoadCalledScoreMultiplePlayers_ShouldSetDescriptionLabelTextToMultiplePlayersReachedPoints() {
+    func test_EndGamePopoverViewController_WhenViewDidLoadCalledIsEndGameTrueScoreEndGameTypeMultiplePlayers_ShouldSetDescriptionLabelTextToMultiplePlayersReachedPoints() {
         // given
         let sut = viewController!
         
         let endingScore = Int.random(in: 2...100)
         let player = Player(name: "", position: 0)
-        let game = GameMock()
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
         game.winningPlayers = [player, player]
         game.endingScore = endingScore
+        game.gameType = .round
+        game.gameEndType = .score
+        sut.game = game
         
         // when
         sut.loadView()
         sut.viewDidLoad()
         
         // then
-        sut.gameOverDescriptionLabel.text = "Multiple players" + " reached \(endingScore) points"
+        XCTAssertEqual(sut.gameOverDescriptionLabel.text, "Multiple players" + " reached \(endingScore) points")
     }
     
     

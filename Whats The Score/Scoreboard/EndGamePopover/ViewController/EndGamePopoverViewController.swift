@@ -38,6 +38,17 @@ class EndGamePopoverViewController: UIViewController {
     private func setupViews() {
         guard let game = game else { return }
         
+        guard game.gameType != .basic else {
+            gameOverDescriptionLabel.text = ""
+            return
+        }
+        
+        guard game.isEndOfGame() else {
+            gameOverDescriptionLabel.text = "You manually ended the game on round \(game.currentRound)"
+            return
+        }
+        
+        
         if game.gameEndType == .round {
             gameOverDescriptionLabel.text = "You completed \(game.numberOfRounds) rounds"
         } else if game.gameEndType == .score {
