@@ -168,7 +168,8 @@ extension ScoreboardViewModel: EndGamePopoverDelegate {
         }
     }
     
-    func showKeepPlayingPopup() {
+    func keepPlayingSelected() {
+        guard game.isEndOfGame() else { return }
         dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
             self.shouldShowKeepPlayingPopup.value = true
         }

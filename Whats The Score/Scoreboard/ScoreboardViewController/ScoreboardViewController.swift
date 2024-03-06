@@ -167,7 +167,7 @@ class ScoreboardViewController: UIViewController {
         endGamePopoverVC.game = game
         endGamePopoverVC.delegate = viewModel
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 165, tapToExit: false)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 165, tapToExit: !game.isEndOfGame())
         
         self.present(endGamePopoverVC, animated: true)
     }

@@ -9,7 +9,7 @@ import UIKit
 
 protocol EndGamePopoverDelegate: AnyObject {
     func goToEndGameScreen()
-    func showKeepPlayingPopup()
+    func keepPlayingSelected()
 }
 
 class EndGamePopoverViewController: UIViewController {
@@ -44,7 +44,7 @@ class EndGamePopoverViewController: UIViewController {
         }
         
         guard game.isEndOfGame() else {
-            gameOverDescriptionLabel.text = "You manually ended the game on round \(game.currentRound)"
+            gameOverDescriptionLabel.text = "Do you want to end the game on round \(game.currentRound)?"
             return
         }
         
@@ -66,7 +66,7 @@ class EndGamePopoverViewController: UIViewController {
     }
     
     @IBAction func keepPlayingButtonTapped(_ sender: Any) {
-        delegate?.showKeepPlayingPopup()
+        delegate?.keepPlayingSelected()
         self.dismiss(animated: true)
     }
     

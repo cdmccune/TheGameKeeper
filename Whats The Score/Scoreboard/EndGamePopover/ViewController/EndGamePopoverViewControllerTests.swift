@@ -75,7 +75,7 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(sut.gameOverDescriptionLabel.text, "You manually ended the game on round \(currentRound)")
+        XCTAssertEqual(sut.gameOverDescriptionLabel.text, "Do you want to end the game on round \(currentRound)?")
     }
     
     func test_EndGamePopoverViewController_WhenViewDidLoadCalledIsEndGameTrueRoundEndGameType_ShouldSetDescriptionLabelTextToRoundText() {
@@ -189,7 +189,7 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
         sut.keepPlayingButtonTapped(0)
         
         // then
-        XCTAssertEqual(delegateMock.showKeepPlayingPopupCalledCount, 1)
+        XCTAssertEqual(delegateMock.keepPlayingSelectedCalledCount, 1)
     }
     
     func test_EndGamePopoverViewController_WhenKeepPlayingButtonTapped_ShouldDismissItself() {
@@ -217,9 +217,9 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
             goToEndGameScreenCalledCount += 1
         }
         
-        var showKeepPlayingPopupCalledCount = 0
-        func showKeepPlayingPopup() {
-            showKeepPlayingPopupCalledCount += 1
+        var keepPlayingSelectedCalledCount = 0
+        func keepPlayingSelected() {
+            keepPlayingSelectedCalledCount += 1
         }
     }
 }

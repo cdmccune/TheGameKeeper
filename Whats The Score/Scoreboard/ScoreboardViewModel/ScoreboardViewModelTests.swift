@@ -660,9 +660,32 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - ShowKeepPlayingPopup
     
-    func test_ScoreboardViewModel_WhenShowKeepPlayingPopupCalled_ShouldntSetValueOfShouldShowKeepPlayingPopupToTrueBeforeHalfASecond() {
+    func test_ScoreboardViewModel_WhenKeepPlayingSelectedCalledIsEndOfGameFalse_ShouldNotSetShowKeepPlayingPopupValue() {
         // given
         let sut = getViewModelWithBasicGame()
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = false
+        sut.game = game
+        let expectation = XCTestExpectation(description: "Value shouldn't be changed")
+        expectation.isInverted = true
+        
+        sut.shouldShowKeepPlayingPopup.valueChanged = { _ in
+            expectation.fulfill()
+        }
+        
+        // when
+        sut.keepPlayingSelected()
+        
+        // then
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenKeepPlayingSelectedCalledIsEndOfGameTrue_ShouldntSetValueOfShouldShowKeepPlayingPopupToTrueBeforeHalfASecond() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        sut.game = game
         let expectation = XCTestExpectation(description: "Value shouldn't be changed before .5 seconds")
         expectation.isInverted = true
         
@@ -671,15 +694,18 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
         
         // when
-        sut.showKeepPlayingPopup()
+        sut.keepPlayingSelected()
         
         // then
         wait(for: [expectation], timeout: 0.4)
     }
     
-    func test_ScoreboardViewModel_WhenShowKeepPlayingPopupCalled_ShouldSetValueOfShouldShowKeepPlayingPopupToTrueHalfASecondIn() {
+    func test_ScoreboardViewModel_WheKeepPlayingSelectedCalled_ShouldSetValueOfShouldShowKeepPlayingPopupToTrueHalfASecondIn() {
         // given
         let sut = getViewModelWithBasicGame()
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        sut.game = game
         let expectation = XCTestExpectation(description: "Value should be changed before 0.6")
         
         sut.shouldShowKeepPlayingPopup.valueChanged = { bool in
@@ -688,7 +714,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
         
         // when
-        sut.showKeepPlayingPopup()
+        sut.keepPlayingSelected()
         
         // then
         wait(for: [expectation], timeout: 0.6)
@@ -795,5 +821,5 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     
     func goToEndGameScreen() {}
     
-    func showKeepPlayingPopup() {}
+    func keepPlayingSelected() {}
 }
