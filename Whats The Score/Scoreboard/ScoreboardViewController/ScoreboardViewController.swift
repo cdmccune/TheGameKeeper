@@ -180,7 +180,9 @@ class ScoreboardViewController: UIViewController {
             fatalError("KeepPlayingPopoverViewController not instantiated")
         }
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 165, tapToExit: false)
+        keepPlayingPopoverVC.game = game
+        
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 217, tapToExit: false)
         
         self.present(keepPlayingPopoverVC, animated: true)
     }

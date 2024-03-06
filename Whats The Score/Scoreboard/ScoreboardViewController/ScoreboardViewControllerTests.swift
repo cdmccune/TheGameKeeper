@@ -755,6 +755,29 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.presentCalledCount, 1)
     }
     
+    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowKeepPlayingPopupSetTrue_ShouldSetGameAsViewModelsGame() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        var mockGame = Game(basicGameWithPlayers: [])
+        mockGame.gameEndType = .round
+        viewModelMock.game = mockGame
+        
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.viewDidLoad()
+        viewModelMock.shouldShowKeepPlayingPopup.value = true
+        
+        // then
+        guard let game = (sut.viewControllerPresented as? KeepPlayingPopoverViewController)?.game else {
+            XCTFail("Game should not be nil")
+            return
+        }
+        
+        XCTAssertTrue(game.isEqualTo(game: mockGame))
+    }
+    
     
     // MARK: - EndRoundButtonTapped
     
