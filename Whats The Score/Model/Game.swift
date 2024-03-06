@@ -23,9 +23,13 @@ protocol GameProtocol {
     mutating func randomizePlayers()
     mutating func deletePlayerAt(_ index: Int)
     func isEqualTo(game: GameProtocol) -> Bool
+    func isEndOfGame() -> Bool
 }
 
 struct Game: GameProtocol {
+    
+    // MARK: - Initialization
+    
     init(basicGameWithPlayers players: [Player]) {
         self.gameType = .basic
         self.gameEndType = .none
@@ -54,6 +58,9 @@ struct Game: GameProtocol {
         self.players = players
     }
     
+    
+    // MARK: - Properties
+    
     var id: UUID = UUID()
     var gameType: GameType
     var gameEndType: GameEndType
@@ -67,6 +74,9 @@ struct Game: GameProtocol {
         let sortedPlayers = players.sorted { $0.score>$1.score }
         return players.filter { $0.score == (sortedPlayers.first?.score ?? 0) }
     }
+    
+    
+    // MARK: - Mutating Functions
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String) {
         guard players.indices.contains(index) else { return }
@@ -101,8 +111,22 @@ struct Game: GameProtocol {
         players.setPositions()
     }
     
+    
+    // MARK: - Non-Mutating Functions
+    
     func isEqualTo(game: GameProtocol) -> Bool {
         game.id == self.id
+    }
+    
+    func isEndOfGame() -> Bool {
+        switch gameEndType {
+        case .none:
+            return false
+        case .round:
+            return currentRound > numberOfRounds
+        case .score:
+            return players.contains { $0.score >= endingScore }
+        }
     }
 }
 

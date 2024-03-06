@@ -171,21 +171,23 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalled_ShouldCallIsEndOfGame() {
         // given
-        let sut = ScoreboardViewModelIsEndOfGameEndGameMock(game: GameMock())
+        let game = GameIsEndOfGameMock()
+        let sut = ScoreboardViewModel(game: game)
         sut.game.players = [Player(name: "", position: 0)]
         
         // when
         sut.editPlayerScoreAt(0, byAdding: 0)
         
         // then
-        XCTAssertEqual(sut.isEndOfGameCalledCount, 1)
+        XCTAssertEqual(game.isEndOfGameCalledCount, 1)
     }
     
     func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalledIsEndOfGameTrue_ShouldCallEndGameAfterOneSecond() {
         
         // given
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
-        sut.isEndOfGameBool = true
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        let sut = ScoreboardViewModelEndGameExpectationModel(game: game)
         
         let calledExpectation = XCTestExpectation(description: "End game should be called")
         
@@ -201,8 +203,9 @@ final class ScoreboardViewModelTests: XCTestCase {
     func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalledIsEndOfGameTrue_ShouldNotCallEndGameBefore1Second() {
         
         // given
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
-        sut.isEndOfGameBool = true
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        let sut = ScoreboardViewModelEndGameExpectationModel(game: game)
         
         let waitExpecation = XCTestExpectation(description: "End game should wait at least .9 seconds")
         waitExpecation.isInverted = true
@@ -219,10 +222,10 @@ final class ScoreboardViewModelTests: XCTestCase {
     func test_ScoreboardViewModel_WhenEditPlayerScoreatCalledIsEndOfGameFalse_ShouldNotCallEndGame() {
         
         // given
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = false
+        let sut = ScoreboardViewModelEndGameExpectationModel(game: game)
         sut.dispatchQueue = DispatchQueueMainMock()
-        sut.isEndOfGameBool = false
-    
         
         sut.endGameCompletion = {
             XCTFail("End game shouldn't be called")
@@ -490,20 +493,24 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallIsEndOfGame() {
         // given
-        let sut = ScoreboardViewModelIsEndOfGameEndGameMock(game: GameMock())
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        let sut = ScoreboardViewModel(game: game)
         
         // when
         sut.endRound(withChanges: [:])
         
         // then
-        XCTAssertEqual(sut.isEndOfGameCalledCount, 1)
+        XCTAssertEqual(game.isEndOfGameCalledCount, 1)
     }
     
     func test_ScoreboardViewModel_WhenEndRoundCalledIsEndOfGameTrue_ShouldCallEndGameAfterOneSecond() {
         
         // given
         let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
-        sut.isEndOfGameBool = true
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        sut.game = game
         
         let calledExpectation = XCTestExpectation(description: "End game should be called")
         
@@ -520,7 +527,9 @@ final class ScoreboardViewModelTests: XCTestCase {
         
         // given
         let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
-        sut.isEndOfGameBool = true
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        sut.game = game
         
         let waitExpecation = XCTestExpectation(description: "End game should wait at least .9 seconds")
         waitExpecation.isInverted = true
@@ -539,7 +548,10 @@ final class ScoreboardViewModelTests: XCTestCase {
         // given
         let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
         sut.dispatchQueue = DispatchQueueMainMock()
-        sut.isEndOfGameBool = false
+        
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = false
+        sut.game = game
     
         
         sut.endGameCompletion = {
@@ -607,77 +619,6 @@ final class ScoreboardViewModelTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCountBefore + 1)
-    }
-    
-    
-    // MARK: - IsEndOfGameCheck
-    
-    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledNoneEndGameType_ShouldReturnFalse() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        sut.game.gameEndType = .none
-        
-        // when
-        let isEndOfGame = sut.isEndOfGame()
-        
-        // then
-        XCTAssertFalse(isEndOfGame)
-    }
-    
-    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledRoundEndGameTypeCurrentRoundLessThanGameNumberOfRounds_ShouldReturnFalse() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        sut.game.gameEndType = .round
-        sut.game.currentRound = 0
-        sut.game.numberOfRounds = 4
-        
-        // when
-        let isEndOfGame = sut.isEndOfGame()
-        
-        // then
-        XCTAssertFalse(isEndOfGame)
-    }
-    
-    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledRoundEndGameTypeCurrentRoundEqualToGameNumberOfRounds_ShouldReturnFalse() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        sut.game.gameEndType = .round
-        sut.game.currentRound = 4
-        sut.game.numberOfRounds = 4
-        
-        // when
-        let isEndOfGame = sut.isEndOfGame()
-        
-        // then
-        XCTAssertFalse(isEndOfGame)
-    }
-    
-    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanEndingScore_ShouldReturnFalse() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        sut.game.gameEndType = .score
-        sut.game.players = [Player(name: "", position: 0, score: 10)]
-        sut.game.endingScore = 100
-        
-        // when
-        let isEndOfGame = sut.isEndOfGame()
-        
-        // then
-        XCTAssertFalse(isEndOfGame)
-    }
-    
-    func test_ScoreboardViewModel_WhenIsEndOfGameCheckCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanWinningScore_ShouldReturnTrue() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        sut.game.gameEndType = .score
-        sut.game.players = [Player(name: "", position: 0, score: 100)]
-        sut.game.endingScore = 100
-        
-        // when
-        let isEndOfGame = sut.isEndOfGame()
-        
-        // then
-        XCTAssertTrue(isEndOfGame)
     }
     
     
@@ -763,22 +704,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
     }
     
-    class ScoreboardViewModelIsEndOfGameEndGameMock: ScoreboardViewModel {
-        var isEndOfGameBool = false
-        var isEndOfGameCalledCount = 0
-        
-        override func isEndOfGame() -> Bool {
-            isEndOfGameCalledCount += 1
-            return isEndOfGameBool
-        }
-        
-        var endGameCalledCount = 0
-        override func endGame() {
-            endGameCalledCount += 1
-        }
-    }
-    
-    class ScoreboardViewModelEndGameExpectationModel: ScoreboardViewModelIsEndOfGameEndGameMock {
+    class ScoreboardViewModelEndGameExpectationModel: ScoreboardViewModel {
         var endGameCompletion: (() -> Void) = {}
         override func endGame() {
             endGameCompletion()

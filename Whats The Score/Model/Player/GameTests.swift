@@ -260,6 +260,96 @@ final class GameTests: XCTestCase {
         // then
         XCTAssertTrue(bool)
     }
+    
+    
+    // MARK: - IsEndOfGame
+    
+    func test_Game_WhenIsEndOfGameCalledNoneEndGameType_ShouldReturnFalse() {
+        // given
+        let sut = Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0)
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundLessThanNumberOfRounds_ShouldReturnFalse() {
+        // given
+        var sut = Game(gameType: .round, gameEndType: .round, numberOfPlayers: 0)
+        sut.currentRound = 0
+        sut.numberOfRounds = 4
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundEqualToNumberOfRounds_ShouldReturnFalse() {
+        // given
+        var sut = Game(gameType: .round, gameEndType: .round, numberOfPlayers: 0)
+        sut.currentRound = 4
+        sut.numberOfRounds = 4
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundMoreThanNumberOfRounds_ShouldReturnTrue() {
+        // given
+        var sut = Game(gameType: .round, gameEndType: .round, numberOfPlayers: 0)
+        sut.currentRound = 5
+        sut.numberOfRounds = 4
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertTrue(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanEndingScore_ShouldReturnFalse() {
+        // given
+        var sut = Game(gameType: .round, gameEndType: .score, numberOfPlayers: 0)
+        sut.players = [Player(name: "", position: 0, score: 10)]
+        sut.endingScore = 100
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanWinningScore_ShouldReturnTrue() {
+        // given
+        var sut = Game(gameType: .round, gameEndType: .score, numberOfPlayers: 0)
+        sut.players = [Player(name: "", position: 0, score: 100)]
+        sut.endingScore = 100
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertTrue(isEndOfGame)
+    }
+    
+    // MARK: - Classes
+}
+
+class GameIsEndOfGameMock: GameMock {
+    var isEndOfGameBool = false
+    var isEndOfGameCalledCount = 0
+    override func isEndOfGame() -> Bool {
+        isEndOfGameCalledCount += 1
+        return isEndOfGameBool
+    }
 }
 
 class GameMock: GameProtocol {
@@ -313,5 +403,9 @@ class GameMock: GameProtocol {
     
     func isEqualTo(game: GameProtocol) -> Bool {
         game.id == self.id
+    }
+    
+    func isEndOfGame() -> Bool {
+        return false
     }
 }

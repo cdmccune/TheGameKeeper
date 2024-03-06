@@ -1383,6 +1383,29 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.progressBarRightLabel.text, "\(endingScore)")
     }
     
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledIsEndOfGameTrue_ShouldHideProgressViewAndSetRoundLabelToGameOver() {
+        
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let viewModelMock = ScoreboardViewModelMock()
+        let gameMock = GameIsEndOfGameMock()
+        gameMock.isEndOfGameBool = true
+        viewModelMock.game = gameMock
+        
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.roundLabel.text, "Game Over")
+        XCTAssertTrue(sut.progressBarStackView.isHidden)
+        XCTAssertEqual(gameMock.isEndOfGameCalledCount, 1)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewControllerPresentMock: ScoreboardViewController {

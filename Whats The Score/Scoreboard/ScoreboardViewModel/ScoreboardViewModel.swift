@@ -94,7 +94,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         game.players[index].score += change
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
-        if isEndOfGame() {
+        if game.isEndOfGame() {
             dispatchQueue.asyncAfter(deadline: .now() + 1.0) {
                 self.shouldShowEndGamePopup.value = true
             }
@@ -127,7 +127,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         game.currentRound += 1
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
-        if isEndOfGame() {
+        if game.isEndOfGame() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.endGame()
             }
@@ -143,18 +143,6 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         game.currentRound = 1
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
-    
-    func isEndOfGame() -> Bool {
-        switch game.gameEndType {
-        case .none:
-            return false
-        case .round:
-            return game.currentRound > game.numberOfRounds
-        case .score:
-            return game.players.contains { $0.score >= game.endingScore }
-        }
-    }
-    
 }
 
 extension ScoreboardViewModel: ScoreboardPlayerEditScorePopoverDelegate {

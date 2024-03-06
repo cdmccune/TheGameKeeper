@@ -248,14 +248,20 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             let game = viewModel.game
             
             self.roundLabel.isHidden = game.gameType != .round
-            self.roundLabel.text = "Round \(game.currentRound)"
+            
+            if game.isEndOfGame() {
+                self.roundLabel.text = "Game Over"
+            } else {
+                self.roundLabel.text = "Round \(game.currentRound)"
+            }
             
             self.filterButtonStackView.isHidden = game.gameType == .basic
             
             self.tableView.reloadData()
             
             guard game.gameType == .round,
-                  game.gameEndType != .none else {
+                  game.gameEndType != .none,
+                  !game.isEndOfGame() else {
                 self.progressBarStackView.isHidden = true
                 return
             }
