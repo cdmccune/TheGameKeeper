@@ -32,6 +32,8 @@ class ScoreboardViewController: UIViewController {
     lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper(playerViewHeight: 45, playerSeperatorHeight: 3)
 
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,6 +42,9 @@ class ScoreboardViewController: UIViewController {
         setBindings()
         setupViews()
     }
+    
+    
+    // MARK: - Private Functions
     
     private func setDelegates() {
         guard viewModel != nil else { return }
@@ -198,8 +203,8 @@ class ScoreboardViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
         
-        
-        endRoundPopoverVC.players = viewModel.sortedPlayers
+        let positionSortedPlayers = viewModel.sortedPlayers.sorted { $0.position < $1.position }
+        endRoundPopoverVC.players = positionSortedPlayers
         endRoundPopoverVC.round = viewModel.game.currentRound
         endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
         endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
