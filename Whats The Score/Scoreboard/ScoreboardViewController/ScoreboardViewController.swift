@@ -181,6 +181,7 @@ class ScoreboardViewController: UIViewController {
         }
         
         keepPlayingPopoverVC.game = game
+        keepPlayingPopoverVC.delegate = viewModel
         
         defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 217, tapToExit: false)
         

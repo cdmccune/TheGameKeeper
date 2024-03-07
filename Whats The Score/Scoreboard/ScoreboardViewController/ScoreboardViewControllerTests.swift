@@ -755,7 +755,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.presentCalledCount, 1)
     }
     
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowKeepPlayingPopupSetTrue_ShouldSetGameAsViewModelsGame() {
+    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowKeepPlayingPopupSetTrue_ShouldSetGameAsViewModelsGameAndViewModelAsDelegate() {
         // given
         let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
@@ -770,12 +770,14 @@ final class ScoreboardViewControllerTests: XCTestCase {
         viewModelMock.shouldShowKeepPlayingPopup.value = true
         
         // then
-        guard let game = (sut.viewControllerPresented as? KeepPlayingPopoverViewController)?.game else {
+        let keepPlayingVC = sut.viewControllerPresented as? KeepPlayingPopoverViewController
+        guard let game = keepPlayingVC?.game else {
             XCTFail("Game should not be nil")
             return
         }
         
         XCTAssertTrue(game.isEqualTo(game: mockGame))
+        XCTAssertTrue(keepPlayingVC?.delegate === viewModelMock)
     }
     
     

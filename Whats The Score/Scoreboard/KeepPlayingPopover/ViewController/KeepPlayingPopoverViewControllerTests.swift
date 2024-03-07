@@ -171,6 +171,21 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.inputDescriptionLabel.text, "Rounds")
     }
     
+    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldSetTextFieldDelegateAsDismissingTextFieldDelegate() {
+        let sut = viewController!
+        sut.loadView()
+        
+        let game = GameMock()
+        game.gameEndType = .round
+        sut.game = game
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(sut.inputTextField.delegate is DismissingTextFieldDelegate)
+    }
+    
     
     // MARK: - TextField EditingChanged
     
@@ -321,4 +336,131 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.saveChangesButton.isEnabled)
     }
     
+    
+    // MARK: - SaveChangesButton
+    
+    func test_KeepPlayingPopoverViewController_WhenGameEndTypeRoundSaveChangesButtonTappedCalled_ShouldCallDelegateFunctionUpdateNumberOfRoundsAndCallDismiss() {
+        // given
+        let sut = KeepPlayingPopoverViewControllerDismissMock()
+        sut.loadView()
+        
+        let game = GameMock()
+        game.gameEndType = .round
+        sut.game = game
+        
+        let delegate = KeepPlayingPopoverDelegateMock()
+        sut.delegate = delegate
+        
+        let textField = UITextField()
+        let newNumberOfRounds = String(Int.random(in: 1...1000))
+        textField.text = newNumberOfRounds
+        sut.inputTextField = textField
+        
+        // when
+        sut.saveChangesButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegate.updateNumberOfRoundsCalledCount, 1)
+        XCTAssertEqual(delegate.updateNumberOfRoundsNewRounds, Int(newNumberOfRounds)!)
+        XCTAssertEqual(sut.dismissCalledCount, 1)
+    }
+    
+    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreSaveChangesButtonTappedCalled_ShouldCallDelegateFunctionUpdateWinningScoreAndCallDismiss() {
+        // given
+        let sut = KeepPlayingPopoverViewControllerDismissMock()
+        sut.loadView()
+        
+        let game = GameMock()
+        game.gameEndType = .score
+        sut.game = game
+        
+        let delegate = KeepPlayingPopoverDelegateMock()
+        sut.delegate = delegate
+        
+        let textField = UITextField()
+        let newScore = String(Int.random(in: 1...1000))
+        textField.text = newScore
+        sut.inputTextField = textField
+        
+        // when
+        sut.saveChangesButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegate.updateWinningScoreCalledCount, 1)
+        XCTAssertEqual(delegate.updateWinningScoreNewScore, Int(newScore)!)
+        XCTAssertEqual(sut.dismissCalledCount, 1)
+    }
+    
+    
+    // MARK: - NoEndButton
+    
+    func test_KeepPlayingPopoverViewController_WhenSetNoEndButtonTappedCalled_ShouldCallDelegateSetNoEndAndCallDismiss() {
+        // given
+        let sut = KeepPlayingPopoverViewControllerDismissMock()
+        
+        let delegate = KeepPlayingPopoverDelegateMock()
+        sut.delegate = delegate
+        
+        // when
+        sut.setNoEndButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegate.setNoEndCalledCount, 1)
+        XCTAssertEqual(sut.dismissCalledCount, 1)
+    }
+    
+    
+    // MARK: - EndGameButton
+    
+    func test_KeepPlayingPopoverViewController_WhenEndGameButtonTappedCalled_ShouldCallDelegateEndGameAndCallDismiss() {
+        // given
+        let sut = KeepPlayingPopoverViewControllerDismissMock()
+        
+        let delegate = KeepPlayingPopoverDelegateMock()
+        sut.delegate = delegate
+        
+        // when
+        sut.endGameButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegate.goToEndGameScreenCalledCount, 1)
+        XCTAssertEqual(sut.dismissCalledCount, 1)
+    }
+    
+    // MARK: - Classes
+    
+    class KeepPlayingPopoverViewControllerDismissMock: KeepPlayingPopoverViewController {
+        var dismissCalledCount = 0
+        override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+            dismissCalledCount += 1
+        }
+    }
+    
+}
+
+class KeepPlayingPopoverDelegateMock: KeepPlayingPopoverDelegate {
+    
+    var updateNumberOfRoundsCalledCount = 0
+    var updateNumberOfRoundsNewRounds: Int?
+    func updateNumberOfRounds(to numberOfRounds: Int) {
+        updateNumberOfRoundsNewRounds = numberOfRounds
+        updateNumberOfRoundsCalledCount += 1
+    }
+    
+    var updateWinningScoreCalledCount = 0
+    var updateWinningScoreNewScore: Int?
+    func updateWinningScore(to winningScore: Int) {
+        updateWinningScoreNewScore = winningScore
+        updateWinningScoreCalledCount += 1
+    }
+    
+    var setNoEndCalledCount = 0
+    func setNoEnd() {
+        setNoEndCalledCount += 1
+    }
+    
+    var goToEndGameScreenCalledCount = 0
+    func goToEndGameScreen() {
+        goToEndGameScreenCalledCount += 1
+    }
 }

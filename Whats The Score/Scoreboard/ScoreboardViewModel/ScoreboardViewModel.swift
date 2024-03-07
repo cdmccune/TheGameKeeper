@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate {
+protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate, KeepPlayingPopoverDelegate {
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var playerToEditScore: Observable<Player> { get set }
@@ -174,8 +174,23 @@ extension ScoreboardViewModel: EndGamePopoverDelegate {
             self.shouldShowKeepPlayingPopup.value = true
         }
     }
+}
+
+extension ScoreboardViewModel: KeepPlayingPopoverDelegate {
+    func updateNumberOfRounds(to numberOfRounds: Int) {
+        self.game.numberOfRounds = numberOfRounds
+        self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
+    }
     
+    func updateWinningScore(to winningScore: Int) {
+        self.game.endingScore = winningScore
+        self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
+    }
     
+    func setNoEnd() {
+        self.game.gameEndType = .none
+        self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
+    }
 }
 
 protocol ScoreboardViewModelViewProtocol: NSObject {

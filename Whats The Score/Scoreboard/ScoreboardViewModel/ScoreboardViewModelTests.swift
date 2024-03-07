@@ -721,6 +721,100 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - UpdateNumberOfRounds
+    
+    func test_ScoreboardViewModel_WhenUpdateNumberOfRoundsCalled_ShouldUpdateGameNumberOfRoundsToValueSent() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.numberOfRounds = 0
+        
+        let newNumberOfRounds = Int.random(in: 1...100)
+        
+        // when
+        sut.updateNumberOfRounds(to: newNumberOfRounds)
+        
+        // then
+        XCTAssertEqual(sut.game.numberOfRounds, newNumberOfRounds)
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateNumberOfRoundsCalled_ShouldCallBindViewModelToView() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindViewCalledCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.updateNumberOfRounds(to: 0)
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewCalledCount + 1)
+    }
+    
+    
+    // MARK: - UpdateWinningScore
+    
+    func test_ScoreboardViewModel_WhenUpdateWinningScoreCalled_ShouldUpdateGameEndingScoreValueSent() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.endingScore = 0
+        
+        let newWinningScore = Int.random(in: 1...100)
+        
+        // when
+        sut.updateWinningScore(to: newWinningScore)
+        
+        // then
+        XCTAssertEqual(sut.game.endingScore, newWinningScore)
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateWinningScoreCalled_ShouldCallBindViewModelToView() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindViewCalledCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.updateWinningScore(to: 0)
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewCalledCount + 1)
+    }
+    
+    
+    // MARK: - SetNoEnd
+    
+    func test_ScoreboardViewModel_WhenSetNoEndCalled_ShouldSetGameEndTypeToNone() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.game.gameEndType = .score
+        
+        // when
+        sut.setNoEnd()
+        
+        // then
+        XCTAssertEqual(sut.game.gameEndType, .none)
+    }
+    
+    func test_ScoreboardViewModel_WhenSetNoEnd_ShouldCallBindViewModelToView() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindViewCalledCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.setNoEnd()
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewCalledCount + 1)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
@@ -811,15 +905,12 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
         resetGameCalledCount += 1
     }
     
-    func editScore(for player: Player, by change: Int) {
-    }
-    
-    func finishedEditing(_ player: Player) {
-    }
-    
+    func editScore(for player: Player, by change: Int) {}
+    func finishedEditing(_ player: Player) {}
     func endRound(withChanges changeDictionary: [Whats_The_Score.Player: Int]) {}
-    
     func goToEndGameScreen() {}
-    
     func keepPlayingSelected() {}
+    func updateNumberOfRounds(to numberOfRounds: Int) {}
+    func updateWinningScore(to winningScore: Int) {}
+    func setNoEnd() {}
 }

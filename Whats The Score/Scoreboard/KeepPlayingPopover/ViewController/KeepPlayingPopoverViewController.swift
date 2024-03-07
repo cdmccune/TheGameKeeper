@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol KeepPlayingPopoverDelegate: AnyObject {
+    func updateNumberOfRounds(to numberOfRounds: Int)
+    func updateWinningScore(to winningScore: Int)
+    func setNoEnd()
+    func goToEndGameScreen()
+    
+}
+
 class KeepPlayingPopoverViewController: UIViewController {
 
     // MARK: - Outlets
@@ -20,6 +28,8 @@ class KeepPlayingPopoverViewController: UIViewController {
     // MARK: - Properties
     
     var game: GameProtocol?
+    weak var delegate: KeepPlayingPopoverDelegate?
+    lazy var textFieldDelegate = DismissingTextFieldDelegate()
     
     
     // MARK: - Lifecycle
@@ -29,6 +39,7 @@ class KeepPlayingPopoverViewController: UIViewController {
         
         setupViews()
         addTargets()
+        setDelegates()
         inputTextField.becomeFirstResponder()
     }
     
@@ -55,6 +66,10 @@ class KeepPlayingPopoverViewController: UIViewController {
 
     private func addTargets() {
         inputTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+    
+    private func setDelegates() {
+        inputTextField.delegate = textFieldDelegate
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
@@ -87,5 +102,36 @@ class KeepPlayingPopoverViewController: UIViewController {
         }
     }
     
-
+    
+    // MARK: - IBActions
+    
+    @IBAction func saveChangesButtonTapped(_ sender: Any) {
+        guard let inputInt = Int(inputTextField.text ?? ""),
+            let game = game  else {
+            fatalError("Game wasn't set or input wasn't text")
+        }
+        
+        switch game.gameEndType {
+        case .none:
+            fatalError("Game end type shouldn't be none on this popover")
+        case .round:
+            delegate?.updateNumberOfRounds(to: inputInt)
+        case .score:
+            delegate?.updateWinningScore(to: inputInt)
+        }
+        
+        self.dismiss(animated: true)
+    }
+    
+    @IBAction func setNoEndButtonTapped(_ sender: Any) {
+        delegate?.setNoEnd()
+        self.dismiss(animated: true)
+    }
+    
+    @IBAction func endGameButtonTapped(_ sender: Any) {
+        delegate?.goToEndGameScreen()
+        self.dismiss(animated: true)
+    }
+    
+    
 }
