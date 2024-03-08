@@ -10,27 +10,61 @@ import XCTest
 
 final class EndGameViewModelTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    // MARK: - Properties
+    
+    func test_EndGameViewModel_WhenLosingPlayersRead_ShouldReturnAllPlayersInGameExpectTheWinningPlayers() {
+        // given
+        let players = [
+            Player(name: "", position: 0),
+            Player(name: "", position: 0),
+            Player(name: "", position: 0),
+            Player(name: "", position: 0),
+            Player(name: "", position: 0)
+        ]
+        
+        let winningPlayers = [
+            players[2],
+            players[4]
+        ]
+        
+        let game = GameMock(players: players)
+        game.winningPlayers = winningPlayers
+        let sut = EndGameViewModel(game: game)
+        
+        // when
+        let losingPlayers = sut.losingPlayers
+        
+        // then
+        var expectedLosingPlayers = players
+        winningPlayers.forEach {
+            if let index = expectedLosingPlayers.firstIndex(of: $0) {
+                expectedLosingPlayers.remove(at: index)
+            }
         }
+        
+        XCTAssertEqual(Set(expectedLosingPlayers), Set(sut.losingPlayers))
+    }
+    
+    func test_EndGameViewModel_WhenLosingPlayersRead_ShouldReturnPlayersInDescendingScoreOrder() {
+        // given
+        let players = [
+            Player(name: "", position: 0, score: 1),
+            Player(name: "", position: 0, score: 3),
+            Player(name: "", position: 0, score: 2),
+            Player(name: "", position: 0, score: 5),
+            Player(name: "", position: 0, score: 4)
+        ]
+        let game = GameMock(players: players)
+        
+        let sut = EndGameViewModel(game: game)
+        
+        // when
+        let losingPlayers = sut.losingPlayers
+        
+        // then
+        let sortedLosingPlayers = players.sorted { $0.score > $1.score }
+        
+        XCTAssertEqual(losingPlayers, sortedLosingPlayers)
     }
 
 }

@@ -26,7 +26,7 @@ final class EndGamePlayerTableViewDelegateTests: XCTestCase {
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (EndGamePlayerTableViewDelegate, UITableView) {
         
         var players = [Player]()
-        for i in 0..<playerCount {
+        for _ in 0..<playerCount {
             players.append(Player(name: "", position: 0))
         }
         

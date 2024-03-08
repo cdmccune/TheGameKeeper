@@ -8,6 +8,9 @@
 import UIKit
 
 class EndGamePlayerTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var playerNameLabel: UILabel!
+    @IBOutlet weak var playerScoreLabel: UILabel!
 
 //    override func awakeFromNib() {
 //        super.awakeFromNib()
@@ -21,15 +24,18 @@ class EndGamePlayerTableViewCell: UITableViewCell {
 //    }
     
     func setupNoLosingPlayers() {
-        
+        playerNameLabel.text = "There are no losers!"
+        playerScoreLabel.text = ""
     }
     
     func setupErrorCell() {
-        
+        playerNameLabel.text = "There has been an error"
+        playerScoreLabel.text = "???"
     }
     
     func setupViewFor(_ player: Player) {
-        
+        playerNameLabel.text = player.name
+        playerScoreLabel.text = String(player.score)
     }
     
     
