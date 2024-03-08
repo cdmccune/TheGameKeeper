@@ -8,22 +8,32 @@
 import UIKit
 
 class EndGameViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    
+    // MARK: - Properties
+    
+    private lazy var tableViewDelegate = EndGamePlayerTableViewDelegate(viewModel: viewModel)
+    var viewModel: EndGameViewModelProtocol!
+    
+    
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setDelegates()
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    // MARK: - Private Functions
+    
+    private func setDelegates() {
+        tableView.delegate = tableViewDelegate
+        tableView.dataSource = tableViewDelegate
     }
-    */
-
 }

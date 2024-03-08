@@ -91,13 +91,7 @@ class ScoreboardViewController: UIViewController {
         viewModel?.shouldGoToEndGameScreen.valueChanged = { [weak self] shouldShow in
             guard shouldShow ?? false else { return }
             
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let endGameViewController = storyboard.instantiateViewController(withIdentifier: "EndGameViewController") as? EndGameViewController else {
-                fatalError("EndGameViewController couldn't be instantiated")
-            }
-            
-            
-            self?.navigationController?.pushViewController(endGameViewController, animated: true)
+            self?.presentEndGameScreen()
         }
         
         viewModel?.shouldShowKeepPlayingPopup.valueChanged = { [weak self] shouldShow in
@@ -175,6 +169,21 @@ class ScoreboardViewController: UIViewController {
         defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 165, tapToExit: !game.isEndOfGame())
         
         self.present(endGamePopoverVC, animated: true)
+    }
+    
+    private func presentEndGameScreen() {
+        guard let game = viewModel?.game else {
+            fatalError("There was no game")
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let endGameViewController = storyboard.instantiateViewController(withIdentifier: "EndGameViewController") as? EndGameViewController else {
+            fatalError("EndGameViewController couldn't be instantiated")
+        }
+        
+        endGameViewController.viewModel = EndGameViewModel(game: game)
+        
+        self.navigationController?.pushViewController(endGameViewController, animated: true)
     }
     
     private func presentKeepPlayingPopoverView() {
