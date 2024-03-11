@@ -46,7 +46,7 @@ class EndRoundPopoverViewController: UIViewController {
     private func setupPlayerStackView() {
         guard let players = players else { return }
         for i in players.indices {
-            let textField = StackViewTextField(delegate: self,
+            let textField = EndRoundPopoverTextField(delegate: self,
                                                isLast: i == players.count - 1,
                                                index: i)
             let textFieldDelegate = StackViewTextFieldDelegate(delegate: self)

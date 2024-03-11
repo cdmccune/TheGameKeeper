@@ -6,30 +6,62 @@
 //
 
 import XCTest
+@testable import Whats_The_Score
 
 final class EndRoundPopoverTextFieldTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    // MARK: - Initialization
+    
+    func test_EndRoundPopoverTextField_WhenInitialized_ShouldHaveThreeToolbarItemsAndSetSecondToolbarButtonAsPlusMinusButton() {
+        // given
+        
+        let delegate = StackViewTextFieldDelegateDelegateMock()
+        
+        // when
+        let sut = EndRoundPopoverTextField(delegate: delegate, isLast: false, index: 0)
+        
+        
+        // then
+        let toolbar = sut.inputAccessoryView as? UIToolbar
+        XCTAssertEqual(toolbar?.items?.count, 3)
+        XCTAssertEqual(toolbar?.items?[1].image, UIImage(systemName: "plus.forwardslash.minus")!)
     }
+    
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    // MARK: - PlusNegativeActionTriggered
+    
+    func test_EndRoundPopoverTextField_WhenPlusNegativeActionTriggeredTextIsPositiveInt_ShouldMakeNumberNegative() {
+        // given
+        let delegate = StackViewTextFieldDelegateDelegateMock()
+        let sut = EndRoundPopoverTextField(delegate: delegate, isLast: false, index: 0)
+        
+        let numberToUse = Int.random(in: 1...1000)
+        sut.text = String(numberToUse)
+        
+        // when
+        let toolbar = sut.inputAccessoryView as? UIToolbar
+        sut.sendAction(toolbar!.items![1].action!, to: sut, for: nil)
+        
+        // then
+        XCTAssertEqual("-\(String(numberToUse))", sut.text)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func test_EndRoundPopoverTextField_WhenPlusNegativeActionTriggeredTextIsNegativeInt_ShouldMakeNumberPositive() {
+        // given
+        let delegate = StackViewTextFieldDelegateDelegateMock()
+        let sut = EndRoundPopoverTextField(delegate: delegate, isLast: false, index: 0)
+        
+        let numberToUse = Int.random(in: (-1000)...(-1))
+        sut.text = String(numberToUse)
+        
+        // when
+        let toolbar = sut.inputAccessoryView as? UIToolbar
+        sut.sendAction(toolbar!.items![1].action!, to: sut, for: nil)
+        
+        // then
+        var numberToUseWithoutNegative = String(numberToUse)
+        numberToUseWithoutNegative.removeFirst()
+        XCTAssertEqual(numberToUseWithoutNegative, sut.text)
     }
 
 }

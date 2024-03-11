@@ -61,6 +61,9 @@ final class StackViewTextFieldTests: XCTestCase {
         XCTAssertEqual(toolbar?.items?.last?.title, "Next")
     }
     
+    
+    // MARK: - Toolbar Next Triggered
+    
     func test_StackViewTextField_WhenInitializedAndToolbarActionTriggered_ShouldCallActionDelegateTextFieldShouldReturnWithIndex() {
         // given
         let index = Int.random(in: 1...1000)

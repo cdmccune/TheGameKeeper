@@ -146,8 +146,8 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
         
         stackViews.enumerated().forEach { (index, stackView) in
-            XCTAssertTrue((stackView.textField as? StackViewTextField)?.actionDelegate is EndRoundPopoverViewController)
-            XCTAssertEqual((stackView.textField as? StackViewTextField)?.index, index)
+            XCTAssertTrue((stackView.textField as? EndRoundPopoverTextField)?.actionDelegate is EndRoundPopoverViewController)
+            XCTAssertEqual((stackView.textField as? EndRoundPopoverTextField)?.index, index)
         }
     }
     
@@ -197,7 +197,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         }
     }
     
-    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetSelfAsEndRoundPopoverPlayerStackViewsTextFieldsStackViewTextFieldDelegate() {
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetSelfAsEndRoundPopoverPlayerStackViewsTextFieldsEndRoundPopoverTextFieldDelegate() {
         // given
         let sut = viewController!
         sut.loadView()
