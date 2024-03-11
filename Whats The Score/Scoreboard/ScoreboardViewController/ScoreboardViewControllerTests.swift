@@ -714,7 +714,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         viewModelMock.shouldGoToEndGameScreen.value = true
         
         // then
-        let endGameVCViewModel = (navigationController.pushedViewController as? EndGameViewController)?.viewModel
+        let endGameVCViewModel = (navigationController.viewControllers.first as? EndGameViewController)?.viewModel
         XCTAssertTrue(endGameVCViewModel?.game.isEqualTo(game: game) ?? false)
     }
     
@@ -1452,7 +1452,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         game.winningPlayers = [Player(name: "", position: 0, score: topPlayerScore),
                                Player(name: "", position: 0, score: topPlayerScore)]
         
-        let endingScore = Int.random(in: 6...10)
+        let endingScore = Int.random(in: 7...10)
         game.endingScore = endingScore
         
         sut.viewModel?.game = game

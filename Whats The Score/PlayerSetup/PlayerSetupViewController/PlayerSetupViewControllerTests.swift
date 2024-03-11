@@ -202,7 +202,7 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.startBarButtonTappedCalledCount, 1)
     }
     
-    func test_PlayerSetupViewController_WhenStartBarButtonTappedCalled_ShouldSetScoreboardViewControlleraSNavigationControllersOnlyVC() {
+    func test_PlayerSetupViewController_WhenStartBarButtonTappedCalled_ShouldSetScoreboardViewControllerAsNavigationControllersOnlyVC() {
         // given
         let sut = viewController!
         let navigationControllerMock = NavigationControllerPushMock()
@@ -232,7 +232,8 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         sut.startBarButtonTapped()
         
         // then
-        let scoreboardVC = (navigationControllerMock.pushedViewController as? ScoreboardViewController)
+        let scoreboardVC = navigationControllerMock.viewControllers.first as? ScoreboardViewController
+        
         XCTAssertNotNil(scoreboardVC?.viewModel)
         XCTAssertEqual(scoreboardVC?.viewModel?.game.players.first?.name, playerName)
     }
