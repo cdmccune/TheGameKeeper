@@ -76,3 +76,13 @@ class UIViewSafeAreaLayoutFrameMock: UIView {
 }
 
 class UITextFieldDelegateMock: NSObject, UITextFieldDelegate { }
+
+class TabbarControllerMock: UITabBarController {
+    var didSelectCalledCount = 0
+    var didSelectTabbarItem: UITabBarItem?
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        didSelectCalledCount += 1
+        didSelectTabbarItem = item
+    }
+}

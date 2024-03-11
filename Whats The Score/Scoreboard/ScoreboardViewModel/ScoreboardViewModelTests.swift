@@ -658,7 +658,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 0.6)
     }
     
-    // MARK: - ShowKeepPlayingPopup
+    // MARK: - KeepPlayingSelected
     
     func test_ScoreboardViewModel_WhenKeepPlayingSelectedCalledIsEndOfGameFalse_ShouldNotSetShowKeepPlayingPopupValue() {
         // given
@@ -815,6 +815,72 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - openingGameOverCheck
+    
+    func test_ScoreboardViewModel_WhenOpeningGameOverCheckCalledGameIsEndOfGameTrue_ShouldSetShowKeepPlayingPopoverTrueAfterPoint5Seconds() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        sut.game = game
+        
+        let expectation = XCTestExpectation(description: "Value should be changed before 0.6")
+        
+        sut.shouldShowKeepPlayingPopup.valueChanged = { bool in
+            expectation.fulfill()
+            XCTAssertTrue(bool ?? false)
+        }
+        
+        // when
+        sut.openingGameOverCheck()
+        
+        // then
+        wait(for: [expectation], timeout: 0.6)
+    }
+    
+    func test_ScoreboardViewModel_WhenOpeningGameOverCheckCalledGameIsEndOfGameFalse_ShouldNotSetShowKeepPlayingPopoverBeforePoint5Seconds() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        sut.game = game
+        
+        let expectation = XCTestExpectation(description: "Value shouldn't be changed before 0.5 seconds")
+        expectation.isInverted = true
+        
+        sut.shouldShowKeepPlayingPopup.valueChanged = { _ in
+            expectation.fulfill()
+        }
+        
+        // when
+        sut.openingGameOverCheck()
+        
+        // then
+        wait(for: [expectation], timeout: 0.4)
+    }
+    
+    func test_ScoreboardViewModel_WhenOpeningGameOverCheckCalledGameIsEndOfGameFalse_ShouldNotSetShowKeepPlayingPopover() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = false
+        sut.game = game
+        
+        let expectation = XCTestExpectation(description: "Value shouldn't be changed")
+        expectation.isInverted = true
+        
+        sut.shouldShowKeepPlayingPopup.valueChanged = { _ in
+            expectation.fulfill()
+        }
+        
+        // when
+        sut.openingGameOverCheck()
+        
+        // then
+        wait(for: [expectation], timeout: 0.6)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
@@ -903,6 +969,11 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     var resetGameCalledCount = 0
     func resetGame() {
         resetGameCalledCount += 1
+    }
+    
+    var openingGameOverCheckCalledCount = 0
+    func openingGameOverCheck() {
+        openingGameOverCheckCalledCount += 1
     }
     
     func editScore(for player: Player, by change: Int) {}

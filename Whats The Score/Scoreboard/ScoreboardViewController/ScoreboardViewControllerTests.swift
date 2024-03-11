@@ -176,6 +176,19 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.turnOrderSortButton.alpha, 0.5)
     }
     
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldCallViewModelOpeningGameOverCheck() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(viewModelMock.openingGameOverCheckCalledCount, 1)
+    }
     
     // MARK: - Binding PlayerToEditScore
     
@@ -650,7 +663,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     // MARK: - Binding ShouldGoToEndGameScreen
     
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetFalse_ShouldNotCallPush() {
+    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetFalse_ShouldNotChangNavigationControllersViewControllers() {
         // given
         let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
@@ -664,10 +677,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         viewModelMock.shouldGoToEndGameScreen.value = false
         
         // then
-        XCTAssertEqual(navigationController.pushViewControllerCount, 0)
+        XCTAssertEqual(navigationController.viewControllers, [sut])
     }
     
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetTrue_ShouldPushEndGameViewController() {
+    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetTrue_ShouldSetEndGameViewControllerAsNavigationControllersRootViewController() {
         // given
         let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
@@ -681,8 +694,8 @@ final class ScoreboardViewControllerTests: XCTestCase {
         viewModelMock.shouldGoToEndGameScreen.value = true
         
         // then
-        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
-        XCTAssertTrue(navigationController.pushedViewController is EndGameViewController)
+        XCTAssertEqual(navigationController.viewControllers.count, 1)
+        XCTAssertTrue(navigationController.viewControllers.first is EndGameViewController)
     }
     
     

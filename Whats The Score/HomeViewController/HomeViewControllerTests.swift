@@ -34,19 +34,24 @@ final class HomeViewControllerTests: XCTestCase {
         
     }
     
-    func test_HomeViewController_WhenSetupGameButtonTapped_ShouldPushGameSetupViewController() {
+    
+    // MARK: - SetupGame
+    
+    func test_HomeViewController_WhenSetupGameButtonTapped_ShouldNavigateToSecondTabInTabbarController() {
         // given
         let sut = viewController!
+        let viewController2 = UIViewController()
+        let tabbarItem = UITabBarItem()
+        viewController2.tabBarItem = tabbarItem
         
-        let navigationControllerMock = NavigationControllerPushMock()
-        navigationControllerMock.viewControllers = [sut]
+        let tabbarController = TabbarControllerMock()
+        tabbarController.viewControllers = [sut, viewController2]
         
         // when
         sut.setupGameButtonTapped(4)
         
         // then
-        XCTAssertEqual(navigationControllerMock.pushViewControllerCount, 1)
-        XCTAssertTrue(navigationControllerMock.pushedViewController is GameSetupViewController)
+        XCTAssertEqual(tabbarController.selectedIndex, 1)
     }
     
     

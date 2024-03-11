@@ -22,9 +22,7 @@ class HomeViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func setupGameButtonTapped(_ sender: Any) {
-        let gameSetupVC = storyboard?.instantiateViewController(withIdentifier: "GameSetupViewController")
-        
-        navigationController?.pushViewController(gameSetupVC!, animated: true)
+        self.tabBarController?.selectedIndex = 1
     }
     
     @IBAction func quickStartButtonTapped(_ sender: Any) {

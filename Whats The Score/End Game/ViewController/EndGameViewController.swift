@@ -58,6 +58,29 @@ class EndGameViewController: UIViewController {
         } else {
             self.collectionViewWidth.constant = widthOfCollectionViewContent
         }
+    }
+    
+    
+    // MARK: - IBActions
+    
+    @IBAction func newGameButtonTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let gameSetupViewController = storyboard.instantiateViewController(withIdentifier: "GameSetupViewController") as? GameSetupViewController else {
+            fatalError("GameSetupViewController couldn't be found")
+        }
         
+        navigationController?.viewControllers = [gameSetupViewController]
+    }
+    
+    @IBAction func keepPlayingGameButtonTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let scoreboardViewController = storyboard.instantiateViewController(withIdentifier: "ScoreboardViewController") as? ScoreboardViewController else {
+            fatalError("ScoreboardViewController couldn't be found")
+        }
+        
+        let viewModel = ScoreboardViewModel(game: viewModel.game)
+        scoreboardViewController.viewModel = viewModel
+        
+        navigationController?.viewControllers = [scoreboardViewController]
     }
 }

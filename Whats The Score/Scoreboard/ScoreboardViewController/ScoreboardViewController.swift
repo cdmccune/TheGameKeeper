@@ -39,8 +39,9 @@ class ScoreboardViewController: UIViewController {
 
         setDelegates()
         registerNibs()
-        setBindings()
         setupViews()
+        setBindings()
+        isEndOfGameCheck()
     }
     
     
@@ -106,6 +107,10 @@ class ScoreboardViewController: UIViewController {
         
         self.scoreSortButton.alpha = 1
         self.turnOrderSortButton.alpha = 0.5
+    }
+    
+    private func isEndOfGameCheck() {
+        viewModel?.openingGameOverCheck()
     }
     
     private func editPlayerScore(for player: Player) {
@@ -183,7 +188,7 @@ class ScoreboardViewController: UIViewController {
         
         endGameViewController.viewModel = EndGameViewModel(game: game)
         
-        self.navigationController?.pushViewController(endGameViewController, animated: true)
+        self.navigationController?.viewControllers = [endGameViewController]
     }
     
     private func presentKeepPlayingPopoverView() {

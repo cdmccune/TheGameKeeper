@@ -185,4 +185,46 @@ final class EndGameViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(sut.collectionViewWidth.constant, screenWidth)
     }
+    
+    
+    // MARK: - NewGameButtonTapped
+    
+    func test_EndGameViewController_WhenNewGameButtonTapped_ShouldSetGameSetupViewControllerAsRootViewController() {
+        // given
+        let sut = viewController!
+        
+        let navigationController = NavigationControllerPushMock()
+        navigationController.viewControllers = [sut]
+        
+        // when
+        sut.newGameButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(navigationController.viewControllers.count, 1)
+        XCTAssertTrue(navigationController.viewControllers.first is GameSetupViewController)
+    }
+    
+    // MARK: - NewGameButtonTapped
+    
+    func test_EndGameViewController_WhenKeepPlayingGameButtonTapped_ShouldSetScoreboardViewControllerAsRootViewControllerWithViewModelWithGameAsGame() {
+        // given
+        let sut = viewController!
+        
+        let game = GameMock()
+        let viewModel = EndGameViewModelMock()
+        viewModel.game = game
+        sut.viewModel = viewModel
+        
+        let navigationController = NavigationControllerPushMock()
+        navigationController.viewControllers = [sut]
+        
+        // when
+        sut.keepPlayingGameButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(navigationController.viewControllers.count, 1)
+        let scoreboardViewController = navigationController.viewControllers.first as? ScoreboardViewController
+        XCTAssertNotNil(scoreboardViewController)
+        XCTAssertTrue(scoreboardViewController?.viewModel?.game.isEqualTo(game: game) ?? false)
+    }
 }

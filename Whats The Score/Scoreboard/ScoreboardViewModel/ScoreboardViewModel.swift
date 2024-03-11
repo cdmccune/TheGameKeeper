@@ -27,6 +27,7 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     func addPlayer()
     func endGame()
     func resetGame()
+    func openingGameOverCheck()
 }
 
 class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopoverDelegateProtocol {
@@ -142,6 +143,14 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         game.players.indices.forEach { game.players[$0].score = 0 }
         game.currentRound = 1
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+    }
+    
+    func openingGameOverCheck() {
+        if game.isEndOfGame() {
+            dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
+                self.shouldShowKeepPlayingPopup.value = true
+            }
+        }
     }
 }
 
