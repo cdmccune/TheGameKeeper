@@ -39,7 +39,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NAK-hE-pI1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="447" y="759"/>
+            <point key="canvasLocation" x="1129" y="775"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -115,7 +115,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1228" y="758"/>
+            <point key="canvasLocation" x="1127" y="1494"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="HzF-wX-SS7">
@@ -135,7 +135,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ihb-Mf-7cX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-419" y="1230"/>
+            <point key="canvasLocation" x="2514" y="127"/>
         </scene>
         <!--Game Setup View Controller-->
         <scene sceneID="E3M-ev-9cC">
@@ -388,7 +388,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rxr-X7-T4P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1308" y="1518"/>
+            <point key="canvasLocation" x="4468" y="775"/>
         </scene>
         <!--Player Setup View Controller-->
         <scene sceneID="KVD-Oj-dO8">
@@ -500,7 +500,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hN3-bP-s1N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2065" y="1518"/>
+            <point key="canvasLocation" x="5236" y="775"/>
         </scene>
         <!--Scoreboard View Controller-->
         <scene sceneID="fwn-XZ-g40">
@@ -636,7 +636,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ez-W0-EYd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2833" y="1518"/>
+            <point key="canvasLocation" x="3662" y="1494"/>
         </scene>
         <!--End Game View Controller-->
         <scene sceneID="9rv-Cj-Hvj">
@@ -729,7 +729,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9fC-Cy-CPT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3676" y="1518"/>
+            <point key="canvasLocation" x="3662" y="2225"/>
         </scene>
         <!--Scoreboard Player Edit Score Popover View Controller-->
         <scene sceneID="i43-A8-LKh">
@@ -853,7 +853,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lq8-zX-bD5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2831" y="1969"/>
+            <point key="canvasLocation" x="5020" y="1263"/>
         </scene>
         <!--Edit Player Popover View Controller-->
         <scene sceneID="h78-rQ-oOb">
@@ -948,7 +948,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ywe-b2-SUP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2063" y="1969"/>
+            <point key="canvasLocation" x="4467" y="1685"/>
         </scene>
         <!--End Round Popover View Controller-->
         <scene sceneID="skP-JO-p58">
@@ -1059,7 +1059,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FbH-k9-wKK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3675" y="1968"/>
+            <point key="canvasLocation" x="4467" y="1263"/>
         </scene>
         <!--End Game Popover View Controller-->
         <scene sceneID="ETa-XD-4n7">
@@ -1146,7 +1146,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IiZ-c2-uY7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2063" y="2190"/>
+            <point key="canvasLocation" x="5020" y="1469"/>
         </scene>
         <!--Keep Playing Popover View Controller-->
         <scene sceneID="spE-dU-btl">
@@ -1271,7 +1271,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yS5-p4-Bzj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2829" y="2189"/>
+            <point key="canvasLocation" x="4466" y="1469"/>
         </scene>
         <!--Game-->
         <scene sceneID="zvJ-0S-wdv">
@@ -1289,7 +1289,48 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sfU-y1-GpA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="447" y="1518"/>
+            <point key="canvasLocation" x="3662" y="775"/>
+        </scene>
+        <!--Game History View Controller-->
+        <scene sceneID="7zY-t5-s4A">
+            <objects>
+                <viewController storyboardIdentifier="GameHistoryViewController" id="C3x-l8-bkQ" customClass="GameHistoryViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="55C-wf-wDV">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xZM-vN-zwI">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="dC3-vu-EKm">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="64"/>
+                                        <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="49"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="HC3-QD-eMy">
+                                        <rect key="frame" x="0.0" y="64" width="393" height="695"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="8es-MX-Anu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="xZM-vN-zwI" firstAttribute="top" secondItem="8es-MX-Anu" secondAttribute="top" id="1ep-sR-PBx"/>
+                            <constraint firstItem="xZM-vN-zwI" firstAttribute="leading" secondItem="8es-MX-Anu" secondAttribute="leading" id="255-Zs-jDG"/>
+                            <constraint firstItem="8es-MX-Anu" firstAttribute="trailing" secondItem="xZM-vN-zwI" secondAttribute="trailing" id="C4g-1d-VEj"/>
+                            <constraint firstItem="8es-MX-Anu" firstAttribute="bottom" secondItem="xZM-vN-zwI" secondAttribute="bottom" id="Nca-gX-IbQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="HC3-QD-eMy" id="ENJ-IA-PA4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sjv-Kj-KZn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5863" y="1494"/>
         </scene>
     </scenes>
     <resources>

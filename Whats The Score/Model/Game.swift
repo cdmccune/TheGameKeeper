@@ -69,6 +69,7 @@ struct Game: GameProtocol {
     var endingScore: Int
     
     var players: [Player]
+    var history: [GameHistorySegment] = []
     
     var winningPlayers: [Player] {
         let sortedPlayers = players.sorted { $0.score>$1.score }
