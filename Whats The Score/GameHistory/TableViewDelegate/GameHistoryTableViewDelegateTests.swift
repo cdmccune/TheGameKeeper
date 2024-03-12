@@ -83,8 +83,8 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsScoreChange_ShouldCallSetupPropertiesForWithCorrectScoreChange() {
         // given
         let (sut, tableView) = getSutAndTableView()
-        let scoreChangeID = UUID()
-        let scoreChange = ScoreChange(playerID: scoreChangeID, scoreChange: 0, playerName: "")
+        let player = Player.getBasicPlayer()
+        let scoreChange = ScoreChange(player: player, scoreChange: 0)
         sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange(scoreChange)]
         
         // when
@@ -92,7 +92,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
-        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, scoreChangeID)
+        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player, player)
     }
     
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldReturnEndRoundCell() {
@@ -110,8 +110,8 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldCallSetupCellForWithCorrectScoreChangesAndRoundNumber() {
         // given
         let (sut, tableView) = getSutAndTableView()
-        let scoreChangeID = UUID()
-        let scoreChanges = [ScoreChange(playerID: scoreChangeID, scoreChange: 0, playerName: "")]
+        let player = Player.getBasicPlayer()
+        let scoreChanges = [ScoreChange(player: player, scoreChange: 0)]
         let roundNumber = Int.random(in: 1...10)
         sut.viewModel.game.historySegments = [GameHistorySegment.endRound(roundNumber, scoreChanges)]
         
@@ -121,7 +121,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         // then
         XCTAssertEqual(cell?.setupCellForCalledCount, 1)
         XCTAssertEqual(cell?.setupCellForRound, roundNumber)
-        XCTAssertEqual(cell?.setupCellForScoreChanges?.first?.playerID, scoreChangeID)
+        XCTAssertEqual(cell?.setupCellForScoreChanges?.first?.player, player)
     }
     
     

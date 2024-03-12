@@ -8,6 +8,11 @@
 import Foundation
 
 struct Player: Hashable {
+    
+    static func getBasicPlayer() -> Player {
+        return Player(name: "", position: 0)
+    }
+    
     init(name: String, position: Int, score: Int = 0, id: UUID = UUID()) {
         self._name = name
         self.position = position

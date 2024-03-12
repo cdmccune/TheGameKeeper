@@ -18,7 +18,7 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
     // MARK: - Functions
     
     func setupViewProperties(for scoreChange: ScoreChange) {
-        playerNameLabel.text = scoreChange.playerName
+        playerNameLabel.text = scoreChange.player.name
         scoreChangeLabel.text = String(scoreChange.scoreChange)
         
         switch scoreChange.scoreChange {

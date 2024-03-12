@@ -30,6 +30,8 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     func openingGameOverCheck()
 }
 
+
+
 class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopoverDelegateProtocol {
     
     // MARK: - Init

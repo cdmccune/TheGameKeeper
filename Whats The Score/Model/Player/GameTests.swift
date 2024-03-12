@@ -262,6 +262,127 @@ final class GameTests: XCTestCase {
     }
     
     
+    // MARK: - EditScoreFor
+    
+    func test_Game_WhenEditPlayerScoreCalled_ShouldChangePlayersScoreByChange() {
+        // given
+        let player = Player(name: "", position: 0)
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let pointsChange = Int.random(in: (-1000...1000))
+        
+        // when
+        sut.editScoreFor(player, byChange: pointsChange)
+        
+        // then
+        XCTAssertEqual(sut.players.first?.score, pointsChange)
+    }
+    
+    func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeGameHistorySegmentWithPlayerAndScoreChange() {
+        // given
+        let player = Player(name: "", position: 0)
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let pointChange = Int.random(in: (-1000...1000))
+        
+        // when
+        sut.editScoreFor(player, byChange: pointChange)
+        
+        // then
+        guard case .scoreChange(let scoreChange) = sut.historySegments.first else {
+            XCTFail("Didn't add a history segment")
+            return
+        }
+        
+        XCTAssertEqual(scoreChange.scoreChange, pointChange)
+        XCTAssertEqual(scoreChange.player, player)
+    }
+    
+    
+    // MARK: - EndRound
+    
+    func test_Game_WhenEndRoundCalled_ShouldIncrementTheCurrentRound() {
+        // given
+        var sut = Game(basicGameWithPlayers: [])
+        let currentRound = Int.random(in: 1...10)
+        sut.currentRound = currentRound
+        
+        // when
+        sut.endRound(withChanges: [:])
+        
+        // then
+        XCTAssertEqual(sut.currentRound, currentRound + 1)
+    }
+    
+    func test_Game_WhenEndRoundCalled_ShouldChangePlayersScoresByAppropriateNumber() {
+        // given
+        let player1 = Player.getBasicPlayer()
+        let player2 = Player.getBasicPlayer()
+        let player3 = Player.getBasicPlayer()
+        let players = [player1, player2, player3]
+        
+        var sut = Game(basicGameWithPlayers: players)
+        
+        let scoreChange1 = Int.random(in: 1...10)
+        let scoreChange2 = Int.random(in: 1...10)
+        let scoreChange3 = Int.random(in: 1...10)
+        
+        let changeDictionary = [
+            player1: scoreChange1,
+            player2: scoreChange2,
+            player3: scoreChange3
+        ]
+        
+        // when
+        sut.endRound(withChanges: changeDictionary)
+        
+        // then
+        XCTAssertEqual(sut.players[0].score, scoreChange1)
+        XCTAssertEqual(sut.players[1].score, scoreChange2)
+        XCTAssertEqual(sut.players[2].score, scoreChange3)
+    }
+    
+    func test_Game_WhenEndRoundCalled_ShouldAppendEndRoundGameHistorySegmentWithCurrentRoundBeforeIncrementingAndPlayerScoreChanges() {
+        // given
+        let player1 = Player(name: "", position: 0)
+        let player2 = Player(name: "", position: 1)
+        let player3 = Player(name: "", position: 2)
+        let players = [player1, player2, player3]
+        
+        var sut = Game(basicGameWithPlayers: players)
+        
+        let currentRound = Int.random(in: 1...10)
+        sut.currentRound = currentRound
+        
+        let scoreChange1 = Int.random(in: 1...10)
+        let scoreChange2 = Int.random(in: 1...10)
+        let scoreChange3 = Int.random(in: 1...10)
+        let scores = [scoreChange1, scoreChange2, scoreChange3]
+        
+        let changeDictionary = [
+            player1: scoreChange1,
+            player2: scoreChange2,
+            player3: scoreChange3
+        ]
+        
+        // when
+        sut.endRound(withChanges: changeDictionary)
+        
+        // then
+        guard case .endRound(let endRoundCurrentRound, let scoreChanges) = sut.historySegments.first else {
+            XCTFail("Didn't add a history segment")
+            return
+        }
+        
+        XCTAssertEqual(currentRound, endRoundCurrentRound)
+        XCTAssertEqual(scoreChanges.count, 3)
+        scoreChanges.enumerated().forEach { (index, scoreChange) in
+            XCTAssertEqual(players[index], scoreChange.player)
+            XCTAssertEqual(scores[index], scoreChange.scoreChange)
+        }
+    }
+    
+    
     // MARK: - IsEndOfGame
     
     func test_Game_WhenIsEndOfGameCalledNoneEndGameType_ShouldReturnFalse() {
@@ -400,6 +521,14 @@ class GameMock: GameProtocol {
     var deletePlayerAtCalledCount = 0
     func deletePlayerAt(_ index: Int) {
         deletePlayerAtCalledCount += 1
+    }
+    
+    func editScoreFor(_ player: Player, byChange: Int) {
+        
+    }
+    
+    func endRound(withChanges changeDictionary: [Player : Int]) {
+        
     }
     
     func isEqualTo(game: GameProtocol) -> Bool {

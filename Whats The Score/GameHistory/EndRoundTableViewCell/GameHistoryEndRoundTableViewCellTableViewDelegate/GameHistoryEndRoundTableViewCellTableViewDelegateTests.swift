@@ -82,8 +82,8 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
     func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
-        let scoreChangeID = UUID()
-        let scoreChange = ScoreChange(playerID: scoreChangeID, scoreChange: 0, playerName: "")
+        let player = Player.getBasicPlayer()
+        let scoreChange = ScoreChange(player: player, scoreChange: 0)
         
         sut.viewModel.scoreChanges = [scoreChange]
         
@@ -92,7 +92,7 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
-        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, scoreChangeID)
+        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player, player)
     }
     
     

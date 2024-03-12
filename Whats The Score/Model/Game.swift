@@ -23,6 +23,9 @@ protocol GameProtocol {
     mutating func addPlayer()
     mutating func randomizePlayers()
     mutating func deletePlayerAt(_ index: Int)
+    mutating func editScoreFor(_ player: Player, byChange: Int)
+    mutating func endRound(withChanges changeDictionary: [Player: Int])
+    
     func isEqualTo(game: GameProtocol) -> Bool
     func isEndOfGame() -> Bool
 }
@@ -113,6 +116,36 @@ struct Game: GameProtocol {
         players.setPositions()
     }
     
+    mutating func editScoreFor(_ player: Player, byChange change: Int) {
+        guard let index = players.firstIndex(of: player) else { return }
+        
+        players[index].score += change
+        let scoreChange = ScoreChange(player: players[index], scoreChange: change)
+        let historySegment = GameHistorySegment.scoreChange(scoreChange)
+        
+        historySegments.append(historySegment)
+    }
+    
+    mutating func endRound(withChanges changeDictionary: [Player: Int]) {
+        
+        var scoreChanges: [ScoreChange] = []
+        
+        changeDictionary.forEach { (player, scoreChange) in
+            if let index = players.firstIndex(of: player) {
+                players[index].score += scoreChange
+                
+                let scoreChangeObject = ScoreChange(player: player, scoreChange: scoreChange)
+                scoreChanges.append(scoreChangeObject)
+            }
+        }
+        
+        scoreChanges.sort { $0.player.position < $1.player.position }
+        let historySegment = GameHistorySegment.endRound(currentRound, scoreChanges)
+        historySegments.append(historySegment)
+        
+        currentRound += 1
+        
+    }
     
     // MARK: - Non-Mutating Functions
     

@@ -14,10 +14,9 @@ enum GameHistorySegment {
 
 struct ScoreChange {
     static func getBlankScoreChange() -> ScoreChange {
-        return ScoreChange(playerID: UUID(), scoreChange: 0, playerName: "")
+        return ScoreChange(player: Player(name: "", position: 0), scoreChange: 0)
     }
     
-    var playerID: UUID
+    var player: Player
     var scoreChange: Int
-    var playerName: String
 }

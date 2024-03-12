@@ -75,15 +75,15 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
         // given
         let sut = tableViewCell!
         var scoreChangeObject = ScoreChange.getBlankScoreChange()
-        let id = UUID()
-        scoreChangeObject.playerID = id
+        let player = Player.getBasicPlayer()
+        scoreChangeObject.player = player
         
         // when
         sut.setupCellFor(round: 0, and: [scoreChangeObject])
         
         // then
         XCTAssertNotNil(sut.viewModel)
-        XCTAssertEqual(sut.viewModel?.scoreChanges.first?.playerID, id)
+        XCTAssertEqual(sut.viewModel?.scoreChanges.first?.player, player)
     }
     
     func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetTableViewDelegateDatasourceAsGameHistoryEndRoundTableViewCellTableViewDelegate() {
@@ -106,7 +106,7 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
         
         // then
         let tableViewDelegate = sut.tableView.delegate as? GameHistoryEndRoundTableViewCellTableViewDelegate
-        XCTAssertTrue(tableViewDelegate?.viewModel as? GameHistoryEndRoundTableViewCellViewModelMock === sut.viewModel)
+        XCTAssertTrue(tableViewDelegate?.viewModel as? GameHistoryEndRoundTableViewCellViewModel === sut.viewModel)
     }
 }
 
