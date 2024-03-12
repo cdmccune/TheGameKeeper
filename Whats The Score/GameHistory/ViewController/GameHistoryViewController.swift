@@ -25,6 +25,7 @@ class GameHistoryViewController: UIViewController {
         super.viewDidLoad()
 
         setDelegates()
+        registerNibs()
     }
     
     
@@ -33,5 +34,11 @@ class GameHistoryViewController: UIViewController {
     private func setDelegates() {
         tableView.delegate = tableViewDelegate
         tableView.dataSource = tableViewDelegate
+    }
+    
+    private func registerNibs() {
+        tableView.register(UINib(nibName: "GameHistoryScoreChangeTableViewCell", bundle: nil), forCellReuseIdentifier: "GameHistoryScoreChangeTableViewCell")
+        tableView.register(UINib(nibName: "GameHistoryEndRoundTableViewCell", bundle: nil), forCellReuseIdentifier: "GameHistoryEndRoundTableViewCell")
+        tableView.register(UINib(nibName: "GameHistoryErrorTableViewCell", bundle: nil), forCellReuseIdentifier: "GameHistoryErrorTableViewCell")
     }
 }

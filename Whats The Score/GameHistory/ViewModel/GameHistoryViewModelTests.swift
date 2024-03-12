@@ -15,5 +15,5 @@ final class GameHistoryViewModelTests: XCTestCase {
 
 
 class GameHistoryViewModelMock: GameHistoryViewModelProtocol {
-    
+    var game: GameProtocol = GameMock()
 }

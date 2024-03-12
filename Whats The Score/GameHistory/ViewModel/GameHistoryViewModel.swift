@@ -8,9 +8,13 @@
 import Foundation
 
 protocol GameHistoryViewModelProtocol {
-    
+    var game: GameProtocol { get set }
 }
 
 class GameHistoryViewModel: GameHistoryViewModelProtocol {
+    init(game: GameProtocol) {
+        self.game = game
+    }
     
+    var game: GameProtocol
 }

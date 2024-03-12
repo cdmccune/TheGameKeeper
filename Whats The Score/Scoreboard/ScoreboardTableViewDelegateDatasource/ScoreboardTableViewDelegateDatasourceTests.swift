@@ -96,14 +96,11 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         let count = Int.random(in: 2...10)
         let (sut, tableView) = getSutAndTableView(withPlayerCount: count)
         
-        let indexRow = Int.random(in: 1...count)
+        let indexRow = Int.random(in: 0..<count)
+        
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: indexRow, section: 0)) as? ScoreboardTableViewCellMock
         
-        guard let editPlayer = cell?.editPlayer else {
-            XCTFail("edit Player function nil")
-            return
-        }
         cell?.editPlayer?()
         
         // then

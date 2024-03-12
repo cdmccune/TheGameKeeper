@@ -25,10 +25,28 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
     // MARK: - Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.game.historySegments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard viewModel.game.historySegments.indices.contains(indexPath.row) else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryErrorTableViewCell") ?? UITableViewCell()
+            return cell
+        }
+        
+        switch viewModel.game.historySegments[indexPath.row] {
+        case .scoreChange((let playerID, let scoreChange)):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryScoreChangeTableViewCell") as? GameHistoryScoreChangeTableViewCell else {
+                fatalError("GameHistoryScoreChangeTableViewCell not registered")
+            }
+            
+            return cell
+        case .endRound(let roundNumber, let scoreChanges):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryEndRoundTableViewCell") as? GameHistoryEndRoundTableViewCell else {
+                fatalError("GameHistoryEndRoundTableViewCell not registered")
+            }
+            
+            return cell
+        }
     }
 }

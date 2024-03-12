@@ -47,6 +47,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
     func test_GameHistoryViewController_WhenViewDidLoadCalled_ShouldSetTableViewDelegateDatasourceToGameHistoryTableViewDelegate() {
         // given
         let sut = viewController!
+        sut.viewModel = GameHistoryViewModelMock()
         
         // when
         sut.loadView()
@@ -70,5 +71,27 @@ final class GameHistoryViewControllerTests: XCTestCase {
         // then
         let tableViewDelegate = sut.tableView.delegate as? GameHistoryTableViewDelegate
         XCTAssertTrue((tableViewDelegate?.viewModel as? GameHistoryViewModelMock) === viewModel)
+    }
+    
+    func test_GameHistoryViewController_WhenViewDidLoadCalled_ShouldRegisterScoreChangeAndEndRoundNibsOnTableView() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = GameHistoryViewModelMock()
+        
+        let tableViewMock = UITableViewRegisterMock()
+        sut.tableView = tableViewMock
+        
+        let scoreChangeIdentifierNibName = "GameHistoryScoreChangeTableViewCell"
+        let endRoundIdentifierNibName = "GameHistoryEndRoundTableViewCell"
+        let errorIdentifierNibName = "GameHistoryErrorTableViewCell"
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(scoreChangeIdentifierNibName))
+        XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(endRoundIdentifierNibName))
+        XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(errorIdentifierNibName))
     }
 }

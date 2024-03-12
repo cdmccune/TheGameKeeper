@@ -367,6 +367,7 @@ class GameMock: GameProtocol {
     var currentRound: Int = 0
     var players: [Player] = []
     var winningPlayers: [Player] = []
+    var historySegments: [GameHistorySegment] = []
     
     var playerNameChangedCalledCount = 0
     var playerNameChangedIndex: Int?

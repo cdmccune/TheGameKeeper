@@ -86,3 +86,10 @@ class TabbarControllerMock: UITabBarController {
         didSelectTabbarItem = item
     }
 }
+
+class UITableViewRegisterMock: UITableView {
+    var registerCellReuseIdentifiers: [String] = []
+    override func register(_ nib: UINib?, forCellReuseIdentifier identifier: String) {
+        registerCellReuseIdentifiers.append(identifier)
+    }
+}

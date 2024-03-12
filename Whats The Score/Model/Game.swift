@@ -15,6 +15,7 @@ protocol GameProtocol {
     var endingScore: Int { get set }
     var players: [Player] { get set }
     var winningPlayers: [Player] { get }
+    var historySegments: [GameHistorySegment] { get set }
     var id: UUID { get }
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String)
@@ -69,7 +70,7 @@ struct Game: GameProtocol {
     var endingScore: Int
     
     var players: [Player]
-    var history: [GameHistorySegment] = []
+    var historySegments: [GameHistorySegment] = []
     
     var winningPlayers: [Player] {
         let sortedPlayers = players.sorted { $0.score>$1.score }
