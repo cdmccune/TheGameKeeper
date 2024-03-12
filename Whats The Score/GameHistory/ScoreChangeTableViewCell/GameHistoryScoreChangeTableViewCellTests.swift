@@ -116,3 +116,14 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.scoreChangeLabel.textColor, .red)
     }
 }
+
+class GameHistoryScoreChangeTableViewCellMock: GameHistoryScoreChangeTableViewCell {
+    var setupPropertiesForCalledCount = 0
+    var setupPropertiesForScoreChange: ScoreChange?
+    
+    override func setupViewProperties(for scoreChange: ScoreChange) {
+        self.setupPropertiesForCalledCount += 1
+        self.setupPropertiesForScoreChange = scoreChange
+    }
+    
+}

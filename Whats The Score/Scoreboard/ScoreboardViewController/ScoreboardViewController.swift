@@ -29,6 +29,7 @@ class ScoreboardViewController: UIViewController {
     private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
     var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     lazy var resetBarButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetButtonTapped))
+    lazy var historyBarButton = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(historyButtonTapped))
     lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper(playerViewHeight: 45, playerSeperatorHeight: 3)
 
     
@@ -103,7 +104,7 @@ class ScoreboardViewController: UIViewController {
     }
     
     private func setupViews() {
-        navigationItem.rightBarButtonItem = resetBarButton
+        navigationItem.rightBarButtonItems = [resetBarButton, historyBarButton]
         
         self.scoreSortButton.alpha = 1
         self.turnOrderSortButton.alpha = 0.5
@@ -258,6 +259,22 @@ class ScoreboardViewController: UIViewController {
         alert.addAction(resetAction)
         
         self.present(alert, animated: true)
+    }
+    
+    @objc func historyButtonTapped() {
+        guard let game = viewModel?.game else {
+            fatalError("No viewModel game")
+        }
+        
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let gameHistoryViewController = storyboard.instantiateViewController(withIdentifier: "GameHistoryViewController") as? GameHistoryViewController else {
+            fatalError("GameHistoryViewController couldn't be made")
+        }
+        
+        let viewModel = GameHistoryViewModel(game: game)
+        gameHistoryViewController.viewModel = viewModel
+        navigationController?.pushViewController(gameHistoryViewController, animated: true)
     }
     
     

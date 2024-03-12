@@ -86,6 +86,40 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.resetBarButtonCalledCount, 1)
     }
     
+    func test_ScoreboardViewController_WhenHistoryBarButtonSet_ShouldHaveHistoryBarButtonCorrectImageAndTarget() {
+        // given
+        let sut = viewController!
+        
+        // when
+        let barButton = sut.historyBarButton
+        
+        // then
+        XCTAssertEqual(barButton.image, UIImage(systemName: "clock.arrow.2.circlepath")!)
+        XCTAssertEqual(barButton.target as? ScoreboardViewController, sut)
+    }
+    
+    func test_ScoreboardViewController_WhenHistoryBarButtonActionCalled_ShouldCallHistoryButtonTapped() {
+        
+        class ScoreboardViewControllerHistoryButtonTappedMock: ScoreboardViewController {
+            var historyBarButtonCalledCount = 0
+            override func historyButtonTapped() {
+                historyBarButtonCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = ScoreboardViewControllerHistoryButtonTappedMock()
+        
+        let tableView = UITableView()
+        sut.tableView = tableView
+        
+        // when
+        _ = sut.historyBarButton.target?.perform(sut.historyBarButton.action, with: sut.historyBarButton)
+        
+        // then
+        XCTAssertEqual(sut.historyBarButtonCalledCount, 1)
+    }
+    
     func test_ScoreboardViewController_WhenEndRoundPopoverHieghtHelperCreated_ShouldHavePlayerHeightOf45AndSeparatorOf3() {
         // given
         let sut = viewController!
@@ -158,7 +192,21 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(sut.navigationItem.rightBarButtonItem, sut.resetBarButton)
+        XCTAssertEqual(sut.navigationItem.rightBarButtonItems?.first, sut.resetBarButton)
+    }
+    
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetNavigationItemSecondRightBarButtonToHistoryBarButton() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.navigationItem.rightBarButtonItems?[1], sut.historyBarButton)
     }
     
     func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetScoreSortButtonAlphaTo1AndTurnOrderSortButtonAlphaToPoint5() {
@@ -1117,6 +1165,29 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewModelMock.resetGameCalledCount, 1)
+    }
+    
+
+    // MARK: - HistoryButtonTapped
+    
+    func test_ScoreboardViewController_WhenHistoryButtonTappedCalled_ShouldPushGameHistoryViewControllerWithCorrectGame() {
+        // given
+        let sut = viewController!
+        let navigationController = NavigationControllerPushMock()
+        navigationController.viewControllers = [sut]
+        
+        let game = GameMock()
+        let viewModel = ScoreboardViewModelMock(game: game)
+        sut.viewModel = viewModel
+        
+        // when
+        sut.historyButtonTapped()
+        
+        // then
+        let gameHistoryViewController = navigationController.pushedViewController as? GameHistoryViewController
+        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
+        XCTAssertNotNil(gameHistoryViewController)
+        XCTAssertTrue(gameHistoryViewController?.viewModel.game.isEqualTo(game: game) ?? false)
     }
     
     

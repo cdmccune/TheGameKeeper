@@ -16,8 +16,8 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
     
     override func setUp() {
         tableViewMock = UITableView()
-        tableViewMock?.register(GameHistoryScoreChangeTableViewCell.self, forCellReuseIdentifier: "GameHistoryScoreChangeTableViewCell")
-        tableViewMock?.register(GameHistoryEndRoundTableViewCell.self, forCellReuseIdentifier: "GameHistoryEndRoundTableViewCell")
+        tableViewMock?.register(GameHistoryScoreChangeTableViewCellMock.self, forCellReuseIdentifier: "GameHistoryScoreChangeTableViewCell")
+        tableViewMock?.register(GameHistoryEndRoundTableViewCellMock.self, forCellReuseIdentifier: "GameHistoryEndRoundTableViewCell")
         tableViewMock?.register(GameHistoryErrorTableViewCell.self, forCellReuseIdentifier: "GameHistoryErrorTableViewCell")
     }
     
@@ -80,6 +80,21 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         XCTAssertTrue(cell is GameHistoryScoreChangeTableViewCell)
     }
     
+    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsScoreChange_ShouldCallSetupPropertiesForWithCorrectScoreChange() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let scoreChangeID = UUID()
+        let scoreChange = ScoreChange(playerID: scoreChangeID, scoreChange: 0, playerName: "")
+        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange(scoreChange)]
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? GameHistoryScoreChangeTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
+        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, scoreChangeID)
+    }
+    
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldReturnEndRoundCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
@@ -90,6 +105,23 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertTrue(cell is GameHistoryScoreChangeTableViewCell)
+    }
+    
+    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldCallSetupCellForWithCorrectScoreChangesAndRoundNumber() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let scoreChangeID = UUID()
+        let scoreChanges = [ScoreChange(playerID: scoreChangeID, scoreChange: 0, playerName: "")]
+        let roundNumber = Int.random(in: 1...10)
+        sut.viewModel.game.historySegments = [GameHistorySegment.endRound(roundNumber, scoreChanges)]
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? GameHistoryEndRoundTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupCellForCalledCount, 1)
+        XCTAssertEqual(cell?.setupCellForRound, roundNumber)
+        XCTAssertEqual(cell?.setupCellForScoreChanges?.first?.playerID, scoreChangeID)
     }
     
     
@@ -105,6 +137,22 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertEqual(height, 44)
+    }
+    
+    func test_GameHistoryTableViewDelegate_WhenHeightForRowAtCalledIndexIsEndRound_ShouldReturnNumberCalculatedCorrectly() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let scoreChangeCount = Int.random(in: 0...10)
+        let scoreChanges = Array(repeating: ScoreChange.getBlankScoreChange(), count: scoreChangeCount)
+        sut.viewModel.game.historySegments = [GameHistorySegment.endRound(0, scoreChanges)]
+        
+        
+        // when
+        let height = sut.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        let expectedHeight = CGFloat(44 + (44*scoreChangeCount) - (scoreChangeCount > 0 ? 1 : 0))
+        XCTAssertEqual(height, expectedHeight)
     }
 
 }
