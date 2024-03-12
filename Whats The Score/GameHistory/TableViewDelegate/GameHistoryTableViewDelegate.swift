@@ -35,7 +35,7 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
         }
         
         switch viewModel.game.historySegments[indexPath.row] {
-        case .scoreChange((let playerID, let scoreChange)):
+        case .scoreChange(let scoreChange):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryScoreChangeTableViewCell") as? GameHistoryScoreChangeTableViewCell else {
                 fatalError("GameHistoryScoreChangeTableViewCell not registered")
             }
@@ -48,5 +48,9 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
             
             return cell
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
 }

@@ -8,16 +8,26 @@
 import UIKit
 
 class GameHistoryScoreChangeTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var playerNameLabel: UILabel!
+    @IBOutlet weak var scoreChangeLabel: UILabel!
+    
+    
+    // MARK: - Functions
+    
+    func setupViewProperties(for scoreChange: ScoreChange) {
+        playerNameLabel.text = scoreChange.playerName
+        scoreChangeLabel.text = String(scoreChange.scoreChange)
+        
+        switch scoreChange.scoreChange {
+        case ..<0:
+            scoreChangeLabel.textColor = .red
+        case 0:
+            scoreChangeLabel.textColor = .label
+        default: // Greater than zero
+            scoreChangeLabel.textColor = .systemBlue
+        }
+    }
 }

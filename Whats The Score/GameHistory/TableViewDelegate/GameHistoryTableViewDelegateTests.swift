@@ -43,7 +43,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         // given
         let (sut, tableView) = getSutAndTableView()
         let gameSegmentCount = Int.random(in: 2...10)
-        let gameSegments = Array(repeating: GameHistorySegment.scoreChange((UUID(), 0)), count: gameSegmentCount)
+        let gameSegments = Array(repeating: GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange()), count: gameSegmentCount)
         sut.viewModel.game.historySegments = gameSegments
         
         // when
@@ -71,7 +71,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsScoreChange_ShouldReturnScoreChangeCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
-        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange((UUID(), 0))]
+        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange())]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
@@ -83,13 +83,28 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldReturnEndRoundCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
-        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange((UUID(), 0))]
+        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange())]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
         
         // then
         XCTAssertTrue(cell is GameHistoryScoreChangeTableViewCell)
+    }
+    
+    
+    // MARK: - HeightForRowAt
+    
+    func test_GameHistoryTableViewDelegate_WhenHeightForRowAtCalledIndexIsScoreChange_ShouldReturn44() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange())]
+        
+        // when
+        let height = sut.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertEqual(height, 44)
     }
 
 }

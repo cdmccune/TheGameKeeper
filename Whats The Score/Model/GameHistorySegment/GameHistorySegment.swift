@@ -8,6 +8,16 @@
 import Foundation
 
 enum GameHistorySegment {
-    case scoreChange((UUID, Int))
-    case endRound(Int, [(UUID, Int)])
+    case scoreChange(ScoreChange)
+    case endRound(Int, [ScoreChange])
+}
+
+struct ScoreChange {
+    static func getBlankScoreChange() -> ScoreChange {
+        return ScoreChange(playerID: UUID(), scoreChange: 0, playerName: "")
+    }
+    
+    var playerID: UUID
+    var scoreChange: Int
+    var playerName: String
 }
