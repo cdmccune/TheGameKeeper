@@ -34,7 +34,7 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         switch game.historySegments[row] {
         case .scoreChange(let scoreChange):
             scoreChangeToEdit.value = scoreChange
-        case .endRound(_, _, _):
+        case .endRound(_):
             shouldShowEndRoundPopover.value = true
         }
     }

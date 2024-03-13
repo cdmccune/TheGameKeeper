@@ -9,14 +9,14 @@ import Foundation
 
 enum GameHistorySegment {
     case scoreChange(ScoreChange)
-    case endRound(UUID, Int, [ScoreChange])
+    case endRound(EndRound)
     
     var id: UUID {
         switch self {
         case .scoreChange(let scoreChange):
             return scoreChange.id
-        case .endRound(let id, _, _):
-            return id
+        case .endRound(let endRound):
+            return endRound.id
         }
     }
 }
@@ -40,4 +40,14 @@ struct ScoreChange {
 extension ScoreChange: Equatable {}
 func == (lhs: ScoreChange, rhs: ScoreChange) -> Bool {
     return lhs.id == rhs.id
+}
+
+struct EndRound {
+    static func getBlankEndRound() -> EndRound {
+        return EndRound(roundNumber: 0, scoreChangeArray: [])
+    }
+    
+    var id: UUID = UUID()
+    var roundNumber: Int
+    var scoreChangeArray: [ScoreChange]
 }

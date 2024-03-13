@@ -40,7 +40,8 @@ final class GameHistoryViewModelTests: XCTestCase {
     func test_GameHistoryViewModel_WhenDidSelectRowCalledIndexEndRound_ShouldSetShouldShowEndRoundPopoverValueTrue() {
         // given
         let game = GameMock()
-        let endRoundHistorySegment = GameHistorySegment.endRound(UUID(), 0, [])
+        
+        let endRoundHistorySegment = GameHistorySegment.endRound(EndRound.getBlankEndRound())
         game.historySegments = [endRoundHistorySegment]
         
         let sut = GameHistoryViewModel(game: game)

@@ -114,7 +114,8 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         let player = Player.getBasicPlayer()
         let scoreChanges = [ScoreChange(player: player, scoreChange: 0)]
         let roundNumber = Int.random(in: 1...10)
-        sut.viewModel.game.historySegments = [GameHistorySegment.endRound(UUID(), roundNumber, scoreChanges)]
+        let endRound = EndRound(roundNumber: roundNumber, scoreChangeArray: scoreChanges)
+        sut.viewModel.game.historySegments = [GameHistorySegment.endRound(endRound)]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? GameHistoryEndRoundTableViewCellMock
@@ -145,7 +146,8 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         let (sut, tableView) = getSutAndTableView()
         let scoreChangeCount = Int.random(in: 0...10)
         let scoreChanges = Array(repeating: ScoreChange.getBlankScoreChange(), count: scoreChangeCount)
-        sut.viewModel.game.historySegments = [GameHistorySegment.endRound(UUID(), 0, scoreChanges)]
+        let endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChanges)
+        sut.viewModel.game.historySegments = [GameHistorySegment.endRound(endRound)]
         
         
         // when

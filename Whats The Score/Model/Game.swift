@@ -26,7 +26,8 @@ protocol GameProtocol {
     mutating func editScore(scoreChange: ScoreChange)
     mutating func endRound(withChanges changeDictionary: [Player: Int])
     mutating func resetGame()
-    mutating func editScoreChange(_ scoreChange: ScoreChange)
+    mutating func editScoreChange(_ newScoreChange: ScoreChange)
+    mutating func editEndRound(_ newEndRound: EndRound)
     
     func isEqualTo(game: GameProtocol) -> Bool
     func isEndOfGame() -> Bool
@@ -141,7 +142,8 @@ struct Game: GameProtocol {
         }
         
         scoreChanges.sort { $0.player.position < $1.player.position }
-        let historySegment = GameHistorySegment.endRound(UUID(), currentRound, scoreChanges)
+        let endRound = EndRound(roundNumber: currentRound, scoreChangeArray: scoreChanges)
+        let historySegment = GameHistorySegment.endRound(endRound)
         historySegments.append(historySegment)
         
         currentRound += 1
@@ -157,20 +159,40 @@ struct Game: GameProtocol {
         historySegments = []
     }
     
-    mutating func editScoreChange(_ scoreChange: ScoreChange) {
-        let gameHistorySegment = GameHistorySegment.scoreChange(scoreChange)
+    mutating func editScoreChange(_ newScoreChange: ScoreChange) {
+        let gameHistorySegment = GameHistorySegment.scoreChange(newScoreChange)
         
-        if let playerIndex = players.firstIndex(of: scoreChange.player),
+        if let playerIndex = players.firstIndex(of: newScoreChange.player),
         let scoreChangeIndex = historySegments.firstIndex(of: gameHistorySegment),
         case .scoreChange(let scoreChangeOriginal) = historySegments[scoreChangeIndex] {
             
-            historySegments[scoreChangeIndex] = .scoreChange(scoreChange)
+            historySegments[scoreChangeIndex] = .scoreChange(newScoreChange)
             
-            players[playerIndex].score += scoreChange.scoreChange
+            players[playerIndex].score += newScoreChange.scoreChange
             players[playerIndex].score -= scoreChangeOriginal.scoreChange
         }
+    }
+    
+    mutating func editEndRound(_ newEndRound: EndRound) {
+        let gameHistorySegment = GameHistorySegment.endRound(newEndRound)
         
-        
+        // Find the end round history object
+        if let endRoundIndex = historySegments.firstIndex(of: gameHistorySegment),
+           case .endRound(let oldEndRound) = historySegments[endRoundIndex] {
+            
+            // Go through and adjust the appropriate players score
+            newEndRound.scoreChangeArray.forEach { newScoreChange in
+                if let indexOfOldScoreChange = oldEndRound.scoreChangeArray.firstIndex(of: newScoreChange),
+                   let playerIndex = players.firstIndex(of: newScoreChange.player) {
+                    players[playerIndex].score -= oldEndRound.scoreChangeArray[indexOfOldScoreChange].scoreChange
+                    players[playerIndex].score += newScoreChange.scoreChange
+                }
+            }
+            
+            // Set the history object to new changes
+            let newEndRoundHistoryObject = GameHistorySegment.endRound(newEndRound)
+            historySegments[endRoundIndex] = newEndRoundHistoryObject
+        }
     }
     
     // MARK: - Non-Mutating Functions
