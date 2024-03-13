@@ -146,7 +146,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
     }
     
     
-    // MARK: - SetBindings
+    // MARK: - ScoreChangeToEdit
     
     func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelScoreChangeToEditChangeSetNil_ShouldNotPresentAnything() {
         // given
@@ -224,6 +224,31 @@ final class GameHistoryViewControllerTests: XCTestCase {
         let editPlayerVC = sut.presentViewController as? ScoreboardPlayerEditScorePopoverViewController
         XCTAssertTrue(editPlayerVC?.delegate === viewModelMock)
         XCTAssertEqual(editPlayerVC?.scoreChange, scoreChange)
+    }
+    
+    
+    // MARK: - TableViewIndexToRefresh
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelTableViewIndexToRefresh_ShouldCallTableViewReloadRowsForThatIndex() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let viewModel = GameHistoryViewModelMock()
+        sut.viewModel = viewModel
+        
+        let tableViewMock = UITableViewReloadRowsMock()
+        sut.tableView = tableViewMock
+        
+        let indexToReload = Int.random(in: 1...1000)
+        
+        // when
+        sut.setBindings()
+        viewModel.tableViewIndexToRefresh.value = indexToReload
+        
+        // then
+        XCTAssertEqual(tableViewMock.reloadRowsCalledCount, 1)
+        XCTAssertEqual(tableViewMock.reloadRowsIndexPathArray, [IndexPath(row: indexToReload, section: 0)])
     }
 
     

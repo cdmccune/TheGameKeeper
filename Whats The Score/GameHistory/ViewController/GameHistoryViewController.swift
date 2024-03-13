@@ -70,5 +70,11 @@ class GameHistoryViewController: UIViewController {
             
             self?.presentEditPlayerScorePopoverWith(scoreChange)
         }
+        
+        viewModel.tableViewIndexToRefresh.valueChanged = { [weak self] rowIndex in
+            guard let rowIndex else { return }
+            
+            self?.tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
+        }
     }
 }

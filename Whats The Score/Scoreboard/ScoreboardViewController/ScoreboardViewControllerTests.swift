@@ -295,7 +295,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldSetPlayerScoreEditorPopoverPlayerAndDelegateToViewModel() {
+    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldSetPlayerScoreEditorPopoverScoreChangePlayerAndDelegateToViewModel() {
         // given
         let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         let viewModelMock = ScoreboardViewModelMock()
@@ -311,7 +311,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         let playerScoreEditorVC = sut.viewControllerPresented as? ScoreboardPlayerEditScorePopoverViewController
-        XCTAssertEqual(playerScoreEditorVC?.player, player)
+        XCTAssertEqual(playerScoreEditorVC?.scoreChange?.player, player)
         XCTAssertTrue(playerScoreEditorVC?.delegate is ScoreboardViewModelMock)
     }
     

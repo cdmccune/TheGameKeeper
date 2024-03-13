@@ -95,20 +95,72 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.subtractButton.isEnabled)
     }
     
-    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalled_ShouldSetLabelTextToPlayerName() {
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalled_ShouldSetLabelTextToScoreChangePlayerName() {
         // given
         let sut = viewController!
         sut.loadView()
         
         let playerName = UUID().uuidString
         let player = Player(name: playerName, position: 0)
-        sut.player = player
+        let scoreChange = ScoreChange(player: player, scoreChange: 0)
+        sut.scoreChange = scoreChange
         
         // when
         sut.viewDidLoad()
         
         // then
         XCTAssertEqual(sut.playerLabel.text, playerName)
+    }
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalledScorePositive_ShouldSetTextFieldTextToScoreChangeScoreChange() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let player = Player.getBasicPlayer()
+        let scoreChangeInt = Int.random(in: 1...100)
+        let scoreChange = ScoreChange(player: player, scoreChange: scoreChangeInt)
+        sut.scoreChange = scoreChange
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.pointsTextField.text, String(scoreChangeInt))
+    }
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalledScoreZero_ShouldSetTextFieldTextToBlank() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let player = Player.getBasicPlayer()
+        let scoreChangeInt = 0
+        let scoreChange = ScoreChange(player: player, scoreChange: scoreChangeInt)
+        sut.scoreChange = scoreChange
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.pointsTextField.text, "")
+    }
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenViewDidLoadCalledScoreNegative_ShouldSetTextFieldTextToPositiveScoreChangeScoreChange() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let player = Player.getBasicPlayer()
+        let scoreChangeInt = Int.random(in: (-1000)...(-1))
+        let scoreChange = ScoreChange(player: player, scoreChange: scoreChangeInt)
+        sut.scoreChange = scoreChange
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.pointsTextField.text, "\(scoreChangeInt * -1)")
     }
     
     
@@ -192,6 +244,26 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
     
     // MARK: AddButtonTapped
     
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenAddButtonTapped_ShouldReturnScoreChangeThatIsProperty() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
+        sut.scoreChange = scoreChange
+        
+        sut.pointsTextField.text = "1"
+        
+        let delegateMock = ScoreboardPlayerEditScorePopoverDelegateMock()
+        sut.delegate = delegateMock
+        
+        // when
+        sut.addButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegateMock.editScoreChangeObject, scoreChange)
+    }
+    
     func test_ScoreboardPlayerEditScorePopoverViewController_WhenAddButtonTapped_ShouldCallDelegateEditWithPositiveTextFieldTextAndPlayer() {
         // given
         let sut = viewController!
@@ -205,7 +277,7 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         sut.delegate = delegateMock
         
         let player = Player(name: UUID().uuidString, position: 0)
-        sut.player = player
+        sut.scoreChange = ScoreChange.init(player: player, scoreChange: 0)
         
         // when
         sut.addButtonTapped(0)
@@ -231,7 +303,7 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         textFieldMock.text = "3"
         sut.pointsTextField = textFieldMock
         
-        sut.player = Player(name: "", position: 0)
+        sut.scoreChange = ScoreChange.getBlankScoreChange()
         
         // when
         sut.addButtonTapped(0)
@@ -242,6 +314,26 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
     
     
     // MARK: SubtractButtonTapped
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenSubtractButtonTapped_ShouldReturnScoreChangeThatIsProperty() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
+        sut.scoreChange = scoreChange
+        
+        sut.pointsTextField.text = "1"
+        
+        let delegateMock = ScoreboardPlayerEditScorePopoverDelegateMock()
+        sut.delegate = delegateMock
+        
+        // when
+        sut.subtractButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegateMock.editScoreChangeObject, scoreChange)
+    }
     
     func test_ScoreboardPlayerEditScorePopoverViewController_WhenSubtractButtonTapped_ShouldCallDelegateEditWithNegativeTextFieldTextAndPlayer() {
         // given
@@ -256,7 +348,7 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         sut.delegate = delegateMock
         
         let player = Player(name: UUID().uuidString, position: 0)
-        sut.player = player
+        sut.scoreChange = ScoreChange.init(player: player, scoreChange: 0)
         
         // when
         sut.subtractButtonTapped(0)
@@ -282,7 +374,7 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         textFieldMock.text = "3"
         sut.pointsTextField = textFieldMock
         
-        sut.player = Player(name: "", position: 0)
+        sut.scoreChange = ScoreChange.getBlankScoreChange()
         
         // when
         sut.subtractButtonTapped(0)

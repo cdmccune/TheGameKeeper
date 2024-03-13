@@ -11,7 +11,6 @@ import XCTest
 final class GameHistoryEndRoundTableViewCellViewModelTests: XCTestCase {
 
 
-
 }
 
 class GameHistoryEndRoundTableViewCellViewModelMock: GameHistoryEndRoundTableViewCellViewModelProtocol {

@@ -13,8 +13,6 @@ protocol ScoreboardPlayerEditScorePopoverDelegate: AnyObject {
 
 class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
     
-    #warning("Need to edit popover to use scoreChangeObject instead of player and put score change value on text field. Also to send back object to delegate instead of making one. Also build functionality for GameHistoryViewModel to handle values being sent back. Also ")
-    
     // MARK: - Outlets
     
     @IBOutlet weak var playerLabel: UILabel!
@@ -26,7 +24,6 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
     
     // MARK: - Properties
     
-    var player: Player?
     var scoreChange: ScoreChange?
     weak var delegate: ScoreboardPlayerEditScorePopoverDelegate?
     
@@ -62,29 +59,37 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
     }
     
     private func setupViews() {
-        playerLabel.text = player?.name
+        playerLabel.text = scoreChange?.player.name
+        
+        if let scoreChange = scoreChange?.scoreChange,
+           scoreChange != 0 {
+            pointsTextField.text = String(abs(scoreChange))
+        } else {
+            pointsTextField.text = ""
+        }
+        
     }
     
     // MARK: - IBActions
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        guard let player,
+        guard var scoreChange,
               let pointsText = pointsTextField.text,
               let pointsInt = Int(pointsText),
               pointsInt > 0 else { return }
         
-        let scoreChange = ScoreChange(player: player, scoreChange: pointsInt)
+        scoreChange.scoreChange = pointsInt
         delegate?.editScore(scoreChange)
         self.dismiss(animated: true)
     }
     
     @IBAction func subtractButtonTapped(_ sender: Any) {
-        guard let player,
+        guard var scoreChange,
               let pointsText = pointsTextField.text,
               let pointsInt = Int(pointsText),
               pointsInt > 0 else { return }
         
-        let scoreChange = ScoreChange(player: player, scoreChange: -1 * pointsInt)
+        scoreChange.scoreChange = -1 * pointsInt
         delegate?.editScore(scoreChange)
         self.dismiss(animated: true)
     }

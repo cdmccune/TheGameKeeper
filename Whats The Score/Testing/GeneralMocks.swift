@@ -60,6 +60,15 @@ class UITableViewReloadDataMock: UITableView {
     }
 }
 
+class UITableViewReloadRowsMock: UITableView {
+    var reloadRowsCalledCount = 0
+    var reloadRowsIndexPathArray: [IndexPath]?
+    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
+        reloadRowsCalledCount += 1
+        reloadRowsIndexPathArray = indexPaths
+    }
+}
+
 class UIViewSafeAreaLayoutFrameMock: UIView {
     init(safeAreaFrame: CGRect) {
         self.privateSafeAreaFrame = safeAreaFrame

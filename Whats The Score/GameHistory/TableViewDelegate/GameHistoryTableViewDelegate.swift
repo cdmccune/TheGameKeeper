@@ -43,7 +43,7 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
             cell.setupViewProperties(for: scoreChange)
             
             return cell
-        case .endRound(let roundNumber, let scoreChanges):
+        case .endRound(_ , let roundNumber, let scoreChanges):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryEndRoundTableViewCell") as? GameHistoryEndRoundTableViewCell else {
                 fatalError("GameHistoryEndRoundTableViewCell not registered")
             }
@@ -65,7 +65,7 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
             
         case .scoreChange(_):
             return scoreChangeCellHeight
-        case .endRound(_, let scoreChanges):
+        case .endRound(_, _, let scoreChanges):
             return CGFloat(44 + (44*scoreChanges.count) - (scoreChanges.isEmpty ? 0 : 1))
         }
     }

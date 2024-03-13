@@ -26,6 +26,7 @@ protocol GameProtocol {
     mutating func editScore(scoreChange: ScoreChange)
     mutating func endRound(withChanges changeDictionary: [Player: Int])
     mutating func resetGame()
+    mutating func editScoreChange(_ scoreChange: ScoreChange)
     
     func isEqualTo(game: GameProtocol) -> Bool
     func isEndOfGame() -> Bool
@@ -140,7 +141,7 @@ struct Game: GameProtocol {
         }
         
         scoreChanges.sort { $0.player.position < $1.player.position }
-        let historySegment = GameHistorySegment.endRound(currentRound, scoreChanges)
+        let historySegment = GameHistorySegment.endRound(UUID(), currentRound, scoreChanges)
         historySegments.append(historySegment)
         
         currentRound += 1
@@ -154,6 +155,22 @@ struct Game: GameProtocol {
         currentRound = 1
         
         historySegments = []
+    }
+    
+    mutating func editScoreChange(_ scoreChange: ScoreChange) {
+        let gameHistorySegment = GameHistorySegment.scoreChange(scoreChange)
+        
+        if let playerIndex = players.firstIndex(of: scoreChange.player),
+        let scoreChangeIndex = historySegments.firstIndex(of: gameHistorySegment),
+        case .scoreChange(let scoreChangeOriginal) = historySegments[scoreChangeIndex] {
+            
+            historySegments[scoreChangeIndex] = .scoreChange(scoreChange)
+            
+            players[playerIndex].score += scoreChange.scoreChange
+            players[playerIndex].score -= scoreChangeOriginal.scoreChange
+        }
+        
+        
     }
     
     // MARK: - Non-Mutating Functions

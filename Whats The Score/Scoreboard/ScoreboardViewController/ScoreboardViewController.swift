@@ -121,7 +121,7 @@ class ScoreboardViewController: UIViewController {
         guard let editPlayerScoreVC = storyboard.instantiateViewController(withIdentifier: "ScoreboardPlayerEditScorePopoverViewController") as? ScoreboardPlayerEditScorePopoverViewController else { fatalError("ScoreboardPlayerEditScorePopoverViewController not instantiated")}
         
         
-        editPlayerScoreVC.player = player
+        editPlayerScoreVC.scoreChange = ScoreChange(player: player, scoreChange: 0)
         editPlayerScoreVC.delegate = viewModel!
         
         defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerScoreVC, withWidth: 300, andHeight: 200, tapToExit: true)
