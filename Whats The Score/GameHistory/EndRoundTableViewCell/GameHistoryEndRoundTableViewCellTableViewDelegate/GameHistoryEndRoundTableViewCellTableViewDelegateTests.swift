@@ -79,11 +79,12 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         XCTAssertTrue(cell is GameHistoryScoreChangeTableViewCell)
     }
     
-    func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCell() {
+    func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCellWithScoreChangeAndIsInRoundEndTrue() {
         // given
         let (sut, tableView) = getSutAndTableView()
         let player = Player.getBasicPlayer()
-        let scoreChange = ScoreChange(player: player, scoreChange: 0)
+        let scoreChangeInt = Int.random(in: 1...1000)
+        let scoreChange = ScoreChange(player: player, scoreChange: scoreChangeInt)
         
         sut.viewModel.scoreChanges = [scoreChange]
         
@@ -93,6 +94,8 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player, player)
+        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.scoreChange, scoreChangeInt)
+        XCTAssertTrue(cell?.setupPropertiesForIsInRoundEndBool ?? false)
     }
     
     

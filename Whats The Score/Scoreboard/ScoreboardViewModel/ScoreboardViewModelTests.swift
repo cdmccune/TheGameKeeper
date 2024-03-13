@@ -138,32 +138,36 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - EditPlayerScoreAt
     
-    func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalledInRange_ShouldUpdatePlayerScoreToNewValue() {
+    func test_ScoreboardViewModel_WhenEditScoreCalledPlayerInGame_ShouldCallGameEditScoreWithPlayerAndChange() {
         // given
-        let sut = getViewModelWithBasicGame()
-        let startingScore = Int.random(in: 0...10)
-        sut.game.players = [Player(name: "", position: 0, score: startingScore)]
+        let player = Player.getBasicPlayer()
         
-        let scoreToAdd = Int.random(in: -10...10)
+        let game = GameMock(players: [player])
+        let sut = ScoreboardViewModel(game: game)
+        
+        let scoreChange = Int.random(in: 1...1000)
         
         // when
-        sut.editPlayerScoreAt(0, byAdding: scoreToAdd)
+        sut.editScore(for: player, by: scoreChange)
         
         // then
-        XCTAssertEqual(sut.game.players.first?.score, startingScore + scoreToAdd)
+        XCTAssertEqual(game.editScoreForPlayer, player)
+        XCTAssertEqual(game.editScoreForChange, scoreChange)
+        XCTAssertEqual(game.editScoreForCalledCount, 1)
     }
     
-    func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalledInRange_ShouldCallBindViewToViewModel() {
+    func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalledPlayerInGame_ShouldCallBindViewToViewModel() {
         // given
         let sut = getViewModelWithBasicGame()
-        sut.game.players = [Player(name: "", position: 0)]
+        let player = Player.getBasicPlayer()
+        sut.game.players = [player]
         let viewModelViewDelegate = ScoreboardViewModelViewProtocolMock()
         sut.delegate = viewModelViewDelegate
         
         let previousBindCount = viewModelViewDelegate.bindViewToViewModelCalledCount
         
         // when
-        sut.editPlayerScoreAt(0, byAdding: 0)
+        sut.editScore(for: player, by: 0)
         
         // then
         XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
@@ -173,10 +177,12 @@ final class ScoreboardViewModelTests: XCTestCase {
         // given
         let game = GameIsEndOfGameMock()
         let sut = ScoreboardViewModel(game: game)
-        sut.game.players = [Player(name: "", position: 0)]
+        
+        let player = Player.getBasicPlayer()
+        sut.game.players = [player]
         
         // when
-        sut.editPlayerScoreAt(0, byAdding: 0)
+        sut.editScore(for: player, by: 0)
         
         // then
         XCTAssertEqual(game.isEndOfGameCalledCount, 1)
@@ -233,53 +239,6 @@ final class ScoreboardViewModelTests: XCTestCase {
         
         // when
         sut.endRound(withChanges: [:])
-    }
-    
-    
-    // MARK: - EditScore
-    
-    func test_ScoreboardViewModel_WhenEditCalledWithPlayerNotInGame_ShouldNotChangePlayers() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let players = [Player(name: UUID().uuidString, position: 0)]
-        sut.game.players = players
-        
-        let editPlayer = Player(name: "", position: 0)
-        
-        // when
-        sut.editScore(for: editPlayer, by: 1)
-        
-        // then
-        XCTAssertEqual(players, sut.game.players)
-    }
-    
-    func test_ScoreboardViewModel_WhenEditCalledWithPlayerInGame_ShouldCallEditPlayerScoreAtWithIndexAndChange() {
-        
-        class ScoreboardViewModelEditPlayerScoreAtMock: ScoreboardViewModel {
-            var editPlayerScoreAtCalledCount = 0
-            override func editPlayerScoreAt(_ index: Int, byAdding change: Int) {
-                editPlayerScoreAtCalledCount += 1
-            }
-        }
-        
-        // given
-        let sut = ScoreboardViewModelEditPlayerScoreAtMock(game: Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0))
-        
-        let player1 = Player(name: "", position: 0)
-        let player2 = Player(name: UUID().uuidString, position: 0)
-        let player3 = Player(name: "", position: 0)
-        let players = [player1, player2, player3]
-        sut.game.players = players
-        
-        let scoreChange = Int.random(in: -10...10)
-        
-        let playerToEdit = Int.random(in: 0...2)
-        
-        // when
-        sut.editScore(for: players[playerToEdit], by: scoreChange)
-        
-        // then
-        XCTAssertEqual(sut.editPlayerScoreAtCalledCount, 1)
     }
     
     
@@ -440,38 +399,21 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - EndRound
     
-    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldAddTheScoresToThePlayers() {
+    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallGameEndRoundWithScoreChangeDictionary() {
         // given
-        let sut = getViewModelWithBasicGame()
+        let gameMock = GameMock()
+        let sut = ScoreboardViewModel(game: gameMock)
         
-        let startingScore = Int.random(in: 1...100)
-        let players = Array(0...9).map { index in Player(name: "", position: index, score: startingScore) }
-        sut.game.players = players
-        
-        var dictionaryToSend: [Player: Int] = [:]
-        players.forEach { dictionaryToSend[$0] = Int.random(in: 1...1000) }
+        let player = Player.getBasicPlayer()
+        let scoreChange = Int.random(in: 1...1000)
+        let scoreChangeDictionary = [player: scoreChange]
         
         // when
-        sut.endRound(withChanges: dictionaryToSend)
+        sut.endRound(withChanges: scoreChangeDictionary)
         
         // then
-        
-        sut.game.players.forEach { player in
-            XCTAssertEqual(player.score, (dictionaryToSend[player] ?? 0) + startingScore)
-        }
-    }
-    
-    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldIncrementGameCurrentRound() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let currentRound = Int.random(in: 0...5)
-        sut.game.currentRound = currentRound
-        
-        // when
-        sut.endRound(withChanges: [:])
-        
-        // then
-        XCTAssertEqual(sut.game.currentRound, currentRound + 1)
+        XCTAssertEqual(gameMock.endRoundChangeDictionary, scoreChangeDictionary)
+        XCTAssertEqual(gameMock.endRoundCalledCount, 1)
     }
     
     func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallBindViewToViewModel() {
@@ -483,7 +425,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         
         let bindViewToViewModelCalledCount = viewDelegate.bindViewToViewModelCalledCount
         
-        // when
+        // when3
         sut.endRound(withChanges: [:])
         
         // then
@@ -579,31 +521,16 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - ResetGame
     
-    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldSetAllPlayersScoresToZero() {
+    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldCallGameResetGame() {
         // given
-        let sut = getViewModelWithBasicGame()
-        let players = Array(repeating: Player(name: "", position: 0, score: Int.random(in: 1...10)), count: 5)
-        sut.game.players = players
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
         
         // when
         sut.resetGame()
         
         // then
-        sut.game.players.forEach { player in
-            XCTAssertEqual(player.score, 0)
-        }
-    }
-    
-    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldSetTheCurrentRoundTo1() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        sut.game.currentRound = 5
-        
-        // when
-        sut.resetGame()
-        
-        // then
-        XCTAssertEqual(sut.game.currentRound, 1)
+        XCTAssertEqual(game.resetGameCalledCount, 1)
     }
     
     func test_ScoreboardViewModel_WhenResetGameCalled_ShouldCallBindViewToViewModel() {
@@ -926,13 +853,13 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
         startEditingPlayerScoreAtCalledCount += 1
     }
     
-    var editPlayerScoreAtCalledCount = 0
-    var editPlayerScoreAtIndex: Int?
-    var editPlayerScoreAtChange: Int?
-    func editPlayerScoreAt(_ index: Int, byAdding change: Int) {
-        editPlayerScoreAtCalledCount += 1
-        editPlayerScoreAtIndex = index
-        editPlayerScoreAtChange = change
+    var editScoreCalledCount = 0
+    var editScorePlayer: Player?
+    var editScoreChange: Int?
+    func editScore(for player: Player, by change: Int) {
+        editScoreCalledCount += 1
+        editScorePlayer = player
+        editScoreChange = change
     }
     
     var addPlayerCalledCount = 0
@@ -976,7 +903,6 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
         openingGameOverCheckCalledCount += 1
     }
     
-    func editScore(for player: Player, by change: Int) {}
     func finishedEditing(_ player: Player) {}
     func endRound(withChanges changeDictionary: [Whats_The_Score.Player: Int]) {}
     func goToEndGameScreen() {}

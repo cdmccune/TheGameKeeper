@@ -40,7 +40,7 @@ class GameHistoryEndRoundTableViewCellTableViewDelegate: NSObject, UITableViewDe
         }
         
         let scoreChange = viewModel.scoreChanges[indexPath.row]
-        cell.setupViewProperties(for: scoreChange)
+        cell.setupViewProperties(for: scoreChange, isInRoundEnd: true)
         
         return cell
     }

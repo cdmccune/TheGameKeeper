@@ -17,7 +17,7 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     
-    func setupViewProperties(for scoreChange: ScoreChange) {
+    func setupViewProperties(for scoreChange: ScoreChange, isInRoundEnd: Bool = false) {
         playerNameLabel.text = scoreChange.player.name
         scoreChangeLabel.text = String(scoreChange.scoreChange)
         
@@ -28,6 +28,12 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
             scoreChangeLabel.textColor = .label
         default: // Greater than zero
             scoreChangeLabel.textColor = .systemBlue
+        }
+        
+        if isInRoundEnd {
+            contentView.backgroundColor = .systemBlue.withAlphaComponent(0.3)
+        } else {
+            contentView.backgroundColor = nil
         }
     }
 }

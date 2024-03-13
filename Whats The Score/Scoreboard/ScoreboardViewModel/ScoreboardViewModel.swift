@@ -21,7 +21,7 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     
     func startEditingPlayerAt(_ index: Int)
     func startEditingPlayerScoreAt(_ index: Int)
-    func editPlayerScoreAt(_ index: Int, byAdding: Int)
+    func editScore(for player: Player, by change: Int)
     func startDeletingPlayerAt(_ index: Int)
     func deletePlayer(_ player: Player)
     func addPlayer()
@@ -91,10 +91,11 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         self.playerToEdit.value = player
     }
     
-    func editPlayerScoreAt(_ index: Int, byAdding change: Int) {
-        guard game.players.indices.contains(index) else { return }
+    func editScore(for player: Player, by change: Int) {
+        guard game.players.contains(player) else { return }
         
-        game.players[index].score += change
+        game.editScoreFor(player, byChange: change)
+        
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
         if game.isEndOfGame() {
@@ -122,12 +123,8 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func endRound(withChanges changeDictionary: [Player: Int]) {
-        changeDictionary.forEach { (player, scoreChange) in
-            if let index = game.players.firstIndex(of: player) {
-                game.players[index].score += scoreChange
-            }
-        }
-        game.currentRound += 1
+        game.endRound(withChanges: changeDictionary)
+        
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
         if game.isEndOfGame() {
@@ -142,8 +139,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func resetGame() {
-        game.players.indices.forEach { game.players[$0].score = 0 }
-        game.currentRound = 1
+        game.resetGame()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
@@ -156,13 +152,6 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
 }
 
-extension ScoreboardViewModel: ScoreboardPlayerEditScorePopoverDelegate {
-    func editScore(for player: Player, by change: Int) {
-        guard let index = game.players.firstIndex(of: player) else { return }
-        
-        editPlayerScoreAt(index, byAdding: change)
-    }
-}
 
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
     func finishedEditing(_ player: Player) {

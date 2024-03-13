@@ -461,6 +461,54 @@ final class GameTests: XCTestCase {
         XCTAssertTrue(isEndOfGame)
     }
     
+    
+    // MARK: - ResetGame
+    
+    func test_Game_WhenResetGameCalled_ShouldSetPlayersScoresToZero() {
+        // given
+        var player1 = Player.getBasicPlayer()
+        var player2 = Player.getBasicPlayer()
+        
+        player1.score = Int.random(in: 1...100)
+        player2.score = Int.random(in: 1...100)
+        
+        var sut = Game(basicGameWithPlayers: [player1, player2])
+        sut.currentRound = 5
+        sut.historySegments.append(.scoreChange(ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)))
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertEqual(sut.players[0].score, 0)
+        XCTAssertEqual(sut.players[1].score, 0)
+    }
+    
+    func test_Game_WhenResetGameCalled_ShouldSetCurrentRoundTo1() {
+        // given
+        var sut = Game(basicGameWithPlayers: [])
+        sut.currentRound = 5
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertEqual(sut.currentRound, 1)
+    }
+    
+    func test_Game_WhenResetGameCalled_ShouldWipeGameHistory() {
+        // given
+        var sut = Game(basicGameWithPlayers: [])
+        sut.historySegments.append(.scoreChange(ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)))
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertTrue(sut.historySegments.isEmpty)
+    }
+    
+    
     // MARK: - Classes
 }
 
@@ -523,12 +571,25 @@ class GameMock: GameProtocol {
         deletePlayerAtCalledCount += 1
     }
     
-    func editScoreFor(_ player: Player, byChange: Int) {
-        
+    var editScoreForPlayer: Player?
+    var editScoreForChange: Int?
+    var editScoreForCalledCount = 0
+    func editScoreFor(_ player: Player, byChange change: Int) {
+        editScoreForPlayer = player
+        editScoreForChange = change
+        editScoreForCalledCount += 1
     }
     
-    func endRound(withChanges changeDictionary: [Player : Int]) {
-        
+    var endRoundChangeDictionary: [Player: Int]?
+    var endRoundCalledCount = 0
+    func endRound(withChanges changeDictionary: [Player: Int]) {
+        endRoundChangeDictionary = changeDictionary
+        endRoundCalledCount += 1
+    }
+    
+    var resetGameCalledCount = 0
+    func resetGame() {
+        resetGameCalledCount += 1
     }
     
     func isEqualTo(game: GameProtocol) -> Bool {

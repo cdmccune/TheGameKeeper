@@ -25,6 +25,7 @@ protocol GameProtocol {
     mutating func deletePlayerAt(_ index: Int)
     mutating func editScoreFor(_ player: Player, byChange: Int)
     mutating func endRound(withChanges changeDictionary: [Player: Int])
+    mutating func resetGame()
     
     func isEqualTo(game: GameProtocol) -> Bool
     func isEndOfGame() -> Bool
@@ -144,7 +145,16 @@ struct Game: GameProtocol {
         historySegments.append(historySegment)
         
         currentRound += 1
+    }
+    
+    mutating func resetGame() {
+        for i in 0..<players.count {
+            players[i].score = 0
+        }
         
+        currentRound = 1
+        
+        historySegments = []
     }
     
     // MARK: - Non-Mutating Functions

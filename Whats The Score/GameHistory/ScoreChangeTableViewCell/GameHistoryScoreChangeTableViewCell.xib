@@ -53,12 +53,12 @@
                 <outlet property="playerNameLabel" destination="J2F-9y-46P" id="Txs-RO-XqK"/>
                 <outlet property="scoreChangeLabel" destination="stA-Pb-OC9" id="Itf-Q1-Wje"/>
             </connections>
-            <point key="canvasLocation" x="139" y="21"/>
+            <point key="canvasLocation" x="138.93129770992365" y="20.422535211267608"/>
         </tableViewCell>
     </objects>
     <resources>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
