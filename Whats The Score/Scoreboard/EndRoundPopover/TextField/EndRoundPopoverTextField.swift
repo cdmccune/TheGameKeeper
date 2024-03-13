@@ -34,5 +34,7 @@ class EndRoundPopoverTextField: StackViewTextField {
         if let textInt = Int(self.text ?? "") {
             self.text = String(textInt * -1)
         }
+        
+        self.textFieldDidChange()
     }
 }

@@ -63,5 +63,26 @@ final class EndRoundPopoverTextFieldTests: XCTestCase {
         numberToUseWithoutNegative.removeFirst()
         XCTAssertEqual(numberToUseWithoutNegative, sut.text)
     }
+    
+    func test_EndRoundPopoverTextField_WhenPlusNegativeActionTriggered_ShouldTriggerTextFieldActionForEditingChanged() {
+        
+        class EndRoundPopoverTextFieldTextFieldDidChangeMock: EndRoundPopoverTextField {
+            var textFieldDidChangeCalledCount = 0
+            override func textFieldDidChange() {
+                textFieldDidChangeCalledCount += 1
+            }
+        }
+        
+        // given
+        let delegate = StackViewTextFieldDelegateDelegateMock()
+        let sut = EndRoundPopoverTextFieldTextFieldDidChangeMock(delegate: delegate, isLast: false, index: 0)
+        
+        // when
+        let toolbar = sut.inputAccessoryView as? UIToolbar
+        sut.sendAction(toolbar!.items![1].action!, to: sut, for: nil)
+        
+        // then
+        XCTAssertEqual(sut.textFieldDidChangeCalledCount, 1)
+    }
 
 }

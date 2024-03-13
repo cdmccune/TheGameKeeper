@@ -26,7 +26,7 @@ class StackViewTextField: UITextField {
         self.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
-    @objc private func textFieldDidChange() {
+    @objc func textFieldDidChange() {
         actionDelegate?.textFieldValueChanged(forIndex: index, to: self.text ?? "")
     }
     
