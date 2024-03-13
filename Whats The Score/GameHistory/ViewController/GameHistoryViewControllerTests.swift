@@ -28,6 +28,23 @@ final class GameHistoryViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - Helper Functions
+    
+    func getPresentMockWithRightViewsPresent() -> GameHistoryViewControllerPresentMock {
+        let viewController = GameHistoryViewControllerPresentMock()
+        
+        let tableView = UITableView()
+        viewController.tableView = tableView
+        
+        let view = UIView()
+        viewController.view = view
+        
+        views = [tableView, view]
+        
+        return viewController
+    }
+    
+    
     // MARK: - Initialization
     
     func test_GameHistoryViewController_WhenViewLoaded_ShouldHaveNonNilOutlets() {
@@ -39,6 +56,16 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         // then
         XCTAssertNotNil(sut.tableView)
+    }
+    
+    func test_GameHistoryViewController_WhendefaultPopoverPresenterLoaded_ShouldBeDefaultPopoverPresenterClass() {
+        // given
+        // when
+        let sut = viewController!
+        
+        
+        // then
+        XCTAssertTrue(sut.defaultPopoverPresenter is DefaultPopoverPresenter)
     }
     
     
@@ -93,5 +120,121 @@ final class GameHistoryViewControllerTests: XCTestCase {
         XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(scoreChangeIdentifierNibName))
         XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(endRoundIdentifierNibName))
         XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(errorIdentifierNibName))
+    }
+    
+    func test_GameHistoryViewController_WhenViewDidLoadCalled_ShouldCallSetBindings() {
+        
+        class GameHistoryViewControllerSetBindingsMock: GameHistoryViewController {
+            var setBindingsCalledCount = 0
+            override func setBindings() {
+                setBindingsCalledCount += 1
+            }
+        }
+        
+        
+        // given
+        let sut = GameHistoryViewControllerSetBindingsMock()
+        sut.viewModel = GameHistoryViewModelMock()
+        let tableView = UITableView()
+        sut.tableView = tableView
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.setBindingsCalledCount, 1)
+    }
+    
+    
+    // MARK: - SetBindings
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelScoreChangeToEditChangeSetNil_ShouldNotPresentAnything() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.setBindings()
+        viewModelMock.scoreChangeToEdit.value = nil
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 0)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelScoreChangeToEditChangeSetNotNil_ShouldPresentEditPlayerScorePopover() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
+        
+        // when
+        sut.setBindings()
+        viewModelMock.scoreChangeToEdit.value = scoreChange
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertTrue(sut.presentViewController is ScoreboardPlayerEditScorePopoverViewController)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelScoreChangeToEditChangeSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
+        
+        // given
+        let sut = viewController!
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
+        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
+        
+        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
+        
+        // when
+        sut.loadView()
+        sut.setBindings()
+        viewModelMock.scoreChangeToEdit.value = scoreChange
+        
+        // then
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 200)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is ScoreboardPlayerEditScorePopoverViewController)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelScoreChangeToEditChangeSetNotNil_ShouldSetViewModelAsDelegateAndScoreChange() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
+        
+        // when
+        sut.setBindings()
+        viewModelMock.scoreChangeToEdit.value = scoreChange
+        
+        // then
+        let editPlayerVC = sut.presentViewController as? ScoreboardPlayerEditScorePopoverViewController
+        XCTAssertTrue(editPlayerVC?.delegate === viewModelMock)
+        XCTAssertEqual(editPlayerVC?.scoreChange, scoreChange)
+    }
+
+    
+    // MARK: - Classes
+    
+    class GameHistoryViewControllerPresentMock: GameHistoryViewController {
+        var presentViewController: UIViewController?
+        var presentCalledCount = 0
+        override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+            presentViewController = viewControllerToPresent
+            presentCalledCount += 1
+        }
     }
 }

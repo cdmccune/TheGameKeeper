@@ -238,7 +238,7 @@ final class GameTests: XCTestCase {
     func test_Game_WhenIsEqualToCalledDifferentIDs_ShouldReturnFalse() {
         // given
         let sut = Game(basicGameWithPlayers: [])
-        var secondGame = GameMock()
+        let secondGame = GameMock()
         secondGame.id = UUID()
         
         // when
@@ -251,7 +251,7 @@ final class GameTests: XCTestCase {
     func test_Game_WhenIsEqualToCalledSameIDs_ShouldReturnTrue() {
         // given
         let sut = Game(basicGameWithPlayers: [])
-        var secondGame = GameMock()
+        let secondGame = GameMock()
         secondGame.id = sut.id
         
         // when
@@ -271,8 +271,10 @@ final class GameTests: XCTestCase {
         
         let pointsChange = Int.random(in: (-1000...1000))
         
+        let scoreChangeObject = ScoreChange(player: player, scoreChange: pointsChange)
+        
         // when
-        sut.editScoreFor(player, byChange: pointsChange)
+        sut.editScore(scoreChange: scoreChangeObject)
         
         // then
         XCTAssertEqual(sut.players.first?.score, pointsChange)
@@ -285,8 +287,10 @@ final class GameTests: XCTestCase {
         
         let pointChange = Int.random(in: (-1000...1000))
         
+        let scoreChangeObject = ScoreChange(player: player, scoreChange: pointChange)
+        
         // when
-        sut.editScoreFor(player, byChange: pointChange)
+        sut.editScore(scoreChange: scoreChangeObject)
         
         // then
         guard case .scoreChange(let scoreChange) = sut.historySegments.first else {
@@ -571,12 +575,14 @@ class GameMock: GameProtocol {
         deletePlayerAtCalledCount += 1
     }
     
+    var editScoreScoreChange: ScoreChange?
     var editScoreForPlayer: Player?
     var editScoreForChange: Int?
     var editScoreForCalledCount = 0
-    func editScoreFor(_ player: Player, byChange change: Int) {
-        editScoreForPlayer = player
-        editScoreForChange = change
+    func editScore(scoreChange: ScoreChange) {
+        editScoreForPlayer = scoreChange.player
+        editScoreForChange = scoreChange.scoreChange
+        editScoreScoreChange = scoreChange
         editScoreForCalledCount += 1
     }
     

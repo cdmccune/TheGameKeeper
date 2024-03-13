@@ -23,7 +23,7 @@ protocol GameProtocol {
     mutating func addPlayer()
     mutating func randomizePlayers()
     mutating func deletePlayerAt(_ index: Int)
-    mutating func editScoreFor(_ player: Player, byChange: Int)
+    mutating func editScore(scoreChange: ScoreChange)
     mutating func endRound(withChanges changeDictionary: [Player: Int])
     mutating func resetGame()
     
@@ -117,11 +117,10 @@ struct Game: GameProtocol {
         players.setPositions()
     }
     
-    mutating func editScoreFor(_ player: Player, byChange change: Int) {
-        guard let index = players.firstIndex(of: player) else { return }
+    mutating func editScore(scoreChange: ScoreChange) {
+        guard let index = players.firstIndex(of: scoreChange.player) else { return }
         
-        players[index].score += change
-        let scoreChange = ScoreChange(player: players[index], scoreChange: change)
+        players[index].score += scoreChange.scoreChange
         let historySegment = GameHistorySegment.scoreChange(scoreChange)
         
         historySegments.append(historySegment)

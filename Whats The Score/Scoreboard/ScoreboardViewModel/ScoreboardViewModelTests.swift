@@ -146,9 +146,10 @@ final class ScoreboardViewModelTests: XCTestCase {
         let sut = ScoreboardViewModel(game: game)
         
         let scoreChange = Int.random(in: 1...1000)
+        let scoreChangeObject = ScoreChange(player: player, scoreChange: scoreChange)
         
         // when
-        sut.editScore(for: player, by: scoreChange)
+        sut.editScore(scoreChangeObject)
         
         // then
         XCTAssertEqual(game.editScoreForPlayer, player)
@@ -166,8 +167,10 @@ final class ScoreboardViewModelTests: XCTestCase {
         
         let previousBindCount = viewModelViewDelegate.bindViewToViewModelCalledCount
         
+        let scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
+        
         // when
-        sut.editScore(for: player, by: 0)
+        sut.editScore(scoreChangeObject)
         
         // then
         XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
@@ -181,8 +184,10 @@ final class ScoreboardViewModelTests: XCTestCase {
         let player = Player.getBasicPlayer()
         sut.game.players = [player]
         
+        let scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
+        
         // when
-        sut.editScore(for: player, by: 0)
+        sut.editScore(scoreChangeObject)
         
         // then
         XCTAssertEqual(game.isEndOfGameCalledCount, 1)
@@ -856,10 +861,10 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     var editScoreCalledCount = 0
     var editScorePlayer: Player?
     var editScoreChange: Int?
-    func editScore(for player: Player, by change: Int) {
+    func editScore(_ scoreChange: ScoreChange) {
         editScoreCalledCount += 1
-        editScorePlayer = player
-        editScoreChange = change
+        editScorePlayer = scoreChange.player
+        editScoreChange = scoreChange.scoreChange
     }
     
     var addPlayerCalledCount = 0

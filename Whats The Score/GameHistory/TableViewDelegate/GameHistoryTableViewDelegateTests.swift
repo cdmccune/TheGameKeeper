@@ -155,5 +155,22 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         let expectedHeight = CGFloat(44 + (44*scoreChangeCount) - (scoreChangeCount > 0 ? 1 : 0))
         XCTAssertEqual(height, expectedHeight)
     }
+    
+    
+    // MARK: - DidSelect
+    
+    func test_GameHistoryTableViewDelegate_WhenDidSelectRowAt_ShouldCallViewModelDidSelectRow() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let rowIndex = Int.random(in: 1...1000)
+        
+        // when
+        sut.tableView(tableView, didSelectRowAt: IndexPath(row: rowIndex, section: 0))
+        
+        // then
+        let viewModel = sut.viewModel as? GameHistoryViewModelMock
+        XCTAssertEqual(viewModel?.didSelectRowCalledCount, 1)
+        XCTAssertEqual(viewModel?.didSelectRowRow, rowIndex)
+    }
 
 }

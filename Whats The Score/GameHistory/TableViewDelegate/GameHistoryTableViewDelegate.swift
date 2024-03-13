@@ -69,4 +69,8 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
             return CGFloat(44 + (44*scoreChanges.count) - (scoreChanges.isEmpty ? 0 : 1))
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectRow(indexPath.row)
+    }
 }

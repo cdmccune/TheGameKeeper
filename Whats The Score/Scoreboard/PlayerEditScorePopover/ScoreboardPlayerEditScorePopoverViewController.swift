@@ -8,10 +8,12 @@
 import UIKit
 
 protocol ScoreboardPlayerEditScorePopoverDelegate: AnyObject {
-    func editScore(for player: Player, by change: Int)
+    func editScore(_ scoreChange: ScoreChange)
 }
 
 class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
+    
+    #warning("Need to edit popover to use scoreChangeObject instead of player and put score change value on text field. Also to send back object to delegate instead of making one. Also build functionality for GameHistoryViewModel to handle values being sent back. Also ")
     
     // MARK: - Outlets
     
@@ -25,6 +27,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
     // MARK: - Properties
     
     var player: Player?
+    var scoreChange: ScoreChange?
     weak var delegate: ScoreboardPlayerEditScorePopoverDelegate?
     
     
@@ -70,7 +73,8 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
               let pointsInt = Int(pointsText),
               pointsInt > 0 else { return }
         
-        delegate?.editScore(for: player, by: pointsInt)
+        let scoreChange = ScoreChange(player: player, scoreChange: pointsInt)
+        delegate?.editScore(scoreChange)
         self.dismiss(animated: true)
     }
     
@@ -80,7 +84,8 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
               let pointsInt = Int(pointsText),
               pointsInt > 0 else { return }
         
-        delegate?.editScore(for: player, by: (-1 * pointsInt))
+        let scoreChange = ScoreChange(player: player, scoreChange: -1 * pointsInt)
+        delegate?.editScore(scoreChange)
         self.dismiss(animated: true)
     }
     

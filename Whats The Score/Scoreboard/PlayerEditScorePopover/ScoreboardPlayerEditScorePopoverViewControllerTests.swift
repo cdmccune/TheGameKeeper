@@ -317,11 +317,13 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
 class ScoreboardPlayerEditScorePopoverDelegateMock: ScoreboardPlayerEditScorePopoverDelegate {
     var editPlayer: Player?
     var editChange: Int?
+    var editScoreChangeObject: ScoreChange?
     var editCalledCount = 0
     
-    func editScore(for player: Whats_The_Score.Player, by change: Int) {
+    func editScore(_ scoreChange: ScoreChange) {
         editCalledCount += 1
-        editPlayer = player
-        editChange = change
+        editPlayer = scoreChange.player
+        editChange = scoreChange.scoreChange
+        editScoreChangeObject = scoreChange
     }
 }

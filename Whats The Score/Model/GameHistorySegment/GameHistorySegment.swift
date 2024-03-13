@@ -17,6 +17,12 @@ struct ScoreChange {
         return ScoreChange(player: Player(name: "", position: 0), scoreChange: 0)
     }
     
+    var id: UUID = UUID()
     var player: Player
     var scoreChange: Int
+}
+
+extension ScoreChange: Equatable {}
+func == (lhs: ScoreChange, rhs: ScoreChange) -> Bool {
+    return lhs.id == rhs.id
 }

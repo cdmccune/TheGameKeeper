@@ -21,7 +21,6 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     
     func startEditingPlayerAt(_ index: Int)
     func startEditingPlayerScoreAt(_ index: Int)
-    func editScore(for player: Player, by change: Int)
     func startDeletingPlayerAt(_ index: Int)
     func deletePlayer(_ player: Player)
     func addPlayer()
@@ -91,10 +90,10 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         self.playerToEdit.value = player
     }
     
-    func editScore(for player: Player, by change: Int) {
-        guard game.players.contains(player) else { return }
+    func editScore(_ scoreChange: ScoreChange) {
+        guard game.players.contains(scoreChange.player) else { return }
         
-        game.editScoreFor(player, byChange: change)
+        game.editScore(scoreChange: scoreChange)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
