@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate, KeepPlayingPopoverDelegate {
+protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate, KeepPlayingPopoverDelegate, GameHistoryViewControllerDelegate {
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var playerToEditScore: Observable<Player> { get set }
@@ -188,6 +188,19 @@ extension ScoreboardViewModel: KeepPlayingPopoverDelegate {
     func setNoEnd() {
         self.game.gameEndType = .none
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
+    }
+}
+
+extension ScoreboardViewModel: GameHistoryViewControllerDelegate {
+    func update(_ game: GameProtocol) {
+        self.game = game
+        self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
+        
+        if game.isEndOfGame() {
+            dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
+                self.endGame()
+            }
+        }
     }
 }
 

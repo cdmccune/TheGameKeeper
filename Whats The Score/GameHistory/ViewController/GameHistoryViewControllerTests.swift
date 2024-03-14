@@ -158,6 +158,38 @@ final class GameHistoryViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - ViewWillDisappear
+    
+    func test_GameHistoryViewController_WhenViewWillDisappearCalled_ShouldCallUpdate() {
+        
+        class GameHistoryViewControllerDelegateMock: GameHistoryViewControllerDelegate {
+            var updateCalledCount = 0
+            var updateGame: GameProtocol?
+            func update(_ game: GameProtocol) {
+                updateCalledCount += 1
+                updateGame = game
+            }
+        }
+        
+        // given
+        let sut = viewController!
+        
+        let game = GameMock()
+        let viewModel = GameHistoryViewModel(game: game)
+        sut.viewModel = viewModel
+        
+        let delegate = GameHistoryViewControllerDelegateMock()
+        sut.delegate = delegate
+        
+        // when
+        sut.viewWillDisappear(true)
+        
+        // then
+        XCTAssertEqual(delegate.updateCalledCount, 1)
+        XCTAssertTrue(delegate.updateGame?.isEqualTo(game: game) ?? false)
+    }
+    
+    
     // MARK: - ScoreChangeToEdit
     
     func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelScoreChangeToEditChangeSetNil_ShouldNotPresentAnything() {

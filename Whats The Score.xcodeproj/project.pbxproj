@@ -71,6 +71,7 @@
 		244A46392B5AD9C60033199F /* ScoreboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244A46382B5AD9C60033199F /* ScoreboardViewModel.swift */; };
 		244A463B2B5AD9CE0033199F /* ScoreboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244A463A2B5AD9CE0033199F /* ScoreboardViewModelTests.swift */; };
 		244A463E2B5AF7920033199F /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244A463D2B5AF7920033199F /* GameTests.swift */; };
+		244A78E82BA39C9D00B48E98 /* GameHistoryViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244A78E72BA39C9D00B48E98 /* GameHistoryViewControllerDelegate.swift */; };
 		244EDF042B602F3F0091F019 /* ProtocolsForTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244EDF032B602F3F0091F019 /* ProtocolsForTests.swift */; };
 		2457FA2B2B7FD45700CF7F40 /* EndRoundPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2457FA2A2B7FD45700CF7F40 /* EndRoundPopoverViewController.swift */; };
 		2457FA2D2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2457FA2C2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift */; };
@@ -202,6 +203,7 @@
 		244A46382B5AD9C60033199F /* ScoreboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModel.swift; sourceTree = "<group>"; };
 		244A463A2B5AD9CE0033199F /* ScoreboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModelTests.swift; sourceTree = "<group>"; };
 		244A463D2B5AF7920033199F /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameTests.swift; path = Player/GameTests.swift; sourceTree = "<group>"; };
+		244A78E72BA39C9D00B48E98 /* GameHistoryViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryViewControllerDelegate.swift; sourceTree = "<group>"; };
 		244EDF032B602F3F0091F019 /* ProtocolsForTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolsForTests.swift; sourceTree = "<group>"; };
 		2457FA2A2B7FD45700CF7F40 /* EndRoundPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundPopoverViewController.swift; sourceTree = "<group>"; };
 		2457FA2C2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundPopoverViewControllerTests.swift; sourceTree = "<group>"; };
@@ -594,6 +596,7 @@
 		24495CE02B9FB3C600E0AB61 /* GameHistory */ = {
 			isa = PBXGroup;
 			children = (
+				244A78E62BA39C8400B48E98 /* Delegate */,
 				24495CEA2B9FBA3000E0AB61 /* ViewModel */,
 				24E1BE392BA0BCCD00B17505 /* ErrorTableViewCell */,
 				24495CF12B9FBAF200E0AB61 /* EndRoundTableViewCell */,
@@ -667,6 +670,14 @@
 				244A463D2B5AF7920033199F /* GameTests.swift */,
 			);
 			name = Game;
+			sourceTree = "<group>";
+		};
+		244A78E62BA39C8400B48E98 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				244A78E72BA39C9D00B48E98 /* GameHistoryViewControllerDelegate.swift */,
+			);
+			path = Delegate;
 			sourceTree = "<group>";
 		};
 		2457FA292B7FD3F200CF7F40 /* EndRoundPopover */ = {
@@ -1191,6 +1202,7 @@
 				24CD52692B61622500C481A8 /* ScoreboardTableViewDelegateDatasource.swift in Sources */,
 				24495CFB2B9FBDBB00E0AB61 /* GameHistoryViewModel.swift in Sources */,
 				24240EDD2B486EB10082CCD3 /* PlayerSetupPositionTableViewCell.swift in Sources */,
+				244A78E82BA39C9D00B48E98 /* GameHistoryViewControllerDelegate.swift in Sources */,
 				243A3DCE2B9B73DF00A84A51 /* EndGamePlayerTableViewDelegate.swift in Sources */,
 				24836D1B2B72DC890038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegate.swift in Sources */,
 				243206BF2B83F5C6000CCE75 /* EndRoundPopoverPlayerStackView.swift in Sources */,

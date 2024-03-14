@@ -18,6 +18,8 @@ class GameHistoryViewController: UIViewController {
     
     private lazy var tableViewDelegate = GameHistoryTableViewDelegate(viewModel: viewModel)
     var viewModel: GameHistoryViewModelProtocol!
+    var delegate: GameHistoryViewControllerDelegate?
+    
     lazy var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper(playerViewHeight: 45, playerSeperatorHeight: 3)
     
@@ -31,6 +33,11 @@ class GameHistoryViewController: UIViewController {
         setBindings()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        delegate?.update(viewModel.game)
+    }
     
     // MARK: - Private Functions
     

@@ -276,6 +276,7 @@ class ScoreboardViewController: UIViewController {
         
         let viewModel = GameHistoryViewModel(game: game)
         gameHistoryViewController.viewModel = viewModel
+        gameHistoryViewController.delegate = self.viewModel
         navigationController?.pushViewController(gameHistoryViewController, animated: true)
     }
     

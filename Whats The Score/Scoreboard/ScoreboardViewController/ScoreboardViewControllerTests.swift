@@ -1194,6 +1194,24 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertTrue(gameHistoryViewController?.viewModel.game.isEqualTo(game: game) ?? false)
     }
     
+    func test_ScoreboardViewController_WhenHistoryButtonTapped_ShouldSetViewModelAsGameHistoryDelegate() {
+        // given
+        let sut = viewController!
+        let navigationController = NavigationControllerPushMock()
+        navigationController.viewControllers = [sut]
+        
+        let game = GameMock()
+        let viewModel = ScoreboardViewModelMock(game: game)
+        sut.viewModel = viewModel
+        
+        // when
+        sut.historyButtonTapped()
+        
+        // then
+        let gameHistoryViewController = navigationController.pushedViewController as? GameHistoryViewController
+        XCTAssertEqual(gameHistoryViewController?.delegate as? ScoreboardViewModelMock, viewModel)
+    }
+    
     
     // MARK: - Bind View To View Model
     

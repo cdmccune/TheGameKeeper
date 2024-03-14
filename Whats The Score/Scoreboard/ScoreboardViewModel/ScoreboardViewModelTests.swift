@@ -811,6 +811,100 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - UpdateGame
+    
+    func test_ScoreboardViewModel_WhenUpdateGameCalled_ShouldSetGameEqualToNewGame() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        let newGame = GameMock()
+        
+        // when
+        sut.update(newGame)
+        
+        // then
+        XCTAssertTrue(sut.game.isEqualTo(game: newGame))
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateGameCalled_ShouldCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.update(GameMock())
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindCount + 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameTrue_ShouldCallEndGameAfterPoint5Seconds() {
+        // given
+        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
+        
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        
+        let expectation = XCTestExpectation(description: "EndGame Should be called after 0.5 seconds")
+        
+        sut.endGameCompletion = {
+            expectation.fulfill()
+        }
+        
+        // when
+        sut.update(game)
+        
+        // then
+        wait(for: [expectation], timeout: 0.6)
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameTrue_ShouldNotCallEndGameBefore5Seconds() {
+        // given
+        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
+        
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        
+        let expectation = XCTestExpectation(description: "EndGame Should not be called before 0.5 seconds")
+        expectation.isInverted = true
+        
+        sut.endGameCompletion = {
+            expectation.fulfill()
+        }
+        
+        // when
+        sut.update(game)
+        
+        // then
+        wait(for: [expectation], timeout: 0.4)
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameFalse_ShouldNotCallEndGame() {
+        // given
+        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
+        
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = false
+        
+        let expectation = XCTestExpectation(description: "EndGame Should not be called")
+        expectation.isInverted = true
+        
+        sut.endGameCompletion = {
+            expectation.fulfill()
+        }
+        
+        // when
+        sut.update(game)
+        
+        // then
+        wait(for: [expectation], timeout: 0.6)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
@@ -913,4 +1007,5 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     func updateNumberOfRounds(to numberOfRounds: Int) {}
     func updateWinningScore(to winningScore: Int) {}
     func setNoEnd() {}
+    func update(_ game: GameProtocol) {}
 }
