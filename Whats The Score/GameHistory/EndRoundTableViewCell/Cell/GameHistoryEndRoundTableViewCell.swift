@@ -39,5 +39,7 @@ class GameHistoryEndRoundTableViewCell: UITableViewCell {
         tableViewDelegate = GameHistoryEndRoundTableViewCellTableViewDelegate(viewModel: viewModel)
         tableView.dataSource = tableViewDelegate
         tableView.delegate = tableViewDelegate
+        
+        tableView.reloadData()
     }
 }

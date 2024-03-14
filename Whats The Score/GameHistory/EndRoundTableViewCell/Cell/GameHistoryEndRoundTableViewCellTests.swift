@@ -108,6 +108,20 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
         let tableViewDelegate = sut.tableView.delegate as? GameHistoryEndRoundTableViewCellTableViewDelegate
         XCTAssertTrue(tableViewDelegate?.viewModel as? GameHistoryEndRoundTableViewCellViewModel === sut.viewModel)
     }
+    
+    func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldCallTableViewREloadData() {
+        // given
+        let sut = tableViewCell!
+        
+        let tableView = UITableViewReloadDataMock()
+        sut.tableView = tableView
+        
+        // when
+        sut.setupCellFor(round: 0, and: [])
+        
+        // then
+        XCTAssertEqual(tableView.reloadDataCalledCount, 1)
+    }
 }
 
 class GameHistoryEndRoundTableViewCellMock: GameHistoryEndRoundTableViewCell {

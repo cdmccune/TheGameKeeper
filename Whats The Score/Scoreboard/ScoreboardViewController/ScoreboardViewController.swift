@@ -219,8 +219,10 @@ class ScoreboardViewController: UIViewController {
         guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
         
         let positionSortedPlayers = viewModel.sortedPlayers.sorted { $0.position < $1.position }
-        endRoundPopoverVC.players = positionSortedPlayers
-        endRoundPopoverVC.round = viewModel.game.currentRound
+        
+        let endRound = EndRound(withPlayers: positionSortedPlayers, roundNumber: viewModel.game.currentRound)
+        endRoundPopoverVC.endRound = endRound
+        
         endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
         endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
         endRoundPopoverVC.delegate = viewModel

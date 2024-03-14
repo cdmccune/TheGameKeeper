@@ -37,19 +37,20 @@ final class GameHistoryViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 0.1)
     }
     
-    func test_GameHistoryViewModel_WhenDidSelectRowCalledIndexEndRound_ShouldSetShouldShowEndRoundPopoverValueTrue() {
+    func test_GameHistoryViewModel_WhenDidSelectRowCalledIndexEndRound_ShouldSetEndRoundToEdit() {
         // given
         let game = GameMock()
         
-        let endRoundHistorySegment = GameHistorySegment.endRound(EndRound.getBlankEndRound())
+        let endRound = EndRound.getBlankEndRound()
+        let endRoundHistorySegment = GameHistorySegment.endRound(endRound)
         game.historySegments = [endRoundHistorySegment]
         
         let sut = GameHistoryViewModel(game: game)
         
         let expectation = XCTestExpectation(description: "shouldShowEditPlayerScorePopover should have value changed to true")
         
-        sut.shouldShowEndRoundPopover.valueChanged = { shouldShow in
-            XCTAssertTrue(shouldShow ?? false)
+        sut.endRoundToEdit.valueChanged = { endRoundToEdit in
+            XCTAssertEqual(endRound, endRoundToEdit)
             expectation.fulfill()
         }
         
@@ -116,13 +117,69 @@ final class GameHistoryViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 0.1)
     }
     
+    
+    // MARK: - EndRound
+    
+    func test_GameHistoryViewModel_WhenEndRoundCalled_ShouldCallGameEditEndRoundWithEndRound() {
+        // given
+        let game = GameMock()
+        let sut = GameHistoryViewModel(game: game)
+        
+        let endRound = EndRound.getBlankEndRound()
+        
+        // when
+        sut.endRound(endRound)
+        
+        // then
+        XCTAssertEqual(game.editEndRoundCalledCount, 1)
+        XCTAssertEqual(game.editEndRoundEndRound, endRound)
+    }
+    
+    func test_GameHistoryViewmodel_WhenEndRoundCalled_ShouldSetTableViewIndexToRefresToIndexOfEndRound() {
+        // given
+        let game = GameMock()
+        
+        let endRound1 = EndRound.getBlankEndRound()
+        let endRound2 = EndRound.getBlankEndRound()
+        let endRound3 = EndRound.getBlankEndRound()
+        
+        let endRounds = [
+            endRound1,
+            endRound2,
+            endRound3
+        ]
+        
+        game.historySegments = [
+            GameHistorySegment.endRound(endRound1),
+            GameHistorySegment.endRound(endRound2),
+            GameHistorySegment.endRound(endRound3)
+        ]
+        
+        let index = Int.random(in: 0...2)
+        
+        let expectation = XCTestExpectation(description: "tableViewIndexToRefresh not set")
+        
+        let sut = GameHistoryViewModel(game: game)
+        
+        sut.tableViewIndexToRefresh.valueChanged = { indexToRefresh in
+            expectation.fulfill()
+            XCTAssertEqual(index, indexToRefresh)
+        }
+        
+        // when
+        sut.endRound(endRounds[index])
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
 }
 
 
-class GameHistoryViewModelMock: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate {
+class GameHistoryViewModelMock: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
     var game: GameProtocol = GameMock()
     var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
-    var shouldShowEndRoundPopover: Observable<Bool> = Observable(nil)
+    var endRoundToEdit: Observable<EndRound> = Observable(nil)
     var tableViewIndexToRefresh: Observable<Int> = Observable(nil)
     
     var didSelectRowCalledCount = 0
@@ -133,4 +190,5 @@ class GameHistoryViewModelMock: GameHistoryViewModelProtocol, ScoreboardPlayerEd
     }
     
     func editScore(_ scoreChange: ScoreChange) {}
+    func endRound(_ endRound: EndRound) {}
 }

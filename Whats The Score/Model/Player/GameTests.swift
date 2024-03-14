@@ -312,7 +312,7 @@ final class GameTests: XCTestCase {
         sut.currentRound = currentRound
         
         // when
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
         
         // then
         XCTAssertEqual(sut.currentRound, currentRound + 1)
@@ -331,14 +331,16 @@ final class GameTests: XCTestCase {
         let scoreChange2 = Int.random(in: 1...10)
         let scoreChange3 = Int.random(in: 1...10)
         
-        let changeDictionary = [
-            player1: scoreChange1,
-            player2: scoreChange2,
-            player3: scoreChange3
+        let scoreChangeArray = [
+            ScoreChange(player: player1, scoreChange: scoreChange1),
+            ScoreChange(player: player2, scoreChange: scoreChange2),
+            ScoreChange(player: player3, scoreChange: scoreChange3)
         ]
         
+        let endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChangeArray)
+        
         // when
-        sut.endRound(withChanges: changeDictionary)
+        sut.endRound(endRound)
         
         // then
         XCTAssertEqual(sut.players[0].score, scoreChange1)
@@ -346,7 +348,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.players[2].score, scoreChange3)
     }
     
-    func test_Game_WhenEndRoundCalled_ShouldAppendEndRoundGameHistorySegmentWithCurrentRoundBeforeIncrementingAndPlayerScoreChanges() {
+    func test_Game_WhenEndRoundCalled_ShouldAppendEndRoundGameHistorySegmentWithCurrentRoundBeforeIncrementing() {
         // given
         let player1 = Player(name: "", position: 0)
         let player2 = Player(name: "", position: 1)
@@ -363,14 +365,16 @@ final class GameTests: XCTestCase {
         let scoreChange3 = Int.random(in: 1...10)
         let scores = [scoreChange1, scoreChange2, scoreChange3]
         
-        let changeDictionary = [
-            player1: scoreChange1,
-            player2: scoreChange2,
-            player3: scoreChange3
+        let scoreChangeArray = [
+            ScoreChange(player: player1, scoreChange: scoreChange1),
+            ScoreChange(player: player2, scoreChange: scoreChange2),
+            ScoreChange(player: player3, scoreChange: scoreChange3)
         ]
         
+        let endRound = EndRound(roundNumber: currentRound, scoreChangeArray: scoreChangeArray)
+        
         // when
-        sut.endRound(withChanges: changeDictionary)
+        sut.endRound(endRound)
         
         // then
         guard case .endRound(let endRound) = sut.historySegments.first else {
@@ -590,8 +594,7 @@ final class GameTests: XCTestCase {
             ScoreChange(player: players[1], scoreChange: scoreChangePointOriginals[1])
         ]
         
-        let id = UUID()
-        var endRound = EndRound(id: id, roundNumber: 0, scoreChangeArray: scoreChangeObjects)
+        var endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChangeObjects)
         let gameHistorySegment = GameHistorySegment.endRound(endRound)
         sut.historySegments = [gameHistorySegment]
         
@@ -617,8 +620,7 @@ final class GameTests: XCTestCase {
         // given
         var sut = Game(basicGameWithPlayers: [])
         
-        let id = UUID()
-        var endRound = EndRound(id: id, roundNumber: 0, scoreChangeArray: [])
+        var endRound = EndRound(roundNumber: 0, scoreChangeArray: [])
         let endRoundHistoryObject = GameHistorySegment.endRound(endRound)
         sut.historySegments = [endRoundHistoryObject]
         
@@ -713,10 +715,10 @@ class GameMock: GameProtocol {
         editScoreForCalledCount += 1
     }
     
-    var endRoundChangeDictionary: [Player: Int]?
+    var endRoundEndRound: EndRound?
     var endRoundCalledCount = 0
-    func endRound(withChanges changeDictionary: [Player: Int]) {
-        endRoundChangeDictionary = changeDictionary
+    func endRound(_ endRound: EndRound) {
+        endRoundEndRound = endRound
         endRoundCalledCount += 1
     }
     
@@ -732,8 +734,11 @@ class GameMock: GameProtocol {
         editScoreChangeCalledCount += 1
     }
     
+    var editEndRoundCalledCount = 0
+    var editEndRoundEndRound: EndRound?
     func editEndRound(_ newEndRound: EndRound) {
-        
+        editEndRoundCalledCount += 1
+        editEndRoundEndRound = newEndRound
     }
     
     func isEqualTo(game: GameProtocol) -> Bool {

@@ -68,6 +68,18 @@ final class GameHistoryViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.defaultPopoverPresenter is DefaultPopoverPresenter)
     }
     
+    func test_ScoreboardViewController_WhenEndRoundPopoverHeightHelperCreated_ShouldHavePlayerHeightOf45AndSeparatorOf3() {
+        // given
+        let sut = viewController!
+        
+        // when
+        let endRoundPopoverHeightHelper = sut.endRoundPopoverHeightHelper
+        
+        // then
+        XCTAssertEqual(endRoundPopoverHeightHelper.playerViewHeight, 45)
+        XCTAssertEqual(endRoundPopoverHeightHelper.playerSeperatorHeight, 3)
+    }
+    
     
     // MARK: - ViewDidLoad
     
@@ -224,6 +236,173 @@ final class GameHistoryViewControllerTests: XCTestCase {
         let editPlayerVC = sut.presentViewController as? ScoreboardPlayerEditScorePopoverViewController
         XCTAssertTrue(editPlayerVC?.delegate === viewModelMock)
         XCTAssertEqual(editPlayerVC?.scoreChange, scoreChange)
+    }
+    
+    
+    // MARK: - EndRoundToEdit
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelEndRoundToEditSetNil_ShouldNotPresentAnything() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        
+        let viewModel = GameHistoryViewModelMock()
+        sut.viewModel = viewModel
+        
+        // when
+        viewModel.endRoundToEdit.value = nil
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 0)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndAndViewModelEndRoundToEditSetNotNil_ShouldPresentEndRoundPopover() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.setBindings()
+        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertTrue(sut.presentViewController is EndRoundPopoverViewController)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndAndViewModelEndRoundToEditSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
+        
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        
+        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
+        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        
+        // when
+        sut.setBindings()
+        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        
+        // then
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EndRoundPopoverViewController)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
+    }    
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndAndViewModelEndRoundToEditSetNotNil_ShouldCallEndRoundPopoverHeightHelperGetPopoverHeightForWithCorrectParameters() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        
+        let endRoundPopoverHeightHelperMock = EndRoundPopoverHeightHelperMock()
+        sut.endRoundPopoverHeightHelper = endRoundPopoverHeightHelperMock
+        
+        let rectHeight = CGFloat.random(in: 0...100)
+        let viewMock = UIViewSafeAreaLayoutFrameMock(safeAreaFrame: CGRect(x: 0, y: 0, width: 0, height: rectHeight))
+        sut.view = viewMock
+        
+        let viewModelMock = GameHistoryViewModelMock()
+        let playerCount = Int.random(in: 1...10)
+        let endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.setBindings()
+        viewModelMock.endRoundToEdit.value = endRound
+        
+        // then
+        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForSafeAreaHeight, rectHeight)
+        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForPlayerCount, playerCount)
+        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForCalledCount, 1)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndAndViewModelEndRoundToEditSetNotNil_ShouldCallSetupPopoverCenteredWithHeightFromEndRoundPopoverHeightHelper() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        
+        let heightToReturn = CGFloat.random(in: 0...10000)
+        let endRoundPopoverHeightHelperMock = EndRoundPopoverHeightHelperMock()
+        endRoundPopoverHeightHelperMock.heightToReturn = heightToReturn
+        
+        sut.endRoundPopoverHeightHelper = endRoundPopoverHeightHelperMock
+        
+        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
+        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.setBindings()
+        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        
+        // then
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, heightToReturn)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndAndViewModelEndRoundToEditSet_ShouldPresentEndRoundPopoverWithEndRound() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
+        
+        let viewModelMock = GameHistoryViewModelMock()
+        
+        let currentRound = Int.random(in: 1...1000)
+        viewModelMock.game.currentRound = currentRound
+        
+        sut.viewModel = viewModelMock
+        
+        let endRound = EndRound.getBlankEndRound()
+        
+        // when
+        sut.setBindings()
+        viewModelMock.endRoundToEdit.value = endRound
+        
+        // then
+        let endRoundPopoverVC = sut.presentViewController as? EndRoundPopoverViewController
+        
+        XCTAssertEqual(endRoundPopoverVC?.endRound, endRound)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndAndViewModelEndRoundToEditSet_ShouldPresentEndRoundPopoverWithHeightHelperPlayerViewHeightAndPlayerSeperatorHeight() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
+        
+        let playerViewHeight = Int.random(in: 1...1000)
+        let playerSeperatorHeight = Int.random(in: 1...1000)
+        sut.endRoundPopoverHeightHelper = EndRoundPopoverHeightHelper(playerViewHeight: playerViewHeight, playerSeperatorHeight: playerSeperatorHeight)
+        
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.setBindings()
+        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        
+        // then
+        let endRoundPopoverVC = sut.presentViewController as? EndRoundPopoverViewController
+        XCTAssertEqual(endRoundPopoverVC?.playerViewHeight, playerViewHeight)
+        XCTAssertEqual(endRoundPopoverVC?.playerSeparatorHeight, playerSeperatorHeight)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndAndViewModelEndRoundToEditSet_ShouldViewModelAsEndRoundVCDelegate() {
+        // given
+        let sut = getPresentMockWithRightViewsPresent()
+        let viewModelMock = GameHistoryViewModelMock()
+        
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.setBindings()
+        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        
+        // then
+        let endRoundPopoverVC = sut.presentViewController as? EndRoundPopoverViewController
+        XCTAssertTrue(endRoundPopoverVC?.delegate is GameHistoryViewModelMock)
     }
     
     

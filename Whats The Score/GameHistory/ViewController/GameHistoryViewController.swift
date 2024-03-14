@@ -19,6 +19,7 @@ class GameHistoryViewController: UIViewController {
     private lazy var tableViewDelegate = GameHistoryTableViewDelegate(viewModel: viewModel)
     var viewModel: GameHistoryViewModelProtocol!
     lazy var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
+    lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper(playerViewHeight: 45, playerSeperatorHeight: 3)
     
     // MARK: - Lifecycle
 
@@ -61,14 +62,37 @@ class GameHistoryViewController: UIViewController {
         self.present(editPlayerScoreVC, animated: true)
     }
     
+    private func presentEndRoundPopoverWith(_ endRound: EndRound) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
+        
+        #warning("Write a test for these being set before the default popover presenter")
+        
+        endRoundPopoverVC.endRound = endRound
+        endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
+        endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
+        endRoundPopoverVC.delegate = viewModel
+        
+        let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: endRound.scoreChangeArray.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height, tapToExit: true)
+        
+        self.present(endRoundPopoverVC, animated: true)
+    }
+    
     
     // MARK: - Public Functions
     
     func setBindings() {
         viewModel.scoreChangeToEdit.valueChanged = { [weak self] scoreChange in
-            guard let scoreChange = scoreChange else { return }
+            guard let scoreChange else { return }
             
             self?.presentEditPlayerScorePopoverWith(scoreChange)
+        }
+        
+        viewModel.endRoundToEdit.valueChanged = { [weak self] endRound in
+            guard let endRound else { return }
+            
+            self?.presentEndRoundPopoverWith(endRound)
         }
         
         viewModel.tableViewIndexToRefresh.valueChanged = { [weak self] rowIndex in

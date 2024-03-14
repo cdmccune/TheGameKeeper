@@ -207,7 +207,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
         
         // when
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
         wait(for: [calledExpectation], timeout: 1.1)
     }
     
@@ -226,7 +226,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
         
         // when
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
         wait(for: [waitExpecation], timeout: 0.9)
     }
     
@@ -243,7 +243,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
         
         // when
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
     }
     
     
@@ -404,20 +404,18 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - EndRound
     
-    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallGameEndRoundWithScoreChangeDictionary() {
+    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallGameEndRoundWithEndRoundObject() {
         // given
         let gameMock = GameMock()
         let sut = ScoreboardViewModel(game: gameMock)
         
-        let player = Player.getBasicPlayer()
-        let scoreChange = Int.random(in: 1...1000)
-        let scoreChangeDictionary = [player: scoreChange]
+        let endRound = EndRound.getBlankEndRound()
         
         // when
-        sut.endRound(withChanges: scoreChangeDictionary)
+        sut.endRound(endRound)
         
         // then
-        XCTAssertEqual(gameMock.endRoundChangeDictionary, scoreChangeDictionary)
+        XCTAssertEqual(gameMock.endRoundEndRound, endRound)
         XCTAssertEqual(gameMock.endRoundCalledCount, 1)
     }
     
@@ -431,7 +429,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         let bindViewToViewModelCalledCount = viewDelegate.bindViewToViewModelCalledCount
         
         // when3
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
         
         // then
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCount + 1)
@@ -445,7 +443,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         let sut = ScoreboardViewModel(game: game)
         
         // when
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
         
         // then
         XCTAssertEqual(game.isEndOfGameCalledCount, 1)
@@ -466,7 +464,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
         
         // when
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
         wait(for: [calledExpectation], timeout: 1.1)
     }
     
@@ -486,7 +484,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
         
         // when
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
         wait(for: [waitExpecation], timeout: 0.9)
     }
     
@@ -506,7 +504,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         }
         
         // when
-        sut.endRound(withChanges: [:])
+        sut.endRound(EndRound.getBlankEndRound())
     }
     
     
@@ -909,7 +907,7 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     }
     
     func finishedEditing(_ player: Player) {}
-    func endRound(withChanges changeDictionary: [Whats_The_Score.Player: Int]) {}
+    func endRound(_ endRound: EndRound) {}
     func goToEndGameScreen() {}
     func keepPlayingSelected() {}
     func updateNumberOfRounds(to numberOfRounds: Int) {}

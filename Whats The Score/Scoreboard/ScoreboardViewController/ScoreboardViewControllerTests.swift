@@ -120,7 +120,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.historyBarButtonCalledCount, 1)
     }
     
-    func test_ScoreboardViewController_WhenEndRoundPopoverHieghtHelperCreated_ShouldHavePlayerHeightOf45AndSeparatorOf3() {
+    func test_ScoreboardViewController_WhenEndRoundPopoverHeightHelperCreated_ShouldHavePlayerHeightOf45AndSeparatorOf3() {
         // given
         let sut = viewController!
         
@@ -966,7 +966,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.viewControllerPresented is EndRoundPopoverViewController)
     }
     
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithSortedPlayersSortedByPositionAndRoundNumber() {
+    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithEndRoundPlayersSortedByPositionAndRoundNumber() {
         // given
         let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
         sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
@@ -986,8 +986,12 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
         let sortedPlayers = players.sorted { $0.position < $1.position }
-        XCTAssertEqual(endRoundPopoverVC?.players, sortedPlayers)
-        XCTAssertEqual(endRoundPopoverVC?.round, currentRound)
+        
+        sortedPlayers.enumerated().forEach { (index, player) in
+            XCTAssertEqual(endRoundPopoverVC?.endRound?.scoreChangeArray[index].player, player)
+        }
+        
+        XCTAssertEqual(endRoundPopoverVC?.endRound?.roundNumber, currentRound)
     }
     
     func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithHeightHelperPlayerViewHeightAndPlayerSeperatorHeight() {

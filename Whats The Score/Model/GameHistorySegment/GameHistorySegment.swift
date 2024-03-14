@@ -47,7 +47,33 @@ struct EndRound {
         return EndRound(roundNumber: 0, scoreChangeArray: [])
     }
     
+    static func getEndRoundWith(numberOfPlayers: Int) -> EndRound {
+        var scoreChanges: [ScoreChange] = []
+        for i in 0..<numberOfPlayers {
+            scoreChanges.append(ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0))
+        }
+        return EndRound(roundNumber: 0, scoreChangeArray: scoreChanges)
+    }
+    
+    init(roundNumber: Int, scoreChangeArray: [ScoreChange]) {
+        self.roundNumber = roundNumber
+        self.scoreChangeArray = scoreChangeArray
+    }
+    
+    init(withPlayers players: [Player], roundNumber: Int) {
+        self.roundNumber = roundNumber
+        
+        var scoreChangeArray: [ScoreChange] = []
+        players.forEach { scoreChangeArray.append(ScoreChange(player: $0, scoreChange: 0))}
+        self.scoreChangeArray = scoreChangeArray
+    }
+    
     var id: UUID = UUID()
     var roundNumber: Int
     var scoreChangeArray: [ScoreChange]
+}
+
+extension EndRound: Equatable {}
+func == (lhs: EndRound, rhs: EndRound) -> Bool {
+    return lhs.id == rhs.id
 }

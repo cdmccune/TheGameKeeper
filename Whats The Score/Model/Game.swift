@@ -5,6 +5,8 @@
 //  Created by Curt McCune on 12/30/23.
 //
 
+#warning("finished editendround functionality in here, but need to put that in edit round popvoer, scoreboard files, and game history files.")
+
 import Foundation
 
 protocol GameProtocol {
@@ -24,7 +26,7 @@ protocol GameProtocol {
     mutating func randomizePlayers()
     mutating func deletePlayerAt(_ index: Int)
     mutating func editScore(scoreChange: ScoreChange)
-    mutating func endRound(withChanges changeDictionary: [Player: Int])
+    mutating func endRound(_ endRound: EndRound)
     mutating func resetGame()
     mutating func editScoreChange(_ newScoreChange: ScoreChange)
     mutating func editEndRound(_ newEndRound: EndRound)
@@ -128,21 +130,14 @@ struct Game: GameProtocol {
         historySegments.append(historySegment)
     }
     
-    mutating func endRound(withChanges changeDictionary: [Player: Int]) {
+    mutating func endRound(_ endRound: EndRound) {
         
-        var scoreChanges: [ScoreChange] = []
-        
-        changeDictionary.forEach { (player, scoreChange) in
-            if let index = players.firstIndex(of: player) {
-                players[index].score += scoreChange
-                
-                let scoreChangeObject = ScoreChange(player: player, scoreChange: scoreChange)
-                scoreChanges.append(scoreChangeObject)
+        endRound.scoreChangeArray.forEach { scoreChange in
+            if let index = players.firstIndex(of: scoreChange.player) {
+                players[index].score += scoreChange.scoreChange
             }
         }
         
-        scoreChanges.sort { $0.player.position < $1.player.position }
-        let endRound = EndRound(roundNumber: currentRound, scoreChangeArray: scoreChanges)
         let historySegment = GameHistorySegment.endRound(endRound)
         historySegments.append(historySegment)
         
@@ -190,8 +185,7 @@ struct Game: GameProtocol {
             }
             
             // Set the history object to new changes
-            let newEndRoundHistoryObject = GameHistorySegment.endRound(newEndRound)
-            historySegments[endRoundIndex] = newEndRoundHistoryObject
+            historySegments[endRoundIndex] = gameHistorySegment
         }
     }
     

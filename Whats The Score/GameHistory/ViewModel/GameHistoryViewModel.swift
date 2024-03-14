@@ -7,24 +7,24 @@
 
 import Foundation
 
-protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate {
+protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
     var game: GameProtocol { get set }
     
     var scoreChangeToEdit: Observable<ScoreChange> { get }
-    var shouldShowEndRoundPopover: Observable<Bool> { get }
+    var endRoundToEdit: Observable<EndRound> { get }
     var tableViewIndexToRefresh: Observable<Int> { get }
     
     func didSelectRow(_ row: Int)
 }
 
-class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate {
+class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
     init(game: GameProtocol) {
         self.game = game
     }
     
     var game: GameProtocol
     var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
-    var shouldShowEndRoundPopover: Observable<Bool> = Observable(nil)
+    var endRoundToEdit: Observable<EndRound> = Observable(nil)
     var tableViewIndexToRefresh: Observable<Int> = Observable(nil)
     
     
@@ -34,8 +34,8 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         switch game.historySegments[row] {
         case .scoreChange(let scoreChange):
             scoreChangeToEdit.value = scoreChange
-        case .endRound(_):
-            shouldShowEndRoundPopover.value = true
+        case .endRound(let endRound):
+            endRoundToEdit.value = endRound
         }
     }
     
@@ -43,6 +43,14 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         game.editScoreChange(scoreChange)
         
         if let index = game.historySegments.firstIndex(of: GameHistorySegment.scoreChange(scoreChange)) {
+            self.tableViewIndexToRefresh.value = index
+        }
+    }
+    
+    func endRound(_ endRound: EndRound) {
+        game.editEndRound(endRound)
+        
+        if let index = game.historySegments.firstIndex(of: GameHistorySegment.endRound(endRound)) {
             self.tableViewIndexToRefresh.value = index
         }
     }
