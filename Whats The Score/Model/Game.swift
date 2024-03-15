@@ -5,8 +5,6 @@
 //  Created by Curt McCune on 12/30/23.
 //
 
-#warning("finished editendround functionality in here, but need to put that in edit round popvoer, scoreboard files, and game history files.")
-
 import Foundation
 
 protocol GameProtocol {
@@ -15,8 +13,8 @@ protocol GameProtocol {
     var numberOfRounds: Int { get set }
     var currentRound: Int { get set }
     var endingScore: Int { get set }
-    var players: [Player] { get set }
-    var winningPlayers: [Player] { get }
+    var players: [PlayerProtocol] { get set }
+    var winningPlayers: [PlayerProtocol] { get }
     var historySegments: [GameHistorySegment] { get set }
     var id: UUID { get }
     
@@ -39,7 +37,7 @@ struct Game: GameProtocol {
     
     // MARK: - Initialization
     
-    init(basicGameWithPlayers players: [Player]) {
+    init(basicGameWithPlayers players: [PlayerProtocol]) {
         self.gameType = .basic
         self.gameEndType = .none
         self.currentRound = 1
@@ -77,10 +75,10 @@ struct Game: GameProtocol {
     var currentRound: Int
     var endingScore: Int
     
-    var players: [Player]
+    var players: [PlayerProtocol]
     var historySegments: [GameHistorySegment] = []
     
-    var winningPlayers: [Player] {
+    var winningPlayers: [PlayerProtocol] {
         let sortedPlayers = players.sorted { $0.score>$1.score }
         return players.filter { $0.score == (sortedPlayers.first?.score ?? 0) }
     }
@@ -122,9 +120,9 @@ struct Game: GameProtocol {
     }
     
     mutating func editScore(scoreChange: ScoreChange) {
-        guard let index = players.firstIndex(of: scoreChange.player) else { return }
+        guard let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) else { return }
         
-        players[index].score += scoreChange.scoreChange
+        players[index].scoreChanges.append(scoreChange)
         let historySegment = GameHistorySegment.scoreChange(scoreChange)
         
         historySegments.append(historySegment)
@@ -133,8 +131,8 @@ struct Game: GameProtocol {
     mutating func endRound(_ endRound: EndRound) {
         
         endRound.scoreChangeArray.forEach { scoreChange in
-            if let index = players.firstIndex(of: scoreChange.player) {
-                players[index].score += scoreChange.scoreChange
+            if let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) {
+                players[index].scoreChanges.append(scoreChange)
             }
         }
         
@@ -146,7 +144,7 @@ struct Game: GameProtocol {
     
     mutating func resetGame() {
         for i in 0..<players.count {
-            players[i].score = 0
+            players[i].scoreChanges = []
         }
         
         currentRound = 1
@@ -157,14 +155,15 @@ struct Game: GameProtocol {
     mutating func editScoreChange(_ newScoreChange: ScoreChange) {
         let gameHistorySegment = GameHistorySegment.scoreChange(newScoreChange)
         
-        if let playerIndex = players.firstIndex(of: newScoreChange.player),
+        if let playerIndex = players.firstIndex(where: { $0.id == newScoreChange.playerID }),
         let scoreChangeIndex = historySegments.firstIndex(of: gameHistorySegment),
         case .scoreChange(let scoreChangeOriginal) = historySegments[scoreChangeIndex] {
             
             historySegments[scoreChangeIndex] = .scoreChange(newScoreChange)
             
-            players[playerIndex].score += newScoreChange.scoreChange
-            players[playerIndex].score -= scoreChangeOriginal.scoreChange
+            if let scoreChangeIndex = players[playerIndex].scoreChanges.firstIndex(of: newScoreChange) {
+                players[playerIndex].scoreChanges[scoreChangeIndex] = (newScoreChange)
+            }
         }
     }
     
@@ -178,9 +177,11 @@ struct Game: GameProtocol {
             // Go through and adjust the appropriate players score
             newEndRound.scoreChangeArray.forEach { newScoreChange in
                 if let indexOfOldScoreChange = oldEndRound.scoreChangeArray.firstIndex(of: newScoreChange),
-                   let playerIndex = players.firstIndex(of: newScoreChange.player) {
-                    players[playerIndex].score -= oldEndRound.scoreChangeArray[indexOfOldScoreChange].scoreChange
-                    players[playerIndex].score += newScoreChange.scoreChange
+                   let playerIndex = players.firstIndex(where: { $0.id == newScoreChange.playerID }) {
+                    
+                    if let scoreChangeIndex = players[playerIndex].scoreChanges.firstIndex(of: newScoreChange) {
+                        players[playerIndex].scoreChanges[scoreChangeIndex] = (newScoreChange)
+                    }
                 }
             }
             

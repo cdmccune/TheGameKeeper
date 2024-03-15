@@ -51,7 +51,7 @@ class EndRoundPopoverViewController: UIViewController {
             textField.tag = i
             textFields.append(textField)
             
-            let singlePlayerStackView = EndRoundPopoverPlayerStackView(player: endRound.scoreChangeArray[i].player, textField: textField, textFieldDelegate: textFieldDelegate)
+            let singlePlayerStackView = EndRoundPopoverPlayerStackView(playerName: endRound.scoreChangeArray[i].playerName, playerID: endRound.scoreChangeArray[i].playerID, textField: textField, textFieldDelegate: textFieldDelegate)
             
             singlePlayerStackView.heightAnchor.constraint(equalToConstant: CGFloat(playerViewHeight ?? 0)).isActive = true
             

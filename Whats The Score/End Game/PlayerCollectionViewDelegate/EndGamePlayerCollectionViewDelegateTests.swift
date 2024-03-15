@@ -105,7 +105,7 @@ final class EndGamePlayerCollectionViewDelegateTests: XCTestCase {
         let cell = sut.collectionView(collectionView, cellForItemAt: IndexPath(item: playerIndex, section: 0)) as? EndGamePlayerCollectionViewCellMock
         
         // then
-        XCTAssertEqual(cell?.setupViewForPlayer, player)
+        XCTAssertEqual(cell?.setupViewForPlayer?.id, player.id)
         XCTAssertEqual(cell?.setupViewForCalledCount, 1)
     }
 
@@ -117,9 +117,9 @@ class EndGamePlayerCollectionViewCellMock: EndGamePlayerCollectionViewCell {
         setupErrorCellCalledCount += 1
     }
     
-    var setupViewForPlayer: Player?
+    var setupViewForPlayer: PlayerProtocol?
     var setupViewForCalledCount = 0
-    override func setupViewFor(_ player: Player) {
+    override func setupViewFor(_ player: PlayerProtocol) {
         setupViewForCalledCount += 1
         setupViewForPlayer = player
     }

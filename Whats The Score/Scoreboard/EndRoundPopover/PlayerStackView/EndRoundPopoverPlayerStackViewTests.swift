@@ -13,15 +13,18 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetPropertiesAndTextFieldDelegate() {
         
         // given
-        let player = Player(name: "", position: 0)
+        let playerName = UUID().uuidString
+        let playerID = UUID()
+        
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        let sut = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
+        let sut = EndRoundPopoverPlayerStackView(playerName:playerName, playerID: playerID, textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
-        XCTAssertEqual(sut.player, player)
+        XCTAssertEqual(sut.playerName, playerName)
+        XCTAssertEqual(sut.playerID, playerID)
         XCTAssertEqual(sut.textField, textField)
         XCTAssertEqual(sut.textFieldDelegate as? UITextFieldDelegateMock, textFieldDelegate)
         XCTAssertTrue(sut.textField.delegate is UITextFieldDelegateMock)
@@ -30,12 +33,11 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetItsAxisAsHorizontalAndSpacingAs5() {
         
         // given
-        let player = Player(name: "", position: 0)
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        let sut = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
+        let sut = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         XCTAssertEqual(sut.axis, .horizontal)
@@ -44,12 +46,11 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
     
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldAddTextFieldAndLabelInCorrectOrder() {
         // given
-        let player = Player(name: "", position: 0)
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        let sut = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
+        let sut = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         XCTAssertTrue(sut.subviews.first is UILabel)
@@ -59,25 +60,24 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetLabelTexttoPlayerName() {
         // given
         let playerName = UUID().uuidString
-        let player = Player(name: playerName, position: 0)
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        let sut = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
+        let sut = EndRoundPopoverPlayerStackView(playerName: playerName, playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         XCTAssertEqual((sut.subviews.first as? UILabel)?.text, playerName)
     }
     
-    func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetCorrectPropoertiesOnTextField() {
+    func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetCorrectPropertiesOnTextField() {
         // given
         let player = Player(name: "", position: 0)
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        _ = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
+        let sut = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         XCTAssertEqual(textField.borderStyle, .roundedRect)
@@ -92,7 +92,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        _ = EndRoundPopoverPlayerStackView(player: player, textField: textField, textFieldDelegate: textFieldDelegate)
+        let _ = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         let constraints = textField.constraints

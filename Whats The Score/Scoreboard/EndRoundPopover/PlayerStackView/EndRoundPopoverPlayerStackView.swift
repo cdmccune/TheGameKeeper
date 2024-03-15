@@ -9,8 +9,9 @@ import UIKit
 
 class EndRoundPopoverPlayerStackView: UIStackView {
 
-    init(player: Player, textField: UITextField, textFieldDelegate: UITextFieldDelegate) {
-        self.player = player
+    init(playerName: String, playerID: UUID, textField: UITextField, textFieldDelegate: UITextFieldDelegate) {
+        self.playerID = playerID
+        self.playerName = playerName
         self.textField = textField
         self.textFieldDelegate = textFieldDelegate
         textField.delegate = textFieldDelegate
@@ -23,7 +24,8 @@ class EndRoundPopoverPlayerStackView: UIStackView {
     
     required init(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
     
-    var player: Player
+    var playerID: UUID
+    var playerName: String
     var textField: UITextField
     var textFieldDelegate: UITextFieldDelegate
     
@@ -34,7 +36,7 @@ class EndRoundPopoverPlayerStackView: UIStackView {
     
     private func addViewsAndConstraints() {
         let label = UILabel()
-        label.text = player.name
+        label.text = playerName
         self.addArrangedSubview(label)
         
         textField.borderStyle = .roundedRect

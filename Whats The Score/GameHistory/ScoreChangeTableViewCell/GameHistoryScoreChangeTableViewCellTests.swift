@@ -34,6 +34,7 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         // then
         XCTAssertNotNil(sut.playerNameLabel)
         XCTAssertNotNil(sut.scoreChangeLabel)
+        XCTAssertNotNil(sut.scoreTotalLabel)
     }
     
     
@@ -45,7 +46,7 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         let playerName = UUID().uuidString
         
         var scoreChange = ScoreChange.getBlankScoreChange()
-        scoreChange.player.name = playerName
+        scoreChange.playerName = playerName
         
         // when
         sut.setupViewProperties(for: scoreChange)

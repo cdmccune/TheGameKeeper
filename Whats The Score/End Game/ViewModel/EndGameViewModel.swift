@@ -9,7 +9,7 @@ import Foundation
 
 protocol EndGameViewModelProtocol {
     var game: GameProtocol { get set }
-    var losingPlayers: [Player] { get }
+    var losingPlayers: [PlayerProtocol] { get }
 }
 
 class EndGameViewModel: EndGameViewModelProtocol {
@@ -18,10 +18,10 @@ class EndGameViewModel: EndGameViewModelProtocol {
     }
     
     var game: GameProtocol
-    var losingPlayers: [Player] {
+    var losingPlayers: [PlayerProtocol] {
         var losingPlayers = game.players
-        game.winningPlayers.forEach {
-            if let index = losingPlayers.firstIndex(of: $0) {
+        game.winningPlayers.forEach { winningPlayer in
+            if let index = losingPlayers.firstIndex(where: { $0.id == winningPlayer.id }) {
                 losingPlayers.remove(at: index)
             }
         }

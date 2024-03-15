@@ -42,18 +42,27 @@ final class EndGameViewModelTests: XCTestCase {
             }
         }
         
-        XCTAssertEqual(Set(expectedLosingPlayers), Set(sut.losingPlayers))
+        XCTAssertEqual(Set(expectedLosingPlayers), Set(sut.losingPlayers as! [Player]))
     }
     
     func test_EndGameViewModel_WhenLosingPlayersRead_ShouldReturnPlayersInDescendingScoreOrder() {
         // given
+//        let players = [
+//            Player(name: "", position: 0, score: 1),
+//            Player(name: "", position: 0, score: 3),
+//            Player(name: "", position: 0, score: 2),
+//            Player(name: "", position: 0, score: 5),
+//            Player(name: "", position: 0, score: 4)
+//        ]
+        
         let players = [
-            Player(name: "", position: 0, score: 1),
-            Player(name: "", position: 0, score: 3),
-            Player(name: "", position: 0, score: 2),
-            Player(name: "", position: 0, score: 5),
-            Player(name: "", position: 0, score: 4)
+            Player(name: "", position: 0),
+            Player(name: "", position: 0),
+            Player(name: "", position: 0),
+            Player(name: "", position: 0),
+            Player(name: "", position: 0)
         ]
+        
         let game = GameMock(players: players)
         
         let sut = EndGameViewModel(game: game)
@@ -64,12 +73,12 @@ final class EndGameViewModelTests: XCTestCase {
         // then
         let sortedLosingPlayers = players.sorted { $0.score > $1.score }
         
-        XCTAssertEqual(losingPlayers, sortedLosingPlayers)
+        XCTAssertEqual(losingPlayers as? [Player], sortedLosingPlayers)
     }
 
 }
 
 class EndGameViewModelMock: EndGameViewModelProtocol {
     var game: GameProtocol = GameMock()
-    var losingPlayers: [Player] = []
+    var losingPlayers: [PlayerProtocol] = []
 }

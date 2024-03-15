@@ -22,7 +22,7 @@ class EndGamePlayerCollectionViewCell: UICollectionViewCell {
         self.playerScoreLabel.text = "???"
     }
     
-    func setupViewFor(_ player: Player) {
+    func setupViewFor(_ player: PlayerProtocol) {
         self.playerNameLabel.text = player.name
         self.playerScoreLabel.text = String(player.score)
     }

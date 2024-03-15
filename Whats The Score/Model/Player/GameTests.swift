@@ -38,7 +38,7 @@ final class GameTests: XCTestCase {
         sut.playerNameChanged(withIndex: 1, toName: UUID().uuidString)
         
         // then
-        XCTAssertEqual(sut.players[0], player)
+        XCTAssertEqual(sut.players[0].name, player.name)
     }
     
     func test_Game_WhenPlayerNameChangedCalledInRange_ShouldChangePlayerName() {
@@ -68,7 +68,7 @@ final class GameTests: XCTestCase {
         sut.movePlayerAt(4, to: 0)
         
         // then
-        XCTAssertEqual(sut.players, players)
+        XCTAssertEqual(sut.players as? [Player], players)
     }
     
     func test_Game_WhenMovePlayerAtDestinationCalledOutOfRange_ShouldDoNothing() {
@@ -82,7 +82,7 @@ final class GameTests: XCTestCase {
         sut.movePlayerAt(0, to: 5)
         
         // then
-        XCTAssertEqual(sut.players, players)
+        XCTAssertEqual(sut.players as? [Player], players)
     }
     
     func test_Game_WhenMovePlayerAtCalledInRange_ShouldChangePlayersPositionAndPositionValues() {
@@ -145,7 +145,7 @@ final class GameTests: XCTestCase {
         sut.randomizePlayers()
         
         // then
-        XCTAssertNotEqual(sut.players, players)
+        XCTAssertNotEqual(sut.players as? [Player], players)
         
         for player in players {
             XCTAssertNotNil(sut.players.first(where: { $0.name == player.name }))
@@ -168,7 +168,7 @@ final class GameTests: XCTestCase {
         sut.deletePlayerAt(1)
         
         // then
-        XCTAssertEqual([player], sut.players)
+        XCTAssertEqual([player], sut.players as? [Player])
     }
     
     func test_Game_WhenDeletePlayerAtCalledInRange_ShouldRemovePlayerFromIndexAndSetPositions() {
@@ -177,7 +177,7 @@ final class GameTests: XCTestCase {
         let player1 = Player(name: UUID().uuidString, position: 0)
         let player2 = Player(name: UUID().uuidString, position: 0)
         let player3 = Player(name: UUID().uuidString, position: 0)
-        var players = [player1, player2, player3]
+        var players: [PlayerProtocol] = [player1, player2, player3]
         
         var sut = Game(basicGameWithPlayers: players)
         let playerToRemoveIndex = Int.random(in: 0...2)
@@ -188,7 +188,7 @@ final class GameTests: XCTestCase {
         players.setPositions()
         
         // then)
-        XCTAssertEqual(sut.players, players)
+        XCTAssertEqual(sut.players as? [Player], players as? [Player])
         for (index, player) in sut.players.enumerated() {
             XCTAssertEqual(player.position, index)
         }
@@ -201,14 +201,14 @@ final class GameTests: XCTestCase {
         // given
         var sut = Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0)
         
-        let player1 = Player(name: "", position: 0, score: 1)
-        let player2 = Player(name: "", position: 0, score: 2)
-        let player3 = Player(name: "", position: 0, score: 3)
+        let player1 = PlayerMock(name: "", position: 0, score: 1)
+        let player2 = PlayerMock(name: "", position: 0, score: 2)
+        let player3 = PlayerMock(name: "", position: 0, score: 3)
         
         sut.players = [player1, player2, player3]
         
         // when
-        let winningPlayers = sut.winningPlayers
+        let winningPlayers = sut.winningPlayers as? [PlayerMock]
         
         // then
         XCTAssertEqual(winningPlayers, [player3])
@@ -218,14 +218,14 @@ final class GameTests: XCTestCase {
         // given
         var sut = Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0)
         
-        let player1 = Player(name: "", position: 0, score: 1)
-        let player2 = Player(name: "", position: 0, score: 2)
-        let player3 = Player(name: "", position: 0, score: 2)
+        let player1 = PlayerMock(name: "", position: 0, score: 1)
+        let player2 = PlayerMock(name: "", position: 0, score: 2)
+        let player3 = PlayerMock(name: "", position: 0, score: 2)
         
         sut.players = [player1, player2, player3]
         
         // when
-        let winningPlayers = sut.winningPlayers
+        let winningPlayers = sut.winningPlayers as! [PlayerMock]
         
         // then
         XCTAssertEqual(winningPlayers.count, 2)
@@ -264,7 +264,7 @@ final class GameTests: XCTestCase {
     
     // MARK: - EditScoreFor
     
-    func test_Game_WhenEditPlayerScoreCalled_ShouldChangePlayersScoreByChange() {
+    func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeToPlayer() {
         // given
         let player = Player(name: "", position: 0)
         var sut = Game(basicGameWithPlayers: [player])
@@ -277,7 +277,7 @@ final class GameTests: XCTestCase {
         sut.editScore(scoreChange: scoreChangeObject)
         
         // then
-        XCTAssertEqual(sut.players.first?.score, pointsChange)
+        XCTAssertEqual(sut.players.first?.scoreChanges.first, scoreChangeObject)
     }
     
     func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeGameHistorySegmentWithPlayerAndScoreChange() {
@@ -299,7 +299,7 @@ final class GameTests: XCTestCase {
         }
         
         XCTAssertEqual(scoreChange.scoreChange, pointChange)
-        XCTAssertEqual(scoreChange.player, player)
+        XCTAssertEqual(scoreChange.playerID, player.id)
     }
     
     
@@ -318,7 +318,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.currentRound, currentRound + 1)
     }
     
-    func test_Game_WhenEndRoundCalled_ShouldChangePlayersScoresByAppropriateNumber() {
+    func test_Game_WhenEndRoundCalled_ShouldAppendScoreChangeObjectsToPlayers() {
         // given
         let player1 = Player.getBasicPlayer()
         let player2 = Player.getBasicPlayer()
@@ -343,9 +343,10 @@ final class GameTests: XCTestCase {
         sut.endRound(endRound)
         
         // then
-        XCTAssertEqual(sut.players[0].score, scoreChange1)
-        XCTAssertEqual(sut.players[1].score, scoreChange2)
-        XCTAssertEqual(sut.players[2].score, scoreChange3)
+        XCTAssertEqual(sut.players[0].scoreChanges.first, scoreChangeArray[0])
+        XCTAssertEqual(sut.players[1].scoreChanges.first, scoreChangeArray[1])
+        XCTAssertEqual(sut.players[2].scoreChanges.first, scoreChangeArray[2])
+ 
     }
     
     func test_Game_WhenEndRoundCalled_ShouldAppendEndRoundGameHistorySegmentWithCurrentRoundBeforeIncrementing() {
@@ -385,7 +386,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(currentRound, endRound.roundNumber)
         XCTAssertEqual(endRound.scoreChangeArray.count, 3)
         endRound.scoreChangeArray.enumerated().forEach { (index, scoreChange) in
-            XCTAssertEqual(players[index], scoreChange.player)
+            XCTAssertEqual(players[index].id, scoreChange.playerID)
             XCTAssertEqual(scores[index], scoreChange.scoreChange)
         }
     }
@@ -446,7 +447,8 @@ final class GameTests: XCTestCase {
     func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanEndingScore_ShouldReturnFalse() {
         // given
         var sut = Game(gameType: .round, gameEndType: .score, numberOfPlayers: 0)
-        sut.players = [Player(name: "", position: 0, score: 10)]
+//        sut.players = [Player(name: "", position: 0, score: 10)]
+        sut.players = [Player(name: "", position: 0)]
         sut.endingScore = 100
         
         // when
@@ -459,7 +461,7 @@ final class GameTests: XCTestCase {
     func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanWinningScore_ShouldReturnTrue() {
         // given
         var sut = Game(gameType: .round, gameEndType: .score, numberOfPlayers: 0)
-        sut.players = [Player(name: "", position: 0, score: 100)]
+        sut.players = [PlayerMock(score: 100)]
         sut.endingScore = 100
         
         // when
@@ -472,13 +474,11 @@ final class GameTests: XCTestCase {
     
     // MARK: - ResetGame
     
-    func test_Game_WhenResetGameCalled_ShouldSetPlayersScoresToZero() {
+    func test_Game_WhenResetGameCalled_ShouldSetPlayersScoreChangesToEmptyArray() {
         // given
-        var player1 = Player.getBasicPlayer()
-        var player2 = Player.getBasicPlayer()
-        
-        player1.score = Int.random(in: 1...100)
-        player2.score = Int.random(in: 1...100)
+        let scoreChange = ScoreChange.getBlankScoreChange()
+        let player1 = PlayerMock(scoreChanges: [scoreChange])
+        let player2 = PlayerMock(scoreChanges: [scoreChange])
         
         var sut = Game(basicGameWithPlayers: [player1, player2])
         sut.currentRound = 5
@@ -488,8 +488,8 @@ final class GameTests: XCTestCase {
         sut.resetGame()
         
         // then
-        XCTAssertEqual(sut.players[0].score, 0)
-        XCTAssertEqual(sut.players[1].score, 0)
+        XCTAssertEqual(sut.players[0].scoreChanges.count, 0)
+        XCTAssertEqual(sut.players[1].scoreChanges.count, 0)
     }
     
     func test_Game_WhenResetGameCalled_ShouldSetCurrentRoundTo1() {
@@ -519,17 +519,17 @@ final class GameTests: XCTestCase {
     
     // MARK: - EditScoreChange
     
-    func test_Game_WhenEditScoreChangeCalled_ShouldEditPlayerScoreByDifferenceInOriginalScoreChangeAndNewScoreChangeValue() {
+    func test_Game_WhenEditScoreChangeCalled_ShouldEditPlayerScoreChangeToNewValue() {
         // given
         let player1 = Player.getBasicPlayer()
-        let player2 = Player.getBasicPlayer()
-        let players = [player1, player2]
-        
-        var sut = Game(basicGameWithPlayers: players)
-        
         let scoreChangeOriginalChange = Int.random(in: 0...1000)
-        let indexOfPlayer = Int.random(in: 0...1)
-        var scoreChangeObject = ScoreChange(player: players[indexOfPlayer], scoreChange: scoreChangeOriginalChange)
+        
+        var scoreChangeObject = ScoreChange(player: player1, scoreChange: scoreChangeOriginalChange)
+        
+        player1.scoreChanges = [scoreChangeObject]
+        
+        var sut = Game(basicGameWithPlayers: [player1])
+        
         let gameHistorySegmentScoreChange = GameHistorySegment.scoreChange(scoreChangeObject)
         sut.historySegments = [gameHistorySegmentScoreChange]
         
@@ -540,7 +540,7 @@ final class GameTests: XCTestCase {
         sut.editScoreChange(scoreChangeObject)
         
         // then
-        XCTAssertEqual(sut.players[indexOfPlayer].score, scoreChangeAfterChange - scoreChangeOriginalChange)
+        XCTAssertEqual(sut.players.first?.scoreChanges.first?.scoreChange, scoreChangeAfterChange)
     }
     
     func test_Game_WhenEditScoreChangeCalled_ShouldEditHistorySegmentScoreChangeToNewValue() {
@@ -576,7 +576,7 @@ final class GameTests: XCTestCase {
     
     // MARK: - EditEndRound
     
-    func test_Game_WhenEndRoundCalled_ShouldEditPlayersScoresWithTheDifferenceInScoreChanges() {
+    func test_Game_WhenEndRoundCalled_ShouldEditPlayersScoreChanges() {
         // given
         let player1 = Player.getBasicPlayer()
         let player2 = Player.getBasicPlayer()
@@ -584,15 +584,13 @@ final class GameTests: XCTestCase {
         
         var sut = Game(basicGameWithPlayers: players)
         
-        let scoreChangePointOriginals = [
-            Int.random(in: 1...1000),
-            Int.random(in: 1...1000)
+        var scoreChangeObjects = [
+            ScoreChange(player: player1, scoreChange: 0),
+            ScoreChange(player: player2, scoreChange: 0)
         ]
         
-        var scoreChangeObjects = [
-            ScoreChange(player: players[0], scoreChange: scoreChangePointOriginals[0]),
-            ScoreChange(player: players[1], scoreChange: scoreChangePointOriginals[1])
-        ]
+        player1.scoreChanges = [scoreChangeObjects[0]]
+        player2.scoreChanges = [scoreChangeObjects[1]]
         
         var endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChangeObjects)
         let gameHistorySegment = GameHistorySegment.endRound(endRound)
@@ -612,8 +610,8 @@ final class GameTests: XCTestCase {
         sut.editEndRound(endRound)
         
         // then
-        XCTAssertEqual(sut.players[0].score, scoreChangePointAfters[0] - scoreChangePointOriginals[0])
-        XCTAssertEqual(sut.players[1].score, scoreChangePointAfters[1] - scoreChangePointOriginals[1])
+        XCTAssertEqual(sut.players[0].scoreChanges.first?.scoreChange, scoreChangePointAfters[0])
+        XCTAssertEqual(sut.players[1].score, scoreChangePointAfters[1])
     }
     
     func test_Game_WhenEndRoundCalled_ShouldSetEndRoundGameHistoryObjectScoreChangesToNewValues() {
@@ -655,7 +653,7 @@ class GameIsEndOfGameMock: GameMock {
 }
 
 class GameMock: GameProtocol {
-    convenience init(players: [Player]) {
+    convenience init(players: [PlayerProtocol]) {
         self.init()
         self.players = players
     }
@@ -667,8 +665,8 @@ class GameMock: GameProtocol {
     var endingScore: Int = 10
     var numberOfPlayers: Int = 0
     var currentRound: Int = 0
-    var players: [Player] = []
-    var winningPlayers: [Player] = []
+    var players: [PlayerProtocol] = []
+    var winningPlayers: [PlayerProtocol] = []
     var historySegments: [GameHistorySegment] = []
     
     var playerNameChangedCalledCount = 0
@@ -705,11 +703,13 @@ class GameMock: GameProtocol {
     }
     
     var editScoreScoreChange: ScoreChange?
-    var editScoreForPlayer: Player?
+    var editScoreForPlayerID: UUID?
+    var editScoreForPlayerName: String?
     var editScoreForChange: Int?
     var editScoreForCalledCount = 0
     func editScore(scoreChange: ScoreChange) {
-        editScoreForPlayer = scoreChange.player
+        editScoreForPlayerID = scoreChange.playerID
+        editScoreForPlayerName = scoreChange.playerName
         editScoreForChange = scoreChange.scoreChange
         editScoreScoreChange = scoreChange
         editScoreForCalledCount += 1

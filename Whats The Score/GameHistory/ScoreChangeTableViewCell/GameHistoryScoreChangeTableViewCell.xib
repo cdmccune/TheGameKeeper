@@ -23,18 +23,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ype-Ho-Jdr">
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="ype-Ho-Jdr">
                         <rect key="frame" x="20" y="5" width="290" height="34"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2F-9y-46P">
-                                <rect key="frame" x="0.0" y="0.0" width="264" height="34"/>
+                                <rect key="frame" x="0.0" y="0.0" width="214" height="34"/>
                                 <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="+4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="stA-Pb-OC9">
-                                <rect key="frame" x="264" y="0.0" width="26" height="34"/>
+                                <rect key="frame" x="220" y="0.0" width="26" height="34"/>
                                 <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="17"/>
+                                <color key="textColor" systemColor="tintColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="+4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yFU-Qg-Mlt">
+                                <rect key="frame" x="252" y="0.0" width="38" height="34"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="25"/>
                                 <color key="textColor" systemColor="tintColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -52,11 +59,15 @@
             <connections>
                 <outlet property="playerNameLabel" destination="J2F-9y-46P" id="Txs-RO-XqK"/>
                 <outlet property="scoreChangeLabel" destination="stA-Pb-OC9" id="Itf-Q1-Wje"/>
+                <outlet property="scoreTotalLabel" destination="yFU-Qg-Mlt" id="79S-au-c6K"/>
             </connections>
             <point key="canvasLocation" x="138.93129770992365" y="20.422535211267608"/>
         </tableViewCell>
     </objects>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

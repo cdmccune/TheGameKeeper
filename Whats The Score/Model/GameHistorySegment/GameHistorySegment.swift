@@ -28,12 +28,20 @@ func == (lhs: GameHistorySegment, rhs: GameHistorySegment) -> Bool {
 }
 
 struct ScoreChange {
+    
+    init(player: PlayerProtocol, scoreChange: Int) {
+        self.playerID = player.id
+        self.playerName = player.name
+        self.scoreChange = scoreChange
+    }
+    
     static func getBlankScoreChange() -> ScoreChange {
-        return ScoreChange(player: Player(name: "", position: 0), scoreChange: 0)
+        return ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
     }
     
     var id: UUID = UUID()
-    var player: Player
+    var playerID: UUID
+    var playerName: String
     var scoreChange: Int
 }
 
@@ -49,7 +57,7 @@ struct EndRound {
     
     static func getEndRoundWith(numberOfPlayers: Int) -> EndRound {
         var scoreChanges: [ScoreChange] = []
-        for i in 0..<numberOfPlayers {
+        for _ in 0..<numberOfPlayers {
             scoreChanges.append(ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0))
         }
         return EndRound(roundNumber: 0, scoreChangeArray: scoreChanges)
@@ -60,7 +68,7 @@ struct EndRound {
         self.scoreChangeArray = scoreChangeArray
     }
     
-    init(withPlayers players: [Player], roundNumber: Int) {
+    init(withPlayers players: [PlayerProtocol], roundNumber: Int) {
         self.roundNumber = roundNumber
         
         var scoreChangeArray: [ScoreChange] = []

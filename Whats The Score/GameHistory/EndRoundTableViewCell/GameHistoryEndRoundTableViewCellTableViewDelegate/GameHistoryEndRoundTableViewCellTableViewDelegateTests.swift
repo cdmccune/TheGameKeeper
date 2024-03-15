@@ -93,7 +93,7 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
-        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player, player)
+        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, player.id)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.scoreChange, scoreChangeInt)
         XCTAssertTrue(cell?.setupPropertiesForIsInRoundEndBool ?? false)
     }

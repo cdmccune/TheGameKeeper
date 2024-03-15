@@ -33,7 +33,7 @@ class EndGamePlayerTableViewCell: UITableViewCell {
         playerScoreLabel.text = "???"
     }
     
-    func setupViewFor(_ player: Player) {
+    func setupViewFor(_ player: PlayerProtocol) {
         playerNameLabel.text = player.name
         playerScoreLabel.text = String(player.score)
     }

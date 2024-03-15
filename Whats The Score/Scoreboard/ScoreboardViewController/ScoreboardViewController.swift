@@ -114,7 +114,7 @@ class ScoreboardViewController: UIViewController {
         viewModel?.openingGameOverCheck()
     }
     
-    private func editPlayerScore(for player: Player) {
+    private func editPlayerScore(for player: PlayerProtocol) {
         guard viewModel != nil else { return }
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -129,7 +129,7 @@ class ScoreboardViewController: UIViewController {
         self.present(editPlayerScoreVC, animated: true)
     }
     
-    private func editPlayer(_ player: Player) {
+    private func editPlayer(_ player: PlayerProtocol) {
         guard viewModel != nil else { return }
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

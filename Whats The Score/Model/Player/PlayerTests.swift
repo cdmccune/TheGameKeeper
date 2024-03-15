@@ -52,4 +52,64 @@ final class PlayerTests: XCTestCase {
         XCTAssertFalse(sut.hasDefaultName)
     }
     
+    
+    // MARK: - GetScoreThrough
+    
+    func test_Player_WhenGetScoreThroughCalled_ShouldReduceScoreChangesUpUntilIndexAndSumThem() {
+        // given
+        
+        let sut = Player.getBasicPlayer()
+        
+        let scoreChangeCount = Int.random(in: 5...10)
+        var scoreChangeIntArray = [Int]()
+        
+        for _ in 0..<scoreChangeCount {
+            let scoreChangeInt = Int.random(in: 100...1000)
+            scoreChangeIntArray.append(scoreChangeInt)
+            sut.scoreChanges.append(ScoreChange(player: sut, scoreChange: scoreChangeInt))
+        }
+        
+        let randomIndex = Int.random(in: 3..<scoreChangeCount)
+        let scoreChangeAtIndex = sut.scoreChanges[randomIndex]
+        
+        // when
+        let scoreThroughIndex = sut.getScoreThrough(scoreChangeAtIndex)
+        
+        // then
+        let limitedArray = scoreChangeIntArray[0...randomIndex]
+        let expectedScoreThroughIndex = limitedArray.reduce(0) { partialResult, scoreChangeInt in
+            partialResult + scoreChangeInt
+        }
+        XCTAssertEqual(expectedScoreThroughIndex, scoreThroughIndex)
+    }
+    
+}
+
+class PlayerMock: PlayerProtocol {
+    
+    init(name: String = "", position: Int = 0, score: Int = 0, id: UUID = UUID(), scoreChanges: [ScoreChange] = [], getScoreThroughResult: Int = 0) {
+        self.name = name
+        self.score = score
+        self.id = id
+        self.position = position
+        self.scoreChanges = scoreChanges
+        self.getScoreThroughResult = getScoreThroughResult
+    }
+    
+    var name: String
+    var score: Int
+    var position: Int
+    var id: UUID
+    var scoreChanges: [Whats_The_Score.ScoreChange]
+    var hasDefaultName: Bool = false
+    
+    var getScoreThroughResult: Int
+    func getScoreThrough(_ scoreChange: ScoreChange) -> Int {
+        return getScoreThroughResult
+    }
+}
+
+extension PlayerMock: Equatable {}
+func == (lhs: PlayerMock, rhs: PlayerMock) -> Bool {
+    return lhs.id == rhs.id
 }

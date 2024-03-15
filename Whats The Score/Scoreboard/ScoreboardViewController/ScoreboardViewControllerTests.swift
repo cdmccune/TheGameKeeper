@@ -311,7 +311,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         let playerScoreEditorVC = sut.viewControllerPresented as? ScoreboardPlayerEditScorePopoverViewController
-        XCTAssertEqual(playerScoreEditorVC?.scoreChange?.player, player)
+        XCTAssertEqual(playerScoreEditorVC?.scoreChange?.playerID, player.id)
         XCTAssertTrue(playerScoreEditorVC?.delegate is ScoreboardViewModelMock)
     }
     
@@ -408,7 +408,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         let playerEditorVC = sut.viewControllerPresented as? EditPlayerPopoverViewController
-        XCTAssertEqual(playerEditorVC?.player, player)
+        XCTAssertEqual(playerEditorVC?.player?.id, player.id)
         XCTAssertTrue(playerEditorVC?.delegate is ScoreboardViewModelMock)
     }
     
@@ -528,7 +528,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewModelMock.deletePlayerCalledCount, 1)
-        XCTAssertEqual(viewModelMock.deletePlayerPlayer, player)
+        XCTAssertEqual(viewModelMock.deletePlayerPlayer?.id, player.id)
     }
 
     
@@ -988,7 +988,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let sortedPlayers = players.sorted { $0.position < $1.position }
         
         sortedPlayers.enumerated().forEach { (index, player) in
-            XCTAssertEqual(endRoundPopoverVC?.endRound?.scoreChangeArray[index].player, player)
+            XCTAssertEqual(endRoundPopoverVC?.endRound?.scoreChangeArray[index].playerID, player.id)
         }
         
         XCTAssertEqual(endRoundPopoverVC?.endRound?.roundNumber, currentRound)
@@ -1464,7 +1464,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         game.gameType = .round
         
         let topPlayerScore = Int.random(in: 1...5)
-        game.winningPlayers = [Player(name: "", position: 0, score: topPlayerScore)]
+        game.winningPlayers = [PlayerMock(name: "", position: 0, score: topPlayerScore)]
         
         let endingScore = Int.random(in: 6...10)
         game.endingScore = endingScore
@@ -1491,7 +1491,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         let topPlayerScore = 5
         let playerName = UUID().uuidString
-        game.winningPlayers = [Player(name: playerName, position: 0, score: topPlayerScore)]
+        game.winningPlayers = [PlayerMock(name: playerName, position: 0, score: topPlayerScore)]
         
         let endingScore = 6
         game.endingScore = endingScore
@@ -1517,7 +1517,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         let topPlayerScore = Int.random(in: 1...5)
         let playerName = UUID().uuidString
-        game.winningPlayers = [Player(name: playerName, position: 0, score: topPlayerScore)]
+        game.winningPlayers = [PlayerMock(name: playerName, position: 0, score: topPlayerScore)]
         
         let endingScore = Int.random(in: 7...10)
         game.endingScore = endingScore
@@ -1542,8 +1542,8 @@ final class ScoreboardViewControllerTests: XCTestCase {
         game.gameType = .round
         
         let topPlayerScore = Int.random(in: 1...5)
-        game.winningPlayers = [Player(name: "", position: 0, score: topPlayerScore),
-                               Player(name: "", position: 0, score: topPlayerScore)]
+        game.winningPlayers = [PlayerMock(name: "", position: 0, score: topPlayerScore),
+                               PlayerMock(name: "", position: 0, score: topPlayerScore)]
         
         let endingScore = Int.random(in: 7...10)
         game.endingScore = endingScore

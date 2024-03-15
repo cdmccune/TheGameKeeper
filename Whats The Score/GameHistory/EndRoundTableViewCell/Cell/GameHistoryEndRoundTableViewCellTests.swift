@@ -74,16 +74,15 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
     func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetViewModelWithScoreChanges() {
         // given
         let sut = tableViewCell!
-        var scoreChangeObject = ScoreChange.getBlankScoreChange()
         let player = Player.getBasicPlayer()
-        scoreChangeObject.player = player
+        var scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
         
         // when
         sut.setupCellFor(round: 0, and: [scoreChangeObject])
         
         // then
         XCTAssertNotNil(sut.viewModel)
-        XCTAssertEqual(sut.viewModel?.scoreChanges.first?.player, player)
+        XCTAssertEqual(sut.viewModel?.scoreChanges.first?.playerID, player.id)
     }
     
     func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetTableViewDelegateDatasourceAsGameHistoryEndRoundTableViewCellTableViewDelegate() {

@@ -106,7 +106,7 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(delegateMock.finishedEditingCalledCount, 1)
-        XCTAssertEqual(delegateMock.finishedEditingPlayer, player)
+        XCTAssertEqual(delegateMock.finishedEditingPlayer?.id, player.id)
     }
     
     func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldDismissView() {
@@ -156,8 +156,8 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     
     class EditPlayerPopoverDelegateMock: EditPlayerPopoverDelegateProtocol {
         var finishedEditingCalledCount = 0
-        var finishedEditingPlayer: Player?
-        func finishedEditing(_ player: Whats_The_Score.Player) {
+        var finishedEditingPlayer: PlayerProtocol?
+        func finishedEditing(_ player: PlayerProtocol) {
             finishedEditingCalledCount += 1
             finishedEditingPlayer = player
         }

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EditPlayerPopoverDelegateProtocol {
-    func finishedEditing(_ player: Player)
+    func finishedEditing(_ player: PlayerProtocol)
 }
 
 class EditPlayerPopoverViewController: UIViewController {
@@ -22,7 +22,7 @@ class EditPlayerPopoverViewController: UIViewController {
     
     // MARK: - Properties
     
-    var player: Player?
+    var player: PlayerProtocol?
     var delegate: EditPlayerPopoverDelegateProtocol?
     lazy var textFieldDelegate = DismissingTextFieldDelegate()
     

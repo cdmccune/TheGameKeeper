@@ -284,7 +284,8 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(delegateMock.editCalledCount, 1)
-        XCTAssertEqual(delegateMock.editPlayer, player)
+        XCTAssertEqual(delegateMock.editPlayerID, player.id)
+        XCTAssertEqual(delegateMock.editPlayerName, player.name)
         XCTAssertEqual(delegateMock.editChange, scoreNumber)
     }
     
@@ -355,7 +356,8 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(delegateMock.editCalledCount, 1)
-        XCTAssertEqual(delegateMock.editPlayer, player)
+        XCTAssertEqual(delegateMock.editPlayerID, player.id)
+        XCTAssertEqual(delegateMock.editPlayerName, player.name)
         XCTAssertEqual(delegateMock.editChange, (-1 * scoreNumber))
     }
     
@@ -407,14 +409,16 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
 }
 
 class ScoreboardPlayerEditScorePopoverDelegateMock: ScoreboardPlayerEditScorePopoverDelegate {
-    var editPlayer: Player?
+    var editPlayerID: UUID?
+    var editPlayerName: String?
     var editChange: Int?
     var editScoreChangeObject: ScoreChange?
     var editCalledCount = 0
     
     func editScore(_ scoreChange: ScoreChange) {
         editCalledCount += 1
-        editPlayer = scoreChange.player
+        editPlayerID = scoreChange.playerID
+        editPlayerName = scoreChange.playerName
         editChange = scoreChange.scoreChange
         editScoreChangeObject = scoreChange
     }

@@ -13,12 +13,12 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
     
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var scoreChangeLabel: UILabel!
-    
+    @IBOutlet weak var scoreTotalLabel: UILabel!
     
     // MARK: - Functions
     
     func setupViewProperties(for scoreChange: ScoreChange, isInRoundEnd: Bool = false) {
-        playerNameLabel.text = scoreChange.player.name
+        playerNameLabel.text = scoreChange.playerName
         scoreChangeLabel.text = String(scoreChange.scoreChange)
         
         switch scoreChange.scoreChange {

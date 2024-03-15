@@ -15,7 +15,7 @@ class ScoreboardTableViewCell: UITableViewCell {
     var editPlayer: (() -> Void)?
     
     
-    func setupCellWith(_ player: Player) {
+    func setupCellWith(_ player: PlayerProtocol) {
         self.playerNameLabel.text = player.name
         self.playerScoreLabel.text = String(player.score)
     }

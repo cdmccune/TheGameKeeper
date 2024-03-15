@@ -77,7 +77,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupCellWithCalledCount, 1)
-        XCTAssertEqual(cell?.setupCellWithPlayer, player)
+        XCTAssertEqual(cell?.setupCellWithPlayer?.id, player.id)
     }
     
     func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledOutOfIndexForPlayer_ShouldCallCellsSetupCellForError() {
@@ -169,8 +169,8 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     class ScoreboardTableViewCellMock: ScoreboardTableViewCell {
         var setupCellWithCalledCount = 0
-        var setupCellWithPlayer: Player?
-        override func setupCellWith(_ player: Player) {
+        var setupCellWithPlayer: PlayerProtocol?
+        override func setupCellWith(_ player: PlayerProtocol) {
             setupCellWithPlayer = player
             setupCellWithCalledCount += 1
         }

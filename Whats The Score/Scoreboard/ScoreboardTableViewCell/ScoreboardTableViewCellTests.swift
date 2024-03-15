@@ -55,7 +55,7 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         // given
         let sut = tableViewCell!
         let playerScore = Int.random(in: 0...1000)
-        let player = Player(name: "", position: 0, score: playerScore)
+        let player = PlayerMock(name: "", position: 0, score: playerScore)
         
         // when
         sut.setupCellWith(player)

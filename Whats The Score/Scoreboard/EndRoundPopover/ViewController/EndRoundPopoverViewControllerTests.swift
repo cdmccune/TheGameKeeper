@@ -154,7 +154,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let endRoundPopoverPlayerStackView = sut.playerStackView.subviews[randomPlayerIndex] as? EndRoundPopoverPlayerStackView
         
         // then
-        XCTAssertEqual(endRoundPopoverPlayerStackView?.player, endRound.scoreChangeArray[randomPlayerIndex].player)
+        XCTAssertEqual(endRoundPopoverPlayerStackView?.playerID, endRound.scoreChangeArray[randomPlayerIndex].playerID)
     }
     
     func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldIndexAndActionDelegateToSelf() {

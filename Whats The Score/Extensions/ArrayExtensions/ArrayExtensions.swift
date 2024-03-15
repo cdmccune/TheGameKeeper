@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Array where Element == Player {
+extension Array where Element == PlayerProtocol {
     mutating func setPositions() {
         for position in self.indices {
             self[position].position = position

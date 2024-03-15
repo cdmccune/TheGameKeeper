@@ -92,7 +92,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
-        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player, player)
+        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, player.id)
         XCTAssertFalse(cell?.setupPropertiesForIsInRoundEndBool ?? true)
     }
     
@@ -123,7 +123,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         // then
         XCTAssertEqual(cell?.setupCellForCalledCount, 1)
         XCTAssertEqual(cell?.setupCellForRound, roundNumber)
-        XCTAssertEqual(cell?.setupCellForScoreChanges?.first?.player, player)
+        XCTAssertEqual(cell?.setupCellForScoreChanges?.first?.playerID, player.id)
     }
     
     

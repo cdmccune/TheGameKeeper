@@ -13,7 +13,10 @@ final class ArrayExtensionsTests: XCTestCase {
     func test_ArrayOfPlayers_WhenSetPositionsCalled_ShouldSetCorrectPositions() {
         // given
         let count = Int.random(in: 5...10)
-        var sut = Array(repeating: Player(name: "", position: 0), count: count)
+        var sut: [PlayerProtocol] = []
+        for _ in 0..<count {
+            sut.append(Player.getBasicPlayer())
+        }
         
         // when
         sut.setPositions()

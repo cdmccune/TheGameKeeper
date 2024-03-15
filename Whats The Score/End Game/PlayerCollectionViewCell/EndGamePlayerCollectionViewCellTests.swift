@@ -60,7 +60,7 @@ final class EndGamePlayerCollectionViewCellTests: XCTestCase {
         
         let playerName = UUID().uuidString
         let playerScore = Int.random(in: 1...10000)
-        let player = Player(name: playerName, position: 0, score: playerScore)
+        let player = PlayerMock(name: playerName, position: 0, score: playerScore)
         
         // when
         sut.setupViewFor(player)

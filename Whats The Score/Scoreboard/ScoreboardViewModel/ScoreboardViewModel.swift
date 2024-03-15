@@ -10,19 +10,19 @@ import Foundation
 protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate, KeepPlayingPopoverDelegate, GameHistoryViewControllerDelegate {
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
-    var playerToEditScore: Observable<Player> { get set }
-    var playerToEdit: Observable<Player> { get set }
-    var playerToDelete: Observable<Player> { get set }
+    var playerToEditScore: Observable<PlayerProtocol> { get set }
+    var playerToEdit: Observable<PlayerProtocol> { get set }
+    var playerToDelete: Observable<PlayerProtocol> { get set }
     var sortPreference: Observable<ScoreboardSortPreference> { get set }
     var shouldShowEndGamePopup: Observable<Bool> { get set }
     var shouldGoToEndGameScreen: Observable<Bool> { get set }
     var shouldShowKeepPlayingPopup: Observable<Bool> { get set }
-    var sortedPlayers: [Player] { get }
+    var sortedPlayers: [PlayerProtocol] { get }
     
     func startEditingPlayerAt(_ index: Int)
     func startEditingPlayerScoreAt(_ index: Int)
     func startDeletingPlayerAt(_ index: Int)
-    func deletePlayer(_ player: Player)
+    func deletePlayer(_ player: PlayerProtocol)
     func addPlayer()
     func endGame()
     func resetGame()
@@ -51,15 +51,15 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     
     // MARK: - Observables
     
-    var playerToEditScore: Observable<Player> = Observable(nil)
-    var playerToEdit: Observable<Player> = Observable(nil)
-    var playerToDelete: Observable<Player> = Observable(nil)
+    var playerToEditScore: Observable<PlayerProtocol> = Observable(nil)
+    var playerToEdit: Observable<PlayerProtocol> = Observable(nil)
+    var playerToDelete: Observable<PlayerProtocol> = Observable(nil)
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
     var shouldShowEndGamePopup: Observable<Bool> = Observable(false)
     var shouldGoToEndGameScreen: Observable<Bool> = Observable(false)
     var shouldShowKeepPlayingPopup: Observable<Bool> = Observable(false)
     
-    var sortedPlayers: [Player] {
+    var sortedPlayers: [PlayerProtocol] {
         return game.players.sorted {player1, player2 in
             switch sortPreference.value ?? .score {
             case .score:
@@ -90,7 +90,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func editScore(_ scoreChange: ScoreChange) {
-        guard game.players.contains(scoreChange.player) else { return }
+        guard game.players.contains(where: { $0.id == scoreChange.playerID }) else { return }
         
         game.editScore(scoreChange: scoreChange)
         
@@ -110,7 +110,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         self.playerToDelete.value = player
     }
     
-    func deletePlayer(_ player: Player) {
+    func deletePlayer(_ player: PlayerProtocol) {
         game.deletePlayerAt(player.position)
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
@@ -152,8 +152,8 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
 
 
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
-    func finishedEditing(_ player: Player) {
-        guard let index = game.players.firstIndex(of: player) else { return }
+    func finishedEditing(_ player: PlayerProtocol) {
+        guard let index = game.players.firstIndex(where: { $0.id == player.id }) else { return }
         game.players[index] = player
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }

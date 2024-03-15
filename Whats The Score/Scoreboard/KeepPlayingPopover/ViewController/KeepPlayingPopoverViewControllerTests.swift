@@ -262,7 +262,7 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         let game = GameMock()
         game.gameEndType = .score
         let highScore = 5
-        let player = Player(name: "", position: 0, score: highScore)
+        let player = PlayerMock(name: "", position: 0, score: highScore)
         game.winningPlayers = [player]
         sut.game = game
         
@@ -288,7 +288,7 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         let game = GameMock()
         game.gameEndType = .score
         let highScore = 5
-        let player = Player(name: "", position: 0, score: highScore)
+        let player = PlayerMock(name: "", position: 0, score: highScore)
         game.winningPlayers = [player]
         sut.game = game
         
@@ -315,7 +315,8 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         let game = GameMock()
         game.gameEndType = .score
         let highScore = 5
-        let player = Player(name: "", position: 0, score: highScore)
+//        let player = Player(name: "", position: 0, score: highScore)
+        let player = Player(name: "", position: 0)
         game.winningPlayers = [player]
         sut.game = game
         

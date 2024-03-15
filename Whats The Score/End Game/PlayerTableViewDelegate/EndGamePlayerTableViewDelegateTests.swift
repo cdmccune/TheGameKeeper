@@ -114,7 +114,7 @@ final class EndGamePlayerTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupViewForCalledCount, 1)
-        XCTAssertEqual(cell?.setupViewForPlayer, sut.viewModel.losingPlayers[playerIndex])
+        XCTAssertEqual(cell?.setupViewForPlayer?.id, sut.viewModel.losingPlayers[playerIndex].id)
     }
 
 }
@@ -131,8 +131,8 @@ class EndGamePlayerTableViewCellMock: EndGamePlayerTableViewCell {
     }
     
     var setupViewForCalledCount = 0
-    var setupViewForPlayer: Player?
-    override func setupViewFor(_ player: Player) {
+    var setupViewForPlayer: PlayerProtocol?
+    override func setupViewFor(_ player: PlayerProtocol) {
         setupViewForCalledCount += 1
         setupViewForPlayer = player
     }

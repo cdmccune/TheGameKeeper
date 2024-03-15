@@ -59,7 +59,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
     }
     
     private func setupViews() {
-        playerLabel.text = scoreChange?.player.name
+        playerLabel.text = scoreChange?.playerName
         
         if let scoreChange = scoreChange?.scoreChange,
            scoreChange != 0 {
