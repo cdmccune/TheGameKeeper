@@ -32,9 +32,9 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         guard game.historySegments.indices.contains(row) else { return }
         
         switch game.historySegments[row] {
-        case .scoreChange(let scoreChange):
+        case .scoreChange(let scoreChange, _):
             scoreChangeToEdit.value = scoreChange
-        case .endRound(let endRound):
+        case .endRound(let endRound, _):
             endRoundToEdit.value = endRound
         }
     }
@@ -42,7 +42,7 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     func editScore(_ scoreChange: ScoreChange) {
         game.editScoreChange(scoreChange)
         
-        if let index = game.historySegments.firstIndex(of: GameHistorySegment.scoreChange(scoreChange)) {
+        if let index = game.historySegments.firstIndex(of: GameHistorySegment.scoreChange(scoreChange, 0)) {
             self.tableViewIndexToRefresh.value = index
         }
     }
@@ -50,7 +50,7 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     func endRound(_ endRound: EndRound) {
         game.editEndRound(endRound)
         
-        if let index = game.historySegments.firstIndex(of: GameHistorySegment.endRound(endRound)) {
+        if let index = game.historySegments.firstIndex(of: GameHistorySegment.endRound(endRound, [])) {
             self.tableViewIndexToRefresh.value = index
         }
     }

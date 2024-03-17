@@ -225,7 +225,10 @@ final class GameTests: XCTestCase {
         sut.players = [player1, player2, player3]
         
         // when
-        let winningPlayers = sut.winningPlayers as! [PlayerMock]
+        guard let winningPlayers = sut.winningPlayers as? [PlayerMock] else {
+            XCTFail("object not present")
+            return
+        }
         
         // then
         XCTAssertEqual(winningPlayers.count, 2)
@@ -262,7 +265,7 @@ final class GameTests: XCTestCase {
     }
     
     
-    // MARK: - EditScoreFor
+    // MARK: - EditScore
     
     func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeToPlayer() {
         // given
@@ -280,9 +283,10 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.players.first?.scoreChanges.first, scoreChangeObject)
     }
     
-    func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeGameHistorySegmentWithPlayerAndScoreChange() {
+    func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeGameHistorySegmentWithPlayerAndScoreChangeAndPLayerScore() {
         // given
-        let player = Player(name: "", position: 0)
+        let totalScore = Int.random(in: 1...1000)
+        let player = PlayerMock(score: totalScore)
         var sut = Game(basicGameWithPlayers: [player])
         
         let pointChange = Int.random(in: (-1000...1000))
@@ -293,13 +297,14 @@ final class GameTests: XCTestCase {
         sut.editScore(scoreChange: scoreChangeObject)
         
         // then
-        guard case .scoreChange(let scoreChange) = sut.historySegments.first else {
+        guard case .scoreChange(let scoreChange, let totalScoreHistory) = sut.historySegments.first else {
             XCTFail("Didn't add a history segment")
             return
         }
         
         XCTAssertEqual(scoreChange.scoreChange, pointChange)
         XCTAssertEqual(scoreChange.playerID, player.id)
+        XCTAssertEqual(totalScore, totalScoreHistory)
     }
     
     
@@ -349,11 +354,18 @@ final class GameTests: XCTestCase {
  
     }
     
-    func test_Game_WhenEndRoundCalled_ShouldAppendEndRoundGameHistorySegmentWithCurrentRoundBeforeIncrementing() {
+    func test_Game_WhenEndRoundCalled_ShouldAppendEndRoundGameHistorySegmentWithCurrentRoundBeforeIncrementingPlayerAndTotalScoresOfPlayers() {
         // given
-        let player1 = Player(name: "", position: 0)
-        let player2 = Player(name: "", position: 1)
-        let player3 = Player(name: "", position: 2)
+        
+        let totalScore1 = Int.random(in: 1...1000)
+        let totalScore2 = Int.random(in: 1...1000)
+        let totalScore3 = Int.random(in: 1...1000)
+        let totalScores = [totalScore1, totalScore2, totalScore3]
+        
+        
+        let player1 = PlayerMock(score: totalScore1)
+        let player2 = PlayerMock(score: totalScore2)
+        let player3 = PlayerMock(score: totalScore3)
         let players = [player1, player2, player3]
         
         var sut = Game(basicGameWithPlayers: players)
@@ -378,7 +390,7 @@ final class GameTests: XCTestCase {
         sut.endRound(endRound)
         
         // then
-        guard case .endRound(let endRound) = sut.historySegments.first else {
+        guard case .endRound(let endRound, let totalScoresHistory) = sut.historySegments.first else {
             XCTFail("Didn't add a history segment")
             return
         }
@@ -389,6 +401,8 @@ final class GameTests: XCTestCase {
             XCTAssertEqual(players[index].id, scoreChange.playerID)
             XCTAssertEqual(scores[index], scoreChange.scoreChange)
         }
+        
+        XCTAssertEqual(totalScores, totalScoresHistory)
     }
     
     
@@ -482,7 +496,7 @@ final class GameTests: XCTestCase {
         
         var sut = Game(basicGameWithPlayers: [player1, player2])
         sut.currentRound = 5
-        sut.historySegments.append(.scoreChange(ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)))
+        sut.historySegments.append(.scoreChange(ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0), 0))
         
         // when
         sut.resetGame()
@@ -507,7 +521,7 @@ final class GameTests: XCTestCase {
     func test_Game_WhenResetGameCalled_ShouldWipeGameHistory() {
         // given
         var sut = Game(basicGameWithPlayers: [])
-        sut.historySegments.append(.scoreChange(ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)))
+        sut.historySegments.append(.scoreChange(ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0), 0))
         
         // when
         sut.resetGame()
@@ -530,7 +544,7 @@ final class GameTests: XCTestCase {
         
         var sut = Game(basicGameWithPlayers: [player1])
         
-        let gameHistorySegmentScoreChange = GameHistorySegment.scoreChange(scoreChangeObject)
+        let gameHistorySegmentScoreChange = GameHistorySegment.scoreChange(scoreChangeObject, 0)
         sut.historySegments = [gameHistorySegmentScoreChange]
         
         let scoreChangeAfterChange = Int.random(in: 0...1000)
@@ -543,7 +557,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.players.first?.scoreChanges.first?.scoreChange, scoreChangeAfterChange)
     }
     
-    func test_Game_WhenEditScoreChangeCalled_ShouldEditHistorySegmentScoreChangeToNewValue() {
+    func test_Game_WhenEditScoreChangeCalled_ShouldEditHistorySegmentScoreChangeAnd() {
         // given
         let player1 = Player.getBasicPlayer()
         let player2 = Player.getBasicPlayer()
@@ -552,10 +566,10 @@ final class GameTests: XCTestCase {
         var sut = Game(basicGameWithPlayers: players)
         sut.players = [player1, player2]
         
-        let scoreChangeOriginalChange = Int.random(in: 0...1000)
         let indexOfPlayer = Int.random(in: 0...1)
-        var scoreChangeObject = ScoreChange(player: players[indexOfPlayer], scoreChange: scoreChangeOriginalChange)
-        let gameHistorySegmentScoreChange = GameHistorySegment.scoreChange(scoreChangeObject)
+        var scoreChangeObject = ScoreChange(player: players[indexOfPlayer], scoreChange: 0)
+        players[indexOfPlayer].scoreChanges = [scoreChangeObject]
+        let gameHistorySegmentScoreChange = GameHistorySegment.scoreChange(scoreChangeObject, 0)
         sut.historySegments = [gameHistorySegmentScoreChange]
         
         let scoreChangeAfterChange = Int.random(in: 0...1000)
@@ -565,7 +579,7 @@ final class GameTests: XCTestCase {
         sut.editScoreChange(scoreChangeObject)
         
         // then
-        guard case GameHistorySegment.scoreChange(let newScoreChange) = sut.historySegments.first! else {
+        guard case GameHistorySegment.scoreChange(let newScoreChange, _) = sut.historySegments.first! else {
             XCTFail("The history segment should be a score change")
             return
         }
@@ -573,10 +587,32 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(newScoreChange.scoreChange, scoreChangeAfterChange)
     }
     
+    func test_Game_WhenEditScoreChangeCalled_ShouldSetScoreChangeHistorySegmentTotalScoreToPlayerGetScoreThrough() {
+        // given
+        let getScoreThroughResult = Int.random(in: 0...100)
+        let player = PlayerMock(getScoreThroughResult: getScoreThroughResult)
+        
+        var sut = Game(basicGameWithPlayers: [player])
+        let scoreChange = ScoreChange(player: player, scoreChange: 0)
+        player.scoreChanges = [scoreChange]
+        sut.historySegments = [GameHistorySegment.scoreChange(scoreChange, 0)]
+        
+        // when
+        sut.editScoreChange(scoreChange)
+        
+        // then
+        guard case GameHistorySegment.scoreChange(_, let totalScore) = sut.historySegments.first! else {
+            XCTFail("The history segment should be a score change")
+            return
+        }
+        
+        XCTAssertEqual(totalScore, getScoreThroughResult)
+    }
+    
     
     // MARK: - EditEndRound
     
-    func test_Game_WhenEndRoundCalled_ShouldEditPlayersScoreChanges() {
+    func test_Game_WhenEditEndRoundCalled_ShouldEditPlayersScoreChanges() {
         // given
         let player1 = Player.getBasicPlayer()
         let player2 = Player.getBasicPlayer()
@@ -593,7 +629,7 @@ final class GameTests: XCTestCase {
         player2.scoreChanges = [scoreChangeObjects[1]]
         
         var endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChangeObjects)
-        let gameHistorySegment = GameHistorySegment.endRound(endRound)
+        let gameHistorySegment = GameHistorySegment.endRound(endRound, [])
         sut.historySegments = [gameHistorySegment]
         
         let scoreChangePointAfters = [
@@ -614,29 +650,68 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.players[1].score, scoreChangePointAfters[1])
     }
     
-    func test_Game_WhenEndRoundCalled_ShouldSetEndRoundGameHistoryObjectScoreChangesToNewValues() {
+    func test_Game_WhenEditEndRoundCalled_ShouldSetEndRoundGameHistoryObjectScoreChanges() {
         // given
-        var sut = Game(basicGameWithPlayers: [])
+        let player1 = Player.getBasicPlayer()
+        var sut = Game(basicGameWithPlayers: [player1])
         
         var endRound = EndRound(roundNumber: 0, scoreChangeArray: [])
-        let endRoundHistoryObject = GameHistorySegment.endRound(endRound)
+        let endRoundHistoryObject = GameHistorySegment.endRound(endRound, [])
         sut.historySegments = [endRoundHistoryObject]
         
-        let scoreChangeArray = [ScoreChange.getBlankScoreChange()]
+        let scoreChangeInt = Int.random(in: 1...1000)
+        var scoreChangeObject = ScoreChange(player: player1, scoreChange: 0)
+        player1.scoreChanges = [scoreChangeObject]
         
-        endRound.scoreChangeArray = scoreChangeArray
+        scoreChangeObject.scoreChange = scoreChangeInt
+        
+        endRound.scoreChangeArray = [scoreChangeObject]
         
         // when
         sut.editEndRound(endRound)
         
         // then
-        guard case .endRound(let newEndRound) = sut.historySegments[0] else {
+        guard case .endRound(let newEndRound, _) = sut.historySegments[0] else {
             XCTFail("History Segment not present")
             return
         }
         
-        XCTAssertEqual(newEndRound.scoreChangeArray, scoreChangeArray)
-
+        XCTAssertEqual(newEndRound.scoreChangeArray, [scoreChangeObject])
+    }
+    
+    func test_Game_WhenEditEndRoundCalled_ShouldSetEndRoundHistorySegmentTotalScoresToPlayerGetScoreThrough() {
+        // given
+        let player1GetScoreThrough = Int.random(in: 1...1000)
+        let player1 = PlayerMock(getScoreThroughResult: player1GetScoreThrough)
+        
+        let player2GetScoreThrough = Int.random(in: 1...1000)
+        let player2 = PlayerMock(getScoreThroughResult: player2GetScoreThrough)
+        
+        var sut = Game(basicGameWithPlayers: [player1, player2])
+        
+        let scoreChange1 = ScoreChange(player: player1, scoreChange: 0)
+        player1.scoreChanges = [scoreChange1]
+        
+        let scoreChange2 = ScoreChange(player: player2, scoreChange: 0)
+        player2.scoreChanges = [scoreChange2]
+        
+        let endRound = EndRound(roundNumber: 0, scoreChangeArray: [scoreChange1, scoreChange2])
+        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [])
+        
+        sut.historySegments = [
+            endRoundHistorySegment
+        ]
+        
+        // when
+        sut.editEndRound(endRound)
+        
+        // then
+        guard case .endRound(_, let totalScores) = sut.historySegments[0] else {
+            XCTFail("History Segment not present")
+            return
+        }
+        XCTAssertEqual(player1GetScoreThrough, totalScores[0])
+        XCTAssertEqual(player2GetScoreThrough, totalScores[1])
     }
     
     

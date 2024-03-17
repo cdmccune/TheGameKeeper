@@ -70,7 +70,7 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         // given
         let (sut, tableView) = getSutAndTableView()
         sut.viewModel.scoreChanges = [ScoreChange.getBlankScoreChange()]
-        
+        sut.viewModel.totalScores = [0]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
@@ -79,14 +79,16 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         XCTAssertTrue(cell is GameHistoryScoreChangeTableViewCell)
     }
     
-    func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCellWithScoreChangeAndIsInRoundEndTrue() {
+    func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCellWithScoreChangeAndIsInRoundEndTrueAndTotalScores() {
         // given
         let (sut, tableView) = getSutAndTableView()
         let player = Player.getBasicPlayer()
         let scoreChangeInt = Int.random(in: 1...1000)
         let scoreChange = ScoreChange(player: player, scoreChange: scoreChangeInt)
+        let totalScores = [Int.random(in: 1...1000)]
         
         sut.viewModel.scoreChanges = [scoreChange]
+        sut.viewModel.totalScores = totalScores
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? GameHistoryScoreChangeTableViewCellMock
@@ -95,9 +97,10 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, player.id)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.scoreChange, scoreChangeInt)
+        XCTAssertEqual(cell?.setupPropertiesForTotalScore, totalScores[0])
+        
         XCTAssertTrue(cell?.setupPropertiesForIsInRoundEndBool ?? false)
     }
-    
     
     // MARK: - HeightForRowAt
     

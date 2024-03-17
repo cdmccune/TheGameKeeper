@@ -17,9 +17,10 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     
-    func setupViewProperties(for scoreChange: ScoreChange, isInRoundEnd: Bool = false) {
+    func setupViewProperties(for scoreChange: ScoreChange, isInRoundEnd: Bool = false, andTotalScore totalScore: Int) {
         playerNameLabel.text = scoreChange.playerName
         scoreChangeLabel.text = String(scoreChange.scoreChange)
+        scoreTotalLabel.text = String(totalScore)
         
         switch scoreChange.scoreChange {
         case ..<0:

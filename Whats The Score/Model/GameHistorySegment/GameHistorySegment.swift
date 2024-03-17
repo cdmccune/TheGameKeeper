@@ -8,14 +8,14 @@
 import Foundation
 
 enum GameHistorySegment {
-    case scoreChange(ScoreChange)
-    case endRound(EndRound)
+    case scoreChange(ScoreChange, Int)
+    case endRound(EndRound, [Int])
     
     var id: UUID {
         switch self {
-        case .scoreChange(let scoreChange):
+        case .scoreChange(let scoreChange, _):
             return scoreChange.id
-        case .endRound(let endRound):
+        case .endRound(let endRound, _):
             return endRound.id
         }
     }

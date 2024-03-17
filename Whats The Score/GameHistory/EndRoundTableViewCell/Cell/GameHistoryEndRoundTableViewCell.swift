@@ -30,10 +30,10 @@ class GameHistoryEndRoundTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     
-    func setupCellFor(round: Int, and scoreChanges: [ScoreChange]) {
+    func setupCellFor(round: Int, and scoreChanges: [ScoreChange], andTotalScores totalScores: [Int]) {
         roundNumberLabel.text = "Round \(round)"
         
-        let viewModel = GameHistoryEndRoundTableViewCellViewModel(scoreChanges: scoreChanges)
+        let viewModel = GameHistoryEndRoundTableViewCellViewModel(scoreChanges: scoreChanges, totalScores: totalScores)
         self.viewModel = viewModel
         
         tableViewDelegate = GameHistoryEndRoundTableViewCellTableViewDelegate(viewModel: viewModel)

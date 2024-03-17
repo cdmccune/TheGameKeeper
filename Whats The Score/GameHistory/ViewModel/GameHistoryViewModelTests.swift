@@ -18,7 +18,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         let game = GameMock()
         let player = Player.getBasicPlayer()
         let scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
-        let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChangeObject)
+        let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChangeObject, 0)
         game.historySegments = [scoreChangeHistorySegment]
         
         let sut = GameHistoryViewModel(game: game)
@@ -42,7 +42,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         let game = GameMock()
         
         let endRound = EndRound.getBlankEndRound()
-        let endRoundHistorySegment = GameHistorySegment.endRound(endRound)
+        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [])
         game.historySegments = [endRoundHistorySegment]
         
         let sut = GameHistoryViewModel(game: game)
@@ -94,9 +94,9 @@ final class GameHistoryViewModelTests: XCTestCase {
         ]
         
         game.historySegments = [
-            GameHistorySegment.scoreChange(scoreChange1),
-            GameHistorySegment.scoreChange(scoreChange2),
-            GameHistorySegment.scoreChange(scoreChange3)
+            GameHistorySegment.scoreChange(scoreChange1, 0),
+            GameHistorySegment.scoreChange(scoreChange2, 0),
+            GameHistorySegment.scoreChange(scoreChange3, 0)
         ]
         
         let index = Int.random(in: 0...2)
@@ -150,9 +150,9 @@ final class GameHistoryViewModelTests: XCTestCase {
         ]
         
         game.historySegments = [
-            GameHistorySegment.endRound(endRound1),
-            GameHistorySegment.endRound(endRound2),
-            GameHistorySegment.endRound(endRound3)
+            GameHistorySegment.endRound(endRound1, []),
+            GameHistorySegment.endRound(endRound2, []),
+            GameHistorySegment.endRound(endRound3, [])
         ]
         
         let index = Int.random(in: 0...2)
