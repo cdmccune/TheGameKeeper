@@ -115,8 +115,23 @@ struct Game: GameProtocol {
             return
         }
         
+        let player = players[index]
+        
         players.remove(at: index)
         players.setPositions()
+        
+        // Cycle backwards throughg history so deleting one wont affect other indices
+        historySegments.enumerated().reversed().forEach { (segmentIndex, segment) in
+            
+            // Check if history segment is score change
+            if case .scoreChange(let scoreChange, let segmentPlayer) = segment {
+                
+                // Remove segment from history if it's players
+                if player.id == segmentPlayer.id {
+                    historySegments.remove(at: segmentIndex)
+                }
+            }
+        }
     }
     
     mutating func editScore(scoreChange: ScoreChange) {

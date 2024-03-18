@@ -194,6 +194,24 @@ final class GameTests: XCTestCase {
         }
     }
     
+    func test_Game_WhenDeletePlayerAtCalled_ShouldRemoveScoreChangesForThatPlayerFromGameHistory() {
+        // given
+        let player = PlayerMock()
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let playerScoreChangeHistorySegments = Array(repeating: GameHistorySegment.scoreChange(ScoreChange(player: player, scoreChange: 1), player), count: Int.random(in: 3...10))
+        let otherScoreChangeHistorySegment = GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange(), PlayerMock())
+        sut.historySegments = playerScoreChangeHistorySegments
+        sut.historySegments.append(otherScoreChangeHistorySegment)
+        sut.historySegments.shuffle()
+        
+        // when
+        sut.deletePlayerAt(0)
+        
+        // then
+        XCTAssertEqual(sut.historySegments, [otherScoreChangeHistorySegment])
+    }
+    
     
     // MARK: - Winning Players
     
@@ -357,15 +375,10 @@ final class GameTests: XCTestCase {
     func test_Game_WhenEndRoundCalled_ShouldAppendEndRoundGameHistorySegmentWithCurrentRoundBeforeIncrementingPlayerAndPlayers() {
         // given
         
-        let totalScore1 = Int.random(in: 1...1000)
-        let totalScore2 = Int.random(in: 1...1000)
-        let totalScore3 = Int.random(in: 1...1000)
-        let totalScores = [totalScore1, totalScore2, totalScore3]
         
-        
-        let player1 = PlayerMock(score: totalScore1)
-        let player2 = PlayerMock(score: totalScore2)
-        let player3 = PlayerMock(score: totalScore3)
+        let player1 = PlayerMock()
+        let player2 = PlayerMock()
+        let player3 = PlayerMock()
         let players = [player1, player2, player3]
         
         var sut = Game(basicGameWithPlayers: players)
@@ -590,7 +603,6 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenEditScoreChangeCalled_ShouldSetScoreChangeHistorySegmentPlayerToPlayer() {
         // given
-        let getScoreThroughResult = Int.random(in: 0...100)
         let player = PlayerMock()
         
         var sut = Game(basicGameWithPlayers: [player])
