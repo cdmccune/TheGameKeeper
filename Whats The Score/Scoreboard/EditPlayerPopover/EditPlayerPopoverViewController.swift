@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EditPlayerPopoverDelegateProtocol {
-    func finishedEditing(_ player: PlayerProtocol)
+    func finishedEditing(_ player: PlayerProtocol, toNewName name: String)
 }
 
 class EditPlayerPopoverViewController: UIViewController {
@@ -50,13 +50,11 @@ class EditPlayerPopoverViewController: UIViewController {
 
     // MARK: - IBActions
     
-    @IBAction func playerNameTextFieldEditingDidEnd(_ sender: Any) {
-        player?.name = playerNameTextField.text ?? ""
-    }
-    
     @IBAction func saveButtonTapped(_ sender: Any) {
-        guard let player else { return }
-        delegate?.finishedEditing(player)
+        guard let player,
+        let name = playerNameTextField.text else { return }
+        
+        delegate?.finishedEditing(player, toNewName: name)
         self.dismiss(animated: true)
     }
     

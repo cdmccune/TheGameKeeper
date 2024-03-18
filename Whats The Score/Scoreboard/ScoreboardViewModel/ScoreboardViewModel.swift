@@ -152,9 +152,10 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
 
 
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
-    func finishedEditing(_ player: PlayerProtocol) {
+    func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {
         guard let index = game.players.firstIndex(where: { $0.id == player.id }) else { return }
-        game.players[index] = player
+        game.playerNameChanged(withIndex: index, toName: name)
+        
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 }

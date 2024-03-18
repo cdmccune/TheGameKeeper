@@ -54,6 +54,69 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.players[0].name, newName)
     }
     
+    func test_Game_WhenPlayerNameChanged_ShouldChangePlayerNameOnAppropriateScoreChangeHistorySegment() {
+        // given
+        let player = PlayerMock()
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let scoreChange = ScoreChange(player: player, scoreChange: 0)
+        let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChange, player)
+        sut.historySegments = [scoreChangeHistorySegment]
+        
+        // when
+        let newName = UUID().uuidString
+        sut.playerNameChanged(withIndex: 0, toName: newName)
+        
+        // then
+        guard case .scoreChange(let scoreChange, _) = sut.historySegments[0] else {
+            XCTFail("history segment not there")
+            return
+        }
+
+        XCTAssertEqual(scoreChange.playerName, newName)
+    }
+    
+    func test_Game_WhenPlayerNameChanged_ShouldChangePlayerNameAllPlayersScoreChanges() {
+        // given
+        let player = PlayerMock()
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let scoreChange = ScoreChange(player: player, scoreChange: 0)
+        player.scoreChanges = [scoreChange]
+        
+        // when
+        let newName = UUID().uuidString
+        sut.playerNameChanged(withIndex: 0, toName: newName)
+        
+        // then
+        let playerScoreChange = player.scoreChanges.first
+
+        XCTAssertEqual(playerScoreChange?.playerName, newName)
+    }
+    
+    func test_Game_WhenPlayerNameChanged_ShouldChangePlayerNameOnAppropriateScoreChangeInEndRoundHistorySegment() {
+        // given
+        let player = PlayerMock()
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let scoreChange = ScoreChange(player: player, scoreChange: 0)
+        let endRound = EndRound(roundNumber: 0, scoreChangeArray: [scoreChange])
+        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [player])
+        sut.historySegments = [endRoundHistorySegment]
+        
+        // when
+        let newName = UUID().uuidString
+        sut.playerNameChanged(withIndex: 0, toName: newName)
+        
+        // then
+        guard case .endRound(let endRound, _) = sut.historySegments[0] else {
+            XCTFail("history segment not there")
+            return
+        }
+
+        XCTAssertEqual(endRound.scoreChangeArray[0].playerName, newName)
+    }
+    
     
     // MARK: - MovePlayerAt
     

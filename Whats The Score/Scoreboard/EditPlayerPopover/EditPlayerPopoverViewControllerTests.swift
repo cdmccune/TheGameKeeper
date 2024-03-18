@@ -71,28 +71,9 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     }
     
     
-    // MARK: - PlayerNameTextFieldEditingDidEnd
-    
-    func test_EditPlayerPopoverViewController_WhenPlayerNameTextFieldEditingDidEnd_ShouldSetPlayerNameToTextFieldText() {
-        // given
-        let sut = viewController!
-        sut.player = Player(name: "", position: 0)
-        
-        let playerNameText = UUID().uuidString
-        
-        // when
-        sut.loadView()
-        sut.playerNameTextField.text = playerNameText
-        sut.playerNameTextFieldEditingDidEnd(0)
-        
-        // then
-        XCTAssertEqual(playerNameText, sut.player?.name)
-    }
-    
-    
     // MARK: - SaveButtonTapped
     
-    func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldCallDelegateFinishedEditingWithNewPlayer() {
+    func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldCallDelegateFinishedEditingWithNewPlayerAndTextAsName() {
         // given
         let sut = viewController!
         let player = Player(name: UUID().uuidString, position: 0)
@@ -101,12 +82,18 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         let delegateMock = EditPlayerPopoverDelegateMock()
         sut.delegate = delegateMock
         
+        let textfield = UITextField()
+        let name = UUID().uuidString
+        textfield.text = name
+        sut.playerNameTextField = textfield
+        
         // when
         sut.saveButtonTapped(0)
         
         // then
         XCTAssertEqual(delegateMock.finishedEditingCalledCount, 1)
         XCTAssertEqual(delegateMock.finishedEditingPlayer?.id, player.id)
+        XCTAssertEqual(delegateMock.finishedEditingName, name)
     }
     
     func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldDismissView() {
@@ -157,9 +144,11 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     class EditPlayerPopoverDelegateMock: EditPlayerPopoverDelegateProtocol {
         var finishedEditingCalledCount = 0
         var finishedEditingPlayer: PlayerProtocol?
-        func finishedEditing(_ player: PlayerProtocol) {
+        var finishedEditingName: String?
+        func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {
             finishedEditingCalledCount += 1
             finishedEditingPlayer = player
+            finishedEditingName = name
         }
     }
 }

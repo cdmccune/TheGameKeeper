@@ -253,45 +253,38 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - FinishedEditingPlayer
     
-    func test_ScoreboardViewModel_WhenFinishedEditingCalledPlayerNotInGame_ShouldNotChangePlayers() {
+    func test_ScoreboardViewModel_WhenFinishedEditingCalledPlayerNotInGame_ShouldNotCallGamePlayerNameChanged() {
         // given
-        let sut = getViewModelWithBasicGame()
+        let gameMock = GameMock()
+        let sut = ScoreboardViewModel(game: gameMock)
         let players = [Player(name: "", position: 0)]
         sut.game.players = players
         
         let editedPlayer = Player(name: "", position: 0)
         
         // when
-        sut.finishedEditing(editedPlayer)
+        sut.finishedEditing(editedPlayer, toNewName: "")
         
         // then
-        XCTAssertEqual(players, sut.game.players as? [Player])
+        XCTAssertEqual(gameMock.playerNameChangedCalledCount, 0)
     }
     
-    func test_ScoreboardViewModel_WhenFinishedEditingCalledPlayerInGame_ShouldUpdatePlayerName() {
+    func test_ScoreboardViewModel_WhenFinishedEditingCalledPlayerInGame_ShouldCallGamePlayerNameChanged() {
         
         // given
-        let sut = ScoreboardViewModel(game: Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0))
+        let player = PlayerMock()
+        let gameMock = GameMock(players: [player])
+        let sut = ScoreboardViewModel(game: gameMock)
         
-        let playerName1 = UUID().uuidString
-        let player1 = Player(name: playerName1, position: 0)
-        
-        let playerName2 = UUID().uuidString
-        let player2 = Player(name: playerName2, position: 0)
-        
-        let players = [player1, player2]
-        sut.game.players = players
-        
-        let playerToEditIndex = Int.random(in: 0...1)
-        var playerToEdit = players[playerToEditIndex]
         let newPlayerName = UUID().uuidString
-        playerToEdit.name = newPlayerName
         
         // when
-        sut.finishedEditing(playerToEdit)
+        sut.finishedEditing(player, toNewName: newPlayerName)
         
         // then
-        XCTAssertEqual(sut.game.players[playerToEditIndex].name, newPlayerName)
+        XCTAssertEqual(gameMock.playerNameChangedName, newPlayerName)
+        XCTAssertEqual(gameMock.playerNameChangedIndex, 0)
+        XCTAssertEqual(gameMock.playerNameChangedCalledCount, 1)
     }
     
     func test_ScoreboardViewModel_WhenFinishedEditingCalledPlayerInGame_ShouldCallBindViewToViewModel() {
@@ -305,7 +298,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         let previousBindCount = viewModelViewDelegate.bindViewToViewModelCalledCount
         
         // when
-        sut.finishedEditing(player)
+        sut.finishedEditing(player, toNewName: "")
         
         // then
         XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
@@ -1006,7 +999,7 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
         openingGameOverCheckCalledCount += 1
     }
     
-    func finishedEditing(_ player: PlayerProtocol) {}
+    func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {}
     func endRound(_ endRound: EndRound) {}
     func goToEndGameScreen() {}
     func keepPlayingSelected() {}

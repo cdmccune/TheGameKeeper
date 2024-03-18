@@ -88,7 +88,33 @@ struct Game: GameProtocol {
     
     mutating func playerNameChanged(withIndex index: Int, toName name: String) {
         guard players.indices.contains(index) else { return }
-        players[index].name = name
+        var player = players[index]
+        player.name = name
+        
+        for i in 0..<player.scoreChanges.count {
+            player.scoreChanges[i].playerName = name
+        }
+        
+        // This is for changing the names on the score changes
+        historySegments.enumerated().forEach { (segmentIndex, segment) in
+            if case .scoreChange(var scoreChange, let segmentPlayer) = segment {
+                if player.id == segmentPlayer.id {
+                    scoreChange.playerName = name
+                    
+                    let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChange, player)
+                    historySegments[segmentIndex] = scoreChangeHistorySegment
+                }
+            } else if case .endRound(var endRound, let players) = segment {
+                endRound.scoreChangeArray.enumerated().forEach { (scoreChangeIndex, scoreChange) in
+                    if scoreChange.playerID == player.id {
+                        endRound.scoreChangeArray[scoreChangeIndex].playerName = name
+                    }
+                }
+                
+                let endRoundHistorySegment = GameHistorySegment.endRound(endRound, players)
+                historySegments[segmentIndex] = endRoundHistorySegment
+            }
+        }
     }
     
     mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
@@ -121,11 +147,11 @@ struct Game: GameProtocol {
         players.setPositions()
         
         
-        // Cycle backwards throughg history so deleting one wont affect other indices
+        // Cycle backwards through history so deleting one won't affect other indices
         historySegments.enumerated().reversed().forEach { (segmentIndex, segment) in
             
             // Check if history segment is score change
-            if case .scoreChange(let scoreChange, let segmentPlayer) = segment {
+            if case .scoreChange(_, let segmentPlayer) = segment {
                 
                 // Remove segment from history if it's players
                 if player.id == segmentPlayer.id {
