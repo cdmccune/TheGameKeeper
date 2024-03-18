@@ -120,6 +120,7 @@ struct Game: GameProtocol {
         players.remove(at: index)
         players.setPositions()
         
+        
         // Cycle backwards throughg history so deleting one wont affect other indices
         historySegments.enumerated().reversed().forEach { (segmentIndex, segment) in
             
@@ -130,6 +131,14 @@ struct Game: GameProtocol {
                 if player.id == segmentPlayer.id {
                     historySegments.remove(at: segmentIndex)
                 }
+            } else if case .endRound(var endRound, var players) = segment {
+                
+                // Remove players and score changes from end round segment
+                players.removeAll { $0.id == player.id }
+                endRound.scoreChangeArray.removeAll { $0.playerID == player.id }
+                
+                // Set EndRound segment to values with player removed
+                historySegments[segmentIndex] = GameHistorySegment.endRound(endRound, players)
             }
         }
     }

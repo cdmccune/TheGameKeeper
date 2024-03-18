@@ -212,6 +212,46 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.historySegments, [otherScoreChangeHistorySegment])
     }
     
+    func test_Game_WhenDeletePlayerAtCalled_ShouldDeleteEndRoundHistorySegmentScoreChangesForThatPlayer() {
+        // given
+        let player = PlayerMock()
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let endRound = EndRound(withPlayers: [player], roundNumber: 0)
+        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [player])
+        sut.historySegments = [endRoundHistorySegment]
+        
+        // when
+        sut.deletePlayerAt(0)
+        
+        // then
+        guard case .endRound(let endRound, _) = sut.historySegments.first else {
+            return
+        }
+
+        XCTAssertTrue(endRound.scoreChangeArray.isEmpty)
+    }
+    
+    func test_Game_WhenDeletePlayerAtCalled_ShouldRemovePlayerFromEndRoundHistorySegmentPlayersArray() {
+        // given
+        let player = PlayerMock()
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let endRound = EndRound(withPlayers: [player], roundNumber: 0)
+        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [player])
+        sut.historySegments = [endRoundHistorySegment]
+        
+        // when
+        sut.deletePlayerAt(0)
+        
+        // then
+        guard case .endRound(_, let playerArray) = sut.historySegments.first else {
+            return
+        }
+
+        XCTAssertTrue(playerArray.isEmpty)
+    }
+    
     
     // MARK: - Winning Players
     
