@@ -79,25 +79,9 @@ final class GameHistoryViewModelTests: XCTestCase {
         XCTAssertEqual(game.editScoreChangeCalledCount, 1)
     }
     
-    func test_GameHistoryViewModel_WhenEditScoreCalled_ShouldSetTableViewIndexToRefreshToIndexOfScoreChange() {
+    func test_GameHistoryViewModel_WhenEditScoreCalled_ShouldSetShouldRefreshTableViewToTrue() {
         // given
         let game = GameMock()
-        
-        let scoreChange1 = ScoreChange.getBlankScoreChange()
-        let scoreChange2 = ScoreChange.getBlankScoreChange()
-        let scoreChange3 = ScoreChange.getBlankScoreChange()
-        
-        let scoreChanges = [
-            scoreChange1,
-            scoreChange2,
-            scoreChange3
-        ]
-        
-        game.historySegments = [
-            GameHistorySegment.scoreChange(scoreChange1, PlayerMock()),
-            GameHistorySegment.scoreChange(scoreChange2, PlayerMock()),
-            GameHistorySegment.scoreChange(scoreChange3, PlayerMock())
-        ]
         
         let index = Int.random(in: 0...2)
         
@@ -105,13 +89,13 @@ final class GameHistoryViewModelTests: XCTestCase {
         
         let sut = GameHistoryViewModel(game: game)
         
-        sut.tableViewIndexToRefresh.valueChanged = { indexToRefresh in
+        sut.shouldRefreshTableView.valueChanged = { shouldRefresh in
             expectation.fulfill()
-            XCTAssertEqual(index, indexToRefresh)
+            XCTAssertTrue(shouldRefresh ?? false)
         }
         
         // when
-        sut.editScore(scoreChanges[index])
+        sut.editScore(ScoreChange.getBlankScoreChange())
         
         // then
         wait(for: [expectation], timeout: 0.1)
@@ -135,25 +119,9 @@ final class GameHistoryViewModelTests: XCTestCase {
         XCTAssertEqual(game.editEndRoundEndRound, endRound)
     }
     
-    func test_GameHistoryViewmodel_WhenEndRoundCalled_ShouldSetTableViewIndexToRefresToIndexOfEndRound() {
+    func test_GameHistoryViewmodel_WhenEndRoundCalled_ShouldSetShouldRefreshTableViewToTrue() {
         // given
         let game = GameMock()
-        
-        let endRound1 = EndRound.getBlankEndRound()
-        let endRound2 = EndRound.getBlankEndRound()
-        let endRound3 = EndRound.getBlankEndRound()
-        
-        let endRounds = [
-            endRound1,
-            endRound2,
-            endRound3
-        ]
-        
-        game.historySegments = [
-            GameHistorySegment.endRound(endRound1, []),
-            GameHistorySegment.endRound(endRound2, []),
-            GameHistorySegment.endRound(endRound3, [])
-        ]
         
         let index = Int.random(in: 0...2)
         
@@ -161,13 +129,13 @@ final class GameHistoryViewModelTests: XCTestCase {
         
         let sut = GameHistoryViewModel(game: game)
         
-        sut.tableViewIndexToRefresh.valueChanged = { indexToRefresh in
+        sut.shouldRefreshTableView.valueChanged = { shouldRefresh in
             expectation.fulfill()
-            XCTAssertEqual(index, indexToRefresh)
+            XCTAssertTrue(shouldRefresh ?? false)
         }
         
         // when
-        sut.endRound(endRounds[index])
+        sut.endRound(EndRound.getBlankEndRound())
         
         // then
         wait(for: [expectation], timeout: 0.1)
@@ -180,7 +148,7 @@ class GameHistoryViewModelMock: GameHistoryViewModelProtocol, ScoreboardPlayerEd
     var game: GameProtocol = GameMock()
     var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
     var endRoundToEdit: Observable<EndRound> = Observable(nil)
-    var tableViewIndexToRefresh: Observable<Int> = Observable(nil)
+    var shouldRefreshTableView: Observable<Bool> = Observable(nil)
     
     var didSelectRowCalledCount = 0
     var didSelectRowRow: Int?

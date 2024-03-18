@@ -440,7 +440,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
     
     // MARK: - TableViewIndexToRefresh
     
-    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelTableViewIndexToRefresh_ShouldCallTableViewReloadRowsForThatIndex() {
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelShouldRefreshTableViewTrue_ShouldCallTableViewReloadData() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -448,18 +448,35 @@ final class GameHistoryViewControllerTests: XCTestCase {
         let viewModel = GameHistoryViewModelMock()
         sut.viewModel = viewModel
         
-        let tableViewMock = UITableViewReloadRowsMock()
+        let tableViewMock = UITableViewReloadDataMock()
         sut.tableView = tableViewMock
-        
-        let indexToReload = Int.random(in: 1...1000)
         
         // when
         sut.setBindings()
-        viewModel.tableViewIndexToRefresh.value = indexToReload
+        viewModel.shouldRefreshTableView.value = true
         
         // then
-        XCTAssertEqual(tableViewMock.reloadRowsCalledCount, 1)
-        XCTAssertEqual(tableViewMock.reloadRowsIndexPathArray, [IndexPath(row: indexToReload, section: 0)])
+        XCTAssertEqual(tableViewMock.reloadDataCalledCount, 1)
+    }
+    
+    func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelShouldRefreshTableViewFalse_ShouldNotCallTableViewReloadData() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let viewModel = GameHistoryViewModelMock()
+        sut.viewModel = viewModel
+        
+        let tableViewMock = UITableViewReloadDataMock()
+        sut.tableView = tableViewMock
+        
+        // when
+        sut.setBindings()
+        viewModel.shouldRefreshTableView.value = false
+        
+        // then
+        XCTAssertEqual(tableViewMock.reloadDataCalledCount, 0
+        )
     }
 
     

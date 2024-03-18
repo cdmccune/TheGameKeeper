@@ -12,7 +12,7 @@ protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate,
     
     var scoreChangeToEdit: Observable<ScoreChange> { get }
     var endRoundToEdit: Observable<EndRound> { get }
-    var tableViewIndexToRefresh: Observable<Int> { get }
+    var shouldRefreshTableView: Observable<Bool> { get }
     
     func didSelectRow(_ row: Int)
 }
@@ -25,7 +25,7 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     var game: GameProtocol
     var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
     var endRoundToEdit: Observable<EndRound> = Observable(nil)
-    var tableViewIndexToRefresh: Observable<Int> = Observable(nil)
+    var shouldRefreshTableView: Observable<Bool> = Observable(false)
     
     
     func didSelectRow(_ row: Int) {
@@ -42,16 +42,12 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     func editScore(_ scoreChange: ScoreChange) {
         game.editScoreChange(scoreChange)
         
-        if let index = game.historySegments.getIndexOfElement(withID: scoreChange.id) {
-            self.tableViewIndexToRefresh.value = index
-        }
+        shouldRefreshTableView.value = true
     }
     
     func endRound(_ endRound: EndRound) {
         game.editEndRound(endRound)
         
-        if let index = game.historySegments.firstIndex(of: GameHistorySegment.endRound(endRound, [])) {
-            self.tableViewIndexToRefresh.value = index
-        }
+        shouldRefreshTableView.value = true
     }
 }

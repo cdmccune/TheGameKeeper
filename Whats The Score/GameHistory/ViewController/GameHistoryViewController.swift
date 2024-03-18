@@ -102,10 +102,16 @@ class GameHistoryViewController: UIViewController {
             self?.presentEndRoundPopoverWith(endRound)
         }
         
-        viewModel.tableViewIndexToRefresh.valueChanged = { [weak self] rowIndex in
-            guard let rowIndex else { return }
+        viewModel.shouldRefreshTableView.valueChanged = { [weak self] shouldRefresh in
+            guard shouldRefresh ?? false else { return }
             
-            self?.tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
+            self?.tableView.reloadData()
         }
+        
+//        viewModel.tableViewIndexToRefresh.valueChanged = { [weak self] rowIndex in
+//            guard let rowIndex else { return }
+//            
+//            self?.tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
+//        }
     }
 }
