@@ -108,6 +108,8 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         // given
         let sut = EditPlayerPopoverViewControllerDismissMock()
         sut.player = Player(name: "", position: 0)
+        let textField = UITextField()
+        sut.playerNameTextField = textField
         
         // when
         sut.saveButtonTapped(0)

@@ -181,6 +181,43 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
     }
     
     
+    // MARK: - TrailingSwipeActions
+    
+    func test_GameHistoryTableViewDelegate_WhenTrailingSwipeActionsConfigurationForRowAtCalled_ShouldReturnOneActionWithDeleteTitle() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertNotNil(swipeActionsConfig?.actions.first)
+        XCTAssertEqual(swipeActionsConfig?.actions.first?.title, "Delete")
+        XCTAssertEqual(swipeActionsConfig?.actions.first?.style, .destructive)
+    }
+    
+    func test_GameHistoryTableViewDelegate_WhenDeleteSwipeActionCalled_ShouldCallViewModelDeleteHistorySegmentAt() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let viewModelMock = GameHistoryViewModelMock()
+        sut.viewModel = viewModelMock
+        let index = Int.random(in: 0...10)
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: index, section: 0))
+        guard let action = swipeActionsConfig?.actions.first else {
+            XCTFail("This should have a delete action")
+            return
+        }
+        
+        action.handler(action, UIView(), {_ in})
+        
+        // then
+        XCTAssertEqual(viewModelMock.startDeletingHistorySegmentAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock.startDeletingHistorySegmentAtIndex, index)
+    }
+    
+    
     // MARK: - ViewForHeaderInSection
     
     func test_GameHistoryTableViewDelegate_WhenViewForHeaderInSectionCalled_ShouldReturnGameHistoryTableViewHeaderView() {
@@ -235,5 +272,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         // then
         XCTAssertEqual(height, 44)
     }
+    
+    
 
 }

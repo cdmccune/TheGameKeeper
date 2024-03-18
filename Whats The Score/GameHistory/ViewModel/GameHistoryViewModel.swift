@@ -13,8 +13,11 @@ protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate,
     var scoreChangeToEdit: Observable<ScoreChange> { get }
     var endRoundToEdit: Observable<EndRound> { get }
     var shouldRefreshTableView: Observable<Bool> { get }
+    var shouldShowDeleteSegmentWarningIndex: Observable<Int> { get }
     
     func didSelectRow(_ row: Int)
+    func startDeletingHistorySegmentAt(_ row: Int)
+    func deleteHistorySegmentAt(_ index: Int)
 }
 
 class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
@@ -26,6 +29,7 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
     var endRoundToEdit: Observable<EndRound> = Observable(nil)
     var shouldRefreshTableView: Observable<Bool> = Observable(false)
+    var shouldShowDeleteSegmentWarningIndex: Observable<Int> = Observable(nil)
     
     
     func didSelectRow(_ row: Int) {
@@ -37,6 +41,16 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         case .endRound(let endRound, _):
             endRoundToEdit.value = endRound
         }
+    }
+    
+    func startDeletingHistorySegmentAt(_ row: Int) {
+        guard game.historySegments.indices.contains(row) else { return }
+        
+        shouldShowDeleteSegmentWarningIndex.value = row
+    }
+    
+    func deleteHistorySegmentAt(_ index: Int) {
+        
     }
     
     func editScore(_ scoreChange: ScoreChange) {

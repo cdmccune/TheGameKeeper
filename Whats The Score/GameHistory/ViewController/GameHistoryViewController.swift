@@ -87,6 +87,20 @@ class GameHistoryViewController: UIViewController {
         self.present(endRoundPopoverVC, animated: true)
     }
     
+    private func presentDeleteAlertController(index: Int) {
+        let alert = UIAlertController(title: "Are you sure you want to delete this score change?", message: "This will erase this data and update the score of any affected player", preferredStyle: .alert)
+        
+        let cancelAction = TestableUIAlertAction.createWith(title: "Cancel", style: .cancel) { _ in }
+        let deleteAction = TestableUIAlertAction.createWith(title: "Delete", style: .destructive) { _ in
+            self.viewModel.deleteHistorySegmentAt(index)
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        
+        self.present(alert, animated: true)
+    }
+    
     
     // MARK: - Public Functions
     
@@ -107,6 +121,12 @@ class GameHistoryViewController: UIViewController {
             guard shouldRefresh ?? false else { return }
             
             self?.tableView.reloadData()
+        }
+        
+        viewModel.shouldShowDeleteSegmentWarningIndex.valueChanged = { [weak self] index in
+            guard let index else { return }
+            
+            self?.presentDeleteAlertController(index: index)
         }
     }
 }

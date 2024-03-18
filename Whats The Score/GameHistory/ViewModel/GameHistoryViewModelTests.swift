@@ -62,6 +62,48 @@ final class GameHistoryViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - StartDeletingHistorySegmentAt
+    
+    func test_GameHistoryViewModel_WhenStartDeletingHistorySegmentAtCalledInRange_ShouldSetShowDeleteSegmentWarningValueToInt() {
+        // given
+        let game = GameMock()
+        game.historySegments = [GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange(), PlayerMock())]
+        let sut = GameHistoryViewModel(game: game)
+        
+        let expectation = XCTestExpectation(description: "ShouldShowDeleteSegmentWarning value should be set")
+        
+        sut.shouldShowDeleteSegmentWarningIndex.valueChanged = { index in
+            expectation.fulfill()
+            XCTAssertEqual(index, 0)
+        }
+        
+        // when
+        sut.startDeletingHistorySegmentAt(0)
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    func test_GameHistoryViewModel_WhenStartDeletingHistorySegmentAtCalledInRange_ShouldNotSetShowDeleteSegmentWarningValueToTrue() {
+        // given
+        let game = GameMock()
+        let sut = GameHistoryViewModel(game: game)
+        
+        let expectation = XCTestExpectation(description: "ShouldShowDeleteSegmentWarning value should not be set")
+        expectation.isInverted = true
+        
+        sut.shouldShowDeleteSegmentWarningIndex.valueChanged = { _ in
+            expectation.fulfill()
+        }
+        
+        // when
+        sut.startDeletingHistorySegmentAt(0)
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    
     // MARK: - EditScore
     
     func test_GameHistoryViewModel_WhenEditScoreCalled_ShouldCallGameEditScoreChangeWithScoreChange() {
@@ -149,12 +191,27 @@ class GameHistoryViewModelMock: GameHistoryViewModelProtocol, ScoreboardPlayerEd
     var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
     var endRoundToEdit: Observable<EndRound> = Observable(nil)
     var shouldRefreshTableView: Observable<Bool> = Observable(nil)
+    var shouldShowDeleteSegmentWarningIndex: Observable<Int> = Observable(nil)
     
     var didSelectRowCalledCount = 0
     var didSelectRowRow: Int?
     func didSelectRow(_ row: Int) {
         didSelectRowCalledCount += 1
         didSelectRowRow = row
+    }
+    
+    var startDeletingHistorySegmentAtCalledCount = 0
+    var startDeletingHistorySegmentAtIndex: Int?
+    func startDeletingHistorySegmentAt(_ row: Int) {
+        startDeletingHistorySegmentAtCalledCount += 1
+        startDeletingHistorySegmentAtIndex = row
+    }
+    
+    var deleteHistorySegmentAtCalledCount = 0
+    var deleteHistorySegmentAtIndex: Int?
+    func deleteHistorySegmentAt(_ index: Int) {
+        deleteHistorySegmentAtCalledCount += 1
+        deleteHistorySegmentAtIndex = index
     }
     
     func editScore(_ scoreChange: ScoreChange) {}

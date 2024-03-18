@@ -84,6 +84,17 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
     }
     
     
+    // MARK: - trailingSwipeActions
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            self.viewModel.startDeletingHistorySegmentAt(indexPath.row)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    
     // MARK: - ViewForHeaderInSection
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
