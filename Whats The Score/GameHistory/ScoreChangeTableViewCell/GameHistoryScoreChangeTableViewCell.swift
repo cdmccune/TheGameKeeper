@@ -26,15 +26,15 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
         case ..<0:
             scoreChangeLabel.textColor = .red
         case 0:
-            scoreChangeLabel.textColor = .label
+            scoreChangeLabel.textColor = .lightGray
         default: // Greater than zero
             scoreChangeLabel.textColor = .systemBlue
         }
         
-        if isInRoundEnd {
-            contentView.backgroundColor = .systemBlue.withAlphaComponent(0.3)
-        } else {
-            contentView.backgroundColor = nil
-        }
+//        if isInRoundEnd {
+//            contentView.backgroundColor = .systemBlue.withAlphaComponent(0.3)
+//        } else {
+//            contentView.backgroundColor = nil
+//        }
     }
 }

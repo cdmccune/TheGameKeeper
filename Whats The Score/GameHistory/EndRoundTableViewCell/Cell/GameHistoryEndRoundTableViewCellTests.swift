@@ -59,7 +59,7 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
     
     // MARK: - SetupCellFor
     
-    func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetRoundNumberLabelTextToRoundAndCorrectNumber() {
+    func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetRoundNumberLabelTextToCorrectNumber() {
         // given
         let sut = tableViewCell!
         let roundNumber = Int.random(in: 1...10000)
@@ -68,7 +68,7 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
         sut.setupCellFor(round: roundNumber, and: [], andPlayers: [])
         
         // then
-        XCTAssertEqual(sut.roundNumberLabel.text, "Round \(roundNumber)")
+        XCTAssertEqual(sut.roundNumberLabel.text, "\(roundNumber)")
     }
     
     func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetViewModelWithScoreChanges() {

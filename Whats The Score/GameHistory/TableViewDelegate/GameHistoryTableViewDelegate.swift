@@ -72,7 +72,7 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
         case .scoreChange(_, _):
             return scoreChangeCellHeight
         case .endRound(let endRound, _):
-            return CGFloat(44 + (44*endRound.scoreChangeArray.count) - (endRound.scoreChangeArray.isEmpty ? 0 : 1))
+            return CGFloat((44*endRound.scoreChangeArray.count) - (endRound.scoreChangeArray.isEmpty ? 0 : 1))
         }
     }
     

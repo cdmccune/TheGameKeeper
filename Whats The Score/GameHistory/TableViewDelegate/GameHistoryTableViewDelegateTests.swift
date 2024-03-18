@@ -159,7 +159,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         let height = sut.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: 0))
         
         // then
-        let expectedHeight = CGFloat(44 + (44*scoreChangeCount) - (scoreChangeCount > 0 ? 1 : 0))
+        let expectedHeight = CGFloat((44*scoreChangeCount) - (scoreChangeCount > 0 ? 1 : 0))
         XCTAssertEqual(height, expectedHeight)
     }
     

@@ -27,23 +27,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ype-Ho-Jdr">
-                                <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                <rect key="frame" x="5" y="0.0" width="310" height="43"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Player Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="J2F-9y-46P">
-                                        <rect key="frame" x="0.0" y="0.0" width="158" height="43"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="168" height="43"/>
                                         <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cTD-N0-Ruq">
-                                        <rect key="frame" x="163" y="0.0" width="1" height="43"/>
+                                        <rect key="frame" x="173" y="0.0" width="1" height="43"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="1" id="Ji2-Cb-NbT"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="-100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="stA-Pb-OC9">
-                                        <rect key="frame" x="169" y="0.0" width="60" height="43"/>
+                                        <rect key="frame" x="179" y="0.0" width="60" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="MeK-LA-I42"/>
                                         </constraints>
@@ -52,14 +52,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yC5-7a-YbO">
-                                        <rect key="frame" x="234" y="0.0" width="1" height="43"/>
+                                        <rect key="frame" x="244" y="0.0" width="1" height="43"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="1" id="JmP-GH-m7f"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="-100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yFU-Qg-Mlt">
-                                        <rect key="frame" x="240" y="0.0" width="60" height="43"/>
+                                        <rect key="frame" x="250" y="0.0" width="60" height="43"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="54e-Rz-86s"/>
@@ -72,7 +72,7 @@
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2fH-hP-PWp">
                                 <rect key="frame" x="0.0" y="43" width="320" height="1"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="separatorColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="X4M-oR-JXg"/>
                                 </constraints>
@@ -80,8 +80,8 @@
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="2fH-hP-PWp" secondAttribute="trailing" id="VtA-aS-UoN"/>
-                            <constraint firstItem="ype-Ho-Jdr" firstAttribute="leading" secondItem="NfF-da-ejF" secondAttribute="leading" constant="10" id="gq2-6S-c6w"/>
-                            <constraint firstAttribute="trailing" secondItem="ype-Ho-Jdr" secondAttribute="trailing" constant="10" id="nPF-Yd-qEg"/>
+                            <constraint firstItem="ype-Ho-Jdr" firstAttribute="leading" secondItem="NfF-da-ejF" secondAttribute="leading" constant="5" id="gq2-6S-c6w"/>
+                            <constraint firstAttribute="trailing" secondItem="ype-Ho-Jdr" secondAttribute="trailing" constant="5" id="nPF-Yd-qEg"/>
                             <constraint firstItem="2fH-hP-PWp" firstAttribute="leading" secondItem="NfF-da-ejF" secondAttribute="leading" id="uTf-Oo-IWe"/>
                         </constraints>
                     </stackView>
@@ -106,8 +106,11 @@
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="separatorColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
