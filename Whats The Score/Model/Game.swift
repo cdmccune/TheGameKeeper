@@ -28,6 +28,7 @@ protocol GameProtocol {
     mutating func resetGame()
     mutating func editScoreChange(_ newScoreChange: ScoreChange)
     mutating func editEndRound(_ newEndRound: EndRound)
+    mutating func deleteHistorySegmentAt(index: Int)
     
     func isEqualTo(game: GameProtocol) -> Bool
     func isEndOfGame() -> Bool
@@ -195,6 +196,10 @@ struct Game: GameProtocol {
         historySegments.append(historySegment)
         
         currentRound += 1
+    }
+    
+    mutating func deleteHistorySegmentAt(index: Int) {
+        
     }
     
     mutating func resetGame() {

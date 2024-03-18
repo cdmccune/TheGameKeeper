@@ -929,6 +929,13 @@ class GameMock: GameProtocol {
         editEndRoundEndRound = newEndRound
     }
     
+    var deleteHistorySegmentAtCalledCount = 0
+    var deleteHistorySegmentAtIndex: Int?
+    func deleteHistorySegmentAt(index: Int) {
+        deleteHistorySegmentAtCalledCount += 1
+        deleteHistorySegmentAtIndex = index
+    }
+    
     func isEqualTo(game: GameProtocol) -> Bool {
         game.id == self.id
     }

@@ -104,6 +104,43 @@ final class GameHistoryViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - DeleteHistorySegmentAt
+    
+    func test_GameHistoryViewModel_WhenDeleteHistorySegmentAtCalled_ShouldCallGameDeleteHistorySegmentAtWithIndex() {
+        // given
+        let game = GameMock()
+        let sut = GameHistoryViewModel(game: game)
+        
+        let index = Int.random(in: 1...1000)
+        
+        // when
+        sut.deleteHistorySegmentAt(index)
+        
+        // then
+        XCTAssertEqual(game.deleteHistorySegmentAtCalledCount, 1)
+        XCTAssertEqual(game.deleteHistorySegmentAtIndex, index)
+    }
+    
+    func test_GameHistoryViewModel_WhenDeleteHistorySegmentAtCalled_ShouldSetShouldRefreshTableViewToTrue() {
+        // given
+        let game = GameMock()
+        let sut = GameHistoryViewModel(game: game)
+        
+        let expectation = XCTestExpectation(description: "ShouldRefreshTableview should be set")
+        
+        sut.shouldRefreshTableView.valueChanged = { shouldRefresh in
+            expectation.fulfill()
+            XCTAssertTrue(shouldRefresh ?? false)
+        }
+        
+        // when
+        sut.deleteHistorySegmentAt(0)
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    
     // MARK: - EditScore
     
     func test_GameHistoryViewModel_WhenEditScoreCalled_ShouldCallGameEditScoreChangeWithScoreChange() {
@@ -124,8 +161,6 @@ final class GameHistoryViewModelTests: XCTestCase {
     func test_GameHistoryViewModel_WhenEditScoreCalled_ShouldSetShouldRefreshTableViewToTrue() {
         // given
         let game = GameMock()
-        
-        let index = Int.random(in: 0...2)
         
         let expectation = XCTestExpectation(description: "tableViewIndexToRefresh not set")
         
@@ -164,8 +199,6 @@ final class GameHistoryViewModelTests: XCTestCase {
     func test_GameHistoryViewmodel_WhenEndRoundCalled_ShouldSetShouldRefreshTableViewToTrue() {
         // given
         let game = GameMock()
-        
-        let index = Int.random(in: 0...2)
         
         let expectation = XCTestExpectation(description: "tableViewIndexToRefresh not set")
         

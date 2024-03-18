@@ -50,7 +50,8 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     }
     
     func deleteHistorySegmentAt(_ index: Int) {
-        
+        game.deleteHistorySegmentAt(index: index)
+        shouldRefreshTableView.value = true
     }
     
     func editScore(_ scoreChange: ScoreChange) {
