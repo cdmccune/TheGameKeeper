@@ -65,27 +65,38 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
         let roundNumber = Int.random(in: 1...10000)
         
         // when
-        sut.setupCellFor(round: roundNumber, and: [], andTotalScores: [])
+        sut.setupCellFor(round: roundNumber, and: [], andPlayers: [])
         
         // then
         XCTAssertEqual(sut.roundNumberLabel.text, "Round \(roundNumber)")
     }
     
-    func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetViewModelWithScoreChangesAndTotalScores() {
+    func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetViewModelWithScoreChanges() {
         // given
         let sut = tableViewCell!
         let player = Player.getBasicPlayer()
         let scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
-        let totalScores = [Int.random(in: 1...1000)]
         
         
         // when
-        sut.setupCellFor(round: 0, and: [scoreChangeObject], andTotalScores: totalScores)
+        sut.setupCellFor(round: 0, and: [scoreChangeObject], andPlayers: [])
         
         // then
         XCTAssertNotNil(sut.viewModel)
         XCTAssertEqual(sut.viewModel?.scoreChanges.first?.playerID, player.id)
-        XCTAssertEqual(sut.viewModel?.totalScores, totalScores)
+    }
+    
+    func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetViewModelWithPlayersArray() {
+        // given
+        let sut = tableViewCell
+        let player = PlayerMock()
+        let scoreChangeObject = ScoreChange.getBlankScoreChange()
+        
+        // when
+        sut?.setupCellFor(round: 0, and: [scoreChangeObject], andPlayers: [player])
+        
+        // then
+        XCTAssertEqual(sut?.viewModel?.players.first?.id, player.id)
     }
     
     func test_GameHistoryEndRoundTableViewCell_WhenSetupCellForCalled_ShouldSetTableViewDelegateDatasourceAsGameHistoryEndRoundTableViewCellTableViewDelegate() {
@@ -93,7 +104,7 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
         let sut = tableViewCell!
         
         // when
-        sut.setupCellFor(round: 0, and: [], andTotalScores: [])
+        sut.setupCellFor(round: 0, and: [], andPlayers: [])
         
         // then
         XCTAssertTrue(sut.tableView.delegate is GameHistoryEndRoundTableViewCellTableViewDelegate)
@@ -104,7 +115,7 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
         let sut = tableViewCell!
         
         // when
-        sut.setupCellFor(round: 0, and: [], andTotalScores: [])
+        sut.setupCellFor(round: 0, and: [], andPlayers: [])
         
         // then
         let tableViewDelegate = sut.tableView.delegate as? GameHistoryEndRoundTableViewCellTableViewDelegate
@@ -119,7 +130,7 @@ final class GameHistoryEndRoundTableViewCellTests: XCTestCase {
         sut.tableView = tableView
         
         // when
-        sut.setupCellFor(round: 0, and: [], andTotalScores: [])
+        sut.setupCellFor(round: 0, and: [], andPlayers: [])
         
         // then
         XCTAssertEqual(tableView.reloadDataCalledCount, 1)
@@ -130,12 +141,12 @@ class GameHistoryEndRoundTableViewCellMock: GameHistoryEndRoundTableViewCell {
     var setupCellForCalledCount = 0
     var setupCellForRound: Int?
     var setupCellForScoreChanges: [ScoreChange]?
-    var setupCellForTotalScores: [Int]?
+    var setupCellForPlayers: [PlayerProtocol]?
     
-    override func setupCellFor(round: Int, and scoreChanges: [ScoreChange], andTotalScores totalScores: [Int]) {
+    override func setupCellFor(round: Int, and scoreChanges: [ScoreChange], andPlayers players: [PlayerProtocol]) {
         self.setupCellForCalledCount += 1
         self.setupCellForRound = round
         self.setupCellForScoreChanges = scoreChanges
-        self.setupCellForTotalScores = totalScores
+        self.setupCellForPlayers = players
     }
 }

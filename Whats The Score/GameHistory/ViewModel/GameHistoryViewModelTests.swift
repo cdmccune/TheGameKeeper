@@ -18,7 +18,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         let game = GameMock()
         let player = Player.getBasicPlayer()
         let scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
-        let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChangeObject, 0)
+        let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChangeObject, PlayerMock())
         game.historySegments = [scoreChangeHistorySegment]
         
         let sut = GameHistoryViewModel(game: game)
@@ -94,9 +94,9 @@ final class GameHistoryViewModelTests: XCTestCase {
         ]
         
         game.historySegments = [
-            GameHistorySegment.scoreChange(scoreChange1, 0),
-            GameHistorySegment.scoreChange(scoreChange2, 0),
-            GameHistorySegment.scoreChange(scoreChange3, 0)
+            GameHistorySegment.scoreChange(scoreChange1, PlayerMock()),
+            GameHistorySegment.scoreChange(scoreChange2, PlayerMock()),
+            GameHistorySegment.scoreChange(scoreChange3, PlayerMock())
         ]
         
         let index = Int.random(in: 0...2)

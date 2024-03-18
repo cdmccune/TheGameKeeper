@@ -9,16 +9,17 @@ import Foundation
 
 protocol GameHistoryEndRoundTableViewCellViewModelProtocol {
     var scoreChanges: [ScoreChange] { get set }
-    var totalScores: [Int] { get set }
+//    var totalScores: [Int] { get set }
+    var players: [PlayerProtocol] { get set }
 }
 
 class GameHistoryEndRoundTableViewCellViewModel: GameHistoryEndRoundTableViewCellViewModelProtocol {
     
-    init(scoreChanges: [ScoreChange], totalScores: [Int]) {
+    init(scoreChanges: [ScoreChange], players: [PlayerProtocol]) {
         self.scoreChanges = scoreChanges
-        self.totalScores = totalScores
+        self.players = players
     }
     
     var scoreChanges: [ScoreChange]
-    var totalScores: [Int]
+    var players: [PlayerProtocol]
 }

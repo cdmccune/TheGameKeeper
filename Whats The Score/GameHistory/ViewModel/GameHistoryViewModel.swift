@@ -42,7 +42,7 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     func editScore(_ scoreChange: ScoreChange) {
         game.editScoreChange(scoreChange)
         
-        if let index = game.historySegments.firstIndex(of: GameHistorySegment.scoreChange(scoreChange, 0)) {
+        if let index = game.historySegments.getIndexOfElement(withID: scoreChange.id) {
             self.tableViewIndexToRefresh.value = index
         }
     }

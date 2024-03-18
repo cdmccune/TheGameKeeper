@@ -123,25 +123,25 @@ struct Game: GameProtocol {
         guard let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) else { return }
         
         players[index].scoreChanges.append(scoreChange)
-        let historySegment = GameHistorySegment.scoreChange(scoreChange, players[index].score)
+        let historySegment = GameHistorySegment.scoreChange(scoreChange, players[index])
         
         historySegments.append(historySegment)
     }
     
     mutating func endRound(_ endRound: EndRound) {
         
-        var totalScores: [Int] = []
+        var playersInThisRound: [PlayerProtocol] = []
         
         endRound.scoreChangeArray.forEach { scoreChange in
             if let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) {
                 players[index].scoreChanges.append(scoreChange)
-                totalScores.append(players[index].score)
+                playersInThisRound.append(players[index])
             } else {
                 fatalError("Player not found")
             }
         }
         
-        let historySegment = GameHistorySegment.endRound(endRound, totalScores)
+        let historySegment = GameHistorySegment.endRound(endRound, playersInThisRound)
         historySegments.append(historySegment)
         
         currentRound += 1
@@ -158,24 +158,23 @@ struct Game: GameProtocol {
     }
     
     mutating func editScoreChange(_ newScoreChange: ScoreChange) {
-        let gameHistorySegment = GameHistorySegment.scoreChange(newScoreChange, 0)
         
         if let playerIndex = players.firstIndex(where: { $0.id == newScoreChange.playerID }),
-        let scoreChangeIndex = historySegments.firstIndex(of: gameHistorySegment),
-           case .scoreChange(let scoreChangeOriginal, _) = historySegments[scoreChangeIndex] {
+           let scoreChangeIndex = historySegments.getIndexOfElement(withID: newScoreChange.id),
+           case .scoreChange(let scoreChangeOriginal, let player) = historySegments[scoreChangeIndex] {
             
             guard let scoreChangeIndex = players[playerIndex].scoreChanges.firstIndex(of: newScoreChange) else {
                 fatalError("Score change not found")
             }
             
             players[playerIndex].scoreChanges[scoreChangeIndex] = (newScoreChange)
-            historySegments[scoreChangeIndex] = .scoreChange(newScoreChange, players[playerIndex].getScoreThrough(newScoreChange))
+            historySegments[scoreChangeIndex] = .scoreChange(newScoreChange, players[playerIndex])
         }
     }
     
     mutating func editEndRound(_ newEndRound: EndRound) {
         
-        var totalScores: [Int] = []
+        var playerInEndRoundArray = [PlayerProtocol]()
         
         // Loop through new score changes
         newEndRound.scoreChangeArray.forEach { newScoreChange in
@@ -186,6 +185,9 @@ struct Game: GameProtocol {
             
             var player = players[playerIndex]
             
+            // Append player to players in this endRound array
+            playerInEndRoundArray.append(player)
+            
             // Find the index of score change in player
             guard let playerScoreChangeIndex = player.scoreChanges.firstIndex(of: newScoreChange) else {
                 fatalError("Score change not in player score change array")
@@ -193,19 +195,15 @@ struct Game: GameProtocol {
             
             // Set player ScoreChange to new value
             player.scoreChanges[playerScoreChangeIndex] = newScoreChange
-            // append the players new total score to total score array
-            totalScores.append(player.getScoreThrough(newScoreChange))
         }
         
         // Find the end round history object
-        let gameHistorySegment = GameHistorySegment.endRound(newEndRound, [])
-        guard let endRoundIndex = historySegments.firstIndex(of: gameHistorySegment)
-        else {
+        guard let endRoundIndex = historySegments.getIndexOfElement(withID: newEndRound.id) else {
             fatalError("EndRound object not found")
         }
         
         // Set the history object to new changes
-        let newGameHistorySegment = GameHistorySegment.endRound(newEndRound, totalScores)
+        let newGameHistorySegment = GameHistorySegment.endRound(newEndRound, playerInEndRoundArray)
         historySegments[endRoundIndex] = newGameHistorySegment
     }
     

@@ -35,20 +35,20 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
         }
         
         switch viewModel.game.historySegments[indexPath.row] {
-        case .scoreChange(let scoreChange, let totalScore):
+        case .scoreChange(let scoreChange, let player):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryScoreChangeTableViewCell") as? GameHistoryScoreChangeTableViewCell else {
                 fatalError("GameHistoryScoreChangeTableViewCell not registered")
             }
             
-            cell.setupViewProperties(for: scoreChange, andTotalScore: totalScore)
+            cell.setupViewProperties(for: scoreChange, andPlayer: player)
             
             return cell
-        case .endRound(let endRound, let totalScores):
+        case .endRound(let endRound, let players):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryEndRoundTableViewCell") as? GameHistoryEndRoundTableViewCell else {
                 fatalError("GameHistoryEndRoundTableViewCell not registered")
             }
             
-            cell.setupCellFor(round: endRound.roundNumber, and: endRound.scoreChangeArray, andTotalScores: totalScores)
+            cell.setupCellFor(round: endRound.roundNumber, and: endRound.scoreChangeArray, andPlayers: players)
             
             return cell
         }
