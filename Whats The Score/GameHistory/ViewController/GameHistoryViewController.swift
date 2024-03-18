@@ -50,6 +50,7 @@ class GameHistoryViewController: UIViewController {
         tableView.register(UINib(nibName: "GameHistoryScoreChangeTableViewCell", bundle: nil), forCellReuseIdentifier: "GameHistoryScoreChangeTableViewCell")
         tableView.register(UINib(nibName: "GameHistoryEndRoundTableViewCell", bundle: nil), forCellReuseIdentifier: "GameHistoryEndRoundTableViewCell")
         tableView.register(UINib(nibName: "GameHistoryErrorTableViewCell", bundle: nil), forCellReuseIdentifier: "GameHistoryErrorTableViewCell")
+        tableView.register(UINib(nibName: "GameHistoryTableViewHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "GameHistoryTableViewHeaderView")
     }
     
     
@@ -107,11 +108,5 @@ class GameHistoryViewController: UIViewController {
             
             self?.tableView.reloadData()
         }
-        
-//        viewModel.tableViewIndexToRefresh.valueChanged = { [weak self] rowIndex in
-//            guard let rowIndex else { return }
-//            
-//            self?.tableView.reloadRows(at: [IndexPath(row: rowIndex, section: 0)], with: .automatic)
-//        }
     }
 }

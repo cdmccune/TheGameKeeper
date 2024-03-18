@@ -101,4 +101,9 @@ class UITableViewRegisterMock: UITableView {
     override func register(_ nib: UINib?, forCellReuseIdentifier identifier: String) {
         registerCellReuseIdentifiers.append(identifier)
     }
+    
+    var registerHeaderFooterIdentifier: String?
+    override func register(_ nib: UINib?, forHeaderFooterViewReuseIdentifier identifier: String) {
+        registerHeaderFooterIdentifier = identifier
+    }
 }

@@ -19,6 +19,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         tableViewMock?.register(GameHistoryScoreChangeTableViewCellMock.self, forCellReuseIdentifier: "GameHistoryScoreChangeTableViewCell")
         tableViewMock?.register(GameHistoryEndRoundTableViewCellMock.self, forCellReuseIdentifier: "GameHistoryEndRoundTableViewCell")
         tableViewMock?.register(GameHistoryErrorTableViewCell.self, forCellReuseIdentifier: "GameHistoryErrorTableViewCell")
+        tableViewMock?.register(GameHistoryTableViewHeaderViewMock.self, forHeaderFooterViewReuseIdentifier: "GameHistoryTableViewHeaderView")
     }
     
     override func tearDown() {
@@ -177,6 +178,62 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         let viewModel = sut.viewModel as? GameHistoryViewModelMock
         XCTAssertEqual(viewModel?.didSelectRowCalledCount, 1)
         XCTAssertEqual(viewModel?.didSelectRowRow, rowIndex)
+    }
+    
+    
+    // MARK: - ViewForHeaderInSection
+    
+    func test_GameHistoryTableViewDelegate_WhenViewForHeaderInSectionCalled_ShouldReturnGameHistoryTableViewHeaderView() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        
+        // when
+        let header = sut.tableView(tableView, viewForHeaderInSection: 0)
+        
+        // then
+        XCTAssertTrue(header is GameHistoryTableViewHeaderView)
+    }
+    
+    func test_GameHistoryTableViewDelegate_WhenViewForHeaderInSectionCalledGameTypeBasic_ShouldCallSetupViewIsRoundBasedGameFalse() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        
+        sut.viewModel.game.gameType = .basic
+        
+        // when
+        let header = sut.tableView(tableView, viewForHeaderInSection: 0) as? GameHistoryTableViewHeaderViewMock
+        
+        // then
+        
+        XCTAssertFalse(header?.isRoundBasedGame ?? true)
+    }
+    
+    func test_GameHistoryTableViewDelegate_WhenViewForHeaderInSectionCalledGameTypeRound_ShouldCallSetupViewIsRoundBasedGameTrue() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        
+        sut.viewModel.game.gameType = .round
+        
+        // when
+        let header = sut.tableView(tableView, viewForHeaderInSection: 0) as? GameHistoryTableViewHeaderViewMock
+        
+        // then
+        
+        XCTAssertTrue(header?.isRoundBasedGame ?? false)
+    }
+    
+
+    // MARK: - HeightForHeaderInSection
+    
+    func test_GameHistoryTableViewDelegate_WhenHeightForHeaderInSectionCalled_ShouldReturn44() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        
+        // when
+        let height = sut.tableView(tableView, heightForHeaderInSection: 0)
+        
+        // then
+        XCTAssertEqual(height, 44)
     }
 
 }

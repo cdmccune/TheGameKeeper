@@ -22,11 +22,14 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
     var viewModel: GameHistoryViewModelProtocol
     
     
-    // MARK: - Functions
+    // MARK: - NumberOfRowsInSection
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.game.historySegments.count
     }
+    
+    
+    // MARK: - CellForRowAt
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard viewModel.game.historySegments.indices.contains(indexPath.row) else {
@@ -54,6 +57,9 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
         }
     }
     
+    
+    // MARK: - HeightForRowAt
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let scoreChangeCellHeight: CGFloat = 44
         
@@ -70,7 +76,30 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
         }
     }
     
+    
+    // MARK: - DidSelectRowAt
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.didSelectRow(indexPath.row)
+    }
+    
+    
+    // MARK: - ViewForHeaderInSection
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "GameHistoryTableViewHeaderView") as? GameHistoryTableViewHeaderView else {
+            fatalError("GameHistoryTableViewHeaderViewMock not found")
+        }
+        
+        header.setupViews(isRoundBasedGame: viewModel.game.gameType == .round)
+        
+        return header
+    }
+    
+    
+    // MARK: - HeightForHeaderInSection
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        44
     }
 }

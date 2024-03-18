@@ -112,7 +112,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
         XCTAssertTrue((tableViewDelegate?.viewModel as? GameHistoryViewModelMock) === viewModel)
     }
     
-    func test_GameHistoryViewController_WhenViewDidLoadCalled_ShouldRegisterScoreChangeAndEndRoundNibsOnTableView() {
+    func test_GameHistoryViewController_WhenViewDidLoadCalled_ShouldRegisterScoreChangeEndRoundAndErrorNibsOnTableView() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -132,6 +132,22 @@ final class GameHistoryViewControllerTests: XCTestCase {
         XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(scoreChangeIdentifierNibName))
         XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(endRoundIdentifierNibName))
         XCTAssertTrue(tableViewMock.registerCellReuseIdentifiers.contains(errorIdentifierNibName))
+    }
+    
+    func test_GameHistoryViewController_WhenViewDidLoadCalled_ShouldRegisterTableViewHeaderOnTableView() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = GameHistoryViewModelMock()
+        
+        let tableViewMock = UITableViewRegisterMock()
+        sut.tableView = tableViewMock
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(tableViewMock.registerHeaderFooterIdentifier, "GameHistoryTableViewHeaderView")
     }
     
     func test_GameHistoryViewController_WhenViewDidLoadCalled_ShouldCallSetBindings() {
