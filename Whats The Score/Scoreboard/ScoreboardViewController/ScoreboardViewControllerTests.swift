@@ -43,6 +43,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertNotNil(sut.filterButtonStackView)
         XCTAssertNotNil(sut.turnOrderSortButton)
         XCTAssertNotNil(sut.scoreSortButton)
+        XCTAssertNotNil(sut.endRoundButton)
         XCTAssertNotNil(sut.progressBarStackView)
         XCTAssertNotNil(sut.progressBar)
         XCTAssertNotNil(sut.progressBarLeftLabel)
@@ -1233,7 +1234,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(dispatchQueueMock.asyncCalledCount, 1)
     }
 
-    func test_ScoreboardViewController_WhenViewModelGameHasRoundGameTypeAndBindViewModelToViewCalled_ShouldShowRoundLabel() {
+    func test_ScoreboardViewController_WhenViewModelGameHasRoundGameTypeAndBindViewModelToViewCalled_ShouldShowRoundLabelAndEndRoundButton() {
         // given
         let sut = viewController!
         
@@ -1248,9 +1249,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertFalse(sut.roundLabel.isHidden)
+        XCTAssertFalse(sut.endRoundButton.isHidden)
     }
     
-    func test_ScoreboardViewController_WhenViewModelGameHasNotRoundGameTypeAndBindViewModelToViewCalled_ShouldHideRoundLabel() {
+    func test_ScoreboardViewController_WhenViewModelGameHasNotRoundGameTypeAndBindViewModelToViewCalled_ShouldHideRoundLabelAndEndRoundButton() {
         // given
         let sut = viewController!
         
@@ -1265,6 +1267,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertTrue(sut.roundLabel.isHidden)
+        XCTAssertTrue(sut.endRoundButton.isHidden)
     }
     
     func test_ScoreboardViewController_WhenViewModelGameRoundTypeBindViewModelToViewCalled_ShouldSetRoundLabelTextToCurrentRound() {

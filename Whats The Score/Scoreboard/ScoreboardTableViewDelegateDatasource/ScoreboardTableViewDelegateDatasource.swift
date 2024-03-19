@@ -43,6 +43,7 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard viewModel.game.gameType != .round else { return }
         viewModel.startEditingPlayerScoreAt(indexPath.row)
     }
     

@@ -111,10 +111,12 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     // MARK: - DidSelectRowAt
     
-    func test_ScoreboardTableViewDelegateDatasource_WhenDidSelectRowAtCalled_ShouldCallViewModelStartEditingPlayerScoreAtWithRow() {
+    func test_ScoreboardTableViewDelegateDatasource_WhenDidSelectRowAtCalledGameBasic_ShouldCallViewModelStartEditingPlayerScoreAtWithRow() {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
-        let viewModelMock = ScoreboardViewModelMock()
+        let game = GameMock()
+        game.gameType = .basic
+        let viewModelMock = ScoreboardViewModelMock(game: game)
         sut.viewModel = viewModelMock
         
         let index = Int.random(in: 0...10)
@@ -125,6 +127,21 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         // then
         XCTAssertEqual(viewModelMock.startEditingPlayerScoreAtCalledCount, 1)
         XCTAssertEqual(viewModelMock.startEditingPlayerScoreAtIndex, index)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenDidSelectRowAtCalledGameTypeRound_ShouldNotCallViewModelStartEditingPlayerScoreAt() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        let game = GameMock()
+        game.gameType = .round
+        let viewModelMock = ScoreboardViewModelMock(game: game)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertEqual(viewModelMock.startEditingPlayerScoreAtCalledCount, 0)
     }
     
     

@@ -17,6 +17,7 @@ class ScoreboardViewController: UIViewController {
     
     @IBOutlet weak var turnOrderSortButton: UIButton!
     @IBOutlet weak var scoreSortButton: UIButton!
+    @IBOutlet weak var endRoundButton: UIButton!
     
     @IBOutlet weak var progressBarStackView: UIStackView!
     @IBOutlet weak var progressBar: UIProgressView!
@@ -290,6 +291,7 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             let game = viewModel.game
             
             self.roundLabel.isHidden = game.gameType != .round
+            self.endRoundButton.isHidden = game.gameType != .round
             
             if game.isEndOfGame() {
                 self.roundLabel.text = "Game Over"
