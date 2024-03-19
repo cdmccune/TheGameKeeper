@@ -605,6 +605,130 @@ final class GameTests: XCTestCase {
     }
     
     
+    // MARK: - DeleteHistorySegmentAt
+    
+    func test_Game_WhenDeleteHistorySegmentAtCalled_ShouldDeleteHistorySegmentAtIndex() {
+        // given
+        var sut = Game(basicGameWithPlayers: [])
+        
+        let historySegmentCount = Int.random(in: 5...10)
+        
+        var historySegments: [GameHistorySegment] = []
+        
+        for _ in 0..<historySegmentCount {
+            historySegments.append(GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange(), PlayerMock()))
+        }
+        
+        sut.historySegments = historySegments
+        
+        let indexToDelete = Int.random(in: 0..<historySegmentCount)
+        
+        // when
+        sut.deleteHistorySegmentAt(index: indexToDelete)
+        
+        // then
+        historySegments.remove(at: indexToDelete)
+        XCTAssertEqual(sut.historySegments, historySegments)
+    }
+    
+    func test_Game_WhenDeleteHistorySegmentAtCalledScoreChange_ShouldDeleteScoreChangeFromAppropriatePlayer() {
+        // given
+        let player = PlayerMock()
+        var sut = Game(basicGameWithPlayers: [player])
+        
+        let scoreChange = ScoreChange(player: player, scoreChange: 0)
+        player.scoreChanges = [scoreChange]
+        
+        let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChange, player)
+        
+        sut.historySegments = [scoreChangeHistorySegment]
+        
+        // when
+        sut.deleteHistorySegmentAt(index: 0)
+        
+        // then
+        XCTAssertTrue(player.scoreChanges.isEmpty)
+    }
+    
+    func test_Game_WhenDeleteHistorySegmentAtCalledEndRound_ShouldDeleteScoreChangesFromAllAppropriatePlayers() {
+        // given
+        let players = [
+            PlayerMock(),
+            PlayerMock(),
+            PlayerMock()
+        ]
+        
+        var sut = Game(basicGameWithPlayers: players)
+        
+        let scoreChanges = [
+            ScoreChange(player: players[0], scoreChange: 0),
+            ScoreChange(player: players[1], scoreChange: 0)
+        ]
+        
+        players[0].scoreChanges = [scoreChanges[0]]
+        players[1].scoreChanges = [scoreChanges[1]]
+        players[2].scoreChanges = [ScoreChange.getBlankScoreChange()]
+        
+        let endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChanges)
+        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [players[0], players[1]])
+        sut.historySegments = [endRoundHistorySegment]
+        
+        // when
+        sut.deleteHistorySegmentAt(index: 0)
+        
+        // then
+        XCTAssertTrue(players[0].scoreChanges.isEmpty)
+        XCTAssertTrue(players[1].scoreChanges.isEmpty)
+        XCTAssertEqual(players[2].scoreChanges.count, 1)
+    }
+    
+    func test_Game_WhenDeleteHistorySegmentCalledEndRound_ShouldAdjustOtherEndRoundRoundNumbers() {
+        // given
+        var sut = Game(basicGameWithPlayers: [])
+        
+        let endRoundGameHistorySegmentArray = [
+            GameHistorySegment.endRound(EndRound.init(roundNumber: 1, scoreChangeArray: []), []),
+            GameHistorySegment.endRound(EndRound.init(roundNumber: 2, scoreChangeArray: []), []),
+            GameHistorySegment.endRound(EndRound.init(roundNumber: 3, scoreChangeArray: []), [])
+        ]
+        
+        sut.historySegments = endRoundGameHistorySegmentArray
+        
+        // when
+        sut.deleteHistorySegmentAt(index: 0)
+        
+        // then
+        guard case .endRound(let endRound1, _) = sut.historySegments[0],
+              case .endRound(let endRound2, _) = sut.historySegments[1]
+        else {
+            XCTFail("Should be endRound")
+            return
+        }
+        
+        XCTAssertEqual(endRound1.roundNumber, 1)
+        XCTAssertEqual(endRound2.roundNumber, 2)
+    }
+    
+    func test_Game_WhenDeleteHistorySegmentCalledEndRound_ShouldGameCurrentRoundToOneAboveNumberOfCompletedRounds() {
+        // given
+        var sut = Game(basicGameWithPlayers: [])
+        
+        let endRoundGameHistorySegmentArray = [
+            GameHistorySegment.endRound(EndRound.init(roundNumber: 1, scoreChangeArray: []), []),
+            GameHistorySegment.endRound(EndRound.init(roundNumber: 2, scoreChangeArray: []), []),
+            GameHistorySegment.endRound(EndRound.init(roundNumber: 3, scoreChangeArray: []), [])
+        ]
+        
+        sut.historySegments = endRoundGameHistorySegmentArray
+        
+        // when
+        sut.deleteHistorySegmentAt(index: 0)
+        
+        // then
+        XCTAssertEqual(sut.currentRound, 3)
+    }
+    
+    
     // MARK: - ResetGame
     
     func test_Game_WhenResetGameCalled_ShouldSetPlayersScoreChangesToEmptyArray() {

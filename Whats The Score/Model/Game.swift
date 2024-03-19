@@ -199,7 +199,47 @@ struct Game: GameProtocol {
     }
     
     mutating func deleteHistorySegmentAt(index: Int) {
+        guard historySegments.indices.contains(index) else { return }
         
+        let historySegmentToRemove = historySegments[index]
+        
+        // Remove History Segment from game
+        historySegments.remove(at: index)
+        
+        if case .scoreChange(let scoreChange, var player) = historySegmentToRemove {
+            // Remove scoreChange from player
+            player.scoreChanges.removeAll { $0 == scoreChange }
+            
+        } else if case .endRound(let endRound, var players) = historySegmentToRemove {
+            
+            // Set New Round Numbers For End Round Segments
+            var endRoundCount = 1
+            historySegments.enumerated().forEach { (index, segment) in
+                if case .endRound(var newEndRound, let endRoundPlayers) = segment {
+                    newEndRound.roundNumber = endRoundCount
+                    historySegments[index] = GameHistorySegment.endRound(newEndRound, endRoundPlayers)
+                    
+                    endRoundCount += 1
+                }
+            }
+            
+            // Set new current round number
+            self.currentRound = endRoundCount
+            
+            // For each score change that needs to be deleted
+            endRound.scoreChangeArray.forEach { endRoundScoreChange in
+                
+                // If it is tied to player in array and player has score change
+                if var player = players.first(where: { $0.id == endRoundScoreChange.playerID }),
+                   let indexOfScoreChangeToRemove = player.scoreChanges.firstIndex(of: endRoundScoreChange) {
+                    
+                    // Delete the score change
+                    player.scoreChanges.remove(at: indexOfScoreChangeToRemove)
+                }
+            }
+        }
+        
+       
     }
     
     mutating func resetGame() {
