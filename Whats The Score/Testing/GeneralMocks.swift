@@ -18,6 +18,15 @@ class NavigationControllerPushMock: UINavigationController {
     }
 }
 
+class NavigationControllerPopMock: UINavigationController {
+    var popViewControllerCount = 0
+    
+    override func popViewController(animated: Bool) -> UIViewController? {
+        popViewControllerCount += 1
+        return nil
+    }
+}
+
 class TableViewDelegateMock: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     init(cellIdentifier: String) {

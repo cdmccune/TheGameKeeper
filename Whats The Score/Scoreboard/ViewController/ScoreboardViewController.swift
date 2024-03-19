@@ -31,6 +31,7 @@ class ScoreboardViewController: UIViewController {
     var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     lazy var resetBarButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetButtonTapped))
     lazy var historyBarButton = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(historyButtonTapped))
+    lazy var settingsBarButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonTapped))
     lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper(playerViewHeight: 45, playerSeperatorHeight: 3)
 
     
@@ -105,7 +106,7 @@ class ScoreboardViewController: UIViewController {
     }
     
     private func setupViews() {
-        navigationItem.rightBarButtonItems = [resetBarButton, historyBarButton]
+        navigationItem.rightBarButtonItems = [settingsBarButton, resetBarButton, historyBarButton]
         
         self.scoreSortButton.alpha = 1
         self.turnOrderSortButton.alpha = 0.5
@@ -269,7 +270,6 @@ class ScoreboardViewController: UIViewController {
             fatalError("No viewModel game")
         }
         
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let gameHistoryViewController = storyboard.instantiateViewController(withIdentifier: "GameHistoryViewController") as? GameHistoryViewController else {
             fatalError("GameHistoryViewController couldn't be made")
@@ -279,6 +279,22 @@ class ScoreboardViewController: UIViewController {
         gameHistoryViewController.viewModel = viewModel
         gameHistoryViewController.delegate = self.viewModel
         navigationController?.pushViewController(gameHistoryViewController, animated: true)
+    }
+    
+    @objc func settingsButtonTapped() {
+        guard let game = viewModel?.game else {
+            fatalError("No viewModel game")
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let gameSettingsViewController = storyboard.instantiateViewController(withIdentifier: "GameSettingsViewController") as? GameSettingsViewController else {
+            fatalError("GameSettingsViewController couldn't be made")
+        }
+        
+        let viewModel = GameSettingsViewModel(game: game, delegate: viewModel)
+        gameSettingsViewController.viewModel = viewModel
+        
+        navigationController?.pushViewController(gameSettingsViewController, animated: true)
     }
     
     

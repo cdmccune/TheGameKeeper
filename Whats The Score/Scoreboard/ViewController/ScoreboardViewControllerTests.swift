@@ -53,6 +53,40 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     // MARK: - Properties
     
+    func test_ScoreboardViewController_WhenSettingsBarButtonSet_ShouldHaveSettingsBarButtonCorrectImageAndTarget() {
+        // given
+        let sut = viewController!
+        
+        // when
+        let barButton = sut.settingsBarButton
+        
+        // then
+        XCTAssertEqual(barButton.image, UIImage(systemName: "gear")!)
+        XCTAssertEqual(barButton.target as? ScoreboardViewController, sut)
+    }
+    
+        func test_ScoreboardViewController_WhenSettingsBarButtonActionCalled_ShouldCallSettingsButtonTapped() {
+    
+            class ScoreboardViewControllerSettingsButtonTappedMock: ScoreboardViewController {
+                var settingsBarButtonCalledCount = 0
+                override func settingsButtonTapped() {
+                    settingsBarButtonCalledCount += 1
+                }
+            }
+    
+            // given
+            let sut = ScoreboardViewControllerSettingsButtonTappedMock()
+    
+            let tableView = UITableView()
+            sut.tableView = tableView
+    
+            // when
+            _ = sut.settingsBarButton.target?.perform(sut.settingsBarButton.action, with: sut.settingsBarButton)
+    
+            // then
+            XCTAssertEqual(sut.settingsBarButtonCalledCount, 1)
+        }
+    
     func test_ScoreboardViewController_WhenResetBarButtonSet_ShouldHaveResetBarButtonCorrectTitleAndTarget() {
         // given
         let sut = viewController!
@@ -182,7 +216,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertTrue(cell is ScoreboardTableViewCell)
     }
     
-    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetNavigationItemRightBarButtonToResetBarButton() {
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetSecondNavigationItemRightBarButtonToSettingsBarButton() {
         // given
         let sut = viewController!
         let viewModelMock = ScoreboardViewModelMock()
@@ -193,10 +227,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(sut.navigationItem.rightBarButtonItems?.first, sut.resetBarButton)
+        XCTAssertEqual(sut.navigationItem.rightBarButtonItems?[0], sut.settingsBarButton)
     }
     
-    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetNavigationItemSecondRightBarButtonToHistoryBarButton() {
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetSecondNavigationItemRightBarButtonToResetBarButton() {
         // given
         let sut = viewController!
         let viewModelMock = ScoreboardViewModelMock()
@@ -207,7 +241,21 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(sut.navigationItem.rightBarButtonItems?[1], sut.historyBarButton)
+        XCTAssertEqual(sut.navigationItem.rightBarButtonItems?[1], sut.resetBarButton)
+    }
+    
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetNavigationItemThirdRightBarButtonToHistoryBarButton() {
+        // given
+        let sut = viewController!
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.navigationItem.rightBarButtonItems?[2], sut.historyBarButton)
     }
     
     func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldSetScoreSortButtonAlphaTo1AndTurnOrderSortButtonAlphaToPoint5() {
@@ -1211,6 +1259,47 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         let gameHistoryViewController = navigationController.pushedViewController as? GameHistoryViewController
         XCTAssertEqual(gameHistoryViewController?.delegate as? ScoreboardViewModelMock, viewModel)
+    }
+    
+    
+    // MARK: - SettingsButtonTapped
+    
+    func test_ScoreboardViewController_WhenSettingsButtonTappedCalled_ShouldPushGameSettingsViewControllerWithCorrectGame() {
+        // given
+        let sut = viewController!
+        let navigationController = NavigationControllerPushMock()
+        navigationController.viewControllers = [sut]
+        
+        let game = GameMock()
+        let viewModel = ScoreboardViewModelMock(game: game)
+        sut.viewModel = viewModel
+        
+        // when
+        sut.settingsButtonTapped()
+        
+        // then
+        let gameSettingsViewController = navigationController.pushedViewController as? GameSettingsViewController
+        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
+        XCTAssertNotNil(gameSettingsViewController)
+        XCTAssertTrue(gameSettingsViewController?.viewModel?.game.isEqualTo(game: game) ?? false)
+    }
+    
+    func test_ScoreboardViewController_WhenSettingsButtonTapped_ShouldSetViewModelAsGameSettingsDelegate() {
+        // given
+        let sut = viewController!
+        let navigationController = NavigationControllerPushMock()
+        navigationController.viewControllers = [sut]
+        
+        let game = GameMock()
+        let viewModel = ScoreboardViewModelMock(game: game)
+        sut.viewModel = viewModel
+        
+        // when
+        sut.settingsButtonTapped()
+        
+        // then
+        let gameSettingsViewController = navigationController.pushedViewController as? GameSettingsViewController
+        XCTAssertEqual(gameSettingsViewController?.viewModel?.delegate as? ScoreboardViewModelMock, viewModel)
     }
     
     

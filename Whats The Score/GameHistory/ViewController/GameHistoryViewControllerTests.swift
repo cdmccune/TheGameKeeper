@@ -25,6 +25,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
     
     override func tearDown() {
         viewController = nil
+        views = nil
     }
     
     

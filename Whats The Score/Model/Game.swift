@@ -25,6 +25,7 @@ protocol GameProtocol {
     mutating func deletePlayerAt(_ index: Int)
     mutating func editScore(scoreChange: ScoreChange)
     mutating func endRound(_ endRound: EndRound)
+    mutating func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int)
     mutating func resetGame()
     mutating func editScoreChange(_ newScoreChange: ScoreChange)
     mutating func editEndRound(_ newEndRound: EndRound)
@@ -198,6 +199,12 @@ struct Game: GameProtocol {
         currentRound += 1
     }
     
+    mutating func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {
+        self.gameEndType = gameEndType
+        self.numberOfRounds = numberOfRounds
+        self.endingScore = endingScore
+    }
+    
     mutating func deleteHistorySegmentAt(index: Int) {
         guard historySegments.indices.contains(index) else { return }
         
@@ -210,7 +217,7 @@ struct Game: GameProtocol {
             // Remove scoreChange from player
             player.scoreChanges.removeAll { $0 == scoreChange }
             
-        } else if case .endRound(let endRound, var players) = historySegmentToRemove {
+        } else if case .endRound(let endRound, _) = historySegmentToRemove {
             
             // Set New Round Numbers For End Round Segments
             var endRoundCount = 1

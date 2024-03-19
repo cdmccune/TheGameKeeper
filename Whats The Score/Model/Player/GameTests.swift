@@ -525,6 +525,26 @@ final class GameTests: XCTestCase {
     }
     
     
+    // MARK: - UpdateSettings
+    
+    func test_Game_WhenUpdateSettingsCalled_ShouldSetGameEndTypeEndingScoreAndNumberOfRoundsToNewValue() {
+        // given
+        var sut = Game(basicGameWithPlayers: [])
+        
+        let gameEndType = GameEndType(rawValue: Int.random(in: 1...2))!
+        let endingScore = Int.random(in: 15...1000)
+        let numbeOfRounds = Int.random(in: 15...1000)
+        
+        // when
+        sut.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numbeOfRounds)
+        
+        // then
+        XCTAssertEqual(sut.gameEndType, gameEndType)
+        XCTAssertEqual(sut.numberOfRounds, numbeOfRounds)
+        XCTAssertEqual(sut.endingScore, endingScore)
+    }
+    
+    
     // MARK: - IsEndOfGame
     
     func test_Game_WhenIsEndOfGameCalledNoneEndGameType_ShouldReturnFalse() {
@@ -1032,6 +1052,18 @@ class GameMock: GameProtocol {
     func endRound(_ endRound: EndRound) {
         endRoundEndRound = endRound
         endRoundCalledCount += 1
+    }
+    
+    var updateSettingsCalledCount = 0
+    var updateSettingsGameEndType: GameEndType?
+    var updateSettingsEndingScore: Int?
+    var updateSettingsNumberOfRounds: Int?
+    
+    func updateSettings(with gameEndType: Whats_The_Score.GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {
+        self.updateSettingsCalledCount += 1
+        self.updateSettingsGameEndType = gameEndType
+        self.updateSettingsEndingScore = endingScore
+        self.updateSettingsNumberOfRounds = numberOfRounds
     }
     
     var resetGameCalledCount = 0
