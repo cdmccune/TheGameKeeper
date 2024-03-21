@@ -19,6 +19,16 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertTrue(sut.childCoordinators.first is GameSetupCoordinator)
     }
     
+    func test_GameTabCoordinator_WhenInitialiazed_ShouldSetGameSetupCoordinatorsNavigationControllerAsOwnNavController() {
+        // given
+        // when
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        
+        // then
+        let gameSetupCoordinator = sut.childCoordinators.first as? GameSetupCoordinator
+        XCTAssertTrue(gameSetupCoordinator?.navigationController === sut.navigationController)
+    }
+    
     func test_GameTabCoordinator_WhenStartCalled_ShouldCallStartOnGameSetupCoordinator() {
         
         class GameSetupCoordinatorMock: GameSetupCoordinator {
@@ -39,5 +49,6 @@ final class GameTabCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(gameSetupCoordinator.startCalledCount, 1)
     }
+    
 
 }

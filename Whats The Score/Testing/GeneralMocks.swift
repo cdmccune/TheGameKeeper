@@ -18,6 +18,16 @@ class NavigationControllerPushMock: UINavigationController {
     }
 }
 
+class RootNavigationControllerPushMock: RootNavigationController {
+    var pushViewControllerCount = 0
+    var pushedViewController: UIViewController?
+    
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        self.pushedViewController = viewController
+        pushViewControllerCount += 1
+    }
+}
+
 class NavigationControllerPopMock: UINavigationController {
     var popViewControllerCount = 0
     
