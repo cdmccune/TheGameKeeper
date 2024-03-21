@@ -55,5 +55,5 @@ class GameSetupCoordinator: Coordinator {
         let playerSetupVC = PlayerSetupViewController.instantiate()
         navigationController.pushViewController(playerSetupVC, animated: true)
     }
+    print("test change")
  }
-print("test change")
