@@ -9,14 +9,29 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    var coordinator: MainCoordinator?
     var window: UIWindow?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
+//        // create our coordinator
+//        coordinator = MainCoordinator()
+//        coordinator?.start()
+//        
+//        // create the window for our app and make it use our tabbar controller
+//        window = UIWindow(frame: UIScreen.main.bounds)
+//        window?.rootViewController = coordinator?.tabbarController
+//        window?.makeKeyAndVisible()
+        
         guard (scene as? UIWindowScene) != nil else { return }
+        
+        coordinator = MainCoordinator()
+        coordinator?.start()
+        
+        self.window = UIWindow.init(windowScene: scene as! UIWindowScene)
+        window?.rootViewController = coordinator?.tabbarController
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

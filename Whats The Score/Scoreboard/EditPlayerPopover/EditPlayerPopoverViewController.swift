@@ -11,7 +11,7 @@ protocol EditPlayerPopoverDelegateProtocol {
     func finishedEditing(_ player: PlayerProtocol, toNewName name: String)
 }
 
-class EditPlayerPopoverViewController: UIViewController {
+class EditPlayerPopoverViewController: UIViewController, Storyboarded {
 
     // MARK: - Outlets
     

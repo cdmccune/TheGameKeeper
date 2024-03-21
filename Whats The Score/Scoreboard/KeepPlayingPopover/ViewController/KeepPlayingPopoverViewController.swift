@@ -15,7 +15,7 @@ protocol KeepPlayingPopoverDelegate: AnyObject {
     
 }
 
-class KeepPlayingPopoverViewController: UIViewController {
+class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
 
     // MARK: - Outlets
     

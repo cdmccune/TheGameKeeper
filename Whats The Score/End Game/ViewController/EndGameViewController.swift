@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EndGameViewController: UIViewController {
+class EndGameViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     

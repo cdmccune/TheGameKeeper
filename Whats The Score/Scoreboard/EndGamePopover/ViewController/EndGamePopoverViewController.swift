@@ -12,7 +12,7 @@ protocol EndGamePopoverDelegate: AnyObject {
     func keepPlayingSelected()
 }
 
-class EndGamePopoverViewController: UIViewController {
+class EndGamePopoverViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     

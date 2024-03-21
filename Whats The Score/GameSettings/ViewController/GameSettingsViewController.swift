@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GameSettingsViewController: UIViewController {
+class GameSettingsViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     

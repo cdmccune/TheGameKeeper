@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ScoreboardViewController: UIViewController {
+class ScoreboardViewController: UIViewController, Storyboarded {
 
     // MARK: - Outlets
     

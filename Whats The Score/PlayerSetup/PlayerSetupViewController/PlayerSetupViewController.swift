@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PlayerSetupViewController: UIViewController {
+class PlayerSetupViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     

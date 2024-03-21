@@ -11,7 +11,7 @@ protocol EndRoundPopoverDelegateProtocol {
     func endRound(_ endRound: EndRound)
 }
 
-class EndRoundPopoverViewController: UIViewController {
+class EndRoundPopoverViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     

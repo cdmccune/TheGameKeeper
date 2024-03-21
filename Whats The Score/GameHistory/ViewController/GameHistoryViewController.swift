@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GameHistoryViewController: UIViewController {
+class GameHistoryViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     

@@ -11,7 +11,7 @@ protocol ScoreboardPlayerEditScorePopoverDelegate: AnyObject {
     func editScore(_ scoreChange: ScoreChange)
 }
 
-class ScoreboardPlayerEditScorePopoverViewController: UIViewController {
+class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     

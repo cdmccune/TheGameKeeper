@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="daA-bT-KNM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -22,40 +22,22 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Home-->
-        <scene sceneID="JwX-o7-gF3">
-            <objects>
-                <navigationController id="6mV-by-nLO" customClass="RootNavigationController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="XrT-Bw-8Hg"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6Ey-T6-n00">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="2bZ-HX-MC1"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NAK-hE-pI1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1129" y="775"/>
-        </scene>
         <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="Home View Controller" id="BYZ-38-t0r" customClass="HomeViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" id="BYZ-38-t0r" customClass="HomeViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's The Score" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gip-9B-ioQ">
-                                <rect key="frame" x="15" y="103" width="363" height="49"/>
+                                <rect key="frame" x="15" y="59" width="363" height="49"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="42"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="66F-Ce-HLQ">
-                                <rect key="frame" x="46.666666666666657" y="182" width="300" height="145"/>
+                                <rect key="frame" x="46.666666666666657" y="138" width="300" height="145"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nY1-O4-eaM">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="65"/>
@@ -116,26 +98,6 @@
             </objects>
             <point key="canvasLocation" x="1127" y="1494"/>
         </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="HzF-wX-SS7">
-            <objects>
-                <tabBarController id="daA-bT-KNM" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Rv0-fD-QKp">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <tabBarAppearance key="standardAppearance"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="6mV-by-nLO" kind="relationship" relationship="viewControllers" id="WIU-UV-dSw"/>
-                        <segue destination="GEB-0g-m89" kind="relationship" relationship="viewControllers" id="vGE-Nh-b8i"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ihb-Mf-7cX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2514" y="127"/>
-        </scene>
         <!--Game Setup View Controller-->
         <scene sceneID="E3M-ev-9cC">
             <objects>
@@ -145,7 +107,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="LyS-Y8-G9u">
-                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="7cb-M5-iiD">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="240"/>
@@ -329,11 +291,11 @@
                                         <edgeInsets key="layoutMargins" top="0.0" left="15" bottom="0.0" right="15"/>
                                     </stackView>
                                     <view contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="8We-7M-Fi5">
-                                        <rect key="frame" x="0.0" y="250" width="393" height="341"/>
+                                        <rect key="frame" x="0.0" y="250" width="393" height="434"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ge-ah-1iR">
-                                        <rect key="frame" x="15" y="601" width="363" height="65"/>
+                                        <rect key="frame" x="15" y="694" width="363" height="65"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="65" id="n8v-Cx-0IF"/>
                                         </constraints>
@@ -1260,24 +1222,6 @@
             </objects>
             <point key="canvasLocation" x="4466" y="1469"/>
         </scene>
-        <!--Game-->
-        <scene sceneID="zvJ-0S-wdv">
-            <objects>
-                <navigationController id="GEB-0g-m89" customClass="RootNavigationController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Game" image="dice" catalog="system" id="fvS-LB-nPA"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="36Z-eP-fNN">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="TFZ-rN-2F5" kind="relationship" relationship="rootViewController" id="iTU-Yv-58X"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sfU-y1-GpA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3662" y="775"/>
-        </scene>
         <!--Game History View Controller-->
         <scene sceneID="7zY-t5-s4A">
             <objects>
@@ -1480,8 +1424,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="dice" catalog="system" width="128" height="116"/>
-        <image name="house" catalog="system" width="128" height="104"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

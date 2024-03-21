@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     
@@ -16,13 +16,18 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var setupGameButton: UIButton!
     
     
+    // MARK: - Properties
+    
+    weak var coordinator: HomeTabCoordinator?
+    
+    
     // MARK: - Lifecycles
     
     
     // MARK: - IBActions
     
     @IBAction func setupGameButtonTapped(_ sender: Any) {
-        self.tabBarController?.selectedIndex = 1
+        coordinator?.setupNewGame()
     }
     
     @IBAction func quickStartButtonTapped(_ sender: Any) {

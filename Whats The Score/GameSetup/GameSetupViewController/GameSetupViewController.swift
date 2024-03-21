@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GameSetupViewController: UIViewController {
+class GameSetupViewController: UIViewController, Storyboarded {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)

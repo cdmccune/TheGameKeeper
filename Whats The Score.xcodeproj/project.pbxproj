@@ -129,6 +129,17 @@
 		24E1BE432BA0D6FC00B17505 /* GameHistoryEndRoundTableViewCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E1BE422BA0D6FC00B17505 /* GameHistoryEndRoundTableViewCellViewModelTests.swift */; };
 		24E1BE462BA0E5B600B17505 /* GameHistoryEndRoundTableViewCellTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E1BE452BA0E5B600B17505 /* GameHistoryEndRoundTableViewCellTableViewDelegate.swift */; };
 		24E1BE482BA0E5BC00B17505 /* GameHistoryEndRoundTableViewCellTableViewDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E1BE472BA0E5BC00B17505 /* GameHistoryEndRoundTableViewCellTableViewDelegateTests.swift */; };
+		24E36C412BAB4CB800334CD1 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C402BAB4CB800334CD1 /* MainCoordinator.swift */; };
+		24E36C432BAB4D7900334CD1 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C422BAB4D7900334CD1 /* MainCoordinatorTests.swift */; };
+		24E36C462BAB82AB00334CD1 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C452BAB82AB00334CD1 /* Coordinator.swift */; };
+		24E36C4C2BAB846800334CD1 /* GameTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C4B2BAB846800334CD1 /* GameTabCoordinator.swift */; };
+		24E36C592BAB8E0C00334CD1 /* HomeTabCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C562BAB8E0C00334CD1 /* HomeTabCoordinatorTests.swift */; };
+		24E36C5A2BAB8E0C00334CD1 /* HomeTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C572BAB8E0C00334CD1 /* HomeTabCoordinator.swift */; };
+		24E36C5E2BAB8ED100334CD1 /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C5D2BAB8ED100334CD1 /* Storyboarded.swift */; };
+		24E36C5F2BAB8ED100334CD1 /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C5D2BAB8ED100334CD1 /* Storyboarded.swift */; };
+		24E36C612BAB935200334CD1 /* MainCoordinatorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C602BAB935200334CD1 /* MainCoordinatorMock.swift */; };
+		24E36C682BAB96DF00334CD1 /* GameSetupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C672BAB96DF00334CD1 /* GameSetupCoordinator.swift */; };
+		24E36C692BAB973100334CD1 /* GameTabCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C622BAB95B300334CD1 /* GameTabCoordinatorTests.swift */; };
 		24EC1D7C2B44CC600060D27D /* PlayerSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */; };
 		24EC1D7E2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */; };
 		9D2D388E6EBDB0E728332E42 /* Pods_Whats_The_Score.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB3D71FC7484F9F7B4F53D5 /* Pods_Whats_The_Score.framework */; };
@@ -271,6 +282,16 @@
 		24E1BE422BA0D6FC00B17505 /* GameHistoryEndRoundTableViewCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryEndRoundTableViewCellViewModelTests.swift; sourceTree = "<group>"; };
 		24E1BE452BA0E5B600B17505 /* GameHistoryEndRoundTableViewCellTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryEndRoundTableViewCellTableViewDelegate.swift; sourceTree = "<group>"; };
 		24E1BE472BA0E5BC00B17505 /* GameHistoryEndRoundTableViewCellTableViewDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryEndRoundTableViewCellTableViewDelegateTests.swift; sourceTree = "<group>"; };
+		24E36C402BAB4CB800334CD1 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		24E36C422BAB4D7900334CD1 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
+		24E36C452BAB82AB00334CD1 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		24E36C4B2BAB846800334CD1 /* GameTabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTabCoordinator.swift; sourceTree = "<group>"; };
+		24E36C562BAB8E0C00334CD1 /* HomeTabCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabCoordinatorTests.swift; sourceTree = "<group>"; };
+		24E36C572BAB8E0C00334CD1 /* HomeTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabCoordinator.swift; sourceTree = "<group>"; };
+		24E36C5D2BAB8ED100334CD1 /* Storyboarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboarded.swift; sourceTree = "<group>"; };
+		24E36C602BAB935200334CD1 /* MainCoordinatorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorMock.swift; sourceTree = "<group>"; };
+		24E36C622BAB95B300334CD1 /* GameTabCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTabCoordinatorTests.swift; sourceTree = "<group>"; };
+		24E36C672BAB96DF00334CD1 /* GameSetupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupCoordinator.swift; sourceTree = "<group>"; };
 		24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewController.swift; sourceTree = "<group>"; };
 		24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewControllerTests.swift; sourceTree = "<group>"; };
 		4F0EB3F0D4A8B52B3402D807 /* Pods-Whats The Score.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score.debug.xcconfig"; path = "Target Support Files/Pods-Whats The Score/Pods-Whats The Score.debug.xcconfig"; sourceTree = "<group>"; };
@@ -511,6 +532,11 @@
 			children = (
 				2437F6E22B40AAE000BB75A1 /* AppDelegate.swift */,
 				2437F6E42B40AAE000BB75A1 /* SceneDelegate.swift */,
+				24E36C442BAB829C00334CD1 /* Coordinator */,
+				24E36C5C2BAB8EB800334CD1 /* Storyboarded */,
+				24E36C3F2BAB4CA400334CD1 /* MainCoordinator */,
+				24E36C4A2BAB840900334CD1 /* GameTabCoordinator */,
+				24E36C552BAB8E0C00334CD1 /* HomeTabCoordinator */,
 				2410F71B2B5596F000860BA4 /* RootNavigationController */,
 				2437F70C2B40C06100BB75A1 /* HomeViewController */,
 				2437F71C2B40D0F600BB75A1 /* GameSetup */,
@@ -1014,6 +1040,68 @@
 			path = GameHistoryEndRoundTableViewCellTableViewDelegate;
 			sourceTree = "<group>";
 		};
+		24E36C3F2BAB4CA400334CD1 /* MainCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				24E36C402BAB4CB800334CD1 /* MainCoordinator.swift */,
+				24E36C422BAB4D7900334CD1 /* MainCoordinatorTests.swift */,
+				24E36C602BAB935200334CD1 /* MainCoordinatorMock.swift */,
+			);
+			path = MainCoordinator;
+			sourceTree = "<group>";
+		};
+		24E36C442BAB829C00334CD1 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				24E36C452BAB82AB00334CD1 /* Coordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		24E36C4A2BAB840900334CD1 /* GameTabCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				24E36C642BAB96BB00334CD1 /* GameTabCoordinator */,
+				24E36C662BAB96CC00334CD1 /* GameSetupCoordinator */,
+			);
+			path = GameTabCoordinator;
+			sourceTree = "<group>";
+		};
+		24E36C552BAB8E0C00334CD1 /* HomeTabCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				24E36C572BAB8E0C00334CD1 /* HomeTabCoordinator.swift */,
+				24E36C562BAB8E0C00334CD1 /* HomeTabCoordinatorTests.swift */,
+			);
+			name = HomeTabCoordinator;
+			path = "Whats The Score/HomeTabCoordinator";
+			sourceTree = SOURCE_ROOT;
+		};
+		24E36C5C2BAB8EB800334CD1 /* Storyboarded */ = {
+			isa = PBXGroup;
+			children = (
+				24E36C5D2BAB8ED100334CD1 /* Storyboarded.swift */,
+			);
+			path = Storyboarded;
+			sourceTree = "<group>";
+		};
+		24E36C642BAB96BB00334CD1 /* GameTabCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				24E36C4B2BAB846800334CD1 /* GameTabCoordinator.swift */,
+				24E36C622BAB95B300334CD1 /* GameTabCoordinatorTests.swift */,
+			);
+			path = GameTabCoordinator;
+			sourceTree = "<group>";
+		};
+		24E36C662BAB96CC00334CD1 /* GameSetupCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				24E36C672BAB96DF00334CD1 /* GameSetupCoordinator.swift */,
+			);
+			path = GameSetupCoordinator;
+			sourceTree = "<group>";
+		};
 		24EC1D792B44CAA40060D27D /* PlayerSetup */ = {
 			isa = PBXGroup;
 			children = (
@@ -1247,8 +1335,10 @@
 				24BD233E2B56DE9E000FCBE4 /* ArrayExtensions.swift in Sources */,
 				24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */,
 				2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */,
+				24E36C4C2BAB846800334CD1 /* GameTabCoordinator.swift in Sources */,
 				24D71FE32B9292E90043CC62 /* KeepPlayingPopoverViewController.swift in Sources */,
 				244A46392B5AD9C60033199F /* ScoreboardViewModel.swift in Sources */,
+				24E36C412BAB4CB800334CD1 /* MainCoordinator.swift in Sources */,
 				24E1BE3C2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.swift in Sources */,
 				24CD526E2B6167A500C481A8 /* ScoreboardTableViewCell.swift in Sources */,
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
@@ -1256,6 +1346,7 @@
 				24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */,
 				2423E2FF2B62BAE300253356 /* Observable.swift in Sources */,
 				244EDF042B602F3F0091F019 /* ProtocolsForTests.swift in Sources */,
+				24E36C5A2BAB8E0C00334CD1 /* HomeTabCoordinator.swift in Sources */,
 				243228D72B4DBD8600C42C62 /* Player.swift in Sources */,
 				2457FA2F2B7FDDC000CF7F40 /* EndRoundPopoverHeightHelper.swift in Sources */,
 				2496A07B2B769D5D006AC047 /* TestableUIAlertAction.swift in Sources */,
@@ -1264,6 +1355,7 @@
 				24C7C42C2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.swift in Sources */,
 				2496A0732B753B94006AC047 /* EditPlayerPopoverViewController.swift in Sources */,
 				2437F70F2B40C09500BB75A1 /* GameSetupViewController.swift in Sources */,
+				24E36C5E2BAB8ED100334CD1 /* Storyboarded.swift in Sources */,
 				24836D222B72F5430038D8D2 /* DefaultPopoverPresenter.swift in Sources */,
 				2437F6E52B40AAE000BB75A1 /* SceneDelegate.swift in Sources */,
 				24495CF62B9FBB6500E0AB61 /* GameHistoryEndRoundTableViewCell.swift in Sources */,
@@ -1291,9 +1383,11 @@
 				241DAE3B2BA9FEFD00D236E7 /* GameSettingsViewController.swift in Sources */,
 				243A3DF72B9BB47E00A84A51 /* EndGamePlayerCollectionViewDelegate.swift in Sources */,
 				24495CE42B9FB3FF00E0AB61 /* GameHistoryViewController.swift in Sources */,
+				24E36C682BAB96DF00334CD1 /* GameSetupCoordinator.swift in Sources */,
 				24495CDA2B9FA08700E0AB61 /* EndRoundPopoverTextField.swift in Sources */,
 				2410F71A2B5596D200860BA4 /* ViewControllerExtensions.swift in Sources */,
 				24EC1D7C2B44CC600060D27D /* PlayerSetupViewController.swift in Sources */,
+				24E36C462BAB82AB00334CD1 /* Coordinator.swift in Sources */,
 				2457FA2B2B7FD45700CF7F40 /* EndRoundPopoverViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1317,6 +1411,7 @@
 				24CD52722B6167B400C481A8 /* ScoreboardTableViewCellTests.swift in Sources */,
 				24495CEC2B9FBA7100E0AB61 /* GameHistoryTableViewDelegateTests.swift in Sources */,
 				24836D1D2B72DC980038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift in Sources */,
+				24E36C612BAB935200334CD1 /* MainCoordinatorMock.swift in Sources */,
 				2496A0752B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift in Sources */,
 				243E98402B73F59E0097130A /* ScoreboardPlayerEditScorePopoverViewControllerTests.swift in Sources */,
 				24CD526B2B61622C00C481A8 /* ScoreboardTableViewDelegateDatasourceTests.swift in Sources */,
@@ -1325,19 +1420,23 @@
 				24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */,
 				2457FA2D2B7FD46600CF7F40 /* EndRoundPopoverViewControllerTests.swift in Sources */,
 				244A46362B5AD8DF0033199F /* ScoreboardViewControllerTests.swift in Sources */,
+				24E36C5F2BAB8ED100334CD1 /* Storyboarded.swift in Sources */,
 				243228E12B4EFC3000C42C62 /* DismissingTextFieldDelegateTests.swift in Sources */,
 				2437F70B2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */,
 				24D71FD82B92656C0043CC62 /* EndGamePopoverViewControllerTests.swift in Sources */,
 				24A423462B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift in Sources */,
+				24E36C592BAB8E0C00334CD1 /* HomeTabCoordinatorTests.swift in Sources */,
 				24C7C4272B9BB8180043F159 /* EndGamePlayerCollectionViewDelegateTests.swift in Sources */,
 				241DAE472BAA344E00D236E7 /* GameSettingsDelegateMock.swift in Sources */,
 				24CFA0BF2BA8AD8F00007F9C /* GameHistoryTableViewHeaderViewTests.swift in Sources */,
 				24836D1F2B72E0BE0038D8D2 /* ViewControllerExtensionsTests.swift in Sources */,
 				2437F7112B40C0AA00BB75A1 /* GameSetupViewControllerTests.swift in Sources */,
 				244A463B2B5AD9CE0033199F /* ScoreboardViewModelTests.swift in Sources */,
+				24E36C432BAB4D7900334CD1 /* MainCoordinatorTests.swift in Sources */,
 				24A423432B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift in Sources */,
 				24D71FDE2B928F240043CC62 /* EndGameViewControllerTests.swift in Sources */,
 				24E1BE482BA0E5BC00B17505 /* GameHistoryEndRoundTableViewCellTableViewDelegateTests.swift in Sources */,
+				24E36C692BAB973100334CD1 /* GameTabCoordinatorTests.swift in Sources */,
 				243A3DDC2B9B88FD00A84A51 /* EndGamePlayerTableViewCellTests.swift in Sources */,
 				2437F7072B40BB1B00BB75A1 /* HomeViewControllerTests.swift in Sources */,
 				243206C12B83F5D0000CCE75 /* EndRoundPopoverPlayerStackViewTests.swift in Sources */,

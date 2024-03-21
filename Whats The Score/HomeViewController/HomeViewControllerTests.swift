@@ -13,10 +13,7 @@ final class HomeViewControllerTests: XCTestCase {
     var viewController: HomeViewController!
     
     override func setUp() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let viewController = storyboard.instantiateViewController(withIdentifier: "Home View Controller") as? HomeViewController else {
-            fatalError("HomeViewController wasn't found")
-        }
+        let viewController = HomeViewController.instantiate()
         self.viewController = viewController
     }
 
@@ -37,21 +34,19 @@ final class HomeViewControllerTests: XCTestCase {
     
     // MARK: - SetupGame
     
-    func test_HomeViewController_WhenSetupGameButtonTapped_ShouldNavigateToSecondTabInTabbarController() {
+    func test_HomeViewController_WhenSetupGameButtonTapped_ShouldCallSetupNewGameOnCoordinator() {
         // given
         let sut = viewController!
-        let viewController2 = UIViewController()
-        let tabbarItem = UITabBarItem()
-        viewController2.tabBarItem = tabbarItem
         
-        let tabbarController = TabbarControllerMock()
-        tabbarController.viewControllers = [sut, viewController2]
+        let coordinator = HomeTabCoordinatorMock(navigationController: RootNavigationController())
+        
+        sut.coordinator = coordinator
         
         // when
         sut.setupGameButtonTapped(4)
         
         // then
-        XCTAssertEqual(tabbarController.selectedIndex, 1)
+        XCTAssertEqual(coordinator.setupNewGameCalledCount, 1)
     }
     
     
