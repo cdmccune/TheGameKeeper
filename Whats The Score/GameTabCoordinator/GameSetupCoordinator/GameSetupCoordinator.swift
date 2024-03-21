@@ -56,3 +56,4 @@ class GameSetupCoordinator: Coordinator {
         navigationController.pushViewController(playerSetupVC, animated: true)
     }
  }
+print("test change")
