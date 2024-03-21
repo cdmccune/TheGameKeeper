@@ -58,11 +58,7 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
         playerTableView.register(UINib(nibName: "PlayerSetupPlayerTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPlayerTableViewCell")
         positionTableView.register(UINib(nibName: "PlayerSetupPositionTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPositionTableViewCell")
     }
-    
-//    private func setTableViewFunctionality() {
-//        playerTableView.dragDelegate = playerTableView
-//        playerTableView.dropDelegate = playerTableView
-//    }
+
     
     private func setProgrammaticViewProperties() {
         self.navigationItem.rightBarButtonItem = startBarButton
@@ -79,14 +75,7 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
     }
     
     @objc func startBarButtonTapped() {
-        guard let viewModel,
-              let scoreboardViewController = storyboard?.instantiateViewController(withIdentifier: "ScoreboardViewController") as? ScoreboardViewController else {
-            fatalError("This must work")
-        }
-        
-        scoreboardViewController.viewModel = ScoreboardViewModel(game: viewModel.game)
-        
-        navigationController?.viewControllers = [scoreboardViewController]
+        viewModel?.playersSetup()
     }
 }
 

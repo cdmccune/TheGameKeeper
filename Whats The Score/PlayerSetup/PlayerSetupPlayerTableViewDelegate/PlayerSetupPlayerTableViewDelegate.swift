@@ -17,7 +17,7 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
     var playerViewModel: PlayerSetupViewModelProtocol
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return playerViewModel.game.players.count
+        return playerViewModel.players.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -25,12 +25,12 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
             fatalError("PlayerSetupPlayerTableViewCell wasn't found")
         }
             
-        guard playerViewModel.game.players.indices.contains(indexPath.row) else {
+        guard playerViewModel.players.indices.contains(indexPath.row) else {
             cell.playerTextField.text = "Error"
             return cell
         }
         
-        let player = playerViewModel.game.players[indexPath.row]
+        let player = playerViewModel.players[indexPath.row]
         
         cell.playerNameChanged = {string in
             self.playerViewModel.playerNameChanged(withIndex: indexPath.row, toName: string)

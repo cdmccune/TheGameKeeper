@@ -67,6 +67,22 @@ struct Game: GameProtocol {
         self.players = players
     }
     
+    init(gameType: GameType,
+         gameEndType: GameEndType,
+         numberOfRounds: Int = 2,
+         currentRound: Int = 1,
+         endingScore: Int = 10,
+         players: [PlayerProtocol]) {
+        self.gameType = gameType
+        self.gameEndType = gameEndType
+        self.numberOfRounds = numberOfRounds
+        self.currentRound = currentRound
+        self.endingScore = endingScore
+        self.players = players
+    }
+    
+    
+    
     
     // MARK: - Properties
     

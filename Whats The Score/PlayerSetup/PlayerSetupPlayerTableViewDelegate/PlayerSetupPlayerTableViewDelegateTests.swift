@@ -27,8 +27,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         let players = Array(repeating: Player(name: "",
                                               position: 0), count: count)
         let mock = PlayerSetupViewModelMock()
-        let gameMock = GameMock(players: players)
-        mock.game = gameMock
+        mock.players = players
         return mock
     }
     
@@ -65,9 +64,8 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
             players.append(Player(name: UUID().uuidString,
                                   position: 0))
         }
-        let gameMock = GameMock(players: players)
         
-        sut.playerViewModel.game = gameMock
+        sut.playerViewModel.players = players
         
         let randomPlayer = Int.random(in: 0...playerCount-1)
         
@@ -88,8 +86,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         let hasDefaultName = Bool.random()
         
         let player1 = Player(name: hasDefaultName ? "" : "fd", position: 0)
-        let gameMock = GameMock(players: [player1])
-        sut.playerViewModel.game = gameMock
+        sut.playerViewModel.players = [player1]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PlayerSetupPlayerTableViewCell

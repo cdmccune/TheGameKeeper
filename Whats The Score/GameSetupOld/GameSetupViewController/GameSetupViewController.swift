@@ -133,7 +133,7 @@ class GameSetupViewController: UIViewController, Storyboarded {
                            numberOfRounds: viewModel.numberOfRounds.value ?? 2,
                            endingScore: viewModel.endingScore.value ?? 10,
                            numberOfPlayers: viewModel.numberOfPlayers.value ?? 2)
-        playerSetupVC?.viewModel = PlayerSetupViewModel(game: newGame)
+//        playerSetupVC?.viewModel = PlayerSetupViewModel(game: newGame)
         
         navigationController?.pushViewController(playerSetupVC!, animated: true)
     }

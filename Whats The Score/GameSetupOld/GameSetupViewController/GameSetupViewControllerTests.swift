@@ -422,39 +422,39 @@ final class GameSetupViewControllerTests: XCTestCase {
         XCTAssertTrue(navigationControllerMock.pushedViewController is PlayerSetupViewController)
     }
     
-    func test_GameSetupViewController_WhenContinueTapped_ShouldCreatePlayerSetupViewModelWithCorrectSettings() {
-        // given
-        let sut = viewController!
-        let navigationControllerMock = NavigationControllerPushMock()
-        navigationControllerMock.viewControllers = [sut]
-        
-        let numberOfPlayers = Int.random(in: 1...10)
-        sut.viewModel?.numberOfPlayers.value = numberOfPlayers
-        
-        let gameType = GameType.round
-        sut.viewModel?.gameType.value = gameType
-        
-        let gameEndType = GameEndType.score
-        sut.viewModel?.gameEndType.value = gameEndType
-        
-        let numberOfRounds = Int.random(in: 0...100)
-        sut.viewModel?.numberOfRounds.value = numberOfRounds
-        
-        let endingScore = Int.random(in: 0...100)
-        sut.viewModel?.endingScore.value = endingScore
-    
-        
-        // when
-        sut.continueButtonTapped(4)
-        
-        // then
-        let viewModel = (navigationControllerMock.pushedViewController as? PlayerSetupViewController)?.viewModel
-        
-        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.players.count, numberOfPlayers)
-        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.gameEndType, gameEndType)
-        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.gameType, gameType)
-        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.numberOfRounds, numberOfRounds)
-        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.endingScore, endingScore)
-    }
+//    func test_GameSetupViewController_WhenContinueTapped_ShouldCreatePlayerSetupViewModelWithCorrectSettings() {
+//        // given
+//        let sut = viewController!
+//        let navigationControllerMock = NavigationControllerPushMock()
+//        navigationControllerMock.viewControllers = [sut]
+//        
+//        let numberOfPlayers = Int.random(in: 1...10)
+//        sut.viewModel?.numberOfPlayers.value = numberOfPlayers
+//        
+//        let gameType = GameType.round
+//        sut.viewModel?.gameType.value = gameType
+//        
+//        let gameEndType = GameEndType.score
+//        sut.viewModel?.gameEndType.value = gameEndType
+//        
+//        let numberOfRounds = Int.random(in: 0...100)
+//        sut.viewModel?.numberOfRounds.value = numberOfRounds
+//        
+//        let endingScore = Int.random(in: 0...100)
+//        sut.viewModel?.endingScore.value = endingScore
+//    
+//        
+//        // when
+//        sut.continueButtonTapped(4)
+//        
+//        // then
+//        let viewModel = (navigationControllerMock.pushedViewController as? PlayerSetupViewController)?.viewModel
+//        
+//        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.players.count, numberOfPlayers)
+//        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.gameEndType, gameEndType)
+//        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.gameType, gameType)
+//        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.numberOfRounds, numberOfRounds)
+//        XCTAssertEqual((viewModel as? PlayerSetupViewModel)?.game.endingScore, endingScore)
+//    }
     
 }

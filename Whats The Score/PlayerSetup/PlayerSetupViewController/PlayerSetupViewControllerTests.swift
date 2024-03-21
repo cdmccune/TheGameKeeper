@@ -28,11 +28,7 @@ final class PlayerSetupViewControllerTests: XCTestCase {
     // MARK: - Initialization
     
     func getBasicViewModel() -> PlayerSetupViewModel {
-        let emptyGame = Game(gameType: .basic,
-                                             gameEndType: .round,
-                                             numberOfRounds: 0,
-                                             numberOfPlayers: 0)
-        return PlayerSetupViewModel(game: emptyGame)
+        return PlayerSetupViewModel()
     }
     
     func test_PlayerSetupViewController_WhenLoaded_ShouldHaveNonNilOutlets() {
@@ -180,6 +176,8 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertEqual(viewModelMock.randomizePlayersCalledCount, 1)
     }
     
+    // MARK: - StartButtonTappedCalled
+    
     func test_PlayerSetupViewController_WhenStartBarButtonActionTriggered_ShouldCallStartBarButtonTapped() {
         class PlayerSetupViewControllerStartBarButtonTappedMock: PlayerSetupViewController {
             var startBarButtonTappedCalledCount = 0
@@ -202,40 +200,17 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.startBarButtonTappedCalledCount, 1)
     }
     
-    func test_PlayerSetupViewController_WhenStartBarButtonTappedCalled_ShouldSetScoreboardViewControllerAsNavigationControllersOnlyVC() {
+    func test_PlayerSetupViewController_WhenStartBarButtonTappedCalled_ShouldCallViewModelPlayersSetup() {
         // given
+        let viewModel = PlayerSetupViewModelMock()
         let sut = viewController!
-        let navigationControllerMock = NavigationControllerPushMock()
-        navigationControllerMock.viewControllers = [sut]
-        sut.viewModel = getBasicViewModel()
+        
+        sut.viewModel = viewModel
         
         // when
         sut.startBarButtonTapped()
         
         // then
-        XCTAssertEqual(navigationControllerMock.viewControllers.count, 1)
-        XCTAssertTrue(navigationControllerMock.viewControllers.first is ScoreboardViewController)
+        XCTAssertEqual(viewModel.playersSetupCalledCount, 1)
     }
-    
-    func test_PlayerSetupViewController_WhenStartBarButtonTappedCalled_ShouldPushScoreBoardViewControllerWithViewModelAndGame() {
-        // given
-        let sut = viewController!
-        let navigationControllerMock = NavigationControllerPushMock()
-        navigationControllerMock.viewControllers = [sut]
-        sut.viewModel = getBasicViewModel()
-        
-        let playerName = UUID().uuidString
-        let gameMock = GameMock(players: [Player(name: playerName, position: 0)])
-        sut.viewModel?.game = gameMock
-        
-        // when
-        sut.startBarButtonTapped()
-        
-        // then
-        let scoreboardVC = navigationControllerMock.viewControllers.first as? ScoreboardViewController
-        
-        XCTAssertNotNil(scoreboardVC?.viewModel)
-        XCTAssertEqual(scoreboardVC?.viewModel?.game.players.first?.name, playerName)
-    }
-
 }

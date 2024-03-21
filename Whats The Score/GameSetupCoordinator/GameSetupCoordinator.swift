@@ -9,12 +9,27 @@ import Foundation
 
 class GameSetupCoordinator: Coordinator {
     
-    init(navigationController: RootNavigationController) {
+    // MARK: - Init
+    
+    init(navigationController: RootNavigationController, parentCoordinator: GameTabCoordinator? = nil) {
         self.navigationController = navigationController
+        self.coordinator = parentCoordinator
     }
     
+    
+    // MARK: - Properties
+    
+    weak var coordinator: GameTabCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: RootNavigationController
+    
+    
+    var gameType: GameType = .basic
+    var gameEndType: GameEndType = .none
+    var gameEndQuantity: Int = 0
+    
+    
+    // MARK: - Functions
     
     func start() {
         let gameTypeSelectionVC = GameTypeSelectionViewController.instantiate()
@@ -23,9 +38,13 @@ class GameSetupCoordinator: Coordinator {
     }
     
     func gameTypeSelected(_ gameType: GameType) {
+        self.gameType = gameType
         switch gameType {
         case .basic:
             let playerSetupVC = PlayerSetupViewController.instantiate()
+            let viewModel = PlayerSetupViewModel()
+            viewModel.coordinator = self
+            playerSetupVC.viewModel = viewModel
             navigationController.pushViewController(playerSetupVC, animated: true)
             
         case .round:
@@ -36,9 +55,13 @@ class GameSetupCoordinator: Coordinator {
     }
     
     func gameEndTypeSelected(_ gameEndType: GameEndType) {
+        self.gameEndType = gameEndType
         switch gameEndType {
         case .none:
             let playerSetupVC = PlayerSetupViewController.instantiate()
+            let viewModel = PlayerSetupViewModel()
+            viewModel.coordinator = self
+            playerSetupVC.viewModel = viewModel
             navigationController.pushViewController(playerSetupVC, animated: true)
         case .round:
             let gameEndQuantityVC = GameEndQuantitySelectionViewController.instantiate()
@@ -52,8 +75,19 @@ class GameSetupCoordinator: Coordinator {
     }
     
     func gameEndQuantitySelected(_ gameEndQuantity: Int) {
+        self.gameEndQuantity = gameEndQuantity
+        
         let playerSetupVC = PlayerSetupViewController.instantiate()
+        let viewModel = PlayerSetupViewModel()
+        viewModel.coordinator = self
+        playerSetupVC.viewModel = viewModel
         navigationController.pushViewController(playerSetupVC, animated: true)
     }
-    print("test change")
+    
+    func playersSetup(_ players: [PlayerProtocol]) {
+        coordinator?.gameSetupComplete(withGameType: gameType,
+                                       gameEndType: gameEndType,
+                                       gameEndQuantity: gameEndQuantity,
+                                       andPlayers: players)
+    }
  }

@@ -9,11 +9,8 @@ import Foundation
 
 class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     
-    init(game: GameProtocol) {
-        self.game = game
-    }
-    
-    var game: GameProtocol
+    var players: [PlayerProtocol] = []
+    weak var coordinator: GameSetupCoordinator?
     weak var delegate: PlayerSetupViewModelViewProtocol? {
         didSet {
             delegate?.bindViewToViewModel()
@@ -24,28 +21,39 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     // MARK: - Functions
     
     func playerNameChanged(withIndex index: Int, toName name: String) {
-        game.playerNameChanged(withIndex: index, toName: name)
+        guard players.indices.contains(index) else { return }
+        players[index].name = name
         delegate?.reloadTableViewCell(index: index)
     }
     
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
-        game.movePlayerAt(sourceRowIndex, to: destinationRowIndex)
+        guard players.indices.contains(sourceRowIndex),
+              players.indices.contains(destinationRowIndex) else { return }
+        
+        
+        let player = players.remove(at: sourceRowIndex)
+        players.insert(player, at: destinationRowIndex)
         delegate?.bindViewToViewModel()
     }
     
     func addPlayer() {
-        game.addPlayer()
+        players.append(Player(name: "", position: 0))
         delegate?.bindViewToViewModel()
     }
     
     func randomizePlayers() {
-        game.randomizePlayers()
+        players.shuffle()
         delegate?.bindViewToViewModel()
     }
     
     func deletePlayerAt(_ index: Int) {
-        game.deletePlayerAt(index)
+        guard players.indices.contains(index) else { return }
+        players.remove(at: index)
         delegate?.bindViewToViewModel()
+    }
+    
+    func playersSetup() {
+        coordinator?.playersSetup(players)
     }
 }
 
@@ -55,12 +63,14 @@ protocol PlayerSetupViewModelViewProtocol: NSObject {
 }
 
 protocol PlayerSetupViewModelProtocol {
-    var game: GameProtocol {get set}
+    var coordinator: GameSetupCoordinator? { get set }
     var delegate: PlayerSetupViewModelViewProtocol? {get set}
+    var players: [PlayerProtocol] { get set }
     
     func playerNameChanged(withIndex index: Int, toName name: String)
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
     func addPlayer()
     func randomizePlayers()
     func deletePlayerAt(_ index: Int)
+    func playersSetup()
 }

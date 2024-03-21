@@ -17,7 +17,7 @@ class PlayerSetupPositionTableViewDelegate: NSObject, UITableViewDelegate, UITab
     var playerViewModel: PlayerSetupViewModelProtocol
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return playerViewModel.game.players.count
+        return playerViewModel.players.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

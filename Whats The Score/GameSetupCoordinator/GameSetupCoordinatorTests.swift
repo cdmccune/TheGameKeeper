@@ -40,6 +40,19 @@ final class GameSetupCoordinatorTests: XCTestCase {
     
     // MARK: - GameTypeSelected
     
+    func test_GameSetupCoordinator_WhenGameTypeSelected_ShouldStoreGameTypeInGameTypeProperty() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        
+        let gameType = GameType(rawValue: Int.random(in: 0..<GameType.allCases.count))!
+        
+        // when
+        sut.gameTypeSelected(gameType)
+        
+        // then
+        XCTAssertEqual(sut.gameType, gameType)
+    }
+    
     func test_GameSetupCoordinator_WhenGameTypeSelectedCalledRound_ShouldPushGameEndTypeSelectionViewController() {
         // given
         let navigationController = RootNavigationControllerPushMock()
@@ -80,8 +93,35 @@ final class GameSetupCoordinatorTests: XCTestCase {
         XCTAssertTrue(navigationController.pushedViewController is PlayerSetupViewController)
     }
     
+    func test_GameSetupCoordinator_WhenGameTypeSelectedCalledBasic_ShouldSetPlayerSetupViewControllerViewModelWithSelfAsCoordinator() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = GameSetupCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.gameTypeSelected(.basic)
+        
+        // then
+        let playerSetupVC = navigationController.pushedViewController as? PlayerSetupViewController
+        XCTAssertNotNil(playerSetupVC?.viewModel)
+        XCTAssertTrue(playerSetupVC?.viewModel?.coordinator === sut)
+    }
+    
     
     // MARK: - GameEndTypeSelected
+    
+    func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalled_ShouldStoreGameEndTypeInGameEndTypeProperty() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        
+        let gameEndType = GameEndType(rawValue: Int.random(in: 0..<GameEndType.allCases.count))!
+        
+        // when
+        sut.gameEndTypeSelected(gameEndType)
+        
+        // then
+        XCTAssertEqual(sut.gameEndType, gameEndType)
+    }
     
     func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledNone_ShouldPushPlayerSetupViewController() {
         // given
@@ -94,6 +134,20 @@ final class GameSetupCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(navigationController.pushViewControllerCount, 1)
         XCTAssertTrue(navigationController.pushedViewController is PlayerSetupViewController)
+    }
+    
+    func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledNone_ShouldSetPlayerSetupViewControllerViewModelWithSelfAsCoordinator() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = GameSetupCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.gameEndTypeSelected(GameEndType.none)
+        
+        // then
+        let playerSetupVC = navigationController.pushedViewController as? PlayerSetupViewController
+        XCTAssertNotNil(playerSetupVC?.viewModel)
+        XCTAssertTrue(playerSetupVC?.viewModel?.coordinator === sut)
     }
     
     func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledRound_ShouldPushGameEndQuantitySelectionViewController() {
@@ -151,6 +205,19 @@ final class GameSetupCoordinatorTests: XCTestCase {
     
     // MARK: - GameEndQuantitySelected
     
+    func test_GameSetupCoordinator_WhenGameEndQuatitySelectedCalled_ShouldStoreGameEndQuantityInGameEndQuantityProperty() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        
+        let gameEndQuantity = Int.random(in: 0...1000)
+        
+        // when
+        sut.gameEndQuantitySelected(gameEndQuantity)
+        
+        // then
+        XCTAssertEqual(sut.gameEndQuantity, gameEndQuantity)
+    }
+    
     func test_GameSetupCoordinator_WhenGameEndQuantitySelectedCalled_ShouldPushPlayerSetupViewController() {
         // given
         let navigationController = RootNavigationControllerPushMock()
@@ -164,4 +231,46 @@ final class GameSetupCoordinatorTests: XCTestCase {
         XCTAssertTrue(navigationController.pushedViewController is PlayerSetupViewController)
     }
     
+    func test_GameSetupCoordinator_WhenGameEndQuantitySelectedCalled_ShouldSetPlayerSetupViewControllerViewModelWithSelfAsCoordinator() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = GameSetupCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.gameEndQuantitySelected(0)
+        
+        // then
+        let playerSetupVC = navigationController.pushedViewController as? PlayerSetupViewController
+        XCTAssertNotNil(playerSetupVC?.viewModel)
+        XCTAssertTrue(playerSetupVC?.viewModel?.coordinator === sut)
+    }
+    
+    
+    // MARK: - PlayersSetup
+    
+    func test_GameSetupCoordinator_WhenPlayersSetupCalled_ShouldCallGameTabCoordinatorGameSetupCompleteWithCorrectArguments() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+
+        let coordinator = GameTabCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        let gameType = GameType.allCases.randomElement()!
+        let gameEndType = GameEndType.allCases.randomElement()!
+        let gameEndQuantity = Int.random(in: 1...1000)
+        let players = [PlayerMock()]
+        
+        sut.gameType = gameType
+        sut.gameEndType = gameEndType
+        sut.gameEndQuantity = gameEndQuantity
+        
+        // when
+        sut.playersSetup(players)
+        
+        // then
+        XCTAssertEqual(coordinator.gameSetupCompleteGameType, gameType)
+        XCTAssertEqual(coordinator.gameSetupCompleteGameEndType, gameEndType)
+        XCTAssertEqual(coordinator.gameSetupCompleteGameEndQuantity, gameEndQuantity)
+        XCTAssertEqual(coordinator.gameSetupCompletePlayers as? [PlayerMock], players)
+    }
 }
