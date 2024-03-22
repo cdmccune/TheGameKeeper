@@ -79,64 +79,88 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - StartEditingPlayerScoreAt
     
-    func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledOutOfRange_ShouldNotSetValueOfPlayerToEditScore() {
+    func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledOutOfRange_ShouldNotCallCoordinatorShowEditPlayerScorePopover() {
         // given
         let sut = getViewModelWithBasicGame()
         sut.game.players = []
-        sut.playerToEditScore.value = nil
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.startEditingPlayerScoreAt(0)
         
         // then
-        XCTAssertNil(sut.playerToEditScore.value)
+        XCTAssertEqual(coordinator.showEditPlayerPopoverCalledCount, 0)
     }
     
-    func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledWhenReorderedByScore_ShouldSetCorrectPlayerAsPlayerToEditScore() {
-        
+    
+    func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledInRangeSortPreferenceScore_ShouldCallCoordinatorShowEditPlayerScorePopoverWithScoreChangeOfPlayerAtIndexOfSortedPlayersAndDelegate() {
         // given
-        let sut = getViewModelWithBasicGame()
+        
+        let players = [
+            PlayerMock(score: 1),
+            PlayerMock(score: 3),
+            PlayerMock(score: 2)
+        ]
+        
+        let sut = ScoreboardViewModel(game: GameMock(players: players))
         sut.sortPreference.value = .score
-        var players = Array(repeating: Player(name: "", position: 0), count: 5)
-//        players[3].score = 1
-        sut.game.players = players
+        
+        let index = Int.random(in: 0..<players.count)
+        
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
-        sut.startEditingPlayerScoreAt(0)
+        sut.startEditingPlayerScoreAt(index)
         
         // then
-        XCTAssertEqual(sut.playerToEditScore.value?.id, players[3].id)
+        XCTAssertEqual(coordinator.showEditPlayerScorePopoverCalledCount, 1)
+        XCTAssertEqual(coordinator.showEditPlayerScorePopoverScoreChange?.playerID, sut.sortedPlayers[index].id)
+        XCTAssertTrue(coordinator.showEditPlayerScorePopoverDelegate as? ScoreboardViewModel === sut)
     }
     
     
     // MARK: - StartEditingPlayerAt
     
-    func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledOutOfRange_ShouldNotSetValueOfPlayerToEditScore() {
+    func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledOutOfRange_ShouldNotCallCoordinatorShowEditPlayerPopover() {
         // given
         let sut = getViewModelWithBasicGame()
         sut.game.players = []
-        sut.playerToEdit.value = nil
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.startEditingPlayerAt(0)
         
         // then
-        XCTAssertNil(sut.playerToEdit.value)
+        XCTAssertEqual(coordinator.showEditPlayerPopoverCalledCount, 0)
     }
     
-    func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledWhenReorderedByScore_ShouldSetCorrectPlayerAsPlayerToEditScore() {
+    func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledInRangeSortPreferenceScore_ShouldCallCoordinatorShowEditPlayerPopoverWithPlayerAtIndexOfSortedPlayersAndDelegate() {
         // given
-        let sut = getViewModelWithBasicGame()
+        
+        let players = [
+            PlayerMock(score: 1),
+            PlayerMock(score: 3),
+            PlayerMock(score: 2)
+        ]
+        
+        let sut = ScoreboardViewModel(game: GameMock(players: players))
         sut.sortPreference.value = .score
-        var players = Array(repeating: Player(name: "", position: 0), count: 5)
-//        players[3].score = 1
-        sut.game.players = players
+        
+        let index = Int.random(in: 0..<players.count)
+        
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
-        sut.startEditingPlayerAt(0)
+        sut.startEditingPlayerAt(index)
         
         // then
-        XCTAssertEqual(sut.playerToEdit.value?.id, players[3].id)
+        XCTAssertEqual(coordinator.showEditPlayerPopoverCalledCount, 1)
+        XCTAssertEqual(coordinator.showEditPlayerPopoverPlayer?.id, sut.sortedPlayers[index].id)
+        XCTAssertTrue(coordinator.showEditPlayerPopoverDelegate as? ScoreboardViewModel === sut)
     }
     
     
@@ -507,15 +531,20 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - EndGame
     
-    func test_ScoreboardViewModel_WhenEndGameCalled_ShouldSetValueOfShouldShowEndGamePopoverToTrue() {
+    func test_ScoreboardViewModel_WhenEndGameCalled_ShouldCallCoordinatorShowEndGameWithGameAndDelegate() {
         // given
-        let sut = getViewModelWithBasicGame()
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.endGame()
         
         // then
-        XCTAssertTrue(sut.shouldShowEndGamePopup.value ?? false)
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
+        XCTAssertTrue(coordinator.showEndGamePopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showEndGamePopoverDelegate as? ScoreboardViewModel === sut)
     }
     
     
@@ -902,6 +931,65 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - ShowGameHistory
+    
+    func test_ScoreboardViewModel_WhenShowGameHistoryCalled_ShouldCallCoordinatorShowGameHistoryWithGameAndDelegateAsSelf() {
+        // given
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.showGameHistory()
+        
+        // then
+        XCTAssertEqual(coordinator.showGameHistoryCalledCount, 1)
+        XCTAssertTrue(coordinator.showGameHistoryGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showGameHistoryDelegate as? ScoreboardViewModel === sut)
+    }
+    
+    
+    // MARK: - ShowGameSettings
+    
+    func test_ScoreboardViewModel_WhenShowGameSettingsCalled_ShouldCallShowSettingsOnCoordinatorWithGameAndDelegateAsSelf() {
+        // given
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.showGameSettings()
+        
+        // then
+        XCTAssertEqual(coordinator.showSettingsCalledCount, 1)
+        XCTAssertTrue(coordinator.showSettingsGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showSettingsDelegate as? ScoreboardViewModel === sut)
+    }
+    
+    
+    // MARK: - ShowEndRoundPopover
+    
+    func test_ScoreboardViewModel_WhenShowEndRoundPopoverCalled_ShouldCallShowEndRoundPopoverWithGameAndDelegate() {
+        // given
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        
+        // when
+        sut.showEndRoundPopover()
+        
+        // then
+        XCTAssertEqual(coordinator.showEndRoundPopoverCalledCount, 1)
+        XCTAssertTrue(coordinator.showEndRoundPopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showEndRoundPopoverDelegate as? ScoreboardViewModel === sut)
+    }
+    
+    
     // MARK: - Classes
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
@@ -931,6 +1019,7 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     
     var game: GameProtocol
     var delegate: ScoreboardViewModelViewProtocol?
+    var coordinator: ScoreboardCoordinator?
     var playerToEditScore: Observable<PlayerProtocol> = Observable(Player(name: "", position: 0))
     var playerToEdit: Observable<PlayerProtocol> = Observable(Player(name: "", position: 0))
     var playerToDelete: Observable<PlayerProtocol> = Observable(Player(name: "", position: 0))
@@ -997,6 +1086,21 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     var openingGameOverCheckCalledCount = 0
     func openingGameOverCheck() {
         openingGameOverCheckCalledCount += 1
+    }
+    
+    var showGameHistoryCalledCount = 0
+    func showGameHistory() {
+        showGameHistoryCalledCount += 1
+    }
+    
+    var showGameSettingsCalledCount = 0
+    func showGameSettings() {
+        showGameSettingsCalledCount += 1
+    }
+    
+    var showEndRoundPopoverCalledCount = 0
+    func showEndRoundPopover() {
+        showEndRoundPopoverCalledCount += 1
     }
     
     func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {}

@@ -10,6 +10,7 @@ import Foundation
 protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate, KeepPlayingPopoverDelegate, GameHistoryViewControllerDelegate, GameSettingsDelegate {
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
+    var coordinator: ScoreboardCoordinator? { get set }
     var playerToEditScore: Observable<PlayerProtocol> { get set }
     var playerToEdit: Observable<PlayerProtocol> { get set }
     var playerToDelete: Observable<PlayerProtocol> { get set }
@@ -27,6 +28,9 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     func endGame()
     func resetGame()
     func openingGameOverCheck()
+    func showGameHistory()
+    func showGameSettings()
+    func showEndRoundPopover()
 }
 
 
@@ -42,6 +46,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     // MARK: - Properties
     
     var game: GameProtocol
+    weak var coordinator: ScoreboardCoordinator?
     weak var delegate: ScoreboardViewModelViewProtocol? {
         didSet {
             delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
@@ -79,14 +84,14 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         guard sortedPlayers.indices.contains(index) else { return }
         
         let player = sortedPlayers[index]
-        self.playerToEditScore.value = player
+        coordinator?.showEditPlayerScorePopover(withScoreChange: ScoreChange(player: player, scoreChange: 0), andDelegate: self)
     }
     
     func startEditingPlayerAt(_ index: Int) {
         guard sortedPlayers.indices.contains(index) else { return }
         
-        let player = sortedPlayers[index]
-        self.playerToEdit.value = player
+        coordinator?.showEditPlayerPopover(withPlayer: sortedPlayers[index], andDelegate: self)
+        
     }
     
     func editScore(_ scoreChange: ScoreChange) {
@@ -133,7 +138,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func endGame() {
-        self.shouldShowEndGamePopup.value = true
+        coordinator?.showEndGamePopover(withGame: game, andDelegate: self)
     }
     
     func resetGame() {
@@ -147,6 +152,18 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
                 self.shouldShowKeepPlayingPopup.value = true
             }
         }
+    }
+    
+    func showGameHistory() {
+        coordinator?.showGameHistory(withGame: game, andDelegate: self)
+    }
+    
+    func showGameSettings() {
+        coordinator?.showSettings(withGame: game, andDelegate: self)
+    }
+    
+    func showEndRoundPopover() {
+        coordinator?.showEndRoundPopover(withGame: game, andDelegate: self)
     }
 }
 

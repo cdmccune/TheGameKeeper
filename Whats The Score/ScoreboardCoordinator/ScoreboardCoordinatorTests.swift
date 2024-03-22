@@ -10,6 +10,17 @@ import XCTest
 
 final class ScoreboardCoordinatorTests: XCTestCase {
     
+    // MARK: - Helper Functions
+    
+    func getSutAndViewControllerOnTopOfNavigationController() -> (ScoreboardCoordinator, ViewControllerPresentMock) {
+        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+        
+        return (sut, viewController)
+    }
+    
+    
     // MARK: - Properties
     
     func test_ScoreboardCoordinator_WhenInitialized_ShouldSetEndRoundPopoverHeightHelperToObjectIWthHeighOf45AndSeperatorOf3() {
@@ -64,7 +75,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         XCTAssertTrue(navigationController.viewControllers.first is ScoreboardViewController)
     }
     
-    func test_ScoreboardCoordinator_WhenStartCalled_ShouldSetScoreboardViewModelWithGameEqualToItsGame() {
+    func test_ScoreboardCoordinator_WhenStartCalled_ShouldSetScoreboardViewModelWithGameEqualToItsGameAndSelfAsCoordinator() {
         // given
         let navigationController = RootNavigationController()
         let sut = ScoreboardCoordinator(navigationController: navigationController)
@@ -78,6 +89,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         let scoreboardVC = navigationController.viewControllers.first as? ScoreboardViewController
         XCTAssertNotNil(scoreboardVC?.viewModel)
         XCTAssertTrue(scoreboardVC?.viewModel?.game.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(scoreboardVC?.viewModel?.coordinator === sut)
     }
     
     
@@ -164,14 +176,12 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     // MARK: - ShowEndRoundPopover
     
-    func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldCallPresentEndRoundPopoverViewControllerOnViewControllerSent() {
+    func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldCallPresentEndRoundPopoverOnViewControllerOnTopViewController() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         // when
-        sut.showEndRoundPopover(withGame: GameMock(), viewController: viewController, andDelegate: EndRoundPopoverDelegateProtocolMock())
+        sut.showEndRoundPopover(withGame: GameMock(), andDelegate: EndRoundPopoverDelegateProtocolMock())
         
         // then
         XCTAssertEqual(viewController.presentCalledCount, 1)
@@ -180,9 +190,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundPopoverVCEndRoundObjectWithGamePlayers() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let players = [
             PlayerMock(),
@@ -191,7 +199,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         ]
         
         // when
-        sut.showEndRoundPopover(withGame: GameMock(players: players), viewController: viewController, andDelegate: EndRoundPopoverDelegateProtocolMock())
+        sut.showEndRoundPopover(withGame: GameMock(players: players), andDelegate: EndRoundPopoverDelegateProtocolMock())
         
         // then
         let endRoundPopoverVC = viewController.presentViewController as? EndRoundPopoverViewController
@@ -202,15 +210,14 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundRoundNumberToGameCurrentRound() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
-        let viewController = ViewControllerPresentMock()
         let game = GameMock()
         let currentRound = Int.random(in: 1...1000)
         game.currentRound = currentRound
         
         // when
-        sut.showEndRoundPopover(withGame: game, viewController: viewController, andDelegate: EndRoundPopoverDelegateProtocolMock())
+        sut.showEndRoundPopover(withGame: game, andDelegate: EndRoundPopoverDelegateProtocolMock())
         
         // then
         let endRoundPopoverVC = viewController.presentViewController as? EndRoundPopoverViewController
@@ -219,13 +226,12 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundPopoverVCDelegateEqualToDelegate() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
-        let viewController = ViewControllerPresentMock()
         let delegate = EndRoundPopoverDelegateProtocolMock()
         
         // when
-        sut.showEndRoundPopover(withGame: GameMock(), viewController: viewController, andDelegate: delegate)
+        sut.showEndRoundPopover(withGame: GameMock(), andDelegate: delegate)
         
         // then
         let endRoundPopoverVC = viewController.presentViewController as? EndRoundPopoverViewController
@@ -234,8 +240,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundPopoverVCPlayerHeightAndSeperatorEqualToEndRoundPopoverHeightHelperValues() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let endRoundHeightHelper = EndRoundPopoverHeightHelperMock()
         let playerHeight = Int.random(in: 1...1000)
@@ -245,7 +250,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.endRoundPopoverHeightHelper = endRoundHeightHelper
 
         // when
-        sut.showEndRoundPopover(withGame: GameMock(), viewController: viewController, andDelegate: EndRoundPopoverDelegateProtocolMock())
+        sut.showEndRoundPopover(withGame: GameMock(), andDelegate: EndRoundPopoverDelegateProtocolMock())
         
         // then
         let endRoundPopoverVC = viewController.presentViewController as? EndRoundPopoverViewController
@@ -255,8 +260,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldCallEndRoundPopoverHeightGetPopoverHeightForWithCorrectProperties() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = UIViewController()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         // Property 1 - Player count
         let playerCount = Int.random(in: 1...5)
@@ -271,7 +275,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.endRoundPopoverHeightHelper = endRoundHeightHelper
         
         // when
-        sut.showEndRoundPopover(withGame: GameMock(players: players), viewController: viewController, andDelegate: EndRoundPopoverDelegateProtocolMock())
+        sut.showEndRoundPopover(withGame: GameMock(players: players), andDelegate: EndRoundPopoverDelegateProtocolMock())
         
         // then
         XCTAssertEqual(endRoundHeightHelper.getPopoverHeightForCalledCount, 1)
@@ -281,8 +285,8 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithHeightFromEndRoundPopoverPresenterGetPopoverHeightFor() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = UIViewController()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
         let view = UIView()
         viewController.view = view
         
@@ -296,7 +300,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         
         
         // when
-        sut.showEndRoundPopover(withGame: GameMock(), viewController: viewController, andDelegate: EndRoundPopoverDelegateProtocolMock())
+        sut.showEndRoundPopover(withGame: GameMock(), andDelegate: EndRoundPopoverDelegateProtocolMock())
         
         // then
         XCTAssertEqual(defaultPopoverPresenter.setupPopoverCenteredCalledCount, 1)
@@ -305,8 +309,8 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithRestOfTheCorrectArguments() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = UIViewController()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
         let view = UIView()
         viewController.view = view
         
@@ -314,7 +318,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
         
         // when
-        sut.showEndRoundPopover(withGame: GameMock(), viewController: viewController, andDelegate: EndRoundPopoverDelegateProtocolMock())
+        sut.showEndRoundPopover(withGame: GameMock(), andDelegate: EndRoundPopoverDelegateProtocolMock())
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
@@ -326,13 +330,12 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     // MARK: - ShowEditPlayerPopover
     
-    func test_ScoreboardCoordinator_WhenShowEditPlayerPopoverCalled_ShouldCallPresentEditPlayerPopoverViewControllerOnViewControllerSent() {
+    func test_ScoreboardCoordinator_WhenShowEditPlayerPopoverCalled_ShouldCallPresentEditPlayerPopoverViewControllerOnViewControllerOnTopViewController() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         // when
-        sut.showEditPlayerPopover(withPlayer: PlayerMock(), viewController: viewController, andDelegate: EditPlayerPopoverDelegateProtocolMock())
+        sut.showEditPlayerPopover(withPlayer: PlayerMock(), andDelegate: EditPlayerPopoverDelegateProtocolMock())
         
         // then
         XCTAssertEqual(viewController.presentCalledCount, 1)
@@ -341,14 +344,13 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEditPlayerPopoverCalled_ShouldSetEditPlayerPopoverVCsDelegateAndPlayer() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let delegate = EditPlayerPopoverDelegateProtocolMock()
         let player = PlayerMock()
         
         // when
-        sut.showEditPlayerPopover(withPlayer: player, viewController: viewController, andDelegate: delegate)
+        sut.showEditPlayerPopover(withPlayer: player, andDelegate: delegate)
         
         // then
         let editPlayerPopoverVC = viewController.presentViewController as? EditPlayerPopoverViewController
@@ -358,9 +360,8 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEditPlayerPopoverCalled_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithCorrectArguments() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
-        let viewController = UIViewController()
         let view = UIView()
         viewController.view = view
         
@@ -368,7 +369,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
         
         // when
-        sut.showEditPlayerPopover(withPlayer: PlayerMock(), viewController: viewController, andDelegate: EditPlayerPopoverDelegateProtocolMock())
+        sut.showEditPlayerPopover(withPlayer: PlayerMock(), andDelegate: EditPlayerPopoverDelegateProtocolMock())
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
@@ -382,13 +383,12 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     // MARK: - ShowEditPlayerScorePopover
     
-    func test_ScoreboardCoordinator_WhenShowEditPlayerScorePopoverCalled_ShouldPresentEditPlayerScorePopoverViewControllerOnViewControllerSent() {
+    func test_ScoreboardCoordinator_WhenShowEditPlayerScorePopoverCalled_ShouldPresentEditPlayerScorePopoverViewControllerOnViewControllerOnTopViewController() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         // when
-        sut.showEditPlayerScorePopover(withScoreChange: ScoreChange.getBlankScoreChange(), viewController: viewController, andDelegate: ScoreboardPlayerEditScorePopoverDelegateMock())
+        sut.showEditPlayerScorePopover(withScoreChange: ScoreChange.getBlankScoreChange(), andDelegate: ScoreboardPlayerEditScorePopoverDelegateMock())
         
         // then
         XCTAssertEqual(viewController.presentCalledCount, 1)
@@ -397,14 +397,13 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEditPlayerScorePopoverCalled_ShouldSetEditPlayerScorePopoverVsDelegateAndScoreChange() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let scoreChange = ScoreChange.getBlankScoreChange()
         let delegate = ScoreboardPlayerEditScorePopoverDelegateMock()
         
         // when
-        sut.showEditPlayerScorePopover(withScoreChange: scoreChange, viewController: viewController, andDelegate: delegate)
+        sut.showEditPlayerScorePopover(withScoreChange: scoreChange, andDelegate: delegate)
         
         // then
         let editPlayerScorePopoverVC = viewController.presentViewController as? ScoreboardPlayerEditScorePopoverViewController
@@ -414,9 +413,8 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEditPlayerScorePopoverCalled_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithCorrectArguements() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
-        let viewController = UIViewController()
         let view = UIView()
         viewController.view = view
         
@@ -424,7 +422,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
         
         // when
-        sut.showEditPlayerScorePopover(withScoreChange: ScoreChange.getBlankScoreChange(), viewController: viewController, andDelegate: ScoreboardPlayerEditScorePopoverDelegateMock())
+        sut.showEditPlayerScorePopover(withScoreChange: ScoreChange.getBlankScoreChange(), andDelegate: ScoreboardPlayerEditScorePopoverDelegateMock())
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
@@ -437,13 +435,12 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     // MARK: - ShowEndGamePopover
     
-    func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalled_ShouldPresentEndGamePopoverVCOnViewControllerSent() {
+    func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalled_ShouldPresentEndGamePopoverVCOnViewControllerOnTopViewController() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         // when
-        sut.showEndGamePopover(withGame: GameMock(), viewController: viewController, andDelegate: EndGamePopoverDelegateMock())
+        sut.showEndGamePopover(withGame: GameMock(), andDelegate: EndGamePopoverDelegateMock())
         
         // then
         XCTAssertEqual(viewController.presentCalledCount, 1)
@@ -452,14 +449,13 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalled_ShouldSetEndGamePopoverVCGameAndDelegate() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let game = GameMock()
         let delegate = EndGamePopoverDelegateMock()
         
         // when
-        sut.showEndGamePopover(withGame: game, viewController: viewController, andDelegate: delegate)
+        sut.showEndGamePopover(withGame: game, andDelegate: delegate)
         
         // then
         let endGamePopoverVC = viewController.presentViewController as? EndGamePopoverViewController
@@ -469,7 +465,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalledGameIsOver_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithTapToExitFalse() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
@@ -478,7 +474,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         game.isEndOfGameBool = true
         
         // when
-        sut.showEndGamePopover(withGame: game, viewController: UIViewController(), andDelegate: EndGamePopoverDelegateMock())
+        sut.showEndGamePopover(withGame: game, andDelegate: EndGamePopoverDelegateMock())
         
         // then
         XCTAssertFalse(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? true)
@@ -486,7 +482,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalledGameIsOverFalse_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithTapToExitTrue() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
@@ -495,7 +491,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         game.isEndOfGameBool = false
         
         // when
-        sut.showEndGamePopover(withGame: game, viewController: UIViewController(), andDelegate: EndGamePopoverDelegateMock())
+        sut.showEndGamePopover(withGame: game, andDelegate: EndGamePopoverDelegateMock())
         
         // then
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
@@ -503,9 +499,8 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalled_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithRestOfArgumentsCorrect() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
-        let viewController = UIViewController()
         let view = UIView()
         viewController.view = view
         
@@ -513,7 +508,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
         
         // when
-        sut.showEndGamePopover(withGame: GameMock(), viewController: viewController, andDelegate: EndGamePopoverDelegateMock())
+        sut.showEndGamePopover(withGame: GameMock(), andDelegate: EndGamePopoverDelegateMock())
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
@@ -526,13 +521,12 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     // MARK: - ShowKeepPlayingPopover
     
-    func test_ScoreboardCoordinator_WhenShowKeepPlayingPopoverCalled_ShouldPresentShowKeepPlayingPopoverVCOnViewControllerSent() {
+    func test_ScoreboardCoordinator_WhenShowKeepPlayingPopoverCalled_ShouldPresentShowKeepPlayingPopoverVCOnViewControllerOnTopViewController() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         // when
-        sut.showKeepPlayingPopover(withGame: GameMock(), viewController: viewController, andDelegate: KeepPlayingPopoverDelegateMock())
+        sut.showKeepPlayingPopover(withGame: GameMock(), andDelegate: KeepPlayingPopoverDelegateMock())
         
         // then
         XCTAssertEqual(viewController.presentCalledCount, 1)
@@ -541,14 +535,13 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreCoordinator_WhenShowKeepPlayingPopoverCalled_ShouldSetKeepPlayingPopoverGameAndDelegate() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
-        let viewController = ViewControllerPresentMock()
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let delegate = KeepPlayingPopoverDelegateMock()
         let game = GameMock()
         
         // when
-        sut.showKeepPlayingPopover(withGame: game, viewController: viewController, andDelegate: delegate)
+        sut.showKeepPlayingPopover(withGame: game, andDelegate: delegate)
         
         // then
         let keepPlayingPopoverVC = viewController.presentViewController as? KeepPlayingPopoverViewController
@@ -558,9 +551,8 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreCoordinator_WhenShowKeepPlayingPopoverCalled_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithCorrectArguments() {
         // given
-        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
-        let viewController = UIViewController()
         let view = UIView()
         viewController.view = view
         
@@ -568,7 +560,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
         
         // when
-        sut.showKeepPlayingPopover(withGame: GameMock(), viewController: viewController, andDelegate: KeepPlayingPopoverDelegateMock())
+        sut.showKeepPlayingPopover(withGame: GameMock(), andDelegate: KeepPlayingPopoverDelegateMock())
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)

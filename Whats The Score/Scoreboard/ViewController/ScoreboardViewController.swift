@@ -32,7 +32,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     lazy var resetBarButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetButtonTapped))
     lazy var historyBarButton = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(historyButtonTapped))
     lazy var settingsBarButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonTapped))
-    lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper(playerViewHeight: 45, playerSeperatorHeight: 3)
 
     
     // MARK: - Lifecycle
@@ -213,26 +212,7 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     // MARK: - IBActions
     
     @IBAction func endRoundButtonTapped(_ sender: Any) {
-        guard let viewModel = viewModel,
-              !viewModel.sortedPlayers.isEmpty else { return }
-        
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
-        
-        let positionSortedPlayers = viewModel.sortedPlayers.sorted { $0.position < $1.position }
-        
-        let endRound = EndRound(withPlayers: positionSortedPlayers, roundNumber: viewModel.game.currentRound)
-        endRoundPopoverVC.endRound = endRound
-        
-        endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
-        endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
-        endRoundPopoverVC.delegate = viewModel
-        
-        let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: viewModel.sortedPlayers.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height, tapToExit: true)
-        
-        self.present(endRoundPopoverVC, animated: true)
+        viewModel?.showEndRoundPopover()
     }
     
     @IBAction func endGameButtonTapped(_ sender: Any) {
@@ -266,35 +246,11 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     }
     
     @objc func historyButtonTapped() {
-        guard let game = viewModel?.game else {
-            fatalError("No viewModel game")
-        }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let gameHistoryViewController = storyboard.instantiateViewController(withIdentifier: "GameHistoryViewController") as? GameHistoryViewController else {
-            fatalError("GameHistoryViewController couldn't be made")
-        }
-        
-        let viewModel = GameHistoryViewModel(game: game)
-        gameHistoryViewController.viewModel = viewModel
-        gameHistoryViewController.delegate = self.viewModel
-        navigationController?.pushViewController(gameHistoryViewController, animated: true)
+        viewModel?.showGameHistory()
     }
     
     @objc func settingsButtonTapped() {
-        guard let game = viewModel?.game else {
-            fatalError("No viewModel game")
-        }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let gameSettingsViewController = storyboard.instantiateViewController(withIdentifier: "GameSettingsViewController") as? GameSettingsViewController else {
-            fatalError("GameSettingsViewController couldn't be made")
-        }
-        
-        let viewModel = GameSettingsViewModel(game: game, delegate: viewModel)
-        gameSettingsViewController.viewModel = viewModel
-        
-        navigationController?.pushViewController(gameSettingsViewController, animated: true)
+        viewModel?.showGameSettings()
     }
     
     

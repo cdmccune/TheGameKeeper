@@ -32,6 +32,7 @@ class ScoreboardCoordinator: Coordinator {
         
         let scoreboardVC = ScoreboardViewController.instantiate()
         let viewModel = ScoreboardViewModel(game: game)
+        viewModel.coordinator = self
         scoreboardVC.viewModel = viewModel
         
         navigationController.viewControllers = [scoreboardVC]
@@ -55,7 +56,8 @@ class ScoreboardCoordinator: Coordinator {
         navigationController.pushViewController(gameSettingsVC, animated: true)
     }
     
-    func showEndRoundPopover(withGame game: GameProtocol, viewController: UIViewController, andDelegate delegate: EndRoundPopoverDelegateProtocol) {
+    func showEndRoundPopover(withGame game: GameProtocol, andDelegate delegate: EndRoundPopoverDelegateProtocol) {
+        guard let viewController = navigationController.topViewController else { return }
         let endRoundPopoverVC = EndRoundPopoverViewController.instantiate()
         let endRound = EndRound(withPlayers: game.players, roundNumber: game.currentRound)
         endRoundPopoverVC.endRound = endRound
@@ -70,7 +72,8 @@ class ScoreboardCoordinator: Coordinator {
         viewController.present(endRoundPopoverVC, animated: true)
     }
     
-    func showEditPlayerPopover(withPlayer player: PlayerProtocol, viewController: UIViewController, andDelegate delegate: EditPlayerPopoverDelegateProtocol) {
+    func showEditPlayerPopover(withPlayer player: PlayerProtocol, andDelegate delegate: EditPlayerPopoverDelegateProtocol) {
+        guard let viewController = navigationController.topViewController else { return }
         let editPlayerPopoverVC = EditPlayerPopoverViewController.instantiate()
         
         editPlayerPopoverVC.player = player
@@ -81,7 +84,8 @@ class ScoreboardCoordinator: Coordinator {
         viewController.present(editPlayerPopoverVC, animated: true)
     }
     
-    func showEditPlayerScorePopover(withScoreChange scoreChange: ScoreChange, viewController: UIViewController, andDelegate delegate: ScoreboardPlayerEditScorePopoverDelegate) {
+    func showEditPlayerScorePopover(withScoreChange scoreChange: ScoreChange, andDelegate delegate: ScoreboardPlayerEditScorePopoverDelegate) {
+        guard let viewController = navigationController.topViewController else { return }
         let editPlayerScorePopoverVC = ScoreboardPlayerEditScorePopoverViewController.instantiate()
         
         editPlayerScorePopoverVC.scoreChange = scoreChange
@@ -92,7 +96,8 @@ class ScoreboardCoordinator: Coordinator {
         viewController.present(editPlayerScorePopoverVC, animated: true)
     }
     
-    func showEndGamePopover(withGame game: GameProtocol, viewController: UIViewController, andDelegate delegate: EndGamePopoverDelegate) {
+    func showEndGamePopover(withGame game: GameProtocol, andDelegate delegate: EndGamePopoverDelegate) {
+        guard let viewController = navigationController.topViewController else { return }
         let endGamePopoverVC = EndGamePopoverViewController.instantiate()
         
         endGamePopoverVC.game = game
@@ -103,7 +108,8 @@ class ScoreboardCoordinator: Coordinator {
         viewController.present(endGamePopoverVC, animated: true)
     }
     
-    func showKeepPlayingPopover(withGame game: GameProtocol, viewController: UIViewController, andDelegate delegate: KeepPlayingPopoverDelegate) {
+    func showKeepPlayingPopover(withGame game: GameProtocol, andDelegate delegate: KeepPlayingPopoverDelegate) {
+        guard let viewController = navigationController.topViewController else { return }
         let keepPlayingPopoverVC = KeepPlayingPopoverViewController.instantiate()
         
         keepPlayingPopoverVC.game = game

@@ -53,7 +53,7 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
         
         switch game.gameEndType {
         case .none:
-            fatalError("Keep playing popup shouldn't be shown")
+            break
         case .round:
             instructionLabel.text = "Set the new number of rounds"
             inputDescriptionLabel.text = "Rounds"

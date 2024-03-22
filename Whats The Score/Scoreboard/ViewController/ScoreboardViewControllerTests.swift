@@ -155,18 +155,6 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.historyBarButtonCalledCount, 1)
     }
     
-    func test_ScoreboardViewController_WhenEndRoundPopoverHeightHelperCreated_ShouldHavePlayerHeightOf45AndSeparatorOf3() {
-        // given
-        let sut = viewController!
-        
-        // when
-        let endRoundPopoverHeightHelper = sut.endRoundPopoverHeightHelper
-        
-        // then
-        XCTAssertEqual(endRoundPopoverHeightHelper.playerViewHeight, 45)
-        XCTAssertEqual(endRoundPopoverHeightHelper.playerSeperatorHeight, 3)
-    }
-    
     
     // MARK: - ViewDidLoad
     
@@ -913,173 +901,19 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     // MARK: - EndRoundButtonTapped
     
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalledUnderOnePlayer_ShouldNotPresentEndRoundPopover() {
+    func test_ScoreboardViewController_WhenEndRoundButtonTapped_ShouldCallViewModelShowEndRoundPopoverWithSelfAsViewController() {
         // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
-        let viewModelMock = ScoreboardViewModelMock()
-        viewModelMock.sortedPlayers = []
-        sut.viewModel = viewModelMock
+        let sut = viewController!
+        let viewModel = ScoreboardViewModelMock()
+        sut.viewModel = viewModel
         
         // when
         sut.endRoundButtonTapped(0)
         
         // then
-        XCTAssertEqual(sut.presentCalledCount, 0)
+        XCTAssertEqual(viewModel.showEndRoundPopoverCalledCount, 1)
     }
-    
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
-        
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        
-        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
-        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        let viewModelMock = ScoreboardViewModelMock()
-        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
-        sut.viewModel = viewModelMock
-        
-        
-        // when
-        sut.endRoundButtonTapped(0)
-        
-        // then
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EndRoundPopoverViewController)
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
-    }
-    
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallEndRoundPopoverHeightHelperGetPopoverHeightForWithCorrectParameters() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        
-        let endRoundPopoverHeightHelperMock = EndRoundPopoverHeightHelperMock()
-        sut.endRoundPopoverHeightHelper = endRoundPopoverHeightHelperMock
-        
-        let rectHeight = CGFloat.random(in: 0...100)
-        let viewMock = UIViewSafeAreaLayoutFrameMock(safeAreaFrame: CGRect(x: 0, y: 0, width: 0, height: rectHeight))
-        sut.view = viewMock
-        
-        let viewModelMock = ScoreboardViewModelMock()
-        let playerCount = Int.random(in: 1...10)
-        viewModelMock.sortedPlayers = Array(repeating: Player(name: "", position: 0), count: playerCount)
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.endRoundButtonTapped(0)
-        
-        // then
-        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForSafeAreaHeight, rectHeight)
-        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForPlayerCount, playerCount)
-        XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForCalledCount, 1)
-    }
-    
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldCallSetupPopoverCenteredWithHeightFromEndRoundPopoverHeightHelper() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        
-        let heightToReturn = CGFloat.random(in: 0...10000)
-        let endRoundPopoverHeightHelperMock = EndRoundPopoverHeightHelperMock()
-        endRoundPopoverHeightHelperMock.heightToReturn = heightToReturn
-        
-        sut.endRoundPopoverHeightHelper = endRoundPopoverHeightHelperMock
-        
-        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
-        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        let viewModelMock = ScoreboardViewModelMock()
-        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.endRoundButtonTapped(0)
-        
-        // then
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, heightToReturn)
-    }
-    
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopover() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
-        let viewModelMock = ScoreboardViewModelMock()
-        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.endRoundButtonTapped(0)
-        
-        // then
-        XCTAssertEqual(sut.presentCalledCount, 1)
-        XCTAssertTrue(sut.viewControllerPresented is EndRoundPopoverViewController)
-    }
-    
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithEndRoundPlayersSortedByPositionAndRoundNumber() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
-        
-        let viewModelMock = ScoreboardViewModelMock()
-        let players = [Player(name: "", position: 1), Player(name: "", position: 0)]
-        viewModelMock.sortedPlayers = players
-        
-        let currentRound = Int.random(in: 1...1000)
-        viewModelMock.game.currentRound = currentRound
-        
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.endRoundButtonTapped(0)
-        
-        // then
-        let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
-        let sortedPlayers = players.sorted { $0.position < $1.position }
-        
-        sortedPlayers.enumerated().forEach { (index, player) in
-            XCTAssertEqual(endRoundPopoverVC?.endRound?.scoreChangeArray[index].playerID, player.id)
-        }
-        
-        XCTAssertEqual(endRoundPopoverVC?.endRound?.roundNumber, currentRound)
-    }
-    
-    func test_ScoreboardViewController_WhenEndRoundButtonTappedCalled_ShouldPresentEndRoundPopoverWithHeightHelperPlayerViewHeightAndPlayerSeperatorHeight() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        sut.defaultPopoverPresenter = DefaultPopoverPresenterMock()
-        
-        let playerViewHeight = Int.random(in: 1...1000)
-        let playerSeperatorHeight = Int.random(in: 1...1000)
-        sut.endRoundPopoverHeightHelper = EndRoundPopoverHeightHelper(playerViewHeight: playerViewHeight, playerSeperatorHeight: playerSeperatorHeight)
-        
-        let viewModelMock = ScoreboardViewModelMock()
-        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.endRoundButtonTapped(0)
-        
-        // then
-        let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
-        XCTAssertEqual(endRoundPopoverVC?.playerViewHeight, playerViewHeight)
-        XCTAssertEqual(endRoundPopoverVC?.playerSeparatorHeight, playerSeperatorHeight)
-    }
-    
-    func test_ScoreboardViewController_WhenEndRoundButtonTapped_ShouldSetViewModelAsEndRoundVCDelegate() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        viewModelMock.sortedPlayers = [Player(name: "", position: 0)]
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.endRoundButtonTapped(0)
-        
-        // then
-        let endRoundPopoverVC = sut.viewControllerPresented as? EndRoundPopoverViewController
-        XCTAssertTrue(endRoundPopoverVC?.delegate is ScoreboardViewModelMock)
-    }
-    
+
     
     // MARK: - IBActions
     
@@ -1223,83 +1057,33 @@ final class ScoreboardViewControllerTests: XCTestCase {
 
     // MARK: - HistoryButtonTapped
     
-    func test_ScoreboardViewController_WhenHistoryButtonTappedCalled_ShouldPushGameHistoryViewControllerWithCorrectGame() {
+    func test_ScoreboardViewController_WhenHistoryButtonTappedCalled_ShouldCallViewModelShowGameHistory() {
         // given
         let sut = viewController!
-        let navigationController = NavigationControllerPushMock()
-        navigationController.viewControllers = [sut]
-        
-        let game = GameMock()
-        let viewModel = ScoreboardViewModelMock(game: game)
+        let viewModel = ScoreboardViewModelMock()
         sut.viewModel = viewModel
         
         // when
         sut.historyButtonTapped()
         
         // then
-        let gameHistoryViewController = navigationController.pushedViewController as? GameHistoryViewController
-        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
-        XCTAssertNotNil(gameHistoryViewController)
-        XCTAssertTrue(gameHistoryViewController?.viewModel.game.isEqualTo(game: game) ?? false)
-    }
-    
-    func test_ScoreboardViewController_WhenHistoryButtonTapped_ShouldSetViewModelAsGameHistoryDelegate() {
-        // given
-        let sut = viewController!
-        let navigationController = NavigationControllerPushMock()
-        navigationController.viewControllers = [sut]
-        
-        let game = GameMock()
-        let viewModel = ScoreboardViewModelMock(game: game)
-        sut.viewModel = viewModel
-        
-        // when
-        sut.historyButtonTapped()
-        
-        // then
-        let gameHistoryViewController = navigationController.pushedViewController as? GameHistoryViewController
-        XCTAssertEqual(gameHistoryViewController?.delegate as? ScoreboardViewModelMock, viewModel)
+        XCTAssertEqual(viewModel.showGameHistoryCalledCount, 1)
     }
     
     
     // MARK: - SettingsButtonTapped
     
-    func test_ScoreboardViewController_WhenSettingsButtonTappedCalled_ShouldPushGameSettingsViewControllerWithCorrectGame() {
+    func test_ScoreboardViewController_WhenSettingsButtonTapped_ShouldCallViewModelShowGameHistory() {
         // given
         let sut = viewController!
-        let navigationController = NavigationControllerPushMock()
-        navigationController.viewControllers = [sut]
-        
-        let game = GameMock()
-        let viewModel = ScoreboardViewModelMock(game: game)
+        let viewModel = ScoreboardViewModelMock()
         sut.viewModel = viewModel
         
         // when
         sut.settingsButtonTapped()
         
         // then
-        let gameSettingsViewController = navigationController.pushedViewController as? GameSettingsViewController
-        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
-        XCTAssertNotNil(gameSettingsViewController)
-        XCTAssertTrue(gameSettingsViewController?.viewModel?.game.isEqualTo(game: game) ?? false)
-    }
-    
-    func test_ScoreboardViewController_WhenSettingsButtonTapped_ShouldSetViewModelAsGameSettingsDelegate() {
-        // given
-        let sut = viewController!
-        let navigationController = NavigationControllerPushMock()
-        navigationController.viewControllers = [sut]
-        
-        let game = GameMock()
-        let viewModel = ScoreboardViewModelMock(game: game)
-        sut.viewModel = viewModel
-        
-        // when
-        sut.settingsButtonTapped()
-        
-        // then
-        let gameSettingsViewController = navigationController.pushedViewController as? GameSettingsViewController
-        XCTAssertEqual(gameSettingsViewController?.viewModel?.delegate as? ScoreboardViewModelMock, viewModel)
+        XCTAssertEqual(viewModel.showGameSettingsCalledCount, 1)
     }
     
     
