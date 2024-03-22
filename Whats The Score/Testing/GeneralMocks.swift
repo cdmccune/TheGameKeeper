@@ -8,6 +8,20 @@
 import UIKit
 @testable import Whats_The_Score
 
+// MARK: - ViewController
+
+class ViewControllerPresentMock: UIViewController {
+    var presentCalledCount = 0
+    var presentViewController: UIViewController?
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        presentCalledCount += 1
+        presentViewController = viewControllerToPresent
+    }
+}
+
+
+// MARK: - Navigation Controller
+
 class NavigationControllerPushMock: UINavigationController {
     var pushViewControllerCount = 0
     var pushedViewController: UIViewController?
@@ -37,6 +51,9 @@ class NavigationControllerPopMock: UINavigationController {
     }
 }
 
+
+// MARK: - TableView
+
 class TableViewDelegateMock: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     init(cellIdentifier: String) {
@@ -53,8 +70,38 @@ class TableViewDelegateMock: NSObject, UITableViewDelegate, UITableViewDataSourc
         
         return cell
     }
-    
 }
+
+class UITableViewReloadDataMock: UITableView {
+    var reloadDataCalledCount = 0
+    override func reloadData() {
+        reloadDataCalledCount += 1
+    }
+}
+
+class UITableViewReloadRowsMock: UITableView {
+    var reloadRowsCalledCount = 0
+    var reloadRowsIndexPathArray: [IndexPath]?
+    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
+        reloadRowsCalledCount += 1
+        reloadRowsIndexPathArray = indexPaths
+    }
+}
+
+class UITableViewRegisterMock: UITableView {
+    var registerCellReuseIdentifiers: [String] = []
+    override func register(_ nib: UINib?, forCellReuseIdentifier identifier: String) {
+        registerCellReuseIdentifiers.append(identifier)
+    }
+    
+    var registerHeaderFooterIdentifier: String?
+    override func register(_ nib: UINib?, forHeaderFooterViewReuseIdentifier identifier: String) {
+        registerHeaderFooterIdentifier = identifier
+    }
+}
+
+
+// MARK: - DispatchQueue
 
 class DispatchQueueMainMock: DispatchQueueProtocol {
     
@@ -72,21 +119,7 @@ class DispatchQueueMainMock: DispatchQueueProtocol {
 }
 
 
-class UITableViewReloadDataMock: UITableView {
-    var reloadDataCalledCount = 0
-    override func reloadData() {
-        reloadDataCalledCount += 1
-    }
-}
-
-class UITableViewReloadRowsMock: UITableView {
-    var reloadRowsCalledCount = 0
-    var reloadRowsIndexPathArray: [IndexPath]?
-    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
-        reloadRowsCalledCount += 1
-        reloadRowsIndexPathArray = indexPaths
-    }
-}
+// MARK: - Other
 
 class UIViewSafeAreaLayoutFrameMock: UIView {
     init(safeAreaFrame: CGRect) {
@@ -112,17 +145,5 @@ class TabbarControllerMock: UITabBarController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         didSelectCalledCount += 1
         didSelectTabbarItem = item
-    }
-}
-
-class UITableViewRegisterMock: UITableView {
-    var registerCellReuseIdentifiers: [String] = []
-    override func register(_ nib: UINib?, forCellReuseIdentifier identifier: String) {
-        registerCellReuseIdentifiers.append(identifier)
-    }
-    
-    var registerHeaderFooterIdentifier: String?
-    override func register(_ nib: UINib?, forHeaderFooterViewReuseIdentifier identifier: String) {
-        registerHeaderFooterIdentifier = identifier
     }
 }
