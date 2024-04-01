@@ -22,7 +22,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     private lazy var collectionViewDelegate = EndGamePlayerCollectionViewDelegate(viewModel: viewModel)
     lazy var screenWidth: CGFloat = view.frame.width
     var viewModel: EndGameViewModelProtocol!
-    var coordinator: GameTabCoordinator?
+    weak var coordinator: GameTabCoordinator?
     
     
     // MARK: - Lifecycle

@@ -893,7 +893,7 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     
     var game: GameProtocol
     var delegate: ScoreboardViewModelViewProtocol?
-    var coordinator: ScoreboardCoordinator?
+    weak var coordinator: ScoreboardCoordinator?
     var playerToDelete: Observable<PlayerProtocol> = Observable(Player(name: "", position: 0))
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
     var sortedPlayers: [PlayerProtocol] = []

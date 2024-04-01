@@ -19,7 +19,7 @@ class ScoreboardCoordinator: Coordinator {
     
     // MARK: - Properties
     
-    var coordinator: GameTabCoordinator?
+    weak var coordinator: GameTabCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: RootNavigationController
     var game: GameProtocol?
