@@ -39,4 +39,11 @@ class GameTabCoordinatorMock: GameTabCoordinator {
         self.gameSetupCompleteCalledCount += 1
         
     }
+    
+    var showEndGameScreenGame: GameProtocol?
+    var showEndGameScreenCalledCount = 0
+    override func showEndGameScreen(forGame game: GameProtocol) {
+        showEndGameScreenGame = game
+        showEndGameScreenCalledCount += 1
+    }
 }

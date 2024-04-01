@@ -15,7 +15,7 @@ class GameTabCoordinator: Coordinator {
     
     lazy var childCoordinators: [Coordinator] = [
         GameSetupCoordinator(navigationController: navigationController, parentCoordinator: self),
-        ScoreboardCoordinator(navigationController: navigationController)
+        ScoreboardCoordinator(navigationController: navigationController, parentCoordinator: self)
     ]
     var navigationController: RootNavigationController
     
@@ -39,5 +39,11 @@ class GameTabCoordinator: Coordinator {
         scoreboardCoordinator?.game = game
         
         scoreboardCoordinator?.start()
+    }
+    
+    func showEndGameScreen(forGame game: GameProtocol) {
+        let endGameVC = EndGameViewController.instantiate()
+        endGameVC.viewModel = EndGameViewModel(game: game)
+        navigationController.viewControllers = [endGameVC]
     }
 }

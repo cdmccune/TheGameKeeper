@@ -40,6 +40,16 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertTrue(sut.childCoordinators[1] is ScoreboardCoordinator)
     }
     
+    func test_GameTabCoordinator_WhenInitialiazed_ShouldSetSelfAsScoreboardCoordinatorsCoordinator() {
+        // given
+        // when
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        
+        // then
+        let scoreboardCoordinator = sut.childCoordinators[1] as? ScoreboardCoordinator
+        XCTAssertTrue(scoreboardCoordinator?.coordinator === sut)
+    }
+    
     
     func test_GameTabCoordinator_WhenInitialiazed_ShouldSetGameSetupCoordinatorsNavigationControllerAsOwnNavController() {
         // given
@@ -139,6 +149,38 @@ final class GameTabCoordinatorTests: XCTestCase {
         
         // then
         XCTAssertEqual(scoreboardCoordinatorMock.startCalledCount, 1)
+    }
+    
+    
+    // MARK: - ShowGameEndScreen
+    
+    func test_GameTabCoordinator_WhenShowGameEndScreenCalled_ShouldSetNavigationControllersOnlyViewControllerAsEndGameViewController() {
+        // given
+        let navigationController = RootNavigationController()
+        let sut = GameTabCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.showEndGameScreen(forGame: GameMock())
+        
+        // then
+        XCTAssertEqual(navigationController.viewControllers.count, 1)
+        XCTAssertTrue(navigationController.viewControllers.first is EndGameViewController)
+    }
+    
+    func test_GameTabCoordinator_WhenShowGameEndScreenCalled_ShouldSetEndGameViewControllersViewModelWithGame() {
+        // given
+        let navigationController = RootNavigationController()
+        let sut = GameTabCoordinator(navigationController: navigationController)
+        
+        let game = GameMock()
+        
+        // when
+        sut.showEndGameScreen(forGame: game)
+        
+        // then
+        let endGameVC = navigationController.viewControllers.first as? EndGameViewController
+        XCTAssertNotNil(endGameVC?.viewModel)
+        XCTAssertTrue(endGameVC?.viewModel.game.isEqualTo(game: game) ?? false)
     }
 
 }

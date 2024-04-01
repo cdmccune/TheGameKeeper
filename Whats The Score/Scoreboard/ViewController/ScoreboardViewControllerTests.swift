@@ -469,64 +469,6 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.scoreSortButton.alpha, 1)
         XCTAssertEqual(sut.turnOrderSortButton.alpha, 0.5, accuracy: 0.01)
     }
-    
-    
-//    // MARK: - Binding ShouldGoToEndGameScreen
-//    
-//    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetFalse_ShouldNotChangNavigationControllersViewControllers() {
-//        // given
-//        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-//        let viewModelMock = ScoreboardViewModelMock()
-//        sut.viewModel = viewModelMock
-//        
-//        let navigationController = NavigationControllerPushMock()
-//        navigationController.viewControllers = [sut]
-//        
-//        // when
-//        sut.viewDidLoad()
-//        viewModelMock.shouldGoToEndGameScreen.value = false
-//        
-//        // then
-//        XCTAssertEqual(navigationController.viewControllers, [sut])
-//    }
-//    
-//    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetTrue_ShouldSetEndGameViewControllerAsNavigationControllersRootViewController() {
-//        // given
-//        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-//        let viewModelMock = ScoreboardViewModelMock()
-//        sut.viewModel = viewModelMock
-//        
-//        let navigationController = NavigationControllerPushMock()
-//        navigationController.viewControllers = [sut]
-//        
-//        // when
-//        sut.viewDidLoad()
-//        viewModelMock.shouldGoToEndGameScreen.value = true
-//        
-//        // then
-//        XCTAssertEqual(navigationController.viewControllers.count, 1)
-//        XCTAssertTrue(navigationController.viewControllers.first is EndGameViewController)
-//    }
-//    
-//    
-//    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetTrue_ShouldPushEndGameViewControllerWithViewModelContainingCurrentGame() {
-//        // given
-//        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-//        let game = GameMock()
-//        let viewModelMock = ScoreboardViewModelMock(game: game)
-//        sut.viewModel = viewModelMock
-//        
-//        let navigationController = NavigationControllerPushMock()
-//        navigationController.viewControllers = [sut]
-//        
-//        // when
-//        sut.viewDidLoad()
-//        viewModelMock.shouldGoToEndGameScreen.value = true
-//        
-//        // then
-//        let endGameVCViewModel = (navigationController.viewControllers.first as? EndGameViewController)?.viewModel
-//        XCTAssertTrue(endGameVCViewModel?.game.isEqualTo(game: game) ?? false)
-//    }
 
     
     // MARK: - EndRoundButtonTapped

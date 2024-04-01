@@ -82,4 +82,13 @@ class ScoreboardCoordinatorMock: ScoreboardCoordinator {
         showKeepPlayingPopoverDelay = delay
         showKeepPlayingPopoverCalledCount += 1
     }
+    
+    var showEndGameScreenGame: GameProtocol?
+    var showEndGameScreenDelay: CGFloat?
+    var showEndGameScreenCalledCount = 0
+    override func showEndGameScreen(withGame game: GameProtocol, delay: CGFloat = 0) {
+        showEndGameScreenGame = game
+        showEndGameScreenDelay = delay
+        showEndGameScreenCalledCount += 1
+    }
 }

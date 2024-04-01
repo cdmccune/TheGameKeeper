@@ -612,14 +612,40 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     // MARK: - ShowEndGameScreen
     
-//    func test_ScoreboardCoordinator_WhenShowEndGameScreenCalled_Should<#assertion#>() {
-//        // given
-//        let sut = <#System Under Test#>
-//        
-//        // when
-//        <#when#>
-//        
-//        // then
-//        <#then#>
-//    }
+    func test_ScoreboardCoordinator_WhenShowEndGameScreenCalledDispatchQueueNil_ShouldNotCallGameTabCoordinatorShowEndGameScreen() {
+        // given
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
+        let coordinator = GameTabCoordinatorMock()
+        sut.coordinator = coordinator
+        sut.dispatchQueue = nil
+        
+        // when
+        sut.showEndGameScreen(withGame: GameMock())
+        
+        // then
+        XCTAssertEqual(coordinator.showEndGameScreenCalledCount, 0)
+    }
+    
+    func test_ScoreboardCoordinator_WhenShowEndGameScreenCalled_ShouldCallDispatchQueueWithDelayAndGameTabCoordinatorShowEndGameScreen() {
+        // given
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
+        let coordinator = GameTabCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        let dispatchQueue = DispatchQueueMainMock()
+        sut.dispatchQueue = dispatchQueue
+        
+        let game = GameMock()
+        let delay = CGFloat.random(in: 1...10)
+        
+        // when
+        sut.showEndGameScreen(withGame: game, delay: delay)
+        
+        // then
+        XCTAssertEqual(coordinator.showEndGameScreenCalledCount, 1)
+        XCTAssertTrue(coordinator.showEndGameScreenGame?.isEqualTo(game: game) ?? false)
+        XCTAssertEqual(dispatchQueue.asyncAfterDelay, delay)
+    }
 }

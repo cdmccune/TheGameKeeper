@@ -164,10 +164,7 @@ extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
 
 extension ScoreboardViewModel: EndGamePopoverDelegate {
     func goToEndGameScreen() {
-        #warning("This is last one to refactor")
-        dispatchQueue.asyncAfterWrapper(delay: 0.5) {
-            self.shouldGoToEndGameScreen.value = true
-        }
+        coordinator?.showEndGameScreen(withGame: game, delay: 0.5)
     }
     
     func keepPlayingSelected() {

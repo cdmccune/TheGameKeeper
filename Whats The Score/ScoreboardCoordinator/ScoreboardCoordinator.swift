@@ -12,12 +12,14 @@ class ScoreboardCoordinator: Coordinator {
     
     // MARK: - Init
     
-    init(navigationController: RootNavigationController) {
+    init(navigationController: RootNavigationController, parentCoordinator: GameTabCoordinator? = nil) {
         self.navigationController = navigationController
+        self.coordinator = parentCoordinator
     }
     
     // MARK: - Properties
     
+    var coordinator: GameTabCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: RootNavigationController
     var game: GameProtocol?
@@ -122,6 +124,12 @@ class ScoreboardCoordinator: Coordinator {
         
         dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
             viewController.present(keepPlayingPopoverVC, animated: true)
+        })
+    }
+    
+    func showEndGameScreen(withGame game: GameProtocol, delay: CGFloat = 0) {
+        dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
+            self.coordinator?.showEndGameScreen(forGame: game)
         })
     }
     
