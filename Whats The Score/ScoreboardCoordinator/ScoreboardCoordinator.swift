@@ -24,6 +24,7 @@ class ScoreboardCoordinator: Coordinator {
     
     lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper(playerViewHeight: 45, playerSeperatorHeight: 3)
     lazy var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
+    lazy var dispatchQueue: DispatchQueueProtocol? = DispatchQueue.main
     
     // MARK: - Functions
     
@@ -96,7 +97,7 @@ class ScoreboardCoordinator: Coordinator {
         viewController.present(editPlayerScorePopoverVC, animated: true)
     }
     
-    func showEndGamePopover(withGame game: GameProtocol, andDelegate delegate: EndGamePopoverDelegate) {
+    func showEndGamePopover(withGame game: GameProtocol, andDelegate delegate: EndGamePopoverDelegate, delay: CGFloat = 0) {
         guard let viewController = navigationController.topViewController else { return }
         let endGamePopoverVC = EndGamePopoverViewController.instantiate()
         
@@ -105,10 +106,12 @@ class ScoreboardCoordinator: Coordinator {
         
         defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 165, tapToExit: !game.isEndOfGame())
         
-        viewController.present(endGamePopoverVC, animated: true)
+        dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
+            viewController.present(endGamePopoverVC, animated: true)
+        })
     }
     
-    func showKeepPlayingPopover(withGame game: GameProtocol, andDelegate delegate: KeepPlayingPopoverDelegate) {
+    func showKeepPlayingPopover(withGame game: GameProtocol, andDelegate delegate: KeepPlayingPopoverDelegate, delay: CGFloat = 0) {
         guard let viewController = navigationController.topViewController else { return }
         let keepPlayingPopoverVC = KeepPlayingPopoverViewController.instantiate()
         
@@ -117,6 +120,10 @@ class ScoreboardCoordinator: Coordinator {
         
         defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 217, tapToExit: false)
         
-        viewController.present(keepPlayingPopoverVC, animated: true)
+        dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
+            viewController.present(keepPlayingPopoverVC, animated: true)
+        })
     }
+    
+    
 }

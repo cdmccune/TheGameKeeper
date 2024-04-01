@@ -63,10 +63,23 @@ class ScoreboardCoordinatorMock: ScoreboardCoordinator {
     
     var showEndGamePopoverGame: GameProtocol?
     var showEndGamePopoverDelegate: EndGamePopoverDelegate?
+    var showEndGamePopoverDelay: CGFloat?
     var showEndGamePopoverCalledCount = 0
-    override func showEndGamePopover(withGame game: GameProtocol, andDelegate delegate: EndGamePopoverDelegate) {
+    override func showEndGamePopover(withGame game: GameProtocol, andDelegate delegate: EndGamePopoverDelegate, delay: CGFloat = 0) {
         showEndGamePopoverGame = game
         showEndGamePopoverDelegate = delegate
         showEndGamePopoverCalledCount += 1
+        showEndGamePopoverDelay = delay
+    }
+    
+    var showKeepPlayingPopoverGame: GameProtocol?
+    var showKeepPlayingPopoverDelegate: KeepPlayingPopoverDelegate?
+    var showKeepPlayingPopoverDelay: CGFloat?
+    var showKeepPlayingPopoverCalledCount = 0
+    override func showKeepPlayingPopover(withGame game: GameProtocol, andDelegate delegate: KeepPlayingPopoverDelegate, delay: CGFloat = 0) {
+        showKeepPlayingPopoverGame = game
+        showKeepPlayingPopoverDelegate = delegate
+        showKeepPlayingPopoverDelay = delay
+        showKeepPlayingPopoverCalledCount += 1
     }
 }

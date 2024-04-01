@@ -27,6 +27,27 @@ final class ScoreboardViewControllerTests: XCTestCase {
         viewController = nil
     }
     
+    func getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded() -> (ScoreboardViewControllerPresentMock) {
+        let sut = ScoreboardViewControllerPresentMock()
+        
+        let view = UIView()
+        sut.view = view
+        let tableView = UITableView()
+        sut.tableView = tableView
+        let scoreButton = UIButton()
+        sut.scoreSortButton = scoreButton
+        let turnButton = UIButton()
+        sut.turnOrderSortButton = turnButton
+        
+        views = [tableView, scoreButton, turnButton]
+        
+        addTeardownBlock {
+            self.views = nil
+        }
+        
+        return sut
+    }
+    
     
     // MARK: - Initialization
     
@@ -275,180 +296,6 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(viewModelMock.openingGameOverCheckCalledCount, 1)
     }
     
-    // MARK: - Binding PlayerToEditScore
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNil_ShouldNotPresentPlayerScoreEditorPopover() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.playerToEditScore.value = nil
-        
-        // then
-        XCTAssertEqual(sut.presentCalledCount, 0)
-        XCTAssertNil(sut.viewControllerPresented)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldPresentPlayerScoreEditorPopover() {
-        
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.playerToEditScore.value = Player(name: "", position: 0)
-        
-        // then
-        XCTAssertEqual(sut.presentCalledCount, 1)
-        XCTAssertTrue(sut.viewControllerPresented is ScoreboardPlayerEditScorePopoverViewController)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
-        
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
-        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.playerToEditScore.value = Player(name: "", position: 0)
-        
-        // then
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 200)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is ScoreboardPlayerEditScorePopoverViewController)
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
-    }
-    
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditScoreSetNotNil_ShouldSetPlayerScoreEditorPopoverScoreChangePlayerAndDelegateToViewModel() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-
-        
-        let playerName = UUID().uuidString
-        let player = Player(name: playerName, position: 0)
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.playerToEditScore.value = player
-        
-        // then
-        let playerScoreEditorVC = sut.viewControllerPresented as? ScoreboardPlayerEditScorePopoverViewController
-        XCTAssertEqual(playerScoreEditorVC?.scoreChange?.playerID, player.id)
-        XCTAssertTrue(playerScoreEditorVC?.delegate is ScoreboardViewModelMock)
-    }
-    
-    
-    // MARK: - Binding PlayerToEdit
-    
-    func getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded() -> (ScoreboardViewControllerPresentMock) {
-        let sut = ScoreboardViewControllerPresentMock()
-        
-        let view = UIView()
-        sut.view = view
-        let tableView = UITableView()
-        sut.tableView = tableView
-        let scoreButton = UIButton()
-        sut.scoreSortButton = scoreButton
-        let turnButton = UIButton()
-        sut.turnOrderSortButton = turnButton
-        
-        views = [tableView, scoreButton, turnButton]
-        
-        addTeardownBlock {
-            self.views = nil
-        }
-        
-        return sut
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNil_ShouldNotPresentEditPlayerPopover() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-  
-        // when
-        sut.viewDidLoad()
-        viewModelMock.playerToEdit.value = nil
-        
-        // then
-        XCTAssertEqual(sut.presentCalledCount, 0)
-        XCTAssertNil(sut.viewControllerPresented)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldPresentEditPlayerPopover() {
-        
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.playerToEdit.value = Player(name: "", position: 0)
-        
-        // then
-        XCTAssertEqual(sut.presentCalledCount, 1)
-        XCTAssertTrue(sut.viewControllerPresented is EditPlayerPopoverViewController)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
-        
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
-        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.playerToEdit.value = Player(name: "", position: 0)
-        
-        // then
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 100)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EditPlayerPopoverViewController)
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
-    }
-    
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndPlayerToEditSetNotNil_ShouldSetEditPlayerPopoverPlayerAndDelegateToViewModel() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        let player = Player(name: "", position: 0)
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.playerToEdit.value = player
-        
-        // then
-        let playerEditorVC = sut.viewControllerPresented as? EditPlayerPopoverViewController
-        XCTAssertEqual(playerEditorVC?.player?.id, player.id)
-        XCTAssertTrue(playerEditorVC?.delegate is ScoreboardViewModelMock)
-    }
-    
     
     // MARK: - Binding PlayerToDelete
     
@@ -624,280 +471,63 @@ final class ScoreboardViewControllerTests: XCTestCase {
     }
     
     
-    // MARK: - Binding ShouldShowEndGamePopover
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowEndGamePopupSetFalse_ShouldNotShowPopup() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        viewModelMock.shouldShowEndGamePopup.value = true
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowEndGamePopup.value = false
-        
-        // then
-        XCTAssertEqual(sut.presentCalledCount, 0)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowEndGamePopupSetTrue_ShouldCallSetupPopoverCenteredWithCorrectParametersSetShouldShowValueToFalse() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
-        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowEndGamePopup.value = true
-        
-        // then
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 165)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EndGamePopoverViewController)
-        XCTAssertFalse(viewModelMock.shouldShowEndGamePopup.value ?? true)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowEndGamePopupSetTrueWithGameIsEndOfGameTrue_ShouldCallSetupPopoverCenteredTapToExitFalse() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        
-        let game = GameIsEndOfGameMock()
-        game.isEndOfGameBool = true
-        
-        viewModelMock.game = game
-        sut.viewModel = viewModelMock
-        
-        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
-        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowEndGamePopup.value = true
-        
-        // then
-        XCTAssertFalse(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? true)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowEndGamePopupSetTrueWithGameIsEndOfGameFalse_ShouldCallSetupPopoverCenteredTapToExitTrue() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        
-        let game = GameIsEndOfGameMock()
-        game.isEndOfGameBool = false
-        
-        viewModelMock.game = game
-        sut.viewModel = viewModelMock
-        
-        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
-        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowEndGamePopup.value = true
-        
-        // then
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowEndGamePopupSetTrue_ShouldPresentEndGamePopoverViewController() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowEndGamePopup.value = true
-        
-        // then
-        XCTAssertTrue(sut.viewControllerPresented is EndGamePopoverViewController)
-        XCTAssertEqual(sut.presentCalledCount, 1)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowEndGamePopupSetTrue_ShouldSetGameAsViewModelsGameAndViewModelAsDelegate() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        let mockGame = Game(basicGameWithPlayers: [])
-        viewModelMock.game = mockGame
-        
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowEndGamePopup.value = true
-        
-        // then
-        guard let game = (sut.viewControllerPresented as? EndGamePopoverViewController)?.game else {
-            XCTFail("Game should not be nil")
-            return
-        }
-        
-        XCTAssertTrue((sut.viewControllerPresented as? EndGamePopoverViewController)?.delegate === viewModelMock)
-        XCTAssertTrue(game.isEqualTo(game: mockGame))
-    }
-    
-    
-    // MARK: - Binding ShouldGoToEndGameScreen
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetFalse_ShouldNotChangNavigationControllersViewControllers() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        let navigationController = NavigationControllerPushMock()
-        navigationController.viewControllers = [sut]
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldGoToEndGameScreen.value = false
-        
-        // then
-        XCTAssertEqual(navigationController.viewControllers, [sut])
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetTrue_ShouldSetEndGameViewControllerAsNavigationControllersRootViewController() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        let navigationController = NavigationControllerPushMock()
-        navigationController.viewControllers = [sut]
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldGoToEndGameScreen.value = true
-        
-        // then
-        XCTAssertEqual(navigationController.viewControllers.count, 1)
-        XCTAssertTrue(navigationController.viewControllers.first is EndGameViewController)
-    }
-    
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetTrue_ShouldPushEndGameViewControllerWithViewModelContainingCurrentGame() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let game = GameMock()
-        let viewModelMock = ScoreboardViewModelMock(game: game)
-        sut.viewModel = viewModelMock
-        
-        let navigationController = NavigationControllerPushMock()
-        navigationController.viewControllers = [sut]
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldGoToEndGameScreen.value = true
-        
-        // then
-        let endGameVCViewModel = (navigationController.viewControllers.first as? EndGameViewController)?.viewModel
-        XCTAssertTrue(endGameVCViewModel?.game.isEqualTo(game: game) ?? false)
-    }
-    
-    
-    // MARK: - ShouldShowKeepPlayingPopup
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShouldShowKeepPlayingPopupSetFalse_ShouldNotCallPresent() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowKeepPlayingPopup.value = false
-        
-        // then
-        XCTAssertEqual(sut.presentCalledCount, 0)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShouldShowKeepPlayingPopupSetTrue_ShouldCallSetupPopoverCenteredWithCorrectParameters() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        
-        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
-        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowKeepPlayingPopup.value = true
-        
-        // then
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
-//                XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-//                XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 200)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, sut.view)
-        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is KeepPlayingPopoverViewController)
-        XCTAssertFalse(viewModelMock.shouldShowEndGamePopup.value ?? true)
-        XCTAssertFalse(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? true)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowKeepPlayingPopupSetTrue_ShouldSetViewModelsShouldShowValueToFalse() {
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        sut.viewModel?.game.gameEndType = .round
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowKeepPlayingPopup.value = true
-        
-        // then
-        XCTAssertFalse(viewModelMock.shouldShowKeepPlayingPopup.value ?? true)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndhouldShowKeepPlayingPopupSetTrue_ShouldPresentKeepPlayingPopoverViewController() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        sut.viewModel = viewModelMock
-        sut.viewModel?.game.gameEndType = .round
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowKeepPlayingPopup.value = true
-        
-        // then
-        XCTAssertTrue(sut.viewControllerPresented is KeepPlayingPopoverViewController)
-        XCTAssertEqual(sut.presentCalledCount, 1)
-    }
-    
-    func test_ScoreboardViewController_WhenBindingsSetAndShouldShowKeepPlayingPopupSetTrue_ShouldSetGameAsViewModelsGameAndViewModelAsDelegate() {
-        // given
-        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
-        let viewModelMock = ScoreboardViewModelMock()
-        var mockGame = Game(basicGameWithPlayers: [])
-        mockGame.gameEndType = .round
-        viewModelMock.game = mockGame
-        
-        sut.viewModel = viewModelMock
-        
-        // when
-        sut.viewDidLoad()
-        viewModelMock.shouldShowKeepPlayingPopup.value = true
-        
-        // then
-        let keepPlayingVC = sut.viewControllerPresented as? KeepPlayingPopoverViewController
-        guard let game = keepPlayingVC?.game else {
-            XCTFail("Game should not be nil")
-            return
-        }
-        
-        XCTAssertTrue(game.isEqualTo(game: mockGame))
-        XCTAssertTrue(keepPlayingVC?.delegate === viewModelMock)
-    }
-    
+//    // MARK: - Binding ShouldGoToEndGameScreen
+//    
+//    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetFalse_ShouldNotChangNavigationControllersViewControllers() {
+//        // given
+//        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+//        let viewModelMock = ScoreboardViewModelMock()
+//        sut.viewModel = viewModelMock
+//        
+//        let navigationController = NavigationControllerPushMock()
+//        navigationController.viewControllers = [sut]
+//        
+//        // when
+//        sut.viewDidLoad()
+//        viewModelMock.shouldGoToEndGameScreen.value = false
+//        
+//        // then
+//        XCTAssertEqual(navigationController.viewControllers, [sut])
+//    }
+//    
+//    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetTrue_ShouldSetEndGameViewControllerAsNavigationControllersRootViewController() {
+//        // given
+//        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+//        let viewModelMock = ScoreboardViewModelMock()
+//        sut.viewModel = viewModelMock
+//        
+//        let navigationController = NavigationControllerPushMock()
+//        navigationController.viewControllers = [sut]
+//        
+//        // when
+//        sut.viewDidLoad()
+//        viewModelMock.shouldGoToEndGameScreen.value = true
+//        
+//        // then
+//        XCTAssertEqual(navigationController.viewControllers.count, 1)
+//        XCTAssertTrue(navigationController.viewControllers.first is EndGameViewController)
+//    }
+//    
+//    
+//    func test_ScoreboardViewController_WhenBindingsSetAndShouldGoToEndGameScreenSetTrue_ShouldPushEndGameViewControllerWithViewModelContainingCurrentGame() {
+//        // given
+//        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+//        let game = GameMock()
+//        let viewModelMock = ScoreboardViewModelMock(game: game)
+//        sut.viewModel = viewModelMock
+//        
+//        let navigationController = NavigationControllerPushMock()
+//        navigationController.viewControllers = [sut]
+//        
+//        // when
+//        sut.viewDidLoad()
+//        viewModelMock.shouldGoToEndGameScreen.value = true
+//        
+//        // then
+//        let endGameVCViewModel = (navigationController.viewControllers.first as? EndGameViewController)?.viewModel
+//        XCTAssertTrue(endGameVCViewModel?.game.isEqualTo(game: game) ?? false)
+//    }
+
     
     // MARK: - EndRoundButtonTapped
     

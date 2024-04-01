@@ -13,7 +13,8 @@ protocol DispatchQueueAsyncProtocol {
 }
 
 protocol DispatchQueueAsyncAfterProtocol {
-    func asyncAfter(deadline: DispatchTime, execute work: @escaping @convention(block) () -> Void)
+    func asyncAfterWrapper(delay: CGFloat, work: @escaping @convention(block) () -> Void)
+//    func asyncAfter(deadline: DispatchTime, execute work: @escaping @convention(block) () -> Void)
 }
 
 protocol DispatchQueueProtocol: DispatchQueueAsyncProtocol & DispatchQueueAsyncAfterProtocol {}
@@ -23,8 +24,8 @@ extension DispatchQueue: DispatchQueueProtocol {
             async(group: nil, qos: .unspecified, flags: [], execute: work)
         }
     
-    func asyncAfter(deadline: DispatchTime, execute work: @escaping @convention(block) () -> Void) {
-        asyncAfter(deadline: deadline, qos: .unspecified, flags: [], execute: work)
+    func asyncAfterWrapper(delay: CGFloat, work: @escaping @convention(block) () -> Void) {
+        asyncAfter(deadline: .now() + delay, execute: work)
     }
 }
 

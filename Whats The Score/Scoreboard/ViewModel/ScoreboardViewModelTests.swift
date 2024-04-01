@@ -164,7 +164,7 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
-    // MARK: - EditPlayerScoreAt
+    // MARK: - EditScore
     
     func test_ScoreboardViewModel_WhenEditScoreCalledPlayerInGame_ShouldCallGameEditScoreWithPlayerAndChange() {
         // given
@@ -185,7 +185,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         XCTAssertEqual(game.editScoreForCalledCount, 1)
     }
     
-    func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalledPlayerInGame_ShouldCallBindViewToViewModel() {
+    func test_ScoreboardViewModel_WhenEditScoreCalledPlayerInGame_ShouldCallBindViewToViewModel() {
         // given
         let sut = getViewModelWithBasicGame()
         let player = Player.getBasicPlayer()
@@ -204,7 +204,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
     }
     
-    func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalled_ShouldCallIsEndOfGame() {
+    func test_ScoreboardViewModel_WhenEditScoreCalled_ShouldCallIsEndOfGame() {
         // given
         let game = GameIsEndOfGameMock()
         let sut = ScoreboardViewModel(game: game)
@@ -221,57 +221,53 @@ final class ScoreboardViewModelTests: XCTestCase {
         XCTAssertEqual(game.isEndOfGameCalledCount, 1)
     }
     
-    func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalledIsEndOfGameTrue_ShouldCallEndGameAfterOneSecond() {
+    func test_ScoreboardViewModel_WhenEditScoreCalledIsEndOfGameTrue_ShouldCallCoordinatorShowEndGamePopoverWith1SecondDelay() {
         
         // given
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = true
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: game)
+        let sut = ScoreboardViewModel(game: game)
         
-        let calledExpectation = XCTestExpectation(description: "End game should be called")
+        let player = Player.getBasicPlayer()
+        sut.game.players = [player]
         
-        sut.endGameCompletion = {
-            calledExpectation.fulfill()
-        }
+        let scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
         
-        // when
-        sut.endRound(EndRound.getBlankEndRound())
-        wait(for: [calledExpectation], timeout: 1.1)
-    }
-    
-    func test_ScoreboardViewModel_WhenEditPlayerScoreAtCalledIsEndOfGameTrue_ShouldNotCallEndGameBefore1Second() {
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
-        // given
-        let game = GameIsEndOfGameMock()
-        game.isEndOfGameBool = true
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: game)
-        
-        let waitExpecation = XCTestExpectation(description: "End game should wait at least .9 seconds")
-        waitExpecation.isInverted = true
-        
-        sut.endGameCompletion = {
-            waitExpecation.fulfill()
-        }
         
         // when
-        sut.endRound(EndRound.getBlankEndRound())
-        wait(for: [waitExpecation], timeout: 0.9)
+        sut.editScore(scoreChangeObject)
+        
+        // then
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
+        XCTAssertTrue(coordinator.showEndGamePopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertEqual(coordinator.showEndGamePopoverDelay, 1.0)
+        XCTAssertTrue(coordinator.showEndGamePopoverDelegate === sut)
     }
     
-    func test_ScoreboardViewModel_WhenEditPlayerScoreatCalledIsEndOfGameFalse_ShouldNotCallEndGame() {
+    
+    func test_ScoreboardViewModel_WhenEditScoreCalledIsEndOfGameFalse_ShouldNotCallEndGame() {
         
         // given
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = false
         let sut = ScoreboardViewModelEndGameExpectationModel(game: game)
-        sut.dispatchQueue = DispatchQueueMainMock()
         
-        sut.endGameCompletion = {
-            XCTFail("End game shouldn't be called")
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        let player = Player.getBasicPlayer()
+        sut.game.players = [player]
+        
+        let scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
         
         // when
-        sut.endRound(EndRound.getBlankEndRound())
+        sut.editScore(scoreChangeObject)
+        
+        // then
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 0)
     }
     
     
@@ -470,62 +466,39 @@ final class ScoreboardViewModelTests: XCTestCase {
         XCTAssertEqual(game.isEndOfGameCalledCount, 1)
     }
     
-    func test_ScoreboardViewModel_WhenEndRoundCalledIsEndOfGameTrue_ShouldCallEndGameAfterOneSecond() {
-        
+    func test_ScoreboardViewModel_WhenEndRoundCalledIsEndOfGameTrue_ShouldCallCoordinatorShowEndGamePopupWithDelayOneSecond() {
         // given
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = true
-        sut.game = game
+        let sut = ScoreboardViewModel(game: game)
         
-        let calledExpectation = XCTestExpectation(description: "End game should be called")
-        
-        sut.endGameCompletion = {
-            calledExpectation.fulfill()
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.endRound(EndRound.getBlankEndRound())
-        wait(for: [calledExpectation], timeout: 1.1)
+        
+        // then
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
+        XCTAssertEqual(coordinator.showEndGamePopoverDelay, 1.0)
+        XCTAssertTrue(coordinator.showEndGamePopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showEndGamePopoverDelegate === sut)
     }
     
-    func test_ScoreboardViewModel_WhenEndRoundCalledIsEndOfGameTrue_ShouldNotCallEndGameBefore1Second() {
-        
+    func test_ScoreboardViewModel_WhenEndRoundCalledIsEndOfGameFalse_ShouldNotCallCoordinatorShowEndGamePopup() {
         // given
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
-        let game = GameIsEndOfGameMock()
-        game.isEndOfGameBool = true
-        sut.game = game
-        
-        let waitExpecation = XCTestExpectation(description: "End game should wait at least .9 seconds")
-        waitExpecation.isInverted = true
-        
-        sut.endGameCompletion = {
-            waitExpecation.fulfill()
-        }
-        
-        // when
-        sut.endRound(EndRound.getBlankEndRound())
-        wait(for: [waitExpecation], timeout: 0.9)
-    }
-    
-    func test_ScoreboardViewModel_WhenEndRoundCalledIsEndOfGameFalse_ShouldNotCallEndGame() {
-        
-        // given
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
-        sut.dispatchQueue = DispatchQueueMainMock()
-        
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = false
-        sut.game = game
-    
+        let sut = ScoreboardViewModel(game: game)
         
-        sut.endGameCompletion = {
-            XCTFail("End game should not be called")
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.endRound(EndRound.getBlankEndRound())
+        
+        // then
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 0)
     }
     
     
@@ -580,100 +553,58 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - GoToEndGameScreen
     
-    func test_ScoreboardViewModel_WhenGoToEndGameScreenCalled_ShouldntSetValueOfShouldGoToEndGameScreenToTrueBeforeHalfASecond() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let expectation = XCTestExpectation(description: "Value shouldn't be changed before .5 seconds")
-        expectation.isInverted = true
-        
-        sut.shouldGoToEndGameScreen.valueChanged = { _ in
-            expectation.fulfill()
-        }
-        
-        // when
-        sut.goToEndGameScreen()
-        
-        // then
-        wait(for: [expectation], timeout: 0.4)
-    }
+    #warning("need to work with coordinators to plug this in")
     
-    func test_ScoreboardViewModel_WhenGoToEndGameScreenCalled_ShouldSetValueOfShouldGoToEndGameScreenToTrueHalfASecondIn() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let expectation = XCTestExpectation(description: "Value should be changed before 0.6")
-        
-        sut.shouldGoToEndGameScreen.valueChanged = { bool in
-            expectation.fulfill()
-            XCTAssertTrue(bool ?? false)
-        }
-        
-        // when
-        sut.goToEndGameScreen()
-        
-        // then
-        wait(for: [expectation], timeout: 0.6)
-    }
+//    func test_ScoreboardViewModel_WhenGoToEndGameScreenCalled_ShouldCallCoordinatorGoToEndGameScreenWithHalfSecondDelay() {
+//        // given
+//        let sut = getViewModelWithBasicGame()
+//        
+//        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+//        sut.coordinator = coordinator
+//        
+//        // when
+//        sut.goToEndGameScreen()
+//        
+//        // then
+//        XCTAssertEqual(coordinator.showendGameScreen, <#T##expression2: Equatable##Equatable#>)
+//    }
     
     // MARK: - KeepPlayingSelected
     
-    func test_ScoreboardViewModel_WhenKeepPlayingSelectedCalledIsEndOfGameFalse_ShouldNotSetShowKeepPlayingPopupValue() {
+    func test_ScoreboardViewModel_WhenKeepPlayingSelectedCalledIsEndOfGameFalse_ShouldNotCallCoordinatorShowKeepPlayingPopover() {
         // given
         let sut = getViewModelWithBasicGame()
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = false
         sut.game = game
-        let expectation = XCTestExpectation(description: "Value shouldn't be changed")
-        expectation.isInverted = true
         
-        sut.shouldShowKeepPlayingPopup.valueChanged = { _ in
-            expectation.fulfill()
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.keepPlayingSelected()
         
         // then
-        wait(for: [expectation], timeout: 1)
+        XCTAssertEqual(coordinator.showKeepPlayingPopoverCalledCount, 0)
     }
     
-    func test_ScoreboardViewModel_WhenKeepPlayingSelectedCalledIsEndOfGameTrue_ShouldntSetValueOfShouldShowKeepPlayingPopupToTrueBeforeHalfASecond() {
+    func test_ScoreboardViewModel_WhenKeepPlayingSelectedCalledIsEndOfGameTrue_ShouldCallCoordinatorShowKeepPlayingPopoverWithHalfSecondDelay() {
         // given
-        let sut = getViewModelWithBasicGame()
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = true
-        sut.game = game
-        let expectation = XCTestExpectation(description: "Value shouldn't be changed before .5 seconds")
-        expectation.isInverted = true
+        let sut = ScoreboardViewModel(game: game)
         
-        sut.shouldShowKeepPlayingPopup.valueChanged = { _ in
-            expectation.fulfill()
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.keepPlayingSelected()
         
         // then
-        wait(for: [expectation], timeout: 0.4)
-    }
-    
-    func test_ScoreboardViewModel_WheKeepPlayingSelectedCalled_ShouldSetValueOfShouldShowKeepPlayingPopupToTrueHalfASecondIn() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let game = GameIsEndOfGameMock()
-        game.isEndOfGameBool = true
-        sut.game = game
-        let expectation = XCTestExpectation(description: "Value should be changed before 0.6")
-        
-        sut.shouldShowKeepPlayingPopup.valueChanged = { bool in
-            expectation.fulfill()
-            XCTAssertTrue(bool ?? false)
-        }
-        
-        // when
-        sut.keepPlayingSelected()
-        
-        // then
-        wait(for: [expectation], timeout: 0.6)
+        XCTAssertEqual(coordinator.showKeepPlayingPopoverCalledCount, 1)
+        XCTAssertEqual(coordinator.showKeepPlayingPopoverDelay, 0.5)
+        XCTAssertTrue(coordinator.showKeepPlayingPopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showKeepPlayingPopoverDelegate === sut)
     }
     
     
@@ -773,67 +704,41 @@ final class ScoreboardViewModelTests: XCTestCase {
     
     // MARK: - openingGameOverCheck
     
-    func test_ScoreboardViewModel_WhenOpeningGameOverCheckCalledGameIsEndOfGameTrue_ShouldSetShowKeepPlayingPopoverTrueAfterPoint5Seconds() {
+    func test_ScoreboardViewModel_WhenOpeningGameOverCheckCalledGameIsEndOfGameTrue_ShouldCallCoordinatorShowKeepPlayingPopoverWithHalfSecondDelay() {
         // given
         let sut = getViewModelWithBasicGame()
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = true
         sut.game = game
         
-        let expectation = XCTestExpectation(description: "Value should be changed before 0.6")
-        
-        sut.shouldShowKeepPlayingPopup.valueChanged = { bool in
-            expectation.fulfill()
-            XCTAssertTrue(bool ?? false)
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.openingGameOverCheck()
         
         // then
-        wait(for: [expectation], timeout: 0.6)
+        XCTAssertEqual(coordinator.showKeepPlayingPopoverCalledCount, 1)
+        XCTAssertTrue(coordinator.showKeepPlayingPopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showKeepPlayingPopoverDelegate === sut)
+        XCTAssertEqual(coordinator.showKeepPlayingPopoverDelay, 0.5)
     }
     
-    func test_ScoreboardViewModel_WhenOpeningGameOverCheckCalledGameIsEndOfGameFalse_ShouldNotSetShowKeepPlayingPopoverBeforePoint5Seconds() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let game = GameIsEndOfGameMock()
-        game.isEndOfGameBool = true
-        sut.game = game
-        
-        let expectation = XCTestExpectation(description: "Value shouldn't be changed before 0.5 seconds")
-        expectation.isInverted = true
-        
-        sut.shouldShowKeepPlayingPopup.valueChanged = { _ in
-            expectation.fulfill()
-        }
-        
-        // when
-        sut.openingGameOverCheck()
-        
-        // then
-        wait(for: [expectation], timeout: 0.4)
-    }
-    
-    func test_ScoreboardViewModel_WhenOpeningGameOverCheckCalledGameIsEndOfGameFalse_ShouldNotSetShowKeepPlayingPopover() {
+    func test_ScoreboardViewModel_WhenOpeningGameOverCheckCalledGameIsEndOfGameFalse_ShouldNotCallCoordinatorShowKeepPlayingPopover() {
         // given
         let sut = getViewModelWithBasicGame()
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = false
         sut.game = game
         
-        let expectation = XCTestExpectation(description: "Value shouldn't be changed")
-        expectation.isInverted = true
-        
-        sut.shouldShowKeepPlayingPopup.valueChanged = { _ in
-            expectation.fulfill()
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.openingGameOverCheck()
         
         // then
-        wait(for: [expectation], timeout: 0.6)
+        XCTAssertEqual(coordinator.showKeepPlayingPopoverCalledCount, 0)
     }
     
     
@@ -868,66 +773,41 @@ final class ScoreboardViewModelTests: XCTestCase {
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindCount + 1)
     }
     
-    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameTrue_ShouldCallEndGameAfterPoint5Seconds() {
+    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameTrue_ShouldCallCoordinatorShowEndGamePopoverWithDelayHalfASecond() {
         // given
         let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
         
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = true
         
-        let expectation = XCTestExpectation(description: "EndGame Should be called after 0.5 seconds")
-        
-        sut.endGameCompletion = {
-            expectation.fulfill()
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.update(game)
         
         // then
-        wait(for: [expectation], timeout: 0.6)
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
+        XCTAssertTrue(coordinator.showEndGamePopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showEndGamePopoverDelegate === sut)
+        XCTAssertEqual(coordinator.showEndGamePopoverDelay, 0.5)
     }
     
-    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameTrue_ShouldNotCallEndGameBefore5Seconds() {
-        // given
-        let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
-        
-        let game = GameIsEndOfGameMock()
-        game.isEndOfGameBool = true
-        
-        let expectation = XCTestExpectation(description: "EndGame Should not be called before 0.5 seconds")
-        expectation.isInverted = true
-        
-        sut.endGameCompletion = {
-            expectation.fulfill()
-        }
-        
-        // when
-        sut.update(game)
-        
-        // then
-        wait(for: [expectation], timeout: 0.4)
-    }
-    
-    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameFalse_ShouldNotCallEndGame() {
+    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameFalse_ShouldNotCallCoordinatorShowEndGamePopover() {
         // given
         let sut = ScoreboardViewModelEndGameExpectationModel(game: GameMock())
         
         let game = GameIsEndOfGameMock()
         game.isEndOfGameBool = false
         
-        let expectation = XCTestExpectation(description: "EndGame Should not be called")
-        expectation.isInverted = true
-        
-        sut.endGameCompletion = {
-            expectation.fulfill()
-        }
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
         
         // when
         sut.update(game)
         
         // then
-        wait(for: [expectation], timeout: 0.6)
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 0)
     }
     
     
@@ -1020,11 +900,8 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     var game: GameProtocol
     var delegate: ScoreboardViewModelViewProtocol?
     var coordinator: ScoreboardCoordinator?
-    var playerToEditScore: Observable<PlayerProtocol> = Observable(Player(name: "", position: 0))
-    var playerToEdit: Observable<PlayerProtocol> = Observable(Player(name: "", position: 0))
     var playerToDelete: Observable<PlayerProtocol> = Observable(Player(name: "", position: 0))
     var shouldShowEndGamePopup: Observable<Bool> = Observable(false)
-    var shouldShowKeepPlayingPopup: Observable<Bool> = Observable(false)
     var shouldGoToEndGameScreen: Observable<Bool> = Observable(false)
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
     var sortedPlayers: [PlayerProtocol] = []

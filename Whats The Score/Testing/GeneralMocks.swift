@@ -106,8 +106,10 @@ class UITableViewRegisterMock: UITableView {
 class DispatchQueueMainMock: DispatchQueueProtocol {
     
     var asyncAfterCalledCount = 0
-    func asyncAfter(deadline: DispatchTime, execute work: @escaping @convention(block) () -> Void) {
+    var asyncAfterDelay: CGFloat?
+    func asyncAfterWrapper(delay: CGFloat, work: @escaping @convention(block) () -> Void) {
         asyncAfterCalledCount += 1
+        asyncAfterDelay = delay
         work()
     }
     

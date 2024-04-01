@@ -65,15 +65,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     }
     
     private func setBindings() {
-        viewModel?.playerToEditScore.valueChanged = { [weak self] player in
-            guard let player = player else { return }
-            self?.editPlayerScore(for: player)
-        }
-        
-        viewModel?.playerToEdit.valueChanged = { [weak self] player in
-            guard let player = player else { return }
-            self?.editPlayer(player)
-        }
         
         viewModel?.sortPreference.valueChanged = { [weak self] sortPreference in
             self?.tableView.reloadData()
@@ -83,24 +74,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
         
         viewModel?.playerToDelete.valueChanged = { [weak self] _ in
             self?.presentDeletePlayerAlert()
-        }
-        
-        viewModel?.shouldShowEndGamePopup.valueChanged = { [weak self] shouldShow in
-            guard shouldShow ?? false else { return }
-            self?.presentEndGamePopoverView()
-            self?.viewModel?.shouldShowEndGamePopup.value = false
-        }
-        
-        viewModel?.shouldGoToEndGameScreen.valueChanged = { [weak self] shouldShow in
-            guard shouldShow ?? false else { return }
-            
-            self?.presentEndGameScreen()
-        }
-        
-        viewModel?.shouldShowKeepPlayingPopup.valueChanged = { [weak self] shouldShow in
-            guard shouldShow ?? false else { return }
-            self?.presentKeepPlayingPopoverView()
-            self?.viewModel?.shouldShowKeepPlayingPopup.value = false
         }
     }
     
@@ -113,36 +86,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     
     private func isEndOfGameCheck() {
         viewModel?.openingGameOverCheck()
-    }
-    
-    private func editPlayerScore(for player: PlayerProtocol) {
-        guard viewModel != nil else { return }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let editPlayerScoreVC = storyboard.instantiateViewController(withIdentifier: "ScoreboardPlayerEditScorePopoverViewController") as? ScoreboardPlayerEditScorePopoverViewController else { fatalError("ScoreboardPlayerEditScorePopoverViewController not instantiated")}
-        
-        
-        editPlayerScoreVC.scoreChange = ScoreChange(player: player, scoreChange: 0)
-        editPlayerScoreVC.delegate = viewModel!
-        
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerScoreVC, withWidth: 300, andHeight: 200, tapToExit: true)
-        
-        self.present(editPlayerScoreVC, animated: true)
-    }
-    
-    private func editPlayer(_ player: PlayerProtocol) {
-        guard viewModel != nil else { return }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let editPlayerVC = storyboard.instantiateViewController(withIdentifier: "EditPlayerPopoverViewController") as? EditPlayerPopoverViewController else { fatalError("EditPlayerPopoverViewController not instantiated")}
-        
-        
-        editPlayerVC.player = player
-        editPlayerVC.delegate = viewModel!
-        
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerVC, withWidth: 300, andHeight: 100, tapToExit: true)
-        
-        self.present(editPlayerVC, animated: true)
     }
     
     private func presentDeletePlayerAlert() {
@@ -162,52 +105,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
         self.present(alert, animated: true)
     }
     
-    private func presentEndGamePopoverView() {
-        guard let game = viewModel?.game else { return }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let endGamePopoverVC = storyboard.instantiateViewController(withIdentifier: "EndGamePopoverViewController") as? EndGamePopoverViewController else {
-            fatalError("EndGamePopoverViewController not instantiated")
-        }
-        
-        endGamePopoverVC.game = game
-        endGamePopoverVC.delegate = viewModel
-        
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 165, tapToExit: !game.isEndOfGame())
-        
-        self.present(endGamePopoverVC, animated: true)
-    }
-    
-    private func presentEndGameScreen() {
-        guard let game = viewModel?.game else {
-            fatalError("There was no game")
-        }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let endGameViewController = storyboard.instantiateViewController(withIdentifier: "EndGameViewController") as? EndGameViewController else {
-            fatalError("EndGameViewController couldn't be instantiated")
-        }
-        
-        endGameViewController.viewModel = EndGameViewModel(game: game)
-        
-        self.navigationController?.viewControllers = [endGameViewController]
-    }
-    
-    private func presentKeepPlayingPopoverView() {
-        guard let game = viewModel?.game else { return }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let keepPlayingPopoverVC = storyboard.instantiateViewController(withIdentifier: "KeepPlayingPopoverViewController") as? KeepPlayingPopoverViewController else {
-            fatalError("KeepPlayingPopoverViewController not instantiated")
-        }
-        
-        keepPlayingPopoverVC.game = game
-        keepPlayingPopoverVC.delegate = viewModel
-        
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 217, tapToExit: false)
-        
-        self.present(keepPlayingPopoverVC, animated: true)
-    }
     
     // MARK: - IBActions
     

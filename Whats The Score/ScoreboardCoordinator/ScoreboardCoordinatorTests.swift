@@ -433,19 +433,8 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
     }
     
-    // MARK: - ShowEndGamePopover
     
-    func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalled_ShouldPresentEndGamePopoverVCOnViewControllerOnTopViewController() {
-        // given
-        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
-        
-        // when
-        sut.showEndGamePopover(withGame: GameMock(), andDelegate: EndGamePopoverDelegateMock())
-        
-        // then
-        XCTAssertEqual(viewController.presentCalledCount, 1)
-        XCTAssertTrue(viewController.presentViewController is EndGamePopoverViewController)
-    }
+    // MARK: - ShowEndGamePopover
     
     func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalled_ShouldSetEndGamePopoverVCGameAndDelegate() {
         // given
@@ -453,6 +442,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         
         let game = GameMock()
         let delegate = EndGamePopoverDelegateMock()
+        sut.dispatchQueue = DispatchQueueMainMock()
         
         // when
         sut.showEndGamePopover(withGame: game, andDelegate: delegate)
@@ -465,7 +455,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalledGameIsOver_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithTapToExitFalse() {
         // given
-        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        let (sut, _) = getSutAndViewControllerOnTopOfNavigationController()
         
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
@@ -482,7 +472,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     
     func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalledGameIsOverFalse_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithTapToExitTrue() {
         // given
-        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        let (sut, _) = getSutAndViewControllerOnTopOfNavigationController()
         
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
@@ -518,20 +508,38 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EndGamePopoverViewController)
     }
     
-    
-    // MARK: - ShowKeepPlayingPopover
-    
-    func test_ScoreboardCoordinator_WhenShowKeepPlayingPopoverCalled_ShouldPresentShowKeepPlayingPopoverVCOnViewControllerOnTopViewController() {
+    func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalledDispatchQueueNil_ShouldNotPresentViewController() {
         // given
         let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
+        sut.dispatchQueue = nil
+        
         // when
-        sut.showKeepPlayingPopover(withGame: GameMock(), andDelegate: KeepPlayingPopoverDelegateMock())
+        sut.showEndGamePopover(withGame: GameMock(), andDelegate: EndGamePopoverDelegateMock())
         
         // then
-        XCTAssertEqual(viewController.presentCalledCount, 1)
-        XCTAssertTrue(viewController.presentViewController is KeepPlayingPopoverViewController)
+        XCTAssertEqual(viewController.presentCalledCount, 0)
     }
+    
+    func test_ScoreboardCoordinator_WhenShowEndGamePopoverCalled_ShouldCallDispatchQueueWithDelaySentFromFunctionCallAndPresentViewController() {
+        // given
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
+        let dispatchQueueMock = DispatchQueueMainMock()
+        sut.dispatchQueue = dispatchQueueMock
+        let delay = CGFloat.random(in: 1...10)
+        
+        // when
+        sut.showEndGamePopover(withGame: GameMock(), andDelegate: EndGamePopoverDelegateMock(), delay: delay)
+        
+        // then
+        XCTAssertEqual(dispatchQueueMock.asyncAfterDelay, delay)
+        XCTAssertEqual(dispatchQueueMock.asyncAfterCalledCount, 1)
+        XCTAssertEqual(viewController.presentCalledCount, 1)
+    }
+    
+    
+    // MARK: - ShowKeepPlayingPopover
     
     func test_ScoreCoordinator_WhenShowKeepPlayingPopoverCalled_ShouldSetKeepPlayingPopoverGameAndDelegate() {
         // given
@@ -539,6 +547,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         
         let delegate = KeepPlayingPopoverDelegateMock()
         let game = GameMock()
+        sut.dispatchQueue = DispatchQueueMainMock()
         
         // when
         sut.showKeepPlayingPopover(withGame: game, andDelegate: delegate)
@@ -569,4 +578,48 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is KeepPlayingPopoverViewController)
     }
+    
+    func test_ScoreboardCoordinator_WhenShowKeepPlayingPopoverCalledDispatchQueueNil_ShouldNotPresentViewController() {
+        // given
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
+        sut.dispatchQueue = nil
+        
+        // when
+        sut.showKeepPlayingPopover(withGame: GameMock(), andDelegate: KeepPlayingPopoverDelegateMock())
+        
+        // then
+        XCTAssertEqual(viewController.presentCalledCount, 0)
+    }
+    
+    func test_ScoreboardCoordinator_WhenShowKeepPlayingPopoverCalled_ShouldCallDispatchQueueWithDelaySentFromFunctionCallAndPresentViewController() {
+        // given
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
+        let dispatchQueueMock = DispatchQueueMainMock()
+        sut.dispatchQueue = dispatchQueueMock
+        let delay = CGFloat.random(in: 1...10)
+        
+        // when
+        sut.showKeepPlayingPopover(withGame: GameMock(), andDelegate: KeepPlayingPopoverDelegateMock(), delay: delay)
+        
+        // then
+        XCTAssertEqual(dispatchQueueMock.asyncAfterDelay, delay)
+        XCTAssertEqual(dispatchQueueMock.asyncAfterCalledCount, 1)
+        XCTAssertEqual(viewController.presentCalledCount, 1)
+    }
+    
+    
+    // MARK: - ShowEndGameScreen
+    
+//    func test_ScoreboardCoordinator_WhenShowEndGameScreenCalled_Should<#assertion#>() {
+//        // given
+//        let sut = <#System Under Test#>
+//        
+//        // when
+//        <#when#>
+//        
+//        // then
+//        <#then#>
+//    }
 }

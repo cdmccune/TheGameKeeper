@@ -11,13 +11,8 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var coordinator: ScoreboardCoordinator? { get set }
-    var playerToEditScore: Observable<PlayerProtocol> { get set }
-    var playerToEdit: Observable<PlayerProtocol> { get set }
     var playerToDelete: Observable<PlayerProtocol> { get set }
     var sortPreference: Observable<ScoreboardSortPreference> { get set }
-    var shouldShowEndGamePopup: Observable<Bool> { get set }
-    var shouldGoToEndGameScreen: Observable<Bool> { get set }
-    var shouldShowKeepPlayingPopup: Observable<Bool> { get set }
     var sortedPlayers: [PlayerProtocol] { get }
     
     func startEditingPlayerAt(_ index: Int)
@@ -56,13 +51,9 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     
     // MARK: - Observables
     
-    var playerToEditScore: Observable<PlayerProtocol> = Observable(nil)
-    var playerToEdit: Observable<PlayerProtocol> = Observable(nil)
-    var playerToDelete: Observable<PlayerProtocol> = Observable(nil)
     var sortPreference: Observable<ScoreboardSortPreference> = Observable(.score)
-    var shouldShowEndGamePopup: Observable<Bool> = Observable(false)
+    var playerToDelete: Observable<PlayerProtocol> = Observable(nil)
     var shouldGoToEndGameScreen: Observable<Bool> = Observable(false)
-    var shouldShowKeepPlayingPopup: Observable<Bool> = Observable(false)
     
     var sortedPlayers: [PlayerProtocol] {
         return game.players.sorted {player1, player2 in
@@ -102,9 +93,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
         if game.isEndOfGame() {
-            dispatchQueue.asyncAfter(deadline: .now() + 1.0) {
-                self.shouldShowEndGamePopup.value = true
-            }
+            coordinator?.showEndGamePopover(withGame: game, andDelegate: self, delay: 1.0)
         }
     }
     
@@ -131,9 +120,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
         if game.isEndOfGame() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.endGame()
-            }
+            coordinator?.showEndGamePopover(withGame: game, andDelegate: self, delay: 1.0)
         }
     }
     
@@ -148,9 +135,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     
     func openingGameOverCheck() {
         if game.isEndOfGame() {
-            dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
-                self.shouldShowKeepPlayingPopup.value = true
-            }
+            coordinator?.showKeepPlayingPopover(withGame: game, andDelegate: self, delay: 0.5)
         }
     }
     
@@ -179,16 +164,15 @@ extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
 
 extension ScoreboardViewModel: EndGamePopoverDelegate {
     func goToEndGameScreen() {
-        dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
+        #warning("This is last one to refactor")
+        dispatchQueue.asyncAfterWrapper(delay: 0.5) {
             self.shouldGoToEndGameScreen.value = true
         }
     }
     
     func keepPlayingSelected() {
         guard game.isEndOfGame() else { return }
-        dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
-            self.shouldShowKeepPlayingPopup.value = true
-        }
+        coordinator?.showKeepPlayingPopover(withGame: game, andDelegate: self, delay: 0.5)
     }
 }
 
@@ -215,9 +199,7 @@ extension ScoreboardViewModel: GameHistoryViewControllerDelegate, GameSettingsDe
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
         
         if game.isEndOfGame() {
-            dispatchQueue.asyncAfter(deadline: .now() + 0.5) {
-                self.endGame()
-            }
+            coordinator?.showEndGamePopover(withGame: game, andDelegate: self, delay: 0.5)
         }
     }
 }
