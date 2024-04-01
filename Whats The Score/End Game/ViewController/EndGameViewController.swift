@@ -65,12 +65,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     // MARK: - IBActions
     
     @IBAction func newGameButtonTapped(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let gameSetupViewController = storyboard.instantiateViewController(withIdentifier: "GameSetupViewController") as? GameSetupViewController else {
-            fatalError("GameSetupViewController couldn't be found")
-        }
-        
-        navigationController?.viewControllers = [gameSetupViewController]
+        coordinator?.start()
     }
     
     @IBAction func keepPlayingGameButtonTapped(_ sender: Any) {

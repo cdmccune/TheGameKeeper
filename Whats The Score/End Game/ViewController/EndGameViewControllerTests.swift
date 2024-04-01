@@ -189,19 +189,18 @@ final class EndGameViewControllerTests: XCTestCase {
     
     // MARK: - NewGameButtonTapped
     
-    func test_EndGameViewController_WhenNewGameButtonTapped_ShouldSetGameSetupViewControllerAsRootViewController() {
+    func test_EndGameViewController_WhenNewGameButtonTapped_ShouldCallCoordinatorStart() {
         // given
         let sut = viewController!
         
-        let navigationController = NavigationControllerPushMock()
-        navigationController.viewControllers = [sut]
+        let coordinator = GameTabCoordinatorMock()
+        sut.coordinator = coordinator
         
         // when
         sut.newGameButtonTapped(0)
         
         // then
-        XCTAssertEqual(navigationController.viewControllers.count, 1)
-        XCTAssertTrue(navigationController.viewControllers.first is GameSetupViewController)
+        XCTAssertEqual(coordinator.startCalledCount, 1)
     }
     
     // MARK: - keepPlayingButtonTapped
