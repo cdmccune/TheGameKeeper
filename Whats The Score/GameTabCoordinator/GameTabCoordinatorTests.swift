@@ -79,6 +79,47 @@ final class GameTabCoordinatorTests: XCTestCase {
     }
     
     
+    // MARK: - StartQuickGame
+    
+    class GameTabCoordinatorGameSetupCompleteMock: GameTabCoordinator {
+        var gameSetupCompleteGameType: GameType?
+        var gameSetupCompletePlayers: [PlayerProtocol]?
+        var gameSetupCompleteCalledCount = 0
+        override func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerProtocol]) {
+            gameSetupCompleteGameType = gameType
+            gameSetupCompletePlayers = players
+            gameSetupCompleteCalledCount += 1
+        }
+    }
+    
+    func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallGameSetupCompleteWithBasicGameType() {
+        // given
+        let sut = GameTabCoordinatorGameSetupCompleteMock(navigationController: RootNavigationController())
+        
+        // when
+        sut.startQuickGame()
+        
+        // then
+        XCTAssertEqual(sut.gameSetupCompleteGameType, .basic)
+        XCTAssertEqual(sut.gameSetupCompleteCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallGameSetupWithTwoPlayersPlayer1And2WithCorrectPositions() {
+        // given
+        let sut = GameTabCoordinatorGameSetupCompleteMock(navigationController: RootNavigationController())
+        
+        // when
+        sut.startQuickGame()
+        
+        // then
+        XCTAssertEqual(sut.gameSetupCompletePlayers?.count, 2)
+        XCTAssertEqual(sut.gameSetupCompletePlayers?[0].position, 0)
+        XCTAssertEqual(sut.gameSetupCompletePlayers?[1].position, 1)
+        XCTAssertEqual(sut.gameSetupCompletePlayers?[0].name, "Player 1")
+        XCTAssertEqual(sut.gameSetupCompletePlayers?[1].name, "Player 2")
+    }
+    
+    
     // MARK: - GameSetupComplete
     
     func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldSetGamePropertyOfScoreboardCoordinatorWithPropertiesFromGameSetupComplete() {

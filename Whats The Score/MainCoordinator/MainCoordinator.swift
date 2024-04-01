@@ -39,4 +39,10 @@ class MainCoordinator {
     func setupNewGame() {
         tabbarController.selectedIndex = 1
     }
+    
+    func setupQuickGame() {
+        let gameTabCoordinator = childCoordinators.first { $0 is GameTabCoordinator } as? GameTabCoordinator
+        gameTabCoordinator?.startQuickGame()
+        tabbarController.selectedIndex = 1
+    }
 }

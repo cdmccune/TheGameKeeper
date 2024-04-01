@@ -28,4 +28,8 @@ class HomeTabCoordinator: Coordinator {
     func setupNewGame() {
         coordinator?.setupNewGame()
     }
+    
+    func setupQuickGame() {
+        coordinator?.setupQuickGame()
+    }
 }

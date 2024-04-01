@@ -24,6 +24,15 @@ class GameTabCoordinator: Coordinator {
         childCoordinators.first { $0 is GameSetupCoordinator }?.start()
     }
     
+    func startQuickGame() {
+        let player1 = Player(name: "Player 1", position: 0)
+        let player2 = Player(name: "Player 2", position: 0)
+        var players: [PlayerProtocol] = [player1, player2]
+        players.setPositions()
+        
+        gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, andPlayers: players)
+    }
+    
     func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerProtocol]) {
         
         let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator

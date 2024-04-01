@@ -50,6 +50,19 @@ final class HomeTabCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(coordinator.setupNewGameCalledCount, 1)
     }
+    
+    func test_HomeTabCoordinator_WhenSetupQuickGameCalled_ShouldCallCoordinatorsSetupQuickGame() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        // when
+        sut.setupQuickGame()
+        
+        // then
+        XCTAssertEqual(coordinator.setupQuickGameCalledCount, 1)
+    }
 
 }
 
@@ -57,5 +70,10 @@ class HomeTabCoordinatorMock: HomeTabCoordinator {
     var setupNewGameCalledCount = 0
     override func setupNewGame() {
         setupNewGameCalledCount += 1
+    }
+    
+    var setupQuickGameCalledCount = 0
+    override func setupQuickGame() {
+        setupQuickGameCalledCount += 1
     }
 }

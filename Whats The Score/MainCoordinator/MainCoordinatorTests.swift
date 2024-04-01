@@ -149,4 +149,33 @@ final class MainCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(sut.tabbarController.selectedIndex, 1)
     }
+    
+    // MARK: - SetupQuickGame
+    
+    func test_MainCoordinator_WhenSetupQuickGameCalled_ShouldCallStartQuickGameOnGameTabCoordinator() {
+        // given
+        let sut = MainCoordinator()
+        sut.gameTabbarCoordinatorType = GameTabCoordinatorMock.self
+        sut.start()
+        
+        // when
+        sut.setupQuickGame()
+        
+        // then
+        let gameTabCoordinator = sut.childCoordinators.first { $0 is GameTabCoordinatorMock } as? GameTabCoordinatorMock
+        XCTAssertEqual(gameTabCoordinator?.startQuickGameCalledCount, 1)
+    }
+    
+    func test_MainCoordinator_WhenSetupQuickGameCalled_ShouldSelectGameTab() {
+        // given
+        let sut = MainCoordinator()
+        sut.start()
+        sut.setupQuickGame()
+        
+        // when
+        sut.setupNewGame()
+        
+        // then
+        XCTAssertEqual(sut.tabbarController.selectedIndex, 1)
+    }
 }

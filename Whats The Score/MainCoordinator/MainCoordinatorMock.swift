@@ -14,4 +14,9 @@ class MainCoordinatorMock: MainCoordinator {
     override func setupNewGame() {
         setupNewGameCalledCount += 1
     }
+    
+    var setupQuickGameCalledCount = 0
+    override func setupQuickGame() {
+        setupQuickGameCalledCount += 1
+    }
 }

@@ -23,6 +23,11 @@ class GameTabCoordinatorMock: GameTabCoordinator {
         startCalledCount += 1
     }
     
+    var startQuickGameCalledCount = 0
+    override func startQuickGame() {
+        startQuickGameCalledCount += 1
+    }
+    
     var gameSetupCompleteGameType: GameType?
     var gameSetupCompleteGameEndType: GameEndType?
     var gameSetupCompleteGameEndQuantity: Int?
