@@ -200,7 +200,7 @@ final class PlayerSetupViewModelTests: XCTestCase {
 class PlayerSetupViewModelMock: PlayerSetupViewModelProtocol {
     var players: [PlayerProtocol] = []
     var delegate: PlayerSetupViewModelViewProtocol?
-    weak var coordinator: GameSetupCoordinator? = nil
+    weak var coordinator: GameSetupCoordinator?
     
     var randomizePlayersCalledCount = 0
     func randomizePlayers() {

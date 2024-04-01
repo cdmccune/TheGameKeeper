@@ -26,4 +26,22 @@ class GameSetupCoordinatorMock: GameSetupCoordinator {
         playersSetupCalledCount += 1
         playersSetupPlayers = players
     }
+    
+    var gameTypeSelectedCalledCount = 0
+    override func gameTypeSelected(_ gameType: GameType) {
+        self.gameType = gameType
+        gameTypeSelectedCalledCount += 1
+    }
+    
+    var gameEndTypeSelectedCalledCount = 0
+    override func gameEndTypeSelected(_ gameEndType: GameEndType) {
+        self.gameEndType = gameEndType
+        gameEndTypeSelectedCalledCount += 1
+    }
+    
+    var gameEndQuantityCalledCount = 0
+    override func gameEndQuantitySelected(_ gameEndQuantity: Int) {
+        gameEndQuantityCalledCount += 1
+        self.gameEndQuantity = gameEndQuantity
+    }
 }

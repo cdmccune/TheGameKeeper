@@ -13,13 +13,6 @@ class GameEndTypeSelectionViewController: UIViewController, Storyboarded {
     
     weak var coordinator: GameSetupCoordinator?
     
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-    
     
     // MARK: - IBActions
     
