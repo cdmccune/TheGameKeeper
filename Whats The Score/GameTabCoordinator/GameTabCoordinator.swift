@@ -43,7 +43,18 @@ class GameTabCoordinator: Coordinator {
     
     func showEndGameScreen(forGame game: GameProtocol) {
         let endGameVC = EndGameViewController.instantiate()
+        
         endGameVC.viewModel = EndGameViewModel(game: game)
+        endGameVC.coordinator = self
+        
         navigationController.viewControllers = [endGameVC]
     }
+    
+    func goToScoreboard(forGame game: GameProtocol) {
+        let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
+        
+        scoreboardCoordinator?.game = game
+        scoreboardCoordinator?.start()
+    }
+    
 }

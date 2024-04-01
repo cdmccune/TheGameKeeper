@@ -22,6 +22,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     private lazy var collectionViewDelegate = EndGamePlayerCollectionViewDelegate(viewModel: viewModel)
     lazy var screenWidth: CGFloat = view.frame.width
     var viewModel: EndGameViewModelProtocol!
+    var coordinator: GameTabCoordinator?
     
     
     // MARK: - Lifecycle
@@ -73,14 +74,6 @@ class EndGameViewController: UIViewController, Storyboarded {
     }
     
     @IBAction func keepPlayingGameButtonTapped(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let scoreboardViewController = storyboard.instantiateViewController(withIdentifier: "ScoreboardViewController") as? ScoreboardViewController else {
-            fatalError("ScoreboardViewController couldn't be found")
-        }
-        
-        let viewModel = ScoreboardViewModel(game: viewModel.game)
-        scoreboardViewController.viewModel = viewModel
-        
-        navigationController?.viewControllers = [scoreboardViewController]
+        coordinator?.goToScoreboard(forGame: viewModel.game)
     }
 }

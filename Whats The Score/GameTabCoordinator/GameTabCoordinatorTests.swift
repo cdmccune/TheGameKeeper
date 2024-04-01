@@ -182,5 +182,52 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertNotNil(endGameVC?.viewModel)
         XCTAssertTrue(endGameVC?.viewModel.game.isEqualTo(game: game) ?? false)
     }
+    
+    func test_GameTabCoordinator_WhenShowGameEndScreenCalled_ShouldSetEndGameViewControllerCoordinatorAsSelf() {
+        // given
+        let navigationController = RootNavigationController()
+        let sut = GameTabCoordinator(navigationController: navigationController)
+        
+        let game = GameMock()
+        
+        // when
+        sut.showEndGameScreen(forGame: game)
+        
+        // then
+        let endGameVC = navigationController.viewControllers.first as? EndGameViewController
+        XCTAssertTrue(endGameVC?.coordinator === sut)
+    }
+    
+    
+    // MARK: - GoToScoreboard
+    
+    func test_GameTabCoordinator_WhenGoToScoreboardCalled_ShouldSetScoreboardCoordinatorGameToGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let game = GameMock()
+        
+        // when
+        sut.goToScoreboard(forGame: game)
+        
+        // then
+        let scoreboardCoordinator = sut.childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
+        
+        XCTAssertTrue(scoreboardCoordinator?.game?.isEqualTo(game: game) ?? false)
+    }
+    
+    func test_GameTabCoordinator_WhenGoToScoreboardCalled_ShouldCallScoreboardCoordinatorStart() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        
+        let scoreboardCoordinatorMock = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.childCoordinators = [scoreboardCoordinatorMock]
+        
+        // when
+        sut.goToScoreboard(forGame: GameMock())
+        
+        // then
+        let scoreboardCoordinator = sut.childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinatorMock
+        XCTAssertEqual(scoreboardCoordinator?.startCalledCount, 1)
+    }
 
 }
