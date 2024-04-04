@@ -15,8 +15,8 @@ extension Array where Element == PlayerProtocol {
     }
 }
 
-extension Array where Element == GameHistorySegment {
-    func getIndexOfElement(withID id: UUID) -> Index? {
-        return self.firstIndex(where: { $0.id == id })
-    }
-}
+//extension Array where Element == GameHistorySegment {
+//    func getIndexOfElement(withID id: UUID) -> Index? {
+//        return self.firstIndex(where: { $0.id == id })
+//    }
+//}

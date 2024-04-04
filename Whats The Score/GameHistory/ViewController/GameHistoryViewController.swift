@@ -71,20 +71,20 @@ class GameHistoryViewController: UIViewController, Storyboarded {
     }
     
     private func presentEndRoundPopoverWith(_ endRound: EndRound) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
-        
-        #warning("Write a test for these being set before the default popover presenter")
-        
-        endRoundPopoverVC.endRound = endRound
-        endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
-        endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
-        endRoundPopoverVC.delegate = viewModel
-        
-        let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: endRound.scoreChangeArray.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
-        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height, tapToExit: true)
-        
-        self.present(endRoundPopoverVC, animated: true)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
+//        
+//        #warning("Write a test for these being set before the default popover presenter")
+//        
+//        endRoundPopoverVC.endRound = endRound
+//        endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
+//        endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
+//        endRoundPopoverVC.delegate = viewModel
+//        
+//        let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: endRound.scoreChangeArray.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
+//        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height, tapToExit: true)
+//        
+//        self.present(endRoundPopoverVC, animated: true)
     }
     
     private func presentDeleteAlertController(index: Int) {

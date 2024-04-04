@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G436" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="EndRound" representedClassName="EndRound" syncable="YES">
+        <attribute name="currentRounds_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="endingScore_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="numberOfRounds_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="game" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="endRounds" inverseEntity="Game"/>
+        <relationship name="scoreChanges" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ScoreChange" inverseName="endRound" inverseEntity="ScoreChange"/>
+    </entity>
+    <entity name="Game" representedClassName="Game" syncable="YES">
+        <relationship name="endRounds" toMany="YES" deletionRule="Cascade" destinationEntity="EndRound" inverseName="game" inverseEntity="EndRound"/>
+        <relationship name="players" toMany="YES" deletionRule="Cascade" destinationEntity="Player" inverseName="game" inverseEntity="Player"/>
+        <relationship name="scoreChanges" toMany="YES" deletionRule="Cascade" destinationEntity="ScoreChange" inverseName="game" inverseEntity="ScoreChange"/>
+    </entity>
+    <entity name="Player" representedClassName="Player" syncable="YES">
+        <relationship name="game" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="players" inverseEntity="Game"/>
+        <relationship name="scoreChanges" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ScoreChange" inverseName="player" inverseEntity="ScoreChange"/>
+    </entity>
+    <entity name="ScoreChange" representedClassName="ScoreChange" syncable="YES">
+        <relationship name="endRound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EndRound" inverseName="scoreChanges" inverseEntity="EndRound"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="scoreChanges" inverseEntity="Game"/>
+        <relationship name="player" maxCount="1" deletionRule="Nullify" destinationEntity="Player" inverseName="scoreChanges" inverseEntity="Player"/>
+    </entity>
+</model>

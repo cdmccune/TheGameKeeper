@@ -37,7 +37,7 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     }
     
     func addPlayer() {
-        players.append(Player(name: "", position: 0))
+//        players.append(Player(name: "", position: 0))
         delegate?.bindViewToViewModel()
     }
     

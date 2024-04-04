@@ -21,7 +21,7 @@ class EndGamePopoverViewController: UIViewController, Storyboarded {
     // MARK: - Properties
     
     var delegate: EndGamePopoverDelegate?
-    var game: GameProtocol?
+    var game: Game?
     
     
     // MARK: - Lifecycle

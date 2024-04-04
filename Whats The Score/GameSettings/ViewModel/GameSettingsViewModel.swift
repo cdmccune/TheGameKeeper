@@ -11,7 +11,7 @@ protocol GameSettingsViewModelProtocol {
     var gameEndType: Observable<GameEndType> { get }
     var numberOfRounds: Int { get set }
     var endingScore: Int { get set }
-    var game: GameProtocol { get set }
+    var game: Game { get set }
     var delegate: GameSettingsDelegate? { get }
 
     func setInitialValues()
@@ -20,7 +20,7 @@ protocol GameSettingsViewModelProtocol {
 
 class GameSettingsViewModel: GameSettingsViewModelProtocol {
     
-    init(game: GameProtocol, delegate: GameSettingsDelegate? = nil) {
+    init(game: Game, delegate: GameSettingsDelegate? = nil) {
         self.numberOfRounds = game.numberOfRounds
         self.endingScore = game.endingScore
         self.game = game
@@ -29,7 +29,7 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
 
     var numberOfRounds: Int
     var endingScore: Int
-    var game: GameProtocol
+    var game: Game
     var delegate: GameSettingsDelegate?
     
     var gameEndType: Observable<GameEndType> = Observable(nil)

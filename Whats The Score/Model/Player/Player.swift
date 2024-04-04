@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 protocol PlayerProtocol {
     var name: String { get set }
@@ -17,27 +18,29 @@ protocol PlayerProtocol {
     func getScoreThrough(_ scoreChange: ScoreChange) -> Int
 }
 
-class Player: PlayerProtocol, Hashable {
+class Player: NSManagedObject, PlayerProtocol {
     
-    static func getBasicPlayer() -> Player {
-        return Player(name: "", position: 0)
-    }
+//    static func getBasicPlayer() -> Player {
+//        return Player(name: "", position: 0)
+//    }
     
-    init(name: String, position: Int, id: UUID = UUID()) {
-        self._name = name
-        self.position = position
-        self.id = id
-        
-    }
+//    init(name: String, position: Int, id: UUID = UUID()) {
+//        self._name = name
+//        self.position = position
+//        self.id = id
+//    }
+    
+    @NSManaged public var game: Game?
+    @NSManaged public var player: Player?
     
     private var _name: String = ""
-    var position: Int
+    var position: Int = 0
     var score: Int {
                 scoreChanges.reduce(0) { partialResult, scoreChange in
                     partialResult + scoreChange.scoreChange
                 }
             }
-    var id: UUID
+    var id: UUID = UUID()
     var scoreChanges = [ScoreChange]()
     
     var name: String {
@@ -54,9 +57,6 @@ class Player: PlayerProtocol, Hashable {
             _name.isEmpty
     }
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
     
     func getScoreThrough(_ scoreChange: ScoreChange) -> Int {
         if let index = scoreChanges.firstIndex(of: scoreChange) {
@@ -70,7 +70,7 @@ class Player: PlayerProtocol, Hashable {
     }
 }
 
-extension Player: Equatable {}
-func == (rhs: Player, lhs: Player) -> Bool {
-    return rhs.id == lhs.id
-}
+//extension Player: Equatable {}
+//func == (rhs: Player, lhs: Player) -> Bool {
+//    return rhs.id == lhs.id
+//}

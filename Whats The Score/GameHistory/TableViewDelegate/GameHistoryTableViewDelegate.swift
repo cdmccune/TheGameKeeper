@@ -25,36 +25,38 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
     // MARK: - NumberOfRowsInSection
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.game.historySegments.count
+//        return viewModel.game.historySegments.count
+        return 0
     }
     
     
     // MARK: - CellForRowAt
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard viewModel.game.historySegments.indices.contains(indexPath.row) else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryErrorTableViewCell") ?? UITableViewCell()
-            return cell
-        }
-        
-        switch viewModel.game.historySegments[indexPath.row] {
-        case .scoreChange(let scoreChange, let player):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryScoreChangeTableViewCell") as? GameHistoryScoreChangeTableViewCell else {
-                fatalError("GameHistoryScoreChangeTableViewCell not registered")
-            }
-            
-            cell.setupViewProperties(for: scoreChange, andPlayer: player)
-            
-            return cell
-        case .endRound(let endRound, let players):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryEndRoundTableViewCell") as? GameHistoryEndRoundTableViewCell else {
-                fatalError("GameHistoryEndRoundTableViewCell not registered")
-            }
-            
-            cell.setupCellFor(round: endRound.roundNumber, and: endRound.scoreChangeArray, andPlayers: players)
-            
-            return cell
-        }
+//        guard viewModel.game.historySegments.indices.contains(indexPath.row) else {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryErrorTableViewCell") ?? UITableViewCell()
+//            return cell
+//        }
+//        
+//        switch viewModel.game.historySegments[indexPath.row] {
+//        case .scoreChange(let scoreChange, let player):
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryScoreChangeTableViewCell") as? GameHistoryScoreChangeTableViewCell else {
+//                fatalError("GameHistoryScoreChangeTableViewCell not registered")
+//            }
+//            
+//            cell.setupViewProperties(for: scoreChange, andPlayer: player)
+//            
+//            return cell
+//        case .endRound(let endRound, let players):
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryEndRoundTableViewCell") as? GameHistoryEndRoundTableViewCell else {
+//                fatalError("GameHistoryEndRoundTableViewCell not registered")
+//            }
+//            
+//            cell.setupCellFor(round: endRound.roundNumber, and: endRound.scoreChangeArray, andPlayers: players)
+//            
+//            return cell
+//        }
+        return UITableViewCell()
     }
     
     
@@ -63,17 +65,19 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let scoreChangeCellHeight: CGFloat = 44
         
-        guard viewModel.game.historySegments.indices.contains(indexPath.row) else {
-            return scoreChangeCellHeight
-        }
+        return scoreChangeCellHeight
         
-        switch viewModel.game.historySegments[indexPath.row] {
-            
-        case .scoreChange(_, _):
-            return scoreChangeCellHeight
-        case .endRound(let endRound, _):
-            return CGFloat((44*endRound.scoreChangeArray.count) - (endRound.scoreChangeArray.isEmpty ? 0 : 1))
-        }
+//        guard viewModel.game.historySegments.indices.contains(indexPath.row) else {
+//            return scoreChangeCellHeight
+//        }
+//        
+//        switch viewModel.game.historySegments[indexPath.row] {
+//            
+//        case .scoreChange(_, _):
+//            return scoreChangeCellHeight
+//        case .endRound(let endRound, _):
+//            return CGFloat((44*endRound.scoreChangeArray.count) - (endRound.scoreChangeArray.isEmpty ? 0 : 1))
+//        }
     }
     
     

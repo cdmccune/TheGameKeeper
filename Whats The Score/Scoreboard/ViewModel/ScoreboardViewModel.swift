@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate, KeepPlayingPopoverDelegate, GameHistoryViewControllerDelegate, GameSettingsDelegate {
-    var game: GameProtocol { get set }
+    var game: Game { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var coordinator: ScoreboardCoordinator? { get set }
     var playerToDelete: Observable<PlayerProtocol> { get set }
@@ -33,14 +33,14 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     
     // MARK: - Init
     
-    init(game: GameProtocol) {
+    init(game: Game) {
         self.game = game
     }
     
     
     // MARK: - Properties
     
-    var game: GameProtocol
+    var game: Game
     weak var coordinator: ScoreboardCoordinator?
     weak var delegate: ScoreboardViewModelViewProtocol? {
         didSet {
@@ -75,7 +75,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         guard sortedPlayers.indices.contains(index) else { return }
         
         let player = sortedPlayers[index]
-        coordinator?.showEditPlayerScorePopover(withScoreChange: ScoreChange(player: player, scoreChange: 0), andDelegate: self)
+//        coordinator?.showEditPlayerScorePopover(withScoreChange: ScoreChange(player: player, scoreChange: 0), andDelegate: self)
     }
     
     func startEditingPlayerAt(_ index: Int) {
@@ -88,7 +88,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     func editScore(_ scoreChange: ScoreChange) {
         guard game.players.contains(where: { $0.id == scoreChange.playerID }) else { return }
         
-        game.editScore(scoreChange: scoreChange)
+//        game.editScore(scoreChange: scoreChange)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
@@ -105,17 +105,17 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func deletePlayer(_ player: PlayerProtocol) {
-        game.deletePlayerAt(player.position)
+//        game.deletePlayerAt(player.position)
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 
     func addPlayer() {
-        game.addPlayer()
+//        game.addPlayer()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
     func endRound(_ endRound: EndRound) {
-        game.endRound(endRound)
+//        game.endRound(endRound)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
@@ -129,7 +129,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func resetGame() {
-        game.resetGame()
+//        game.resetGame()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
@@ -156,7 +156,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
     func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {
         guard let index = game.players.firstIndex(where: { $0.id == player.id }) else { return }
-        game.playerNameChanged(withIndex: index, toName: name)
+//        game.playerNameChanged(withIndex: index, toName: name)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
@@ -191,7 +191,7 @@ extension ScoreboardViewModel: KeepPlayingPopoverDelegate {
 }
 
 extension ScoreboardViewModel: GameHistoryViewControllerDelegate, GameSettingsDelegate {
-    func update(_ game: GameProtocol) {
+    func update(_ game: Game) {
         self.game = game
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
         

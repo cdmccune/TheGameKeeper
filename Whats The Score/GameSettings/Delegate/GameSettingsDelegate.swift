@@ -8,5 +8,5 @@
 import Foundation
 
 protocol GameSettingsDelegate {
-    func update(_ game: GameProtocol)
+    func update(_ game: Game)
 }
