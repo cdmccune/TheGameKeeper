@@ -124,6 +124,9 @@
 		24CD52732B616AA000C481A8 /* Notable-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 246600532B5E13C6004F8512 /* Notable-Regular.ttf */; };
 		24CF37432BBF150600CE08FB /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24CF37412BBF150600CE08FB /* CoreDataModel.xcdatamodeld */; };
 		24CF37472BBF1C7D00CE08FB /* EndRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CF37462BBF1C7D00CE08FB /* EndRound.swift */; };
+		24CF374B2BBF617900CE08FB /* ScoreChangeMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CF374A2BBF617900CE08FB /* ScoreChangeMock.swift */; };
+		24CF374D2BBF62BE00CE08FB /* EndRoundMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CF374C2BBF62BE00CE08FB /* EndRoundMock.swift */; };
+		24CF37502BBF63CF00CE08FB /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CF374F2BBF63CF00CE08FB /* CoreDataStore.swift */; };
 		24CFA0BB2BA8AB2800007F9C /* GameHistoryTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CFA0BA2BA8AB2800007F9C /* GameHistoryTableViewHeaderView.swift */; };
 		24CFA0BD2BA8AB4400007F9C /* GameHistoryTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24CFA0BC2BA8AB4400007F9C /* GameHistoryTableViewHeaderView.xib */; };
 		24CFA0BF2BA8AD8F00007F9C /* GameHistoryTableViewHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CFA0BE2BA8AD8F00007F9C /* GameHistoryTableViewHeaderViewTests.swift */; };
@@ -290,6 +293,9 @@
 		24CD52712B6167B400C481A8 /* ScoreboardTableViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardTableViewCellTests.swift; sourceTree = "<group>"; };
 		24CF37422BBF150600CE08FB /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		24CF37462BBF1C7D00CE08FB /* EndRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRound.swift; sourceTree = "<group>"; };
+		24CF374A2BBF617900CE08FB /* ScoreChangeMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreChangeMock.swift; sourceTree = "<group>"; };
+		24CF374C2BBF62BE00CE08FB /* EndRoundMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndRoundMock.swift; sourceTree = "<group>"; };
+		24CF374F2BBF63CF00CE08FB /* CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
 		24CFA0BA2BA8AB2800007F9C /* GameHistoryTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryTableViewHeaderView.swift; sourceTree = "<group>"; };
 		24CFA0BC2BA8AB4400007F9C /* GameHistoryTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHistoryTableViewHeaderView.xib; sourceTree = "<group>"; };
 		24CFA0BE2BA8AD8F00007F9C /* GameHistoryTableViewHeaderViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryTableViewHeaderViewTests.swift; sourceTree = "<group>"; };
@@ -556,6 +562,7 @@
 		2437F6E12B40AAE000BB75A1 /* Whats The Score */ = {
 			isa = PBXGroup;
 			children = (
+				24CF374E2BBF63BC00CE08FB /* CoreDataStore */,
 				2437F6E22B40AAE000BB75A1 /* AppDelegate.swift */,
 				2437F6E42B40AAE000BB75A1 /* SceneDelegate.swift */,
 				2410F71B2B5596F000860BA4 /* RootNavigationController */,
@@ -957,6 +964,7 @@
 			isa = PBXGroup;
 			children = (
 				24495CDE2B9FB00400E0AB61 /* ScoreChange.swift */,
+				24CF374A2BBF617900CE08FB /* ScoreChangeMock.swift */,
 			);
 			path = ScoreChange;
 			sourceTree = "<group>";
@@ -965,8 +973,17 @@
 			isa = PBXGroup;
 			children = (
 				24CF37462BBF1C7D00CE08FB /* EndRound.swift */,
+				24CF374C2BBF62BE00CE08FB /* EndRoundMock.swift */,
 			);
 			path = EndRound;
+			sourceTree = "<group>";
+		};
+		24CF374E2BBF63BC00CE08FB /* CoreDataStore */ = {
+			isa = PBXGroup;
+			children = (
+				24CF374F2BBF63CF00CE08FB /* CoreDataStore.swift */,
+			);
+			path = CoreDataStore;
 			sourceTree = "<group>";
 		};
 		24CFA0B92BA8AAEE00007F9C /* TableViewHeader */ = {
@@ -1393,6 +1410,7 @@
 				2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */,
 				24E36C4C2BAB846800334CD1 /* GameTabCoordinator.swift in Sources */,
 				24D71FE32B9292E90043CC62 /* KeepPlayingPopoverViewController.swift in Sources */,
+				24CF37502BBF63CF00CE08FB /* CoreDataStore.swift in Sources */,
 				244A46392B5AD9C60033199F /* ScoreboardViewModel.swift in Sources */,
 				24E36C412BAB4CB800334CD1 /* MainCoordinator.swift in Sources */,
 				24E1BE3C2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.swift in Sources */,
@@ -1461,9 +1479,11 @@
 				243228D42B4DBCD700C42C62 /* PlayerTests.swift in Sources */,
 				241DAE422BAA03B500D236E7 /* GameSettingsViewModelTests.swift in Sources */,
 				24ADCAC02BADE1FC007A9FA7 /* GameHistoryViewControllerDelegateMock.swift in Sources */,
+				24CF374B2BBF617900CE08FB /* ScoreChangeMock.swift in Sources */,
 				2423E3012B62BB5300253356 /* ObservableTests.swift in Sources */,
 				244A463E2B5AF7920033199F /* GameTests.swift in Sources */,
 				24495CDC2B9FA09D00E0AB61 /* EndRoundPopoverTextFieldTests.swift in Sources */,
+				24CF374D2BBF62BE00CE08FB /* EndRoundMock.swift in Sources */,
 				24495CF32B9FBB2200E0AB61 /* GameHistoryScoreChangeTableViewCellTests.swift in Sources */,
 				24D71FE52B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift in Sources */,
 				24495CF92B9FBB6D00E0AB61 /* GameHistoryEndRoundTableViewCellTests.swift in Sources */,

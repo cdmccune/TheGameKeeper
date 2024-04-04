@@ -33,6 +33,7 @@ import CoreData
     mutating func editScoreChange(_ newScoreChange: ScoreChange)
     mutating func editEndRound(_ newEndRound: EndRound)
     mutating func deleteHistorySegmentAt(index: Int)
+     func isEqualTo(game: GameProtocol) -> Bool
     
     func isEndOfGame() -> Bool
  }
@@ -40,6 +41,14 @@ import CoreData
 class Game: NSManagedObject, GameProtocol {
     
     // MARK: - Initialization
+    
+    convenience init(basicGameWithContext context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.id = UUID()
+        self.endRounds = []
+        self.players = []
+        self.scoreChanges = []
+    }
     
     convenience init(gameType: GameType,
                      gameEndType: GameEndType,
@@ -354,6 +363,10 @@ class Game: NSManagedObject, GameProtocol {
     }
     
     // MARK: - Non-Mutating Functions
+    
+    func isEqualTo(game: GameProtocol) -> Bool {
+        return self.id == game.id
+    }
     
     func isEndOfGame() -> Bool {
         switch gameEndType {

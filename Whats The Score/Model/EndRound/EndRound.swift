@@ -8,7 +8,13 @@
 import Foundation
 import CoreData
 
-class EndRound: NSManagedObject {
+protocol EndRoundProtocol {
+    var id: UUID { get set }
+    var roundNumber: Int { get set }
+    var scoreChanges: Set<ScoreChange> { get set }
+}
+
+class EndRound: NSManagedObject, EndRoundProtocol {
     
     convenience init(roundNumber: Int, scoreChanges: [ScoreChange], context: NSManagedObjectContext) {
         self.init(context: context)

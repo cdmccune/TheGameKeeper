@@ -47,8 +47,8 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         // given
         let sut = viewController!
         let playerName = UUID().uuidString
-//        let player = Player(name: playerName, position: 0)
-//        sut.player = player
+        let player = PlayerMock(name: playerName)
+        sut.player = player
         
         // when
         sut.loadView()
@@ -76,8 +76,8 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldCallDelegateFinishedEditingWithNewPlayerAndTextAsName() {
         // given
         let sut = viewController!
-//        let player = Player(name: UUID().uuidString, position: 0)
-//        sut.player = player
+        let player = PlayerMock(name: UUID().uuidString, position: 0)
+        sut.player = player
         
         let delegateMock = EditPlayerPopoverDelegateMock()
         sut.delegate = delegateMock
@@ -92,7 +92,7 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(delegateMock.finishedEditingCalledCount, 1)
-//        XCTAssertEqual(delegateMock.finishedEditingPlayer?.id, player.id)
+        XCTAssertEqual(delegateMock.finishedEditingPlayer?.id, player.id)
         XCTAssertEqual(delegateMock.finishedEditingName, name)
     }
     
@@ -107,7 +107,7 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         
         // given
         let sut = EditPlayerPopoverViewControllerDismissMock()
-//        sut.player = Player(name: "", position: 0)
+        sut.player = PlayerMock()
         let textField = UITextField()
         sut.playerNameTextField = textField
         

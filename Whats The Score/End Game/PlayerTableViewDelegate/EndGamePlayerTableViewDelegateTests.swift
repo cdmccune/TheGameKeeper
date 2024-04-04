@@ -25,9 +25,9 @@ final class EndGamePlayerTableViewDelegateTests: XCTestCase {
     
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (EndGamePlayerTableViewDelegate, UITableView) {
         
-        var players = [Player]()
+        var players = [PlayerProtocol]()
         for _ in 0..<playerCount {
-//            players.append(Player(name: "", position: 0))
+            players.append(PlayerMock())
         }
         
         let viewModelMock = EndGameViewModelMock()
@@ -104,18 +104,18 @@ final class EndGamePlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual(cell?.setupErrorCellCalledCount, 1)
     }
     
-//    func test_EndGamePlayerTableViewDelegate_WhenCellForRowAtCalledInRange_ShouldCallCellsSetupViewFor() {
-//        // given
-//        let (sut, tableView) = getSutAndTableView(withPlayerCount: 2)
-//        let playerIndex = 1
-//        
-//        // when
-//        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: playerIndex, section: 0)) as? EndGamePlayerTableViewCellMock
-//        
-//        // then
-//        XCTAssertEqual(cell?.setupViewForCalledCount, 1)
-//        XCTAssertEqual(cell?.setupViewForPlayer?.id, sut.viewModel.losingPlayers[playerIndex].id)
-//    }
+    func test_EndGamePlayerTableViewDelegate_WhenCellForRowAtCalledInRange_ShouldCallCellsSetupViewFor() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 2)
+        let playerIndex = 1
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: playerIndex, section: 0)) as? EndGamePlayerTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupViewForCalledCount, 1)
+        XCTAssertEqual(cell?.setupViewForPlayer?.id, sut.viewModel.losingPlayers[playerIndex].id)
+    }
 
 }
 

@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import Whats_The_Score
 
 final class EndGamePlayerCollectionViewDelegateTests: XCTestCase {
@@ -13,22 +14,26 @@ final class EndGamePlayerCollectionViewDelegateTests: XCTestCase {
     // MARK: - Setup Functions
 
     var collectionViewMock: UICollectionView?
+    var context: NSManagedObjectContext!
     
     override func setUp() {
         let collectionViewLayout = UICollectionViewLayout()
         collectionViewMock = UICollectionView(frame: CGRectZero, collectionViewLayout: collectionViewLayout)
         collectionViewMock?.register(EndGamePlayerCollectionViewCellMock.self, forCellWithReuseIdentifier: "EndGamePlayerCollectionViewCell")
+        context = CoreDataStore(.inMemory).persistentContainer.viewContext
     }
     
     override func tearDown() {
         collectionViewMock = nil
+        context = nil
     }
     
     func getSutAndCollectionView(withPlayerCount playerCount: Int) -> (EndGamePlayerCollectionViewDelegate, UICollectionView) {
         
         var players = [Player]()
         for _ in 0..<playerCount {
-//            players.append(Player(name: "", position: 0))
+            let game = Game(context: context)
+            players.append(Player(game: game, name: "", position: 0, context: context))
         }
         
         let viewModelMock = EndGameViewModelMock()
@@ -95,19 +100,19 @@ final class EndGamePlayerCollectionViewDelegateTests: XCTestCase {
         XCTAssertEqual(cell?.setupErrorCellCalledCount, 1)
     }
     
-//    func test_EndGamePlayerCollectionViewDelegate_WhenCellForItemAtInRangeCalled_ShouldCallSetupViewForWithPlayer() {
-//        // given
-//        let (sut, collectionView) = getSutAndCollectionView(withPlayerCount: 2)
-//        let playerIndex = 1
-//        let player = sut.viewModel.game.winningPlayers[playerIndex]
-//        
-//        // when
-//        let cell = sut.collectionView(collectionView, cellForItemAt: IndexPath(item: playerIndex, section: 0)) as? EndGamePlayerCollectionViewCellMock
-//        
-//        // then
-//        XCTAssertEqual(cell?.setupViewForPlayer?.id, player.id)
-//        XCTAssertEqual(cell?.setupViewForCalledCount, 1)
-//    }
+    func test_EndGamePlayerCollectionViewDelegate_WhenCellForItemAtInRangeCalled_ShouldCallSetupViewForWithPlayer() {
+        // given
+        let (sut, collectionView) = getSutAndCollectionView(withPlayerCount: 2)
+        let playerIndex = 1
+        let player = sut.viewModel.game.winningPlayers[playerIndex]
+        
+        // when
+        let cell = sut.collectionView(collectionView, cellForItemAt: IndexPath(item: playerIndex, section: 0)) as? EndGamePlayerCollectionViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupViewForPlayer?.id, player.id)
+        XCTAssertEqual(cell?.setupViewForCalledCount, 1)
+    }
 
 }
 
