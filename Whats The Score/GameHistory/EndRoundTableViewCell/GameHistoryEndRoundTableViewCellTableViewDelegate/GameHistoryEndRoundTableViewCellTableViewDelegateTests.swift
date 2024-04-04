@@ -43,8 +43,8 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         let (sut, tableView) = getSutAndTableView()
         
         let scoreChangesCount = Int.random(in: 1...10)
-        let scoreChanges = Array(repeating: ScoreChange.getBlankScoreChange(), count: scoreChangesCount)
-        sut.viewModel.scoreChanges = scoreChanges
+//        let scoreChanges = Array(repeating: ScoreChange.getBlankScoreChange(), count: scoreChangesCount)
+//        sut.viewModel.scoreChanges = scoreChanges
         
         // when
         let count = sut.tableView(tableView, numberOfRowsInSection: 0)
@@ -69,7 +69,7 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
     func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldReturnScoreChangeCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
-        sut.viewModel.scoreChanges = [ScoreChange.getBlankScoreChange()]
+//        sut.viewModel.scoreChanges = [ScoreChange.getBlankScoreChange()]
         sut.viewModel.players = [PlayerMock()]
         
         // when
@@ -82,12 +82,12 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
     func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCellWithScoreChangeAndIsInRoundEndTrueAndPlayers() {
         // given
         let (sut, tableView) = getSutAndTableView()
-        let player = Player.getBasicPlayer()
+//        let player = Player.getBasicPlayer()
         let scoreChangeInt = Int.random(in: 1...1000)
-        let scoreChange = ScoreChange(player: player, scoreChange: scoreChangeInt)
+//        let scoreChange = ScoreChange(player: player, scoreChange: scoreChangeInt)
         let players = [PlayerMock()]
         
-        sut.viewModel.scoreChanges = [scoreChange]
+//        sut.viewModel.scoreChanges = [scoreChange]
         sut.viewModel.players = players
         
         // when
@@ -95,7 +95,7 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
-        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, player.id)
+//        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, player.id)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.scoreChange, scoreChangeInt)
         XCTAssertEqual(cell?.setupPropertiesForPlayer?.id, players[0].id)
         

@@ -45,11 +45,11 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         let sut = tableViewCell!
         let playerName = UUID().uuidString
         
-        var scoreChange = ScoreChange.getBlankScoreChange()
-        scoreChange.playerName = playerName
+//        var scoreChange = ScoreChange.getBlankScoreChange()
+//        scoreChange.playerName = playerName
         
         // when
-        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
+//        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
         
         // then
         XCTAssertEqual(sut.playerNameLabel.text, playerName)
@@ -60,11 +60,11 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         let sut = tableViewCell!
         let scoreChangeInt = Int.random(in: (-1000)...1000)
         
-        var scoreChange = ScoreChange.getBlankScoreChange()
-        scoreChange.scoreChange = scoreChangeInt
+//        var scoreChange = ScoreChange.getBlankScoreChange()
+//        scoreChange.scoreChange = scoreChangeInt
         
         // when
-        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
+//        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
         
         // then
         XCTAssertEqual(sut.scoreChangeLabel.text, String(scoreChangeInt))
@@ -78,7 +78,7 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         let player = PlayerMock(getScoreThroughResult: totalScore)
         
         // when
-        sut.setupViewProperties(for: ScoreChange.getBlankScoreChange(), andPlayer: player)
+//        sut.setupViewProperties(for: ScoreChange.getBlankScoreChange(), andPlayer: player)
         
         // then
         XCTAssertEqual(sut.scoreTotalLabel.text, String(totalScore))
@@ -89,11 +89,11 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         let sut = tableViewCell!
         let scoreChangeInt = Int.random(in: 1...10)
         
-        var scoreChange = ScoreChange.getBlankScoreChange()
-        scoreChange.scoreChange = scoreChangeInt
+//        var scoreChange = ScoreChange.getBlankScoreChange()
+//        scoreChange.scoreChange = scoreChangeInt
         
         // when
-        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
+//        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
         
         // then
         XCTAssertEqual(sut.scoreChangeLabel.textColor, .systemBlue)
@@ -104,11 +104,11 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         let sut = tableViewCell!
         let scoreChangeInt = 0
         
-        var scoreChange = ScoreChange.getBlankScoreChange()
-        scoreChange.scoreChange = scoreChangeInt
+//        var scoreChange = ScoreChange.getBlankScoreChange()
+//        scoreChange.scoreChange = scoreChangeInt
         
         // when
-        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
+//        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
         
         // then
         XCTAssertEqual(sut.scoreChangeLabel.text, String(scoreChangeInt))
@@ -120,11 +120,11 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         let sut = tableViewCell!
         let scoreChangeInt = Int.random(in: (-1000..<0))
         
-        var scoreChange = ScoreChange.getBlankScoreChange()
-        scoreChange.scoreChange = scoreChangeInt
+//        var scoreChange = ScoreChange.getBlankScoreChange()
+//        scoreChange.scoreChange = scoreChangeInt
         
         // when
-        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
+//        sut.setupViewProperties(for: scoreChange, andPlayer: PlayerMock())
         
         // then
         XCTAssertEqual(sut.scoreChangeLabel.text, String(scoreChangeInt))

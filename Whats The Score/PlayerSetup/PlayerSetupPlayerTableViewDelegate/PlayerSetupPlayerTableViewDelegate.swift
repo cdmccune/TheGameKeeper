@@ -36,7 +36,7 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
             self.playerViewModel.playerNameChanged(withIndex: indexPath.row, toName: string)
         }
         
-        cell.textFieldDelegate.hasDefaultName = player.hasDefaultName
+//        cell.textFieldDelegate.hasDefaultName = player.hasDefaultName
         cell.playerTextField.text = player.name
         
         return cell

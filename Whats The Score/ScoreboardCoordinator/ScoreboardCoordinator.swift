@@ -22,7 +22,7 @@ class ScoreboardCoordinator: Coordinator {
     weak var coordinator: GameTabCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: RootNavigationController
-    var game: Game?
+    var game: GameProtocol?
     
     lazy var endRoundPopoverHeightHelper: EndRoundPopoverHeightHelperProtocol = EndRoundPopoverHeightHelper(playerViewHeight: 45, playerSeperatorHeight: 3)
     lazy var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
@@ -41,7 +41,7 @@ class ScoreboardCoordinator: Coordinator {
         navigationController.viewControllers = [scoreboardVC]
     }
     
-    func showGameHistory(withGame game: Game, andDelegate delegate: GameHistoryViewControllerDelegate) {
+    func showGameHistory(withGame game: GameProtocol, andDelegate delegate: GameHistoryViewControllerDelegate) {
         
         let gameHistoryVC = GameHistoryViewController.instantiate()
         let viewModel = GameHistoryViewModel(game: game)
@@ -51,7 +51,7 @@ class ScoreboardCoordinator: Coordinator {
         navigationController.pushViewController(gameHistoryVC, animated: true)
     }
     
-    func showSettings(withGame game: Game, andDelegate delegate: GameSettingsDelegate) {
+    func showSettings(withGame game: GameProtocol, andDelegate delegate: GameSettingsDelegate) {
         let gameSettingsVC = GameSettingsViewController.instantiate()
         let viewModel = GameSettingsViewModel(game: game, delegate: delegate)
         gameSettingsVC.viewModel = viewModel
@@ -59,7 +59,7 @@ class ScoreboardCoordinator: Coordinator {
         navigationController.pushViewController(gameSettingsVC, animated: true)
     }
     
-    func showEndRoundPopover(withGame game: Game, andDelegate delegate: EndRoundPopoverDelegateProtocol) {
+    func showEndRoundPopover(withGame game: GameProtocol, andDelegate delegate: EndRoundPopoverDelegateProtocol) {
         guard let viewController = navigationController.topViewController else { return }
         let endRoundPopoverVC = EndRoundPopoverViewController.instantiate()
 //        let endRound = EndRound(withPlayers: game.players, roundNumber: game.currentRound)
@@ -99,7 +99,7 @@ class ScoreboardCoordinator: Coordinator {
         viewController.present(editPlayerScorePopoverVC, animated: true)
     }
     
-    func showEndGamePopover(withGame game: Game, andDelegate delegate: EndGamePopoverDelegate, delay: CGFloat = 0) {
+    func showEndGamePopover(withGame game: GameProtocol, andDelegate delegate: EndGamePopoverDelegate, delay: CGFloat = 0) {
         guard let viewController = navigationController.topViewController else { return }
         let endGamePopoverVC = EndGamePopoverViewController.instantiate()
         
@@ -113,7 +113,7 @@ class ScoreboardCoordinator: Coordinator {
         })
     }
     
-    func showKeepPlayingPopover(withGame game: Game, andDelegate delegate: KeepPlayingPopoverDelegate, delay: CGFloat = 0) {
+    func showKeepPlayingPopover(withGame game: GameProtocol, andDelegate delegate: KeepPlayingPopoverDelegate, delay: CGFloat = 0) {
         guard let viewController = navigationController.topViewController else { return }
         let keepPlayingPopoverVC = KeepPlayingPopoverViewController.instantiate()
         
@@ -127,7 +127,7 @@ class ScoreboardCoordinator: Coordinator {
         })
     }
     
-    func showEndGameScreen(withGame game: Game, delay: CGFloat = 0) {
+    func showEndGameScreen(withGame game: GameProtocol, delay: CGFloat = 0) {
         dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
             self.coordinator?.showEndGameScreen(forGame: game)
         })

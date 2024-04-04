@@ -50,7 +50,7 @@ class GameTabCoordinator: Coordinator {
         scoreboardCoordinator?.start()
     }
     
-    func showEndGameScreen(forGame game: Game) {
+    func showEndGameScreen(forGame game: GameProtocol) {
         let endGameVC = EndGameViewController.instantiate()
         
         endGameVC.viewModel = EndGameViewModel(game: game)
@@ -59,7 +59,7 @@ class GameTabCoordinator: Coordinator {
         navigationController.viewControllers = [endGameVC]
     }
     
-    func goToScoreboard(forGame game: Game) {
+    func goToScoreboard(forGame game: GameProtocol) {
         let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
         
         scoreboardCoordinator?.game = game

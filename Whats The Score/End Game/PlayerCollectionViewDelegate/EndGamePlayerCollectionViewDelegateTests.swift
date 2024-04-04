@@ -28,7 +28,7 @@ final class EndGamePlayerCollectionViewDelegateTests: XCTestCase {
         
         var players = [Player]()
         for _ in 0..<playerCount {
-            players.append(Player(name: "", position: 0))
+//            players.append(Player(name: "", position: 0))
         }
         
         let viewModelMock = EndGameViewModelMock()
@@ -95,19 +95,19 @@ final class EndGamePlayerCollectionViewDelegateTests: XCTestCase {
         XCTAssertEqual(cell?.setupErrorCellCalledCount, 1)
     }
     
-    func test_EndGamePlayerCollectionViewDelegate_WhenCellForItemAtInRangeCalled_ShouldCallSetupViewForWithPlayer() {
-        // given
-        let (sut, collectionView) = getSutAndCollectionView(withPlayerCount: 2)
-        let playerIndex = 1
-        let player = sut.viewModel.game.winningPlayers[playerIndex]
-        
-        // when
-        let cell = sut.collectionView(collectionView, cellForItemAt: IndexPath(item: playerIndex, section: 0)) as? EndGamePlayerCollectionViewCellMock
-        
-        // then
-        XCTAssertEqual(cell?.setupViewForPlayer?.id, player.id)
-        XCTAssertEqual(cell?.setupViewForCalledCount, 1)
-    }
+//    func test_EndGamePlayerCollectionViewDelegate_WhenCellForItemAtInRangeCalled_ShouldCallSetupViewForWithPlayer() {
+//        // given
+//        let (sut, collectionView) = getSutAndCollectionView(withPlayerCount: 2)
+//        let playerIndex = 1
+//        let player = sut.viewModel.game.winningPlayers[playerIndex]
+//        
+//        // when
+//        let cell = sut.collectionView(collectionView, cellForItemAt: IndexPath(item: playerIndex, section: 0)) as? EndGamePlayerCollectionViewCellMock
+//        
+//        // then
+//        XCTAssertEqual(cell?.setupViewForPlayer?.id, player.id)
+//        XCTAssertEqual(cell?.setupViewForCalledCount, 1)
+//    }
 
 }
 

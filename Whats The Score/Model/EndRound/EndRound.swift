@@ -9,6 +9,14 @@ import Foundation
 import CoreData
 
 class EndRound: NSManagedObject {
+    
+    convenience init(roundNumber: Int, scoreChanges: [ScoreChange], context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.id = UUID()
+        self.roundNumber_ = Int64(roundNumber)
+        self.scoreChanges = Set(scoreChanges)
+    }
+    
 //    static func getBlankEndRound() -> EndRound {
 //        return EndRound(roundNumber: 0, scoreChangeArray: [])
 //    }
@@ -34,9 +42,20 @@ class EndRound: NSManagedObject {
 //        self.scoreChangeArray = scoreChangeArray
 //    }
     
-    var id: UUID = UUID()
-    var roundNumber: Int = 0
+    
+    @NSManaged public var id: UUID
+    @NSManaged private var roundNumber_ : Int64
     @NSManaged public var scoreChanges: Set<ScoreChange>
+    
+    var roundNumber: Int {
+        get {
+            Int(truncatingIfNeeded: roundNumber_)
+        }
+        set {
+            roundNumber_ = Int64(newValue)
+        }
+    }
+
 //    var scoreChangeArray: [ScoreChange]
 }
 

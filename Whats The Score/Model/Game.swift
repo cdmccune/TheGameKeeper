@@ -8,106 +8,123 @@
 import Foundation
 import CoreData
 
-//protocol GameProtocol {
-//    var gameType: GameType { get set }
-//    var gameEndType: GameEndType { get set }
-//    var numberOfRounds: Int { get set }
-//    var currentRound: Int { get set }
-//    var endingScore: Int { get set }
-//    var players: [PlayerProtocol] { get set }
-//    var winningPlayers: [PlayerProtocol] { get }
-//    var scoreChanges: [ScoreChange] { get set }
-//    var endRounds: [EndRound] { get set }
-////    var historySegments: [GameHistorySegment] { get set }
-//    var id: UUID { get }
-//    
-//    mutating func playerNameChanged(withIndex index: Int, toName name: String)
-//    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
-//    mutating func addPlayer()
-//    mutating func randomizePlayers()
-//    mutating func deletePlayerAt(_ index: Int)
-//    mutating func editScore(scoreChange: ScoreChange)
-//    mutating func endRound(_ endRound: EndRound)
-//    mutating func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int)
-//    mutating func resetGame()
-//    mutating func editScoreChange(_ newScoreChange: ScoreChange)
-//    mutating func editEndRound(_ newEndRound: EndRound)
-//    mutating func deleteHistorySegmentAt(index: Int)
-//    
-//    func isEqualTo(game: GameProtocol) -> Bool
-//    func isEndOfGame() -> Bool
-//}
+ protocol GameProtocol {
+    var gameType: GameType { get set }
+    var gameEndType: GameEndType { get set }
+    var numberOfRounds: Int { get set }
+    var currentRound: Int { get set }
+    var endingScore: Int { get set }
+     var players: Set<Player> { get set }
+    var winningPlayers: [Player] { get }
+    var scoreChanges: Set<ScoreChange> { get set }
+    var endRounds: Set<EndRound> { get set }
+//    var historySegments: [GameHistorySegment] { get set }
+    var id: UUID { get }
+    
+    mutating func playerNameChanged(withIndex index: Int, toName name: String)
+    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
+    mutating func addPlayer()
+    mutating func randomizePlayers()
+    mutating func deletePlayerAt(_ index: Int)
+    mutating func editScore(scoreChange: ScoreChange)
+    mutating func endRound(_ endRound: EndRound)
+    mutating func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int)
+    mutating func resetGame()
+    mutating func editScoreChange(_ newScoreChange: ScoreChange)
+    mutating func editEndRound(_ newEndRound: EndRound)
+    mutating func deleteHistorySegmentAt(index: Int)
+    
+    func isEndOfGame() -> Bool
+ }
 
-class Game: NSManagedObject {
+class Game: NSManagedObject, GameProtocol {
     
     // MARK: - Initialization
     
+    convenience init(gameType: GameType,
+                     gameEndType: GameEndType,
+                     numberOfRounds: Int = 2,
+                     currentRound: Int = 1,
+                     endingScore: Int = 10,
+                     players: [Player],
+                     context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.gameType = gameType
+        self.gameEndType = gameEndType
+        self.numberOfRounds = numberOfRounds
+        self.currentRound = currentRound
+        self.endingScore = endingScore
+        players.forEach { player in
+            self.addToPlayers(player)
+        }
+        self.scoreChanges = []
+        self.endRounds = []
+    }
     
+    // MARK: - NSManaged Properties
     
-//    init(basicGameWithPlayers players: [PlayerProtocol]) {
-//        self.gameType = .basic
-//        self.gameEndType = .none
-//        self.currentRound = 1
-//        self.players = players
-//        self.numberOfRounds = 2
-//        self.endingScore = 10
-//    }
-    
-//    init(gameType: GameType,
-//         gameEndType: GameEndType,
-//         numberOfRounds: Int = 2,
-//         currentRound: Int = 1,
-//         endingScore: Int = 10,
-//         numberOfPlayers: Int) {
-//        self.gameType = gameType
-//        self.gameEndType = gameEndType
-//        self.numberOfRounds = numberOfRounds
-//        self.currentRound = currentRound
-//        self.endingScore = endingScore
-//        
-//        var players = [Player]()
-//        for i in 0..<numberOfPlayers {
-//            players.append(Player(name: "", position: i))
-//        }
-//        self.players = players
-//    }
-    
-//    init(gameType: GameType,
-//         gameEndType: GameEndType,
-//         numberOfRounds: Int = 2,
-//         currentRound: Int = 1,
-//         endingScore: Int = 10,
-//         players: [PlayerProtocol]) {
-//        self.gameType = gameType
-//        self.gameEndType = gameEndType
-//        self.numberOfRounds = numberOfRounds
-//        self.currentRound = currentRound
-//        self.endingScore = endingScore
-//        self.players = players
-//    }
-    
-    
-    
-    
-    // MARK: - Properties
-    
-    var id: UUID = UUID()
-    var gameType: GameType = .basic
-    var gameEndType: GameEndType = .none
-    var numberOfRounds: Int = 0
-    var currentRound: Int = 0
-    var endingScore: Int = 0
-    
+    @NSManaged public var id: UUID
     @NSManaged public var players: Set<Player>
-//    var historySegments: [GameHistorySegment] = []
-    @NSManaged public var scoreChanges: [ScoreChange]
-    @NSManaged public var endRounds: [EndRound]
+    @NSManaged public var scoreChanges: Set<ScoreChange>
+    @NSManaged public var endRounds: Set<EndRound>
+    @NSManaged private var gameType_: Int64
+    @NSManaged private var gameEndType_: Int64
+    @NSManaged private var numberOfRounds_: Int64
+    @NSManaged private var endingScore_: Int64
+    @NSManaged private var currentRound_: Int64
     
-    var playerArray: [PlayerProtocol] {
+    // MARK: - Other Public Properties
+    
+    var gameType: GameType {
+        get {
+            return GameType(rawValue: Int(truncatingIfNeeded: gameType_)) ?? .basic
+        }
+        set {
+            gameType_ = Int64(newValue.rawValue)
+        }
+    }
+    
+    var gameEndType: GameEndType {
+        get {
+            return GameEndType(rawValue: Int(truncatingIfNeeded: gameEndType_)) ?? .none
+        }
+        set {
+            gameEndType_ = Int64(newValue.rawValue)
+        }
+    }
+    
+    var numberOfRounds: Int {
+        get {
+            Int(truncatingIfNeeded: numberOfRounds_)
+        }
+        set {
+            numberOfRounds_ = Int64(newValue)
+        }
+    }
+    
+    var endingScore: Int {
+        get {
+            Int(truncatingIfNeeded: endingScore_)
+        }
+        set {
+            endingScore_ = Int64(newValue)
+        }
+    }
+    
+    var currentRound: Int {
+        get {
+            Int(truncatingIfNeeded: currentRound_)
+        }
+        set {
+            currentRound_ = Int64(newValue)
+        }
+    }
+    
+    var playerArray: [Player] {
             Array(players)
     }
     
-    var winningPlayers: [PlayerProtocol] {
+    var winningPlayers: [Player] {
         let sortedPlayers = players.sorted { $0.score>$1.score }
         return players.filter { $0.score == (sortedPlayers.first?.score ?? 0) }
     }
@@ -115,7 +132,7 @@ class Game: NSManagedObject {
     
     // MARK: - Functions
     
-//    func playerNameChanged(withIndex index: Int, toName name: String) {
+    func playerNameChanged(withIndex index: Int, toName name: String) {
 //        guard players.indices.contains(index) else { return }
 //        var player = playerArray[index]
 //        player.name = name
@@ -144,9 +161,9 @@ class Game: NSManagedObject {
 //                historySegments[segmentIndex] = endRoundHistorySegment
 //            }
 //        }
-//    }
+    }
     
-//    func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
+    func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
 //        guard players.indices.contains(sourceRowIndex),
 //              players.indices.contains(destinationRowIndex) else { return }
 //        
@@ -154,18 +171,18 @@ class Game: NSManagedObject {
 //        players.remove(at: sourceRowIndex)
 //        players.insert(playerToMove, at: destinationRowIndex)
 //        players.setPositions()
-//    }
+    }
     
-//    func addPlayer() {
+    func addPlayer() {
 //        players.append(Player(name: "", position: players.indices.upperBound))
-//    }
+    }
 //    
-//    func randomizePlayers() {
+    func randomizePlayers() {
 //        players.shuffle()
 //        players.setPositions()
-//    }
+    }
 //    
-//    func deletePlayerAt(_ index: Int) {
+    func deletePlayerAt(_ index: Int) {
 //        guard players.indices.contains(index) else {
 //            return
 //        }
@@ -196,18 +213,18 @@ class Game: NSManagedObject {
 ////                historySegments[segmentIndex] = GameHistorySegment.endRound(endRound, players)
 ////            }
 ////        }
-//    }
+    }
     
-//    func editScore(scoreChange: ScoreChange) {
+    func editScore(scoreChange: ScoreChange) {
 //        guard let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) else { return }
 //        
 //        players[index].scoreChanges.append(scoreChange)
 ////        let historySegment = GameHistorySegment.scoreChange(scoreChange, players[index])
 ////        
 ////        historySegments.append(historySegment)
-//    }
+    }
     
-//    func endRound(_ endRound: EndRound) {
+    func endRound(_ endRound: EndRound) {
 //        
 //        var playersInThisRound: [PlayerProtocol] = []
 //        
@@ -224,7 +241,7 @@ class Game: NSManagedObject {
 ////        historySegments.append(historySegment)
 //        
 //        currentRound += 1
-//    }
+    }
     
     func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {
         self.gameEndType = gameEndType
@@ -232,7 +249,7 @@ class Game: NSManagedObject {
         self.endingScore = endingScore
     }
     
-//    func deleteHistorySegmentAt(index: Int) {
+    func deleteHistorySegmentAt(index: Int) {
 ////        guard historySegments.indices.contains(index) else { return }
 ////        
 ////        let historySegmentToRemove = historySegments[index]
@@ -274,9 +291,9 @@ class Game: NSManagedObject {
 ////        }
 //        
 //       
-//    }
+    }
     
-//    func resetGame() {
+    func resetGame() {
 //        for i in 0..<players.count {
 //            players[i].scoreChanges = []
 //        }
@@ -284,9 +301,9 @@ class Game: NSManagedObject {
 //        currentRound = 1
 //        
 ////        historySegments = []
-//    }
+    }
     
-//    func editScoreChange(_ newScoreChange: ScoreChange) {
+    func editScoreChange(_ newScoreChange: ScoreChange) {
 //        
 ////        if let playerIndex = players.firstIndex(where: { $0.id == newScoreChange.playerID }),
 ////           let scoreChangeIndex = historySegments.getIndexOfElement(withID: newScoreChange.id),
@@ -299,9 +316,9 @@ class Game: NSManagedObject {
 ////            players[playerIndex].scoreChanges[scoreChangeIndex] = (newScoreChange)
 ////            historySegments[scoreChangeIndex] = .scoreChange(newScoreChange, players[playerIndex])
 ////        }
-//    }
+    }
     
-//    func editEndRound(_ newEndRound: EndRound) {
+    func editEndRound(_ newEndRound: EndRound) {
 //        
 //        var playerInEndRoundArray = [PlayerProtocol]()
 //        
@@ -334,13 +351,9 @@ class Game: NSManagedObject {
 ////        // Set the history object to new changes
 ////        let newGameHistorySegment = GameHistorySegment.endRound(newEndRound, playerInEndRoundArray)
 ////        historySegments[endRoundIndex] = newGameHistorySegment
-//    }
+    }
     
     // MARK: - Non-Mutating Functions
-    
-//    func isEqualTo(game: GameProtocol) -> Bool {
-//        game.id == self.id
-//    }
     
     func isEndOfGame() -> Bool {
         switch gameEndType {
@@ -352,6 +365,61 @@ class Game: NSManagedObject {
             return players.contains { $0.score >= endingScore }
         }
     }
+}
+
+// MARK: Generated accessors for players
+extension Game {
+
+    @objc(addPlayersObject:)
+    @NSManaged public func addToPlayers(_ value: Player)
+
+    @objc(removePlayersObject:)
+    @NSManaged public func removeFromPlayers(_ value: Player)
+
+    @objc(addPlayers:)
+    @NSManaged public func addToPlayers(_ values: NSSet)
+
+    @objc(removePlayers:)
+    @NSManaged public func removeFromPlayers(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for endRounds
+extension Game {
+
+    @objc(addEndRoundsObject:)
+    @NSManaged public func addToEndRounds(_ value: EndRound)
+
+    @objc(removeEndRoundsObject:)
+    @NSManaged public func removeFromEndRounds(_ value: EndRound)
+
+    @objc(addEndRounds:)
+    @NSManaged public func addToEndRounds(_ values: NSSet)
+
+    @objc(removeEndRounds:)
+    @NSManaged public func removeFromEndRounds(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for scoreChanges
+extension Game {
+
+    @objc(addScoreChangesObject:)
+    @NSManaged public func addToScoreChanges(_ value: ScoreChange)
+
+    @objc(removeScoreChangesObject:)
+    @NSManaged public func removeFromScoreChanges(_ value: ScoreChange)
+
+    @objc(addScoreChanges:)
+    @NSManaged public func addToScoreChanges(_ values: NSSet)
+
+    @objc(removeScoreChanges:)
+    @NSManaged public func removeFromScoreChanges(_ values: NSSet)
+
+}
+
+extension Game: Identifiable {
+
 }
 
 enum GameType: Int, CaseIterable {

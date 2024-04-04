@@ -59,7 +59,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboa
     }
     
     private func setupViews() {
-        playerLabel.text = scoreChange?.playerName
+//        playerLabel.text = scoreChange?.playerName
         
         if let scoreChange = scoreChange?.scoreChange,
            scoreChange != 0 {

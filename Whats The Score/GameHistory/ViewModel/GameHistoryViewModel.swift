@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
-    var game: Game { get set }
+    var game: GameProtocol { get set }
     
     var scoreChangeToEdit: Observable<ScoreChange> { get }
     var endRoundToEdit: Observable<EndRound> { get }
@@ -21,11 +21,11 @@ protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate,
 }
 
 class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
-    init(game: Game) {
+    init(game: GameProtocol) {
         self.game = game
     }
     
-    var game: Game
+    var game: GameProtocol
     var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
     var endRoundToEdit: Observable<EndRound> = Observable(nil)
     var shouldRefreshTableView: Observable<Bool> = Observable(false)

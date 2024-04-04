@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-//enum GameHistorySegment {
+// enum GameHistorySegment {
 //    case scoreChange(ScoreChange, PlayerProtocol)
 //    case endRound(EndRound, [PlayerProtocol])
 //    
@@ -20,15 +20,21 @@ import CoreData
 //            return endRound.id
 //        }
 //    }
-//}
+// }
 //
-//extension GameHistorySegment: Equatable {
-//}
-//func == (lhs: GameHistorySegment, rhs: GameHistorySegment) -> Bool {
+// extension GameHistorySegment: Equatable {
+// }
+// func == (lhs: GameHistorySegment, rhs: GameHistorySegment) -> Bool {
 //    return lhs.id == rhs.id
-//}
+// }
 
 class ScoreChange: NSManagedObject {
+    
+    convenience init(player: Player, context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.id = UUID()
+        self.player = player
+    }
     
 //    init(player: PlayerProtocol, scoreChange: Int) {
 //        self.playerID = player.id
@@ -43,11 +49,8 @@ class ScoreChange: NSManagedObject {
     @NSManaged public var endRound: EndRound?
     @NSManaged public var game: Game?
     @NSManaged public var player: Player
-    
-    var id: UUID = UUID()
-    var playerID: UUID = UUID()
-    var playerName: String = ""
-    var scoreChange: Int = 0
+    @NSManaged public var scoreChange: Int
+    @NSManaged public var id: UUID
 }
 
 //extension ScoreChange: Equatable {}

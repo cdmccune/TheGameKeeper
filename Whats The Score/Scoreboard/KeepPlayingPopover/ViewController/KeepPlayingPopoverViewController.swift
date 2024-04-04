@@ -27,7 +27,7 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
     
     // MARK: - Properties
     
-    var game: Game?
+    var game: GameProtocol?
     weak var delegate: KeepPlayingPopoverDelegate?
     lazy var textFieldDelegate = DismissingTextFieldDelegate()
     

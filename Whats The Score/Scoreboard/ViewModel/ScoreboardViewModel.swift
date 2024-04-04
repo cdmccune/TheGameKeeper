@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EditPlayerPopoverDelegateProtocol, EndRoundPopoverDelegateProtocol, EndGamePopoverDelegate, KeepPlayingPopoverDelegate, GameHistoryViewControllerDelegate, GameSettingsDelegate {
-    var game: Game { get set }
+    var game: GameProtocol { get set }
     var delegate: ScoreboardViewModelViewProtocol? { get set }
     var coordinator: ScoreboardCoordinator? { get set }
     var playerToDelete: Observable<PlayerProtocol> { get set }
@@ -33,14 +33,14 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     
     // MARK: - Init
     
-    init(game: Game) {
+    init(game: GameProtocol) {
         self.game = game
     }
     
     
     // MARK: - Properties
     
-    var game: Game
+    var game: GameProtocol
     weak var coordinator: ScoreboardCoordinator?
     weak var delegate: ScoreboardViewModelViewProtocol? {
         didSet {
@@ -86,7 +86,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func editScore(_ scoreChange: ScoreChange) {
-        guard game.players.contains(where: { $0.id == scoreChange.playerID }) else { return }
+//        guard game.players.contains(where: { $0.id == scoreChange.playerID }) else { return }
         
 //        game.editScore(scoreChange: scoreChange)
         
@@ -191,7 +191,7 @@ extension ScoreboardViewModel: KeepPlayingPopoverDelegate {
 }
 
 extension ScoreboardViewModel: GameHistoryViewControllerDelegate, GameSettingsDelegate {
-    func update(_ game: Game) {
+    func update(_ game: GameProtocol) {
         self.game = game
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
         

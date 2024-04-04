@@ -72,7 +72,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
     
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetCorrectPropertiesOnTextField() {
         // given
-        let player = Player(name: "", position: 0)
+//        let player = Player(name: "", position: 0)
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
@@ -87,7 +87,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
     
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetWidthConstraintForTextField() {
         // given
-        let player = Player(name: "", position: 0)
+//        let player = Player(name: "", position: 0)
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
