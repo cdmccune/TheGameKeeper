@@ -7,17 +7,19 @@
 
 import Foundation
 
+
+
 protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
     var game: GameProtocol { get set }
     
-    var scoreChangeToEdit: Observable<ScoreChange> { get }
-    var endRoundToEdit: Observable<EndRound> { get }
+    var scoreChangeToEdit: Observable<ScoreChangeProtocol> { get }
+    var endRoundToEdit: Observable<EndRoundProtocol> { get }
     var shouldRefreshTableView: Observable<Bool> { get }
     var shouldShowDeleteSegmentWarningIndex: Observable<Int> { get }
     
     func didSelectRow(_ row: Int)
-    func startDeletingHistorySegmentAt(_ row: Int)
-    func deleteHistorySegmentAt(_ index: Int)
+    func startDeletingRowAt(_ row: Int)
+    func deleteRowAt(_ index: Int)
 }
 
 class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
@@ -26,42 +28,43 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     }
     
     var game: GameProtocol
-    var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
-    var endRoundToEdit: Observable<EndRound> = Observable(nil)
+    var scoreChangeToEdit: Observable<ScoreChangeProtocol> = Observable(nil)
+    var endRoundToEdit: Observable<EndRoundProtocol> = Observable(nil)
     var shouldRefreshTableView: Observable<Bool> = Observable(false)
     var shouldShowDeleteSegmentWarningIndex: Observable<Int> = Observable(nil)
     
     
     func didSelectRow(_ row: Int) {
-//        guard game.historySegments.indices.contains(row) else { return }
-//        
-//        switch game.historySegments[row] {
-//        case .scoreChange(let scoreChange, _):
-//            scoreChangeToEdit.value = scoreChange
-//        case .endRound(let endRound, _):
-//            endRoundToEdit.value = endRound
-//        }
+        
+        guard game.gameType == .basic ? game.scoreChanges.indices.contains(row) : game.endRounds.indices.contains(row) else { return }
+        
+        switch game.gameType {
+        case .basic:
+            scoreChangeToEdit.value = game.scoreChanges[row]
+        case .round:
+            endRoundToEdit.value = game.endRounds[row]
+        }
     }
     
-    func startDeletingHistorySegmentAt(_ row: Int) {
-//        guard game.historySegments.indices.contains(row) else { return }
+    func startDeletingRowAt(_ row: Int) {
+        guard game.gameType == .basic ? game.scoreChanges.indices.contains(row) : game.endRounds.indices.contains(row) else { return }
         
         shouldShowDeleteSegmentWarningIndex.value = row
     }
     
-    func deleteHistorySegmentAt(_ index: Int) {
-//        game.deleteHistorySegmentAt(index: index)
+    func deleteRowAt(_ index: Int) {
+        game.deleteHistorySegmentAt(index: index)
         shouldRefreshTableView.value = true
     }
     
-    func editScore(_ scoreChange: ScoreChange) {
-//        game.editScoreChange(scoreChange)
+    func editScore(_ scoreChange: ScoreChangeProtocol) {
+        game.editScoreChange(scoreChange)
         
         shouldRefreshTableView.value = true
     }
     
-    func endRound(_ endRound: EndRound) {
-//        game.editEndRound(endRound)
+    func endRound(_ endRound: EndRoundProtocol) {
+        game.editEndRound(endRound)
         
         shouldRefreshTableView.value = true
     }

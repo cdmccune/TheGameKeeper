@@ -25,38 +25,41 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
     // MARK: - NumberOfRowsInSection
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return viewModel.game.historySegments.count
-        return 0
+        let game = viewModel.game
+        return game.gameType == .round ? game.endRounds.count : game.scoreChanges.count
     }
     
     
     // MARK: - CellForRowAt
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard viewModel.game.historySegments.indices.contains(indexPath.row) else {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryErrorTableViewCell") ?? UITableViewCell()
-//            return cell
-//        }
-//        
-//        switch viewModel.game.historySegments[indexPath.row] {
-//        case .scoreChange(let scoreChange, let player):
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryScoreChangeTableViewCell") as? GameHistoryScoreChangeTableViewCell else {
-//                fatalError("GameHistoryScoreChangeTableViewCell not registered")
-//            }
-//            
-//            cell.setupViewProperties(for: scoreChange, andPlayer: player)
-//            
-//            return cell
-//        case .endRound(let endRound, let players):
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryEndRoundTableViewCell") as? GameHistoryEndRoundTableViewCell else {
-//                fatalError("GameHistoryEndRoundTableViewCell not registered")
-//            }
-//            
-//            cell.setupCellFor(round: endRound.roundNumber, and: endRound.scoreChangeArray, andPlayers: players)
-//            
-//            return cell
-//        }
-        return UITableViewCell()
+        
+        let game = viewModel.game
+        let gameType = game.gameType
+        
+        guard gameType == .basic ? game.scoreChanges.indices.contains(indexPath.row) : game.endRounds.indices.contains(indexPath.row) else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryErrorTableViewCell") ?? UITableViewCell()
+            return cell
+        }
+        
+        switch gameType {
+        case .basic:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryScoreChangeTableViewCell") as? GameHistoryScoreChangeTableViewCell else {
+                fatalError("GameHistoryScoreChangeTableViewCell not registered")
+            }
+            cell.setupViewProperties(for: game.scoreChanges[indexPath.row])
+            
+            return cell
+        case .round:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryEndRoundTableViewCell") as? GameHistoryEndRoundTableViewCell else {
+                fatalError("GameHistoryEndRoundTableViewCell not registered")
+            }
+            
+            let endRound = game.endRounds[indexPath.row]
+            cell.setupCellFor(round: endRound.roundNumber, and: endRound.scoreChanges)
+            
+            return cell
+        }
     }
     
     
@@ -65,19 +68,20 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let scoreChangeCellHeight: CGFloat = 44
         
-        return scoreChangeCellHeight
+        let game = viewModel.game
+        let gameType = game.gameType
         
-//        guard viewModel.game.historySegments.indices.contains(indexPath.row) else {
-//            return scoreChangeCellHeight
-//        }
-//        
-//        switch viewModel.game.historySegments[indexPath.row] {
-//            
-//        case .scoreChange(_, _):
-//            return scoreChangeCellHeight
-//        case .endRound(let endRound, _):
-//            return CGFloat((44*endRound.scoreChangeArray.count) - (endRound.scoreChangeArray.isEmpty ? 0 : 1))
-//        }
+        guard gameType == .basic ? game.scoreChanges.indices.contains(indexPath.row) : game.endRounds.indices.contains(indexPath.row) else {
+            return scoreChangeCellHeight
+        }
+        
+        switch gameType {
+        case .basic:
+            return scoreChangeCellHeight
+        case .round:
+            let scoreChangeArray = game.endRounds[indexPath.row].scoreChanges
+            return CGFloat((44*scoreChangeArray.count) - (scoreChangeArray.isEmpty ? 0 : 1))
+        }
     }
     
     
@@ -93,7 +97,7 @@ class GameHistoryTableViewDelegate: NSObject, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.viewModel.startDeletingHistorySegmentAt(indexPath.row)
+            self.viewModel.startDeletingRowAt(indexPath.row)
         }
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }

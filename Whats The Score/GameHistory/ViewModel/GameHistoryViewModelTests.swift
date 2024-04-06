@@ -13,20 +13,17 @@ final class GameHistoryViewModelTests: XCTestCase {
     
     // MARK: - DidSelectRow
     
-    func test_GameHistoryViewModel_WhenDidSelectRowCalledIndexScoreChange_ShouldSetScoreChangeToEdit() {
+    func test_GameHistoryViewModel_WhenDidSelectRowCalledGameBasic_ShouldSetScoreChangeToEdit() {
         // given
-        let game = GameMock()
-//        let player = Player.getBasicPlayer()
-//        let scoreChangeObject = ScoreChange(player: player, scoreChange: 0)
-//        let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChangeObject, PlayerMock())
-//        game.historySegments = [scoreChangeHistorySegment]
+        let scoreChangeObject = ScoreChangeMock()
+        let game = GameMock(gameType: .basic, scoreChanges: [scoreChangeObject])
         
         let sut = GameHistoryViewModel(game: game)
         
         let expectation = XCTestExpectation(description: "shouldShowEditPlayerScorePopover should have value changed to true")
         
         sut.scoreChangeToEdit.valueChanged = { scoreChange in
-//            XCTAssertEqual(scoreChangeObject, scoreChange)
+            XCTAssertTrue(scoreChangeObject === scoreChange as? ScoreChangeMock)
             expectation.fulfill()
         }
         
@@ -37,20 +34,17 @@ final class GameHistoryViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 0.1)
     }
     
-    func test_GameHistoryViewModel_WhenDidSelectRowCalledIndexEndRound_ShouldSetEndRoundToEdit() {
+    func test_GameHistoryViewModel_WhenDidSelectRowCalledGameRound_ShouldSetEndRoundToEdit() {
         // given
-        let game = GameMock()
-        
-//        let endRound = EndRound.getBlankEndRound()
-//        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [])
-//        game.historySegments = [endRoundHistorySegment]
+        let endRound = EndRoundMock()
+        let game = GameMock(gameType: .round, endRounds: [endRound])
         
         let sut = GameHistoryViewModel(game: game)
         
         let expectation = XCTestExpectation(description: "shouldShowEditPlayerScorePopover should have value changed to true")
         
         sut.endRoundToEdit.valueChanged = { endRoundToEdit in
-//            XCTAssertEqual(endRound, endRoundToEdit)
+            XCTAssertTrue(endRound === endRoundToEdit as? EndRoundMock)
             expectation.fulfill()
         }
         
@@ -62,12 +56,11 @@ final class GameHistoryViewModelTests: XCTestCase {
     }
     
     
-    // MARK: - StartDeletingHistorySegmentAt
+    // MARK: - StartDeletingRowAt
     
-    func test_GameHistoryViewModel_WhenStartDeletingHistorySegmentAtCalledInRange_ShouldSetShowDeleteSegmentWarningValueToInt() {
+    func test_GameHistoryViewModel_WhenStartDeletingHistorySegmentAtCalledGameRoundInRange_ShouldSetShowDeleteSegmentWarningIndexValueToInt() {
         // given
-        let game = GameMock()
-//        game.historySegments = [GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange(), PlayerMock())]
+        let game = GameMock(gameType: .round, endRounds: [EndRoundMock()])
         let sut = GameHistoryViewModel(game: game)
         
         let expectation = XCTestExpectation(description: "ShouldShowDeleteSegmentWarning value should be set")
@@ -78,15 +71,15 @@ final class GameHistoryViewModelTests: XCTestCase {
         }
         
         // when
-        sut.startDeletingHistorySegmentAt(0)
+        sut.startDeletingRowAt(0)
         
         // then
         wait(for: [expectation], timeout: 0.1)
     }
     
-    func test_GameHistoryViewModel_WhenStartDeletingHistorySegmentAtCalledInRange_ShouldNotSetShowDeleteSegmentWarningValueToTrue() {
+    func test_GameHistoryViewModel_WhenStartDeletingHistorySegmentGameRoundOutOfRange_ShouldNotSetShouldShowDeleteSegmentWarningToTrue() {
         // given
-        let game = GameMock()
+        let game = GameMock(gameType: .basic)
         let sut = GameHistoryViewModel(game: game)
         
         let expectation = XCTestExpectation(description: "ShouldShowDeleteSegmentWarning value should not be set")
@@ -97,14 +90,52 @@ final class GameHistoryViewModelTests: XCTestCase {
         }
         
         // when
-        sut.startDeletingHistorySegmentAt(0)
+        sut.startDeletingRowAt(0)
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    func test_GameHistoryViewModel_WhenStartDeletingHistorySegmentAtCalledGameBasicInRange_ShouldSetShowDeleteSegmentWarningIndexValueToInt() {
+        // given
+        let game = GameMock(gameType: .basic, scoreChanges: [ScoreChangeMock()])
+        let sut = GameHistoryViewModel(game: game)
+        
+        let expectation = XCTestExpectation(description: "ShouldShowDeleteSegmentWarning value should be set")
+        
+        sut.shouldShowDeleteSegmentWarningIndex.valueChanged = { index in
+            expectation.fulfill()
+            XCTAssertEqual(index, 0)
+        }
+        
+        // when
+        sut.startDeletingRowAt(0)
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    func test_GameHistoryViewModel_WhenStartDeletingHistorySegmentGameBasicOutOfRange_ShouldNotSetShouldShowDeleteSegmentWarningToTrue() {
+        // given
+        let game = GameMock(gameType: .basic)
+        let sut = GameHistoryViewModel(game: game)
+        
+        let expectation = XCTestExpectation(description: "ShouldShowDeleteSegmentWarning value should not be set")
+        expectation.isInverted = true
+        
+        sut.shouldShowDeleteSegmentWarningIndex.valueChanged = { _ in
+            expectation.fulfill()
+        }
+        
+        // when
+        sut.startDeletingRowAt(0)
         
         // then
         wait(for: [expectation], timeout: 0.1)
     }
     
     
-    // MARK: - DeleteHistorySegmentAt
+    // MARK: - DeleteRowAt
     
     func test_GameHistoryViewModel_WhenDeleteHistorySegmentAtCalled_ShouldCallGameDeleteHistorySegmentAtWithIndex() {
         // given
@@ -114,7 +145,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         let index = Int.random(in: 1...1000)
         
         // when
-        sut.deleteHistorySegmentAt(index)
+        sut.deleteRowAt(index)
         
         // then
         XCTAssertEqual(game.deleteHistorySegmentAtCalledCount, 1)
@@ -134,7 +165,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         }
         
         // when
-        sut.deleteHistorySegmentAt(0)
+        sut.deleteRowAt(0)
         
         // then
         wait(for: [expectation], timeout: 0.1)
@@ -148,13 +179,13 @@ final class GameHistoryViewModelTests: XCTestCase {
         let game = GameMock()
         let sut = GameHistoryViewModel(game: game)
         
-//        let scoreChange = ScoreChange.getBlankScoreChange()
+        let scoreChange = ScoreChangeMock()
         
         // when
-//        sut.editScore(scoreChange)
+        sut.editScore(scoreChange)
         
         // then
-//        XCTAssertEqual(game.editScoreChangeScoreChange, scoreChange)
+        XCTAssertTrue(game.editScoreChangeScoreChange as? ScoreChangeMock === scoreChange)
         XCTAssertEqual(game.editScoreChangeCalledCount, 1)
     }
     
@@ -172,7 +203,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         }
         
         // when
-//        sut.editScore(ScoreChange.getBlankScoreChange())
+        sut.editScore(ScoreChangeMock())
         
         // then
         wait(for: [expectation], timeout: 0.1)
@@ -186,14 +217,14 @@ final class GameHistoryViewModelTests: XCTestCase {
         let game = GameMock()
         let sut = GameHistoryViewModel(game: game)
         
-//        let endRound = EndRound.getBlankEndRound()
+        let endRound = EndRoundMock()
         
         // when
-//        sut.endRound(endRound)
+        sut.endRound(endRound)
         
         // then
         XCTAssertEqual(game.editEndRoundCalledCount, 1)
-//        XCTAssertEqual(game.editEndRoundEndRound, endRound)
+        XCTAssertTrue(game.editEndRoundEndRound as? EndRoundMock === endRound)
     }
     
     func test_GameHistoryViewmodel_WhenEndRoundCalled_ShouldSetShouldRefreshTableViewToTrue() {
@@ -210,7 +241,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         }
         
         // when
-//        sut.endRound(EndRound.getBlankEndRound())
+        sut.endRound(EndRoundMock())
         
         // then
         wait(for: [expectation], timeout: 0.1)
@@ -221,8 +252,8 @@ final class GameHistoryViewModelTests: XCTestCase {
 
 class GameHistoryViewModelMock: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
     var game: GameProtocol = GameMock()
-    var scoreChangeToEdit: Observable<ScoreChange> = Observable(nil)
-    var endRoundToEdit: Observable<EndRound> = Observable(nil)
+    var scoreChangeToEdit: Observable<ScoreChangeProtocol> = Observable(nil)
+    var endRoundToEdit: Observable<EndRoundProtocol> = Observable(nil)
     var shouldRefreshTableView: Observable<Bool> = Observable(nil)
     var shouldShowDeleteSegmentWarningIndex: Observable<Int> = Observable(nil)
     
@@ -233,20 +264,20 @@ class GameHistoryViewModelMock: GameHistoryViewModelProtocol, ScoreboardPlayerEd
         didSelectRowRow = row
     }
     
-    var startDeletingHistorySegmentAtCalledCount = 0
-    var startDeletingHistorySegmentAtIndex: Int?
-    func startDeletingHistorySegmentAt(_ row: Int) {
-        startDeletingHistorySegmentAtCalledCount += 1
-        startDeletingHistorySegmentAtIndex = row
+    var startDeletingRowAtCalledCount = 0
+    var startDeletingRowAtIndex: Int?
+    func startDeletingRowAt(_ row: Int) {
+        startDeletingRowAtCalledCount += 1
+        startDeletingRowAtIndex = row
     }
     
-    var deleteHistorySegmentAtCalledCount = 0
-    var deleteHistorySegmentAtIndex: Int?
-    func deleteHistorySegmentAt(_ index: Int) {
-        deleteHistorySegmentAtCalledCount += 1
-        deleteHistorySegmentAtIndex = index
+    var deleteRowAtCalledCount = 0
+    var deleteRowAtIndex: Int?
+    func deleteRowAt(_ index: Int) {
+        deleteRowAtCalledCount += 1
+        deleteRowAtIndex = index
     }
     
-    func editScore(_ scoreChange: ScoreChange) {}
-    func endRound(_ endRound: EndRound) {}
+    func editScore(_ scoreChange: ScoreChangeProtocol) {}
+    func endRound(_ endRound: EndRoundProtocol) {}
 }

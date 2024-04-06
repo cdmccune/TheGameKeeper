@@ -9,8 +9,14 @@ import Foundation
 import UIKit
 
 class MainCoordinator {
+    
+    init(coreDataStore: CoreDataStoreProtocol = CoreDataStore(.inMemory)) {
+        self.coreDataStore = coreDataStore
+    }
+    
     var tabbarController = UITabBarController()
     var childCoordinators = [Coordinator]()
+    var coreDataStore: CoreDataStoreProtocol
     
     var homeTabbarCoordinatorType: HomeTabCoordinator.Type = HomeTabCoordinator.self
     var gameTabbarCoordinatorType: GameTabCoordinator.Type = GameTabCoordinator.self
@@ -26,7 +32,7 @@ class MainCoordinator {
         let gameTabbarItem = UITabBarItem(title: "Game", image: UIImage(systemName: "dice"), tag: 0)
         let gameNavigationController = RootNavigationController()
         gameNavigationController.tabBarItem = gameTabbarItem
-        let gameTabCoordinator = gameTabbarCoordinatorType.init(navigationController: gameNavigationController)
+        let gameTabCoordinator = gameTabbarCoordinatorType.init(navigationController: gameNavigationController, coreDataStore: coreDataStore)
         
         childCoordinators = [homeTabCoordinator, gameTabCoordinator]
         

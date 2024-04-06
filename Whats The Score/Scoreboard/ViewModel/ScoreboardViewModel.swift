@@ -85,10 +85,10 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         
     }
     
-    func editScore(_ scoreChange: ScoreChange) {
-//        guard game.players.contains(where: { $0.id == scoreChange.playerID }) else { return }
+    func editScore(_ scoreChange: ScoreChangeProtocol) {
+        guard game.players.contains(where: { $0.id == scoreChange.player.id }) else { return }
         
-//        game.editScore(scoreChange: scoreChange)
+        game.editScore(scoreChange: scoreChange)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
@@ -105,17 +105,17 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func deletePlayer(_ player: PlayerProtocol) {
-//        game.deletePlayerAt(player.position)
+        game.deletePlayerAt(player.position)
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 
     func addPlayer() {
-//        game.addPlayer()
+        game.addPlayer()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
-    func endRound(_ endRound: EndRound) {
-//        game.endRound(endRound)
+    func endRound(_ endRound: EndRoundProtocol) {
+        game.endRound(endRound)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
@@ -129,7 +129,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func resetGame() {
-//        game.resetGame()
+        game.resetGame()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
@@ -156,7 +156,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
     func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {
         guard let index = game.players.firstIndex(where: { $0.id == player.id }) else { return }
-//        game.playerNameChanged(withIndex: index, toName: name)
+        game.playerNameChanged(withIndex: index, toName: name)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }

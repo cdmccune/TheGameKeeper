@@ -31,7 +31,7 @@ import CoreData
 protocol ScoreChangeProtocol {
     var endRound: EndRound? { get set }
     var game: Game? { get set }
-    var player: Player { get set }
+    var player: PlayerProtocol { get }
     var scoreChange: Int { get set }
     var id: UUID { get set }
 }
@@ -41,22 +41,12 @@ class ScoreChange: NSManagedObject, ScoreChangeProtocol {
     convenience init(player: Player, context: NSManagedObjectContext) {
         self.init(context: context)
         self.id = UUID()
-        self.player = player
+        self.player_ = player
     }
-    
-//    init(player: PlayerProtocol, scoreChange: Int) {
-//        self.playerID = player.id
-//        self.playerName = player.name
-//        self.scoreChange = scoreChange
-//    }
-    
-//    static func getBlankScoreChange() -> ScoreChange {
-//        return ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
-//    }
     
     @NSManaged public var endRound: EndRound?
     @NSManaged public var game: Game?
-    @NSManaged public var player: Player
+    @NSManaged private var player_: Player
     @NSManaged public var scoreChange_: Int64
     @NSManaged public var id: UUID
     
@@ -68,10 +58,9 @@ class ScoreChange: NSManagedObject, ScoreChangeProtocol {
             scoreChange_ = Int64(newValue)
         }
     }
+    
+    var player: PlayerProtocol {
+        player_
+    }
 }
-
-//extension ScoreChange: Equatable {}
-//func == (lhs: ScoreChange, rhs: ScoreChange) -> Bool {
-//    return lhs.id == rhs.id
-//}
 

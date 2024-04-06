@@ -12,8 +12,8 @@ enum StorageType {
     case persistent, inMemory
 }
 
-class CoreDataStore {
-    let persistentContainer: NSPersistentContainer
+class CoreDataStore: CoreDataStoreProtocol {
+    var persistentContainer: NSPersistentContainer
     
     init(_ storageType: StorageType = .persistent) {
         self.persistentContainer = NSPersistentContainer(name: "CoreDataModel")
@@ -25,7 +25,7 @@ class CoreDataStore {
             
         }
         
-        self.persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        self.persistentContainer.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }

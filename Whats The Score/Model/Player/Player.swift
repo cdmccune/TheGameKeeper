@@ -13,21 +13,11 @@ protocol PlayerProtocol {
     var score: Int { get }
     var id: UUID { get }
     var position: Int { get set }
-    var scoreChanges: Set<ScoreChange> { get set }
-    func getScoreThrough(_ scoreChange: ScoreChange) -> Int
+    var scoreChanges: [ScoreChangeProtocol] { get }
+    func getScoreThrough(_ scoreChange: ScoreChangeProtocol) -> Int
 }
 
 class Player: NSManagedObject, PlayerProtocol {
-    
-//    static func getBasicPlayer() -> Player {
-//        return Player(name: "", position: 0)
-//    }
-    
-//    init(name: String, position: Int, id: UUID = UUID()) {
-//        self._name = name
-//        self.position = position
-//        self.id = id
-//    }
     
     convenience init(game: Game, name: String, position: Int, context: NSManagedObjectContext) {
         self.init(context: context)
@@ -35,16 +25,14 @@ class Player: NSManagedObject, PlayerProtocol {
         self.name = name
         self.position = position
         self.game = game
-        self.scoreChanges = []
+        self.scoreChanges_ = []
     }
-    
-    #warning("want to make sure the changes I make are tested, so gotta comb through the tests and figure that out. Gotta make the entities initializable with correct params. then create mocks for them with fake contexts'")
     
     @NSManaged public var id: UUID
     @NSManaged public var game: Game
-    @NSManaged public var scoreChanges: Set<ScoreChange>
+    @NSManaged private var scoreChanges_: Set<ScoreChange>
     @NSManaged public var name: String
-    @NSManaged public var position_: Int64
+    @NSManaged private var position_: Int64
     
     var position: Int {
         get {
@@ -56,39 +44,29 @@ class Player: NSManagedObject, PlayerProtocol {
     }
     
     var score: Int {
-                scoreChanges.reduce(0) { partialResult, scoreChange in
-                    partialResult + scoreChange.scoreChange
-                }
+        scoreChanges.reduce(0) { partialResult, scoreChange in
+            partialResult + scoreChange.scoreChange
+        }
+    }
+    
+    var scoreChanges: [ScoreChangeProtocol] {
+        return Array(scoreChanges_)
+    }
+    
+    
+    func getScoreThrough(_ scoreChange: ScoreChangeProtocol) -> Int {
+        if let index = scoreChanges.firstIndex(where: { $0.id == scoreChange.id }) {
+            let scoreChangesUpUntilPoint = scoreChanges[0...index]
+            return scoreChangesUpUntilPoint.reduce(0) { partialResult, scoreChange in
+                partialResult + scoreChange.scoreChange
             }
-    
-//    var name: String {
-//        get {
-//            _name.isEmpty ? "Player \(position + 1)" : _name
-//        }
-//        
-//        set {
-//            _name = newValue
-//        }
-//    }
-    
-//    var hasDefaultName: Bool {
-//            _name.isEmpty
-//    }
-    
-    
-    func getScoreThrough(_ scoreChange: ScoreChange) -> Int {
-//        if let index = scoreChanges.firstIndex(of: scoreChange) {
-//            let scoreChangesUpUntilPoint = scoreChanges[0...index]
-//            return scoreChangesUpUntilPoint.reduce(0) { partialResult, scoreChange in
-//                partialResult + scoreChange.scoreChange
-//            }
-//        } else {
+        } else {
             return 0
-//        }
+        }
     }
 }
 
-//extension Player: Equatable {}
-//func == (rhs: Player, lhs: Player) -> Bool {
-//    return rhs.id == lhs.id
-//}
+extension Player {
+    @objc(addScoreChanges_Object:)
+    @NSManaged public func addToScoreChanges_(_ value: ScoreChange)
+}

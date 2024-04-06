@@ -30,8 +30,7 @@ class GameHistoryEndRoundTableViewCellTableViewDelegate: NSObject, UITableViewDe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard viewModel.scoreChanges.indices.contains(indexPath.row),
-              viewModel.players.indices.contains(indexPath.row)
+        guard viewModel.scoreChanges.indices.contains(indexPath.row)
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "GameHistoryErrorTableViewCell") ?? UITableViewCell()
             return cell
@@ -42,9 +41,8 @@ class GameHistoryEndRoundTableViewCellTableViewDelegate: NSObject, UITableViewDe
         }
         
         let scoreChange = viewModel.scoreChanges[indexPath.row]
-        let player = viewModel.players[indexPath.row]
         
-        cell.setupViewProperties(for: scoreChange, isInRoundEnd: true, andPlayer: player)
+        cell.setupViewProperties(for: scoreChange, isInRoundEnd: true)
         
         return cell
     }

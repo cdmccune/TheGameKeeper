@@ -203,7 +203,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(delegate.updateCalledCount, 1)
-//        XCTAssertTrue(delegate.updateGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(delegate.updateGame?.isEqualTo(game: game) ?? false)
     }
     
     
@@ -231,11 +231,11 @@ final class GameHistoryViewControllerTests: XCTestCase {
         let viewModelMock = GameHistoryViewModelMock()
         sut.viewModel = viewModelMock
         
-//        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
+        let scoreChange = ScoreChangeMock()
         
         // when
         sut.setBindings()
-//        viewModelMock.scoreChangeToEdit.value = scoreChange
+        viewModelMock.scoreChangeToEdit.value = scoreChange
         
         // then
         XCTAssertEqual(sut.presentCalledCount, 1)
@@ -252,12 +252,12 @@ final class GameHistoryViewControllerTests: XCTestCase {
         let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
         
-//        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
+        let scoreChange = ScoreChangeMock()
         
         // when
         sut.loadView()
         sut.setBindings()
-//        viewModelMock.scoreChangeToEdit.value = scoreChange
+        viewModelMock.scoreChangeToEdit.value = scoreChange
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
@@ -275,16 +275,16 @@ final class GameHistoryViewControllerTests: XCTestCase {
         let viewModelMock = GameHistoryViewModelMock()
         sut.viewModel = viewModelMock
         
-//        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
+        let scoreChange = ScoreChangeMock()
         
         // when
         sut.setBindings()
-//        viewModelMock.scoreChangeToEdit.value = scoreChange
+        viewModelMock.scoreChangeToEdit.value = scoreChange
         
         // then
         let editPlayerVC = sut.presentViewController as? ScoreboardPlayerEditScorePopoverViewController
         XCTAssertTrue(editPlayerVC?.delegate === viewModelMock)
-//        XCTAssertEqual(editPlayerVC?.scoreChange, scoreChange)
+        XCTAssertTrue(editPlayerVC?.scoreChange as? ScoreChangeMock === scoreChange)
     }
     
     
@@ -313,7 +313,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         // when
         sut.setBindings()
-//        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        viewModelMock.endRoundToEdit.value = EndRoundMock()
         
         // then
         XCTAssertEqual(sut.presentCalledCount, 1)
@@ -333,7 +333,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         // when
         sut.setBindings()
-//        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        viewModelMock.endRoundToEdit.value = EndRoundMock()
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
@@ -356,12 +356,12 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         let viewModelMock = GameHistoryViewModelMock()
         let playerCount = Int.random(in: 1...10)
-//        let endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
         sut.viewModel = viewModelMock
         
         // when
         sut.setBindings()
-//        viewModelMock.endRoundToEdit.value = endRound
+        viewModelMock.endRoundToEdit.value = endRound
         
         // then
         XCTAssertEqual(endRoundPopoverHeightHelperMock.getPopoverHeightForSafeAreaHeight, rectHeight)
@@ -386,7 +386,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         // when
         sut.setBindings()
-//        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        viewModelMock.endRoundToEdit.value = EndRoundMock()
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, heightToReturn)
@@ -404,16 +404,16 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         sut.viewModel = viewModelMock
         
-//        let endRound = EndRound.getBlankEndRound()
+        let endRound = EndRoundMock()
         
         // when
         sut.setBindings()
-//        viewModelMock.endRoundToEdit.value = endRound
+        viewModelMock.endRoundToEdit.value = endRound
         
         // then
         let endRoundPopoverVC = sut.presentViewController as? EndRoundPopoverViewController
         
-//        XCTAssertEqual(endRoundPopoverVC?.endRound, endRound)
+        XCTAssertTrue(endRoundPopoverVC?.endRound as? EndRoundMock === endRound)
     }
     
     func test_GameHistoryViewController_WhenSetBindingsCalledAndViewModelEndRoundToEditSet_ShouldPresentEndRoundPopoverWithHeightHelperPlayerViewHeightAndPlayerSeperatorHeight() {
@@ -430,7 +430,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         // when
         sut.setBindings()
-//        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        viewModelMock.endRoundToEdit.value = EndRoundMock()
         
         // then
         let endRoundPopoverVC = sut.presentViewController as? EndRoundPopoverViewController
@@ -447,7 +447,7 @@ final class GameHistoryViewControllerTests: XCTestCase {
         
         // when
         sut.setBindings()
-//        viewModelMock.endRoundToEdit.value = EndRound.getBlankEndRound()
+        viewModelMock.endRoundToEdit.value = EndRoundMock()
         
         // then
         let endRoundPopoverVC = sut.presentViewController as? EndRoundPopoverViewController
@@ -539,27 +539,10 @@ final class GameHistoryViewControllerTests: XCTestCase {
         deleteAction!.handler!(UIAlertAction(title: "", style: .destructive))
         
         // then
-        XCTAssertEqual(viewModelMock.deleteHistorySegmentAtIndex, index)
-        XCTAssertEqual(viewModelMock.deleteHistorySegmentAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock.deleteRowAtIndex, index)
+        XCTAssertEqual(viewModelMock.deleteRowAtCalledCount, 1)
         
     }
-    
-//    func test_GameHistoryViewController_WhenSetBindingsCalledAndShouldShowDeleteSegmentWarnignSetTrue_ShouldPresentAlertWithFirstActionCancel() {
-//        let sut = getPresentMockWithRightViewsPresent()
-//        let viewModelMock = GameHistoryViewModelMock()
-//        
-//        sut.viewModel = viewModelMock
-//        
-//        // when
-//        sut.setBindings()
-//        viewModelMock.shouldShowDeleteSegmentWarning.value = true
-//        
-//        // then
-//        let cancelAction = (sut.presentViewController as? UIAlertController)?.actions.first
-//        XCTAssertNotNil(cancelAction)
-//        XCTAssertEqual(cancelAction?.title, "Cancel")
-//        XCTAssertEqual(cancelAction?.style, .cancel)
-//    }
     
     
     // MARK: - TableViewIndexToRefresh

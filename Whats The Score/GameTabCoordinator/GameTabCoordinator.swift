@@ -9,7 +9,8 @@ import Foundation
 
 class GameTabCoordinator: Coordinator {
     
-    required init(navigationController: RootNavigationController) {
+    required init(navigationController: RootNavigationController, coreDataStore: CoreDataStoreProtocol  = CoreDataStore(.inMemory)) {
+        self.coreDataStore = coreDataStore
         self.navigationController = navigationController
     }
     
@@ -17,7 +18,10 @@ class GameTabCoordinator: Coordinator {
         GameSetupCoordinator(navigationController: navigationController, parentCoordinator: self),
         ScoreboardCoordinator(navigationController: navigationController, parentCoordinator: self)
     ]
+    
+    var coreDataStore: CoreDataStoreProtocol
     var navigationController: RootNavigationController
+    lazy var coreDataHelper: GameTabCoreDataHelperProtocol = GameTabCoreDataHelper(coreDataStore: coreDataStore)
     
     
     func start() {
@@ -25,6 +29,7 @@ class GameTabCoordinator: Coordinator {
     }
     
     func startQuickGame() {
+        let game = coreDataHelper.startQuickGame()
 //        let player1 = Player(name: "Player 1", position: 0)
 //        let player2 = Player(name: "Player 2", position: 0)
 //        var players: [PlayerProtocol] = [player1, player2]

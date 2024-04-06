@@ -1,5 +1,5 @@
 //
-//  Game.swift
+//  GameFunctions.swift
 //  What's The Score
 //
 //  Created by Curt McCune on 12/30/23.
@@ -8,136 +8,7 @@
 import Foundation
 import CoreData
 
- protocol GameProtocol {
-    var gameType: GameType { get set }
-    var gameEndType: GameEndType { get set }
-    var numberOfRounds: Int { get set }
-    var currentRound: Int { get set }
-    var endingScore: Int { get set }
-     var players: Set<Player> { get set }
-    var winningPlayers: [Player] { get }
-    var scoreChanges: Set<ScoreChange> { get set }
-    var endRounds: Set<EndRound> { get set }
-//    var historySegments: [GameHistorySegment] { get set }
-    var id: UUID { get }
-    
-    mutating func playerNameChanged(withIndex index: Int, toName name: String)
-    mutating func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
-    mutating func addPlayer()
-    mutating func randomizePlayers()
-    mutating func deletePlayerAt(_ index: Int)
-    mutating func editScore(scoreChange: ScoreChange)
-    mutating func endRound(_ endRound: EndRound)
-    mutating func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int)
-    mutating func resetGame()
-    mutating func editScoreChange(_ newScoreChange: ScoreChange)
-    mutating func editEndRound(_ newEndRound: EndRound)
-    mutating func deleteHistorySegmentAt(index: Int)
-     func isEqualTo(game: GameProtocol) -> Bool
-    
-    func isEndOfGame() -> Bool
- }
-
-class Game: NSManagedObject, GameProtocol {
-    
-    // MARK: - Initialization
-    
-    convenience init(basicGameWithContext context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.id = UUID()
-        self.endRounds = []
-        self.players = []
-        self.scoreChanges = []
-    }
-    
-    convenience init(gameType: GameType,
-                     gameEndType: GameEndType,
-                     numberOfRounds: Int = 2,
-                     currentRound: Int = 1,
-                     endingScore: Int = 10,
-                     players: [Player],
-                     context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.gameType = gameType
-        self.gameEndType = gameEndType
-        self.numberOfRounds = numberOfRounds
-        self.currentRound = currentRound
-        self.endingScore = endingScore
-        players.forEach { player in
-            self.addToPlayers(player)
-        }
-        self.scoreChanges = []
-        self.endRounds = []
-    }
-    
-    // MARK: - NSManaged Properties
-    
-    @NSManaged public var id: UUID
-    @NSManaged public var players: Set<Player>
-    @NSManaged public var scoreChanges: Set<ScoreChange>
-    @NSManaged public var endRounds: Set<EndRound>
-    @NSManaged private var gameType_: Int64
-    @NSManaged private var gameEndType_: Int64
-    @NSManaged private var numberOfRounds_: Int64
-    @NSManaged private var endingScore_: Int64
-    @NSManaged private var currentRound_: Int64
-    
-    // MARK: - Other Public Properties
-    
-    var gameType: GameType {
-        get {
-            return GameType(rawValue: Int(truncatingIfNeeded: gameType_)) ?? .basic
-        }
-        set {
-            gameType_ = Int64(newValue.rawValue)
-        }
-    }
-    
-    var gameEndType: GameEndType {
-        get {
-            return GameEndType(rawValue: Int(truncatingIfNeeded: gameEndType_)) ?? .none
-        }
-        set {
-            gameEndType_ = Int64(newValue.rawValue)
-        }
-    }
-    
-    var numberOfRounds: Int {
-        get {
-            Int(truncatingIfNeeded: numberOfRounds_)
-        }
-        set {
-            numberOfRounds_ = Int64(newValue)
-        }
-    }
-    
-    var endingScore: Int {
-        get {
-            Int(truncatingIfNeeded: endingScore_)
-        }
-        set {
-            endingScore_ = Int64(newValue)
-        }
-    }
-    
-    var currentRound: Int {
-        get {
-            Int(truncatingIfNeeded: currentRound_)
-        }
-        set {
-            currentRound_ = Int64(newValue)
-        }
-    }
-    
-    var playerArray: [Player] {
-            Array(players)
-    }
-    
-    var winningPlayers: [Player] {
-        let sortedPlayers = players.sorted { $0.score>$1.score }
-        return players.filter { $0.score == (sortedPlayers.first?.score ?? 0) }
-    }
-    
+extension Game {
     
     // MARK: - Functions
     
@@ -224,7 +95,7 @@ class Game: NSManagedObject, GameProtocol {
 ////        }
     }
     
-    func editScore(scoreChange: ScoreChange) {
+    func editScore(scoreChange: ScoreChangeProtocol) {
 //        guard let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) else { return }
 //        
 //        players[index].scoreChanges.append(scoreChange)
@@ -233,8 +104,8 @@ class Game: NSManagedObject, GameProtocol {
 ////        historySegments.append(historySegment)
     }
     
-    func endRound(_ endRound: EndRound) {
-//        
+    func endRound(_ endRound: EndRoundProtocol) {
+//
 //        var playersInThisRound: [PlayerProtocol] = []
 //        
 //        endRound.scoreChangeArray.forEach { scoreChange in
@@ -312,8 +183,8 @@ class Game: NSManagedObject, GameProtocol {
 ////        historySegments = []
     }
     
-    func editScoreChange(_ newScoreChange: ScoreChange) {
-//        
+    func editScoreChange(_ newScoreChange: ScoreChangeProtocol) {
+//
 ////        if let playerIndex = players.firstIndex(where: { $0.id == newScoreChange.playerID }),
 ////           let scoreChangeIndex = historySegments.getIndexOfElement(withID: newScoreChange.id),
 ////           case .scoreChange(let scoreChangeOriginal, let player) = historySegments[scoreChangeIndex] {
@@ -327,8 +198,8 @@ class Game: NSManagedObject, GameProtocol {
 ////        }
     }
     
-    func editEndRound(_ newEndRound: EndRound) {
-//        
+    func editEndRound(_ newEndRound: EndRoundProtocol) {
+//
 //        var playerInEndRoundArray = [PlayerProtocol]()
 //        
 //        // Loop through new score changes
@@ -384,16 +255,16 @@ class Game: NSManagedObject, GameProtocol {
 extension Game {
 
     @objc(addPlayersObject:)
-    @NSManaged public func addToPlayers(_ value: Player)
+    @NSManaged public func addToPlayers_(_ value: Player)
 
     @objc(removePlayersObject:)
-    @NSManaged public func removeFromPlayers(_ value: Player)
+    @NSManaged public func removeFromPlayers_(_ value: Player)
 
     @objc(addPlayers:)
-    @NSManaged public func addToPlayers(_ values: NSSet)
+    @NSManaged public func addToPlayers_(_ values: NSSet)
 
     @objc(removePlayers:)
-    @NSManaged public func removeFromPlayers(_ values: NSSet)
+    @NSManaged public func removeFromPlayers_(_ values: NSSet)
 
 }
 
@@ -401,16 +272,16 @@ extension Game {
 extension Game {
 
     @objc(addEndRoundsObject:)
-    @NSManaged public func addToEndRounds(_ value: EndRound)
+    @NSManaged public func addToEndRounds_(_ value: EndRound)
 
     @objc(removeEndRoundsObject:)
-    @NSManaged public func removeFromEndRounds(_ value: EndRound)
+    @NSManaged public func removeFromEndRounds_(_ value: EndRound)
 
     @objc(addEndRounds:)
-    @NSManaged public func addToEndRounds(_ values: NSSet)
+    @NSManaged public func addToEndRounds_(_ values: NSSet)
 
     @objc(removeEndRounds:)
-    @NSManaged public func removeFromEndRounds(_ values: NSSet)
+    @NSManaged public func removeFromEndRounds_(_ values: NSSet)
 
 }
 
@@ -418,30 +289,19 @@ extension Game {
 extension Game {
 
     @objc(addScoreChangesObject:)
-    @NSManaged public func addToScoreChanges(_ value: ScoreChange)
+    @NSManaged public func addToScoreChanges_(_ value: ScoreChange)
 
     @objc(removeScoreChangesObject:)
-    @NSManaged public func removeFromScoreChanges(_ value: ScoreChange)
+    @NSManaged public func removeFromScoreChanges_(_ value: ScoreChange)
 
     @objc(addScoreChanges:)
-    @NSManaged public func addToScoreChanges(_ values: NSSet)
+    @NSManaged public func addToScoreChanges_(_ values: NSSet)
 
     @objc(removeScoreChanges:)
-    @NSManaged public func removeFromScoreChanges(_ values: NSSet)
+    @NSManaged public func removeFromScoreChanges_(_ values: NSSet)
 
 }
 
 extension Game: Identifiable {
 
-}
-
-enum GameType: Int, CaseIterable {
-    case basic = 0
-    case round = 1
-}
-
-enum GameEndType: Int, CaseIterable {
-    case none = 0
-    case round = 1
-    case score = 2
 }

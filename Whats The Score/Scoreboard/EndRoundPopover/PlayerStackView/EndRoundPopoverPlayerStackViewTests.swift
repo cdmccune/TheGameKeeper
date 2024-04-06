@@ -20,7 +20,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        let sut = EndRoundPopoverPlayerStackView(playerName:playerName, playerID: playerID, textField: textField, textFieldDelegate: textFieldDelegate)
+        let sut = EndRoundPopoverPlayerStackView(playerName: playerName, playerID: playerID, textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         XCTAssertEqual(sut.playerName, playerName)
@@ -72,7 +72,6 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
     
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetCorrectPropertiesOnTextField() {
         // given
-//        let player = Player(name: "", position: 0)
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
@@ -87,12 +86,11 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
     
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetWidthConstraintForTextField() {
         // given
-//        let player = Player(name: "", position: 0)
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
         
         // when
-        let _ = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
+        _ = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
         let constraints = textField.constraints

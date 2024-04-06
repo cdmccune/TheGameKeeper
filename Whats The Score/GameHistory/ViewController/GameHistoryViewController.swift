@@ -56,7 +56,7 @@ class GameHistoryViewController: UIViewController, Storyboarded {
     
     // MARK: - Binding functionality
     
-    private func presentEditPlayerScorePopoverWith(_ scoreChange: ScoreChange) {
+    private func presentEditPlayerScorePopoverWith(_ scoreChange: ScoreChangeProtocol) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let editPlayerScoreVC = storyboard.instantiateViewController(withIdentifier: "ScoreboardPlayerEditScorePopoverViewController") as? ScoreboardPlayerEditScorePopoverViewController else { fatalError("ScoreboardPlayerEditScorePopoverViewController not instantiated")}
@@ -70,21 +70,21 @@ class GameHistoryViewController: UIViewController, Storyboarded {
         self.present(editPlayerScoreVC, animated: true)
     }
     
-    private func presentEndRoundPopoverWith(_ endRound: EndRound) {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
-//        
-//        #warning("Write a test for these being set before the default popover presenter")
-//        
-//        endRoundPopoverVC.endRound = endRound
-//        endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
-//        endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
-//        endRoundPopoverVC.delegate = viewModel
-//        
-//        let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: endRound.scoreChangeArray.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
-//        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height, tapToExit: true)
-//        
-//        self.present(endRoundPopoverVC, animated: true)
+    private func presentEndRoundPopoverWith(_ endRound: EndRoundProtocol) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let endRoundPopoverVC = storyboard.instantiateViewController(withIdentifier: "EndRoundPopoverViewController") as? EndRoundPopoverViewController else { fatalError("EndRoundPopoverViewController not instantiated")}
+        
+        #warning("Write a test for these being set before the default popover presenter")
+        
+        endRoundPopoverVC.endRound = endRound
+        endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
+        endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
+        endRoundPopoverVC.delegate = viewModel
+        
+        let height = endRoundPopoverHeightHelper.getPopoverHeightFor(playerCount: endRound.scoreChanges.count, andSafeAreaHeight: self.view.safeAreaFrame.height)
+        defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: endRoundPopoverVC, withWidth: 300, andHeight: height, tapToExit: true)
+        
+        self.present(endRoundPopoverVC, animated: true)
     }
     
     private func presentDeleteAlertController(index: Int) {
@@ -92,7 +92,7 @@ class GameHistoryViewController: UIViewController, Storyboarded {
         
         let cancelAction = TestableUIAlertAction.createWith(title: "Cancel", style: .cancel) { _ in }
         let deleteAction = TestableUIAlertAction.createWith(title: "Delete", style: .destructive) { _ in
-            self.viewModel.deleteHistorySegmentAt(index)
+            self.viewModel.deleteRowAt(index)
         }
         
         alert.addAction(cancelAction)

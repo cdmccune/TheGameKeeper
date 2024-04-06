@@ -53,12 +53,13 @@ final class PlayerTests: XCTestCase {
 //    }
 //    
 //    
-//    // MARK: - GetScoreThrough
-//    
+    // MARK: - GetScoreThrough
+    
 //    func test_Player_WhenGetScoreThroughCalled_ShouldReduceScoreChangesUpUntilIndexAndSumThem() {
 //        // given
 //        
-//        let sut = Player.getBasicPlayer()
+//        let context = CoreDataStore(.inMemory).persistentContainer.viewContext
+//        let sut = Player(game: Game(context: context), name: "", position: 0, context: context)
 //        
 //        let scoreChangeCount = Int.random(in: 5...10)
 //        var scoreChangeIntArray = [Int]()
@@ -66,7 +67,9 @@ final class PlayerTests: XCTestCase {
 //        for _ in 0..<scoreChangeCount {
 //            let scoreChangeInt = Int.random(in: 100...1000)
 //            scoreChangeIntArray.append(scoreChangeInt)
-//            sut.scoreChanges.append(ScoreChange(player: sut, scoreChange: scoreChangeInt))
+//            let scoreChange = ScoreChange(player: sut, context: context)
+//            scoreChange.scoreChange = scoreChangeInt
+//            sut.addToScoreChanges_(scoreChange)
 //        }
 //        
 //        let randomIndex = Int.random(in: 3..<scoreChangeCount)
@@ -87,12 +90,12 @@ final class PlayerTests: XCTestCase {
 
 class PlayerMock: PlayerProtocol {
     
-    init(name: String = "", position: Int = 0, score: Int = 0, id: UUID = UUID(), scoreChanges: [ScoreChange] = [], getScoreThroughResult: Int = 0) {
+    init(name: String = "", position: Int = 0, score: Int = 0, id: UUID = UUID(), scoreChanges: [ScoreChangeProtocol] = [], getScoreThroughResult: Int = 0) {
         self.name = name
         self.score = score
         self.id = id
         self.position = position
-        self.scoreChanges = Set(scoreChanges)
+        self.scoreChanges = scoreChanges
         self.getScoreThroughResult = getScoreThroughResult
     }
     
@@ -100,10 +103,10 @@ class PlayerMock: PlayerProtocol {
     var score: Int
     var position: Int
     var id: UUID
-    var scoreChanges: Set<ScoreChange>
+    var scoreChanges: [ScoreChangeProtocol]
     
     var getScoreThroughResult: Int
-    func getScoreThrough(_ scoreChange: ScoreChange) -> Int {
+    func getScoreThrough(_ scoreChange: ScoreChangeProtocol) -> Int {
         return getScoreThroughResult
     }
 }

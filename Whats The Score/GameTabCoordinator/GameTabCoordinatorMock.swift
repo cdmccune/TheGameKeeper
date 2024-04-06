@@ -14,8 +14,8 @@ class GameTabCoordinatorMock: GameTabCoordinator {
         super.init(navigationController: RootNavigationController())
     }
     
-    required init(navigationController: RootNavigationController) {
-        super.init(navigationController: navigationController)
+    required init(navigationController: RootNavigationController, coreDataStore: CoreDataStoreProtocol = CoreDataStore(.inMemory)) {
+        super.init(navigationController: navigationController, coreDataStore: coreDataStore)
     }
     
     var startCalledCount = 0

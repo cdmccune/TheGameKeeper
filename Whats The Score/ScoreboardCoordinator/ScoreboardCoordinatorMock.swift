@@ -52,10 +52,10 @@ class ScoreboardCoordinatorMock: ScoreboardCoordinator {
         showEditPlayerPopoverCalledCount += 1
     }
     
-    var showEditPlayerScorePopoverScoreChange: ScoreChange?
+    var showEditPlayerScorePopoverScoreChange: ScoreChangeProtocol?
     var showEditPlayerScorePopoverDelegate: ScoreboardPlayerEditScorePopoverDelegate?
     var showEditPlayerScorePopoverCalledCount = 0
-    override func showEditPlayerScorePopover(withScoreChange scoreChange: ScoreChange, andDelegate delegate: ScoreboardPlayerEditScorePopoverDelegate) {
+    override func showEditPlayerScorePopover(withScoreChange scoreChange: ScoreChangeProtocol, andDelegate delegate: ScoreboardPlayerEditScorePopoverDelegate) {
         showEditPlayerScorePopoverScoreChange = scoreChange
         showEditPlayerScorePopoverDelegate = delegate
         showEditPlayerScorePopoverCalledCount += 1

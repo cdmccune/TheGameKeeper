@@ -14,6 +14,6 @@ final class GameHistoryEndRoundTableViewCellViewModelTests: XCTestCase {
 }
 
 class GameHistoryEndRoundTableViewCellViewModelMock: GameHistoryEndRoundTableViewCellViewModelProtocol {
-    var scoreChanges: [ScoreChange] = []
+    var scoreChanges: [ScoreChangeProtocol] = []
     var players: [PlayerProtocol] = []
 }

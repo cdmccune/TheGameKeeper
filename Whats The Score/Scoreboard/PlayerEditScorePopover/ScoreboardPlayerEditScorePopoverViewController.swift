@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ScoreboardPlayerEditScorePopoverDelegate: AnyObject {
-    func editScore(_ scoreChange: ScoreChange)
+    func editScore(_ scoreChange: ScoreChangeProtocol)
 }
 
 class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboarded {
@@ -24,7 +24,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboa
     
     // MARK: - Properties
     
-    var scoreChange: ScoreChange?
+    var scoreChange: ScoreChangeProtocol?
     weak var delegate: ScoreboardPlayerEditScorePopoverDelegate?
     
     
@@ -59,7 +59,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboa
     }
     
     private func setupViews() {
-//        playerLabel.text = scoreChange?.playerName
+        playerLabel.text = scoreChange?.player.name
         
         if let scoreChange = scoreChange?.scoreChange,
            scoreChange != 0 {

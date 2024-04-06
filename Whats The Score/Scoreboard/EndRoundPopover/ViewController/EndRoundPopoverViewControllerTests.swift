@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import Whats_The_Score
 
 final class EndRoundPopoverViewControllerTests: XCTestCase {
@@ -13,6 +14,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
     // MARK: - Setup
     
     var viewController: EndRoundPopoverViewController!
+    var managedObjectContext: NSManagedObjectContext!
 
     override func setUp() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -20,10 +22,12 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
             fatalError("EndRoundPopoverViewController wasn't found")
         }
         self.viewController = viewController
+        self.managedObjectContext = CoreDataStore(.inMemory).persistentContainer.viewContext
     }
     
     override func tearDown() {
         viewController = nil
+        self.managedObjectContext = nil
     }
     
     
@@ -45,22 +49,22 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
-//    func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldSetRoundTextToEndRoundRoundNumber() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let round = Int.random(in: 0...1000)
-//        let endRound = EndRound(roundNumber: round, scoreChangeArray: [])
-//
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        XCTAssertEqual(sut.roundLabel.text, "Round \(round)")
-//    }
+    func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldSetRoundTextToEndRoundRoundNumber() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let round = Int.random(in: 0...1000)
+        let endRound = EndRoundMock(roundNumber: round, scoreChangeArray: [])
+
+        sut.endRound = endRound
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.roundLabel.text, "Round \(round)")
+    }
     
     func test_EndRoundPopoverViewController_WhenViewDidLoadCalledEndRoundNil_ShouldSetRoundTextToQuestionMarkRound() {
         // given
@@ -76,263 +80,263 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.roundLabel.text, "Round ???")
     }
     
-//    func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldPlugInPlayersScoresIntoTextFields() {
-//        // given
-//        
-//        let sut = viewController!
-//        
-//        let playersScoreChanges = [
-//            Int.random(in: 1...100),
-//            Int.random(in: 1...100),
-//            Int.random(in: 1...100)
-//        ]
-//        
-//        var endRound = EndRound.getEndRoundWith(numberOfPlayers: 3)
-//        endRound.scoreChangeArray[0].scoreChange = playersScoreChanges[0]
-//        endRound.scoreChangeArray[1].scoreChange = playersScoreChanges[1]
-//        endRound.scoreChangeArray[2].scoreChange = playersScoreChanges[2]
-//        
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.loadView()
-//        sut.viewDidLoad()
-//        
-//        // then
-//        sut.textFields.enumerated().forEach { (index, textField) in
-//            XCTAssertEqual(textField.text, String(playersScoreChanges[index]))
-//        }
-//    }
+    func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldPlugInPlayersScoresIntoTextFields() {
+        // given
+        
+        let sut = viewController!
+        
+        let playersScoreChanges = [
+            Int.random(in: 1...100),
+            Int.random(in: 1...100),
+            Int.random(in: 1...100)
+        ]
+        
+        var endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 3)
+        endRound.scoreChanges[0].scoreChange = playersScoreChanges[0]
+        endRound.scoreChanges[1].scoreChange = playersScoreChanges[1]
+        endRound.scoreChanges[2].scoreChange = playersScoreChanges[2]
+        
+        sut.endRound = endRound
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        sut.textFields.enumerated().forEach { (index, textField) in
+            XCTAssertEqual(textField.text, String(playersScoreChanges[index]))
+        }
+    }
     
-//    func test_EndRoundPopoverViewController_WhenViewDidLoadCalledPlayerScoreChangeZero_ShouldSetTextfieldTextToBlank() {
-//        // given
-//        let sut = viewController!
-//        
-//        var endRound = EndRound.getEndRoundWith(numberOfPlayers: 1)
-//        endRound.scoreChangeArray[0].scoreChange = 0
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.loadView()
-//        sut.viewDidLoad()
-//        
-//        // then
-//        XCTAssertEqual(sut.textFields[0].text, "")
-//    }
+    func test_EndRoundPopoverViewController_WhenViewDidLoadCalledPlayerScoreChangeZero_ShouldSetTextfieldTextToBlank() {
+        // given
+        let sut = viewController!
+        
+        var endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 1)
+        endRound.scoreChanges[0].scoreChange = 0
+        sut.endRound = endRound
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.textFields[0].text, "")
+    }
     
     // MARK: - PlayerStackView
     
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldAddEndRoundScoreChangeCountOfEndRoundPopoverPlayerStackView() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let playerCount = Int.random(in: 1...10)
-//        let endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        XCTAssertEqual(sut.playerStackView.subviews.count, playerCount)
-//        XCTAssertTrue(sut.playerStackView.subviews is [EndRoundPopoverPlayerStackView])
-//    }
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldAddEndRoundScoreChangeCountOfEndRoundPopoverPlayerStackView() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 1...10)
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        sut.endRound = endRound
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.playerStackView.subviews.count, playerCount)
+        XCTAssertTrue(sut.playerStackView.subviews is [EndRoundPopoverPlayerStackView])
+    }
     
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerForEndRoundPopoverPlayerStackView() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let playerCount = Int.random(in: 2...10)
-//        let endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
-//        sut.endRound = endRound
-//        let randomPlayerIndex = Int.random(in: 0...playerCount-1)
-//        
-//        // when
-//        sut.viewDidLoad()
-//        let endRoundPopoverPlayerStackView = sut.playerStackView.subviews[randomPlayerIndex] as? EndRoundPopoverPlayerStackView
-//        
-//        // then
-//        XCTAssertEqual(endRoundPopoverPlayerStackView?.playerID, endRound.scoreChangeArray[randomPlayerIndex].playerID)
-//    }
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerForEndRoundPopoverPlayerStackView() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        sut.endRound = endRound
+        let randomPlayerIndex = Int.random(in: 0...playerCount-1)
+        
+        // when
+        sut.viewDidLoad()
+        let endRoundPopoverPlayerStackView = sut.playerStackView.subviews[randomPlayerIndex] as? EndRoundPopoverPlayerStackView
+        
+        // then
+        XCTAssertEqual(endRoundPopoverPlayerStackView?.playerID, endRound.scoreChanges[randomPlayerIndex].player.id)
+    }
     
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldIndexAndActionDelegateToSelf() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let playerCount = Int.random(in: 2...10)
-//        let endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
-//            XCTFail("Subviews should be correct stack view")
-//            return
-//        }
-//        
-//        stackViews.enumerated().forEach { (index, stackView) in
-//            XCTAssertTrue((stackView.textField as? EndRoundPopoverTextField)?.actionDelegate is EndRoundPopoverViewController)
-//            XCTAssertEqual((stackView.textField as? EndRoundPopoverTextField)?.index, index)
-//        }
-//    }
-//    
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetIsLastPropertyWhichAffectsTheToolbarItemTitle() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let playerCount = Int.random(in: 2...10)
-//        let endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
-//            XCTFail("Subviews should be correct stack view")
-//            return
-//        }
-//        
-//        stackViews.enumerated().forEach { (index, stackView) in
-//            XCTAssertEqual((stackView.textField.inputAccessoryView as? UIToolbar)?.items?.last?.title, index == stackViews.count-1 ? "Done" : "Next")
-//        }
-//    }
-//    
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldDelegateForEndRoundPopoverPlayerStackViewsTextField() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let playerCount = Int.random(in: 2...10)
-//        let endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
-//            XCTFail("Subviews should be correct stack view")
-//            return
-//        }
-//        
-//        stackViews.forEach { (stackView) in
-//            XCTAssertTrue(stackView.textFieldDelegate is StackViewTextFieldDelegate)
-//        }
-//    }
-//    
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetSelfAsEndRoundPopoverPlayerStackViewsTextFieldsEndRoundPopoverTextFieldDelegate() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let playerCount = Int.random(in: 2...10)
-//        let endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
-//            XCTFail("Subviews should be correct stack view")
-//            return
-//        }
-//        
-//        stackViews.forEach { (stackView) in
-//            let textFieldDelegate = stackView.textFieldDelegate as? StackViewTextFieldDelegate
-//            XCTAssertTrue(textFieldDelegate?.delegate is EndRoundPopoverViewController)
-//        }
-//    }
-//    
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldAddTextFieldsInPlayerStackViewsToTextFieldsProperty() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let endRound = EndRound.getEndRoundWith(numberOfPlayers: Int.random(in: 2...10))
-//        sut.endRound = endRound
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
-//            XCTFail("Subviews should be correct stack view")
-//            return
-//        }
-//        
-//        stackViews.enumerated().forEach { (index, stackView) in
-//            XCTAssertEqual(sut.textFields[index], stackView.textField)
-//        }
-//    }
-//    
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerStackViewSpacingToPlayerSeparatorHeight() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        sut.endRound = EndRound.getBlankEndRound()
-//        
-//        let separatorHeight = Int.random(in: 1...1000)
-//        sut.playerSeparatorHeight = separatorHeight
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        XCTAssertEqual(Int(sut.playerStackView.spacing), separatorHeight)
-//    }
-//    
-//    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerStackViewsSubviewsHeightToPlayerViewHeight() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//    
-//        sut.endRound = EndRound.getEndRoundWith(numberOfPlayers: 2)
-//        
-//        let playerViewHeight = Int.random(in: 1...1000)
-//        sut.playerViewHeight = playerViewHeight
-//        
-//        // when
-//        sut.viewDidLoad()
-//        
-//        // then
-//        sut.playerStackView.subviews.forEach { playerView in
-//            let constraints = playerView.constraints
-//            
-//            XCTAssertTrue(constraints.contains(where: { $0.firstAttribute == .height &&
-//                $0.constant == CGFloat(playerViewHeight)}))
-//        }
-//    }
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldIndexAndActionDelegateToSelf() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        sut.endRound = endRound
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.enumerated().forEach { (index, stackView) in
+            XCTAssertTrue((stackView.textField as? EndRoundPopoverTextField)?.actionDelegate is EndRoundPopoverViewController)
+            XCTAssertEqual((stackView.textField as? EndRoundPopoverTextField)?.index, index)
+        }
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetIsLastPropertyWhichAffectsTheToolbarItemTitle() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        sut.endRound = endRound
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.enumerated().forEach { (index, stackView) in
+            XCTAssertEqual((stackView.textField.inputAccessoryView as? UIToolbar)?.items?.last?.title, index == stackViews.count-1 ? "Done" : "Next")
+        }
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldDelegateForEndRoundPopoverPlayerStackViewsTextField() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        sut.endRound = endRound
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.forEach { (stackView) in
+            XCTAssertTrue(stackView.textFieldDelegate is StackViewTextFieldDelegate)
+        }
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetSelfAsEndRoundPopoverPlayerStackViewsTextFieldsEndRoundPopoverTextFieldDelegate() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerCount = Int.random(in: 2...10)
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        sut.endRound = endRound
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.forEach { (stackView) in
+            let textFieldDelegate = stackView.textFieldDelegate as? StackViewTextFieldDelegate
+            XCTAssertTrue(textFieldDelegate?.delegate is EndRoundPopoverViewController)
+        }
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldAddTextFieldsInPlayerStackViewsToTextFieldsProperty() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: Int.random(in: 2...10))
+        sut.endRound = endRound
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        guard let stackViews = sut.playerStackView.subviews as? [EndRoundPopoverPlayerStackView] else {
+            XCTFail("Subviews should be correct stack view")
+            return
+        }
+        
+        stackViews.enumerated().forEach { (index, stackView) in
+            XCTAssertEqual(sut.textFields[index], stackView.textField)
+        }
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerStackViewSpacingToPlayerSeparatorHeight() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        sut.endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 0)
+        
+        let separatorHeight = Int.random(in: 1...1000)
+        sut.playerSeparatorHeight = separatorHeight
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(Int(sut.playerStackView.spacing), separatorHeight)
+    }
+    
+    func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetPlayerStackViewsSubviewsHeightToPlayerViewHeight() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+    
+        sut.endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 2)
+        
+        let playerViewHeight = Int.random(in: 1...1000)
+        sut.playerViewHeight = playerViewHeight
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        sut.playerStackView.subviews.forEach { playerView in
+            let constraints = playerView.constraints
+            
+            XCTAssertTrue(constraints.contains(where: { $0.firstAttribute == .height &&
+                $0.constant == CGFloat(playerViewHeight)}))
+        }
+    }
     
     // MARK: - EndRoundButtonTapped
-//    
-//    func test_EndRoundPopoverViewController_WhenEndRoundButtonTappedEndRoundNotNil_ShouldCallEndRoundWithPlayers() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let endRound = EndRound.getBlankEndRound()
-//        sut.endRound = endRound
-//        
-//        let endRoundDelegateMock = EndRoundPopoverDelegateProtocolMock()
-//        sut.delegate = endRoundDelegateMock
-//        
-//        // when
-//        sut.endRoundButtonTapped(0)
-//        
-//        // then
-//        
-//        XCTAssertEqual(endRoundDelegateMock.endRoundCalledCount, 1)
-//        XCTAssertEqual(endRoundDelegateMock.endRoundEndRound, endRound)
-//    }
+    
+    func test_EndRoundPopoverViewController_WhenEndRoundButtonTappedEndRoundNotNil_ShouldCallEndRoundWithPlayers() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 0)
+        sut.endRound = endRound
+        
+        let endRoundDelegateMock = EndRoundPopoverDelegateProtocolMock()
+        sut.delegate = endRoundDelegateMock
+        
+        // when
+        sut.endRoundButtonTapped(0)
+        
+        // then
+        
+        XCTAssertEqual(endRoundDelegateMock.endRoundCalledCount, 1)
+        XCTAssertTrue(endRoundDelegateMock.endRoundEndRound as? EndRoundMock === endRound)
+    }
     
     func test_EndRoundPopoverViewController_WhenEndRoundButtonTapped_ShouldDismissItself() {
         
@@ -345,7 +349,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         
         // given
         let sut = EndRoundPopoverViewControllerDismissMock()
-//        sut.endRound = EndRound.getBlankEndRound()
+        sut.endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 0)
         
         // when
         sut.endRoundButtonTapped(0)
@@ -477,22 +481,22 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
     
     // MARK: - TextFieldValueChanged
     
-//    func test_EndRoundPopoverViewController_WhenTextFieldValueChangedCalled_ShouldSetEndRoundScoreChangesAtCorrectIndexToNewValue() {
-//        // given
-//        let sut = viewController!
-//        
-//        let playerCount = Int.random(in: 3...15)
-//        let randomPlayer = Int.random(in: 0...playerCount-1)
-//        let randomScore = Int.random(in: 1...10000)
-//        
-//        sut.endRound = EndRound.getEndRoundWith(numberOfPlayers: playerCount)
-//        
-//        // when
-//        sut.textFieldValueChanged(forIndex: randomPlayer, to: "\(randomScore)")
-//        
-//        // then
-//        XCTAssertEqual(sut.endRound?.scoreChangeArray[randomPlayer].scoreChange, randomScore)
-//    }
+    func test_EndRoundPopoverViewController_WhenTextFieldValueChangedCalled_ShouldSetEndRoundScoreChangesAtCorrectIndexToNewValue() {
+        // given
+        let sut = viewController!
+        
+        let playerCount = Int.random(in: 3...15)
+        let randomPlayer = Int.random(in: 0...playerCount-1)
+        let randomScore = Int.random(in: 1...10000)
+        
+        sut.endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        
+        // when
+        sut.textFieldValueChanged(forIndex: randomPlayer, to: "\(randomScore)")
+        
+        // then
+        XCTAssertEqual(sut.endRound?.scoreChanges[randomPlayer].scoreChange, randomScore)
+    }
     
     
     // MARK: - Classes
@@ -501,8 +505,8 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
 
 class EndRoundPopoverDelegateProtocolMock: EndRoundPopoverDelegateProtocol {
     var endRoundCalledCount = 0
-    var endRoundEndRound: EndRound?
-    func endRound(_ endRound: EndRound) {
+    var endRoundEndRound: EndRoundProtocol?
+    func endRound(_ endRound: EndRoundProtocol) {
         endRoundCalledCount += 1
         endRoundEndRound = endRound
     }

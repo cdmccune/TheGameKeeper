@@ -15,18 +15,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-//        // create our coordinator
-//        coordinator = MainCoordinator()
-//        coordinator?.start()
-//        
-//        // create the window for our app and make it use our tabbar controller
-//        window = UIWindow(frame: UIScreen.main.bounds)
-//        window?.rootViewController = coordinator?.tabbarController
-//        window?.makeKeyAndVisible()
-        
         guard (scene as? UIWindowScene) != nil else { return }
         
-        coordinator = MainCoordinator()
+        guard let isTesting = ProcessInfo.processInfo.environment["IS_TESTING"],
+           isTesting == "0" else {
+            return
+        }
+        
+        coordinator = MainCoordinator(coreDataStore: CoreDataStore(.persistent))
         coordinator?.start()
         
         self.window = UIWindow.init(windowScene: scene as! UIWindowScene)

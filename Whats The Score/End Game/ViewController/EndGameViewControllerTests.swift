@@ -176,7 +176,7 @@ final class EndGameViewControllerTests: XCTestCase {
         sut.screenWidth = screenWidth
         
         let viewModel = EndGameViewModelMock()
-        var game = GameMock()
+        let game = GameMock()
         game.winningPlayers = players
         viewModel.game = game
         sut.viewModel = viewModel

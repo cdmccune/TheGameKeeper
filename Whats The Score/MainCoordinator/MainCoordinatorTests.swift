@@ -113,6 +113,19 @@ final class MainCoordinatorTests: XCTestCase {
         XCTAssertTrue(homeTabCoordinatorMock?.coordinator === sut)
     }
 
+    func test_MainCoordinator_WhenStartCalled_ShouldSetGameTabbarCoordinatorCoreDataStoreToOwnCoreDataStore() {
+        // given
+        let coreDataStoreMock = CoreDataStoreMock()
+        let sut = MainCoordinator(coreDataStore: coreDataStoreMock)
+        sut.gameTabbarCoordinatorType = GameTabCoordinatorMock.self
+        
+        // when
+        sut.start()
+        
+        // then
+        let gameTabCoordinatorMock = sut.childCoordinators[1] as? GameTabCoordinatorMock
+        XCTAssertTrue(gameTabCoordinatorMock?.coreDataStore as? CoreDataStoreMock === coreDataStoreMock)
+    }
     
     func test_MainCoordinator_WhenStartCalled_ShouldCallStartOnGameTabCoordinator() {
         

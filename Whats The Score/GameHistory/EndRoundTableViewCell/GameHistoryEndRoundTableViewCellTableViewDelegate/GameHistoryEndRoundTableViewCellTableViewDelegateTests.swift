@@ -43,8 +43,8 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         let (sut, tableView) = getSutAndTableView()
         
         let scoreChangesCount = Int.random(in: 1...10)
-//        let scoreChanges = Array(repeating: ScoreChange.getBlankScoreChange(), count: scoreChangesCount)
-//        sut.viewModel.scoreChanges = scoreChanges
+        let scoreChanges = Array(repeating: ScoreChangeMock(player: PlayerMock()), count: scoreChangesCount)
+        sut.viewModel.scoreChanges = scoreChanges
         
         // when
         let count = sut.tableView(tableView, numberOfRowsInSection: 0)
@@ -69,8 +69,7 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
     func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldReturnScoreChangeCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
-//        sut.viewModel.scoreChanges = [ScoreChange.getBlankScoreChange()]
-        sut.viewModel.players = [PlayerMock()]
+        sut.viewModel.scoreChanges = [ScoreChangeMock(player: PlayerMock())]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
@@ -82,23 +81,19 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
     func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCellWithScoreChangeAndIsInRoundEndTrueAndPlayers() {
         // given
         let (sut, tableView) = getSutAndTableView()
-//        let player = Player.getBasicPlayer()
+        let player = PlayerMock()
         let scoreChangeInt = Int.random(in: 1...1000)
-//        let scoreChange = ScoreChange(player: player, scoreChange: scoreChangeInt)
-        let players = [PlayerMock()]
+        let scoreChange = ScoreChangeMock(player: player, scoreChange: scoreChangeInt)
         
-//        sut.viewModel.scoreChanges = [scoreChange]
-        sut.viewModel.players = players
+        sut.viewModel.scoreChanges = [scoreChange]
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? GameHistoryScoreChangeTableViewCellMock
         
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
-//        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, player.id)
+        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player.id, player.id)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.scoreChange, scoreChangeInt)
-        XCTAssertEqual(cell?.setupPropertiesForPlayer?.id, players[0].id)
-        
         XCTAssertTrue(cell?.setupPropertiesForIsInRoundEndBool ?? false)
     }
     

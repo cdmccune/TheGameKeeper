@@ -102,17 +102,19 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     // MARK: - Add Player
     
-    func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldAddPlayerToPlayersArray() {
-        // given
-        let playerCount = Int.random(in: 2...10)
-        let sut = getViewModel(withPlayerCount: playerCount)
-        
-        // when
-        sut.addPlayer()
-        
-        // then
-        XCTAssertEqual(sut.players.count, playerCount + 1)
-    }
+    #warning("This whole system needs to be reworked so that it doesn't create players yet, but passes data to the coordinator for the players that will be created, then coordinator will call coredatahelper to create the game.")
+    
+//    func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldAddPlayerToPlayersArray() {
+//        // given
+//        let playerCount = Int.random(in: 2...10)
+//        let sut = getViewModel(withPlayerCount: playerCount)
+//        
+//        // when
+//        sut.addPlayer()
+//        
+//        // then
+//        XCTAssertEqual(sut.players.count, playerCount + 1)
+//    }
 
     func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldCallBindViewToViewModel() {
         // given

@@ -17,10 +17,10 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     
-    func setupViewProperties(for scoreChange: ScoreChange, isInRoundEnd: Bool = false, andPlayer player: PlayerProtocol) {
-//        playerNameLabel.text = scoreChange.playerName
+    func setupViewProperties(for scoreChange: ScoreChangeProtocol, isInRoundEnd: Bool = false) {
+        playerNameLabel.text = scoreChange.player.name
         scoreChangeLabel.text = String(scoreChange.scoreChange)
-        scoreTotalLabel.text = String(player.getScoreThrough(scoreChange))
+        scoreTotalLabel.text = String(scoreChange.player.getScoreThrough(scoreChange))
         
         switch scoreChange.scoreChange {
         case ..<0:
@@ -31,10 +31,10 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
             scoreChangeLabel.textColor = .systemBlue
         }
         
-//        if isInRoundEnd {
-//            contentView.backgroundColor = .systemBlue.withAlphaComponent(0.3)
-//        } else {
-//            contentView.backgroundColor = nil
-//        }
+        if isInRoundEnd {
+            contentView.backgroundColor = .systemBlue.withAlphaComponent(0.3)
+        } else {
+            contentView.backgroundColor = nil
+        }
     }
 }

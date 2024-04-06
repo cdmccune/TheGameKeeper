@@ -42,10 +42,10 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         // given
         let sut = tableViewCell!
         let playerName = UUID().uuidString
-//        let player = Player(name: playerName, position: 0)
+        let player = PlayerMock(name: playerName)
         
         // when
-//        sut.setupCellWith(player)
+        sut.setupCellWith(player)
         
         // then
         XCTAssertEqual(sut.playerNameLabel.text, playerName)

@@ -255,58 +255,58 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.instructionLabel.text, "Rounds must be higher than \(currentRound - 1)")
     }
     
-//    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntLessThanGameCurrentRoundAndSendActionForEditingChanged_ShouldMakeSaveChangesButtonDisabled() {
-//        // given
-//        let sut = viewController!
-//        
-//        let game = GameMock()
-//        game.gameEndType = .score
-//        let highScore = 5
-//        let player = PlayerMock(name: "", position: 0, score: highScore)
-//        game.winningPlayers = [player]
-//        sut.game = game
-//        
-//        sut.loadView()
-//        sut.viewDidLoad()
-//        
-//        sut.saveChangesButton.isEnabled = true
-//        
-//        let scoreInt = 4
-//        sut.inputTextField.text = "\(scoreInt)"
-//        
-//        // when
-//        sut.inputTextField.sendActions(for: .editingChanged)
-//        
-//        // then
-//        XCTAssertFalse(sut.saveChangesButton.isEnabled)
-//    }
+    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntLessThanGameCurrentRoundAndSendActionForEditingChanged_ShouldMakeSaveChangesButtonDisabled() {
+        // given
+        let sut = viewController!
+        
+        let game = GameMock()
+        game.gameEndType = .score
+        let highScore = 5
+        let player = PlayerMock(score: highScore)
+        game.winningPlayers = [player]
+        sut.game = game
+        
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        sut.saveChangesButton.isEnabled = true
+        
+        let scoreInt = 4
+        sut.inputTextField.text = "\(scoreInt)"
+        
+        // when
+        sut.inputTextField.sendActions(for: .editingChanged)
+        
+        // then
+        XCTAssertFalse(sut.saveChangesButton.isEnabled)
+    }
     
-//    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntLessThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetInstructionTextColorToRedAndTextToYouMustInputANumberHigherThanHighestPlayersScore() {
-//        // given
-//        let sut = viewController!
-//        
-//        let game = GameMock()
-//        game.gameEndType = .score
-//        let highScore = 5
-//        let player = PlayerMock(name: "", position: 0, score: highScore)
-//        game.winningPlayers = [player]
-//        sut.game = game
-//        
-//        sut.loadView()
-//        sut.viewDidLoad()
-//        
-//        sut.saveChangesButton.isEnabled = true
-//        
-//        let scoreInt = 4
-//        sut.inputTextField.text = "\(scoreInt)"
-//        
-//        // when
-//        sut.inputTextField.sendActions(for: .editingChanged)
-//        
-//        // then
-//        XCTAssertEqual(sut.instructionLabel.textColor, .red)
-//        XCTAssertEqual(sut.instructionLabel.text, "Score must be higher than \(highScore)")
-//    }
+    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntLessThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetInstructionTextColorToRedAndTextToYouMustInputANumberHigherThanHighestPlayersScore() {
+        // given
+        let sut = viewController!
+        
+        let game = GameMock()
+        game.gameEndType = .score
+        let highScore = 5
+        let player = PlayerMock(score: highScore)
+        game.winningPlayers = [player]
+        sut.game = game
+        
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        sut.saveChangesButton.isEnabled = true
+        
+        let scoreInt = 4
+        sut.inputTextField.text = "\(scoreInt)"
+        
+        // when
+        sut.inputTextField.sendActions(for: .editingChanged)
+        
+        // then
+        XCTAssertEqual(sut.instructionLabel.textColor, .red)
+        XCTAssertEqual(sut.instructionLabel.text, "Score must be higher than \(highScore)")
+    }
     
     func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntMoreThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetInstructionTextColorToBlueAndTextToTapSaveChangesToPlayOnAndEnableSaveChangesButton() {
         // given
@@ -315,9 +315,9 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         let game = GameMock()
         game.gameEndType = .score
         let highScore = 5
-//        let player = Player(name: "", position: 0, score: highScore)
-//        let player = Player(name: "", position: 0)
-//        game.winningPlayers = [player]
+        let player = PlayerMock(score: highScore)
+
+        game.winningPlayers = [player]
         sut.game = game
         
         sut.loadView()

@@ -37,30 +37,54 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         return (sut, tableView)
     }
     
+    func getGameWithType(_ gameType: GameType, andNumberOfObjects count: Int) -> GameMock {
+        let game = GameMock()
+        game.gameType = gameType
+        switch gameType {
+        case .basic:
+            game.scoreChanges = Array(repeating: ScoreChangeMock(player: PlayerMock()), count: count)
+        case .round:
+            game.endRounds = Array(repeating: EndRoundMock(), count: count)
+        }
+        return game
+    }
+    
     
     // MARK: - NumberOfRowsInSection
     
-    func test_GameHistoryTableViewDelegate_WhenNumberRowsInSectionCalled_ShouldReturnViewModelGameHistorySegmentsCount() {
+    func test_GameHistoryTableViewDelegate_WhenNumberRowsInSectionCalledGameTypeRound_ShouldReturnViewModelGameEndRoundCount() {
         // given
         let (sut, tableView) = getSutAndTableView()
-        let gameSegmentCount = Int.random(in: 2...10)
-//        let gameSegments = Array(repeating: GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange(), PlayerMock()), count: gameSegmentCount)
-//        sut.viewModel.game.historySegments = gameSegments
+        let endRoundCount = Int.random(in: 2...10)
+        sut.viewModel.game = getGameWithType(.round, andNumberOfObjects: endRoundCount)
         
         // when
         let count = sut.tableView(tableView, numberOfRowsInSection: 0)
         
         // then
-        XCTAssertEqual(count, gameSegmentCount)
+        XCTAssertEqual(count, endRoundCount)
+    }
+    
+    func test_GameHistoryTableViewDelegate_WhenNumberRowsInSectionCalledGameTypeBasic_ShouldReturnViewModelGameScoreChangesCount() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let scoreChangesCount = Int.random(in: 2...10)
+        sut.viewModel.game = getGameWithType(.basic, andNumberOfObjects: scoreChangesCount)
+        
+        // when
+        let count = sut.tableView(tableView, numberOfRowsInSection: 0)
+        
+        // then
+        XCTAssertEqual(count, scoreChangesCount)
     }
     
     
     // MARK: - CellForRowAt
     
-    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledOutOfIndex_ShouldReturnErroCell() {
+    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledOutOfIndexGameBasic_ShouldReturnErroCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
-//        sut.viewModel.game.historySegments = []
+        sut.viewModel.game = getGameWithType(.basic, andNumberOfObjects: 0)
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
@@ -69,10 +93,22 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         XCTAssertTrue(cell is GameHistoryErrorTableViewCell)
     }
     
-    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsScoreChange_ShouldReturnScoreChangeCell() {
+    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledOutOfIndexGameRound_ShouldReturnErroCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
-//        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange(), PlayerMock())]
+        sut.viewModel.game = getGameWithType(.round, andNumberOfObjects: 0)
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertTrue(cell is GameHistoryErrorTableViewCell)
+    }
+    
+    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledGameTypeBasic_ShouldReturnScoreChangeCell() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        sut.viewModel.game = getGameWithType(.basic, andNumberOfObjects: 1)
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
@@ -84,26 +120,22 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsScoreChange_ShouldCallSetupPropertiesForWithCorrectScoreChangeAndIsInRoundEndFalseAndPlayer() {
         // given
         let (sut, tableView) = getSutAndTableView()
-//        let player = Player.getBasicPlayer()
-//        let scoreChange = ScoreChange(player: player, scoreChange: 0)
-//        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange(scoreChange, player)]
+        sut.viewModel.game = getGameWithType(.basic, andNumberOfObjects: 1)
+        let player = sut.viewModel.game.scoreChanges.first!.player
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? GameHistoryScoreChangeTableViewCellMock
         
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
-//        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.playerID, player.id)
-//        XCTAssertEqual(cell?.setupPropertiesForPlayer?.id, player.id)
+        XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player.id, player.id)
         XCTAssertFalse(cell?.setupPropertiesForIsInRoundEndBool ?? true)
     }
     
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldReturnEndRoundCell() {
         // given
         let (sut, tableView) = getSutAndTableView()
-//        let endRound = EndRound(roundNumber: 0, scoreChangeArray: [])
-//        let endRoundSegment = GameHistorySegment.endRound(endRound, [PlayerMock()])
-//        sut.viewModel.game.historySegments = [endRoundSegment]
+        sut.viewModel.game = getGameWithType(.round, andNumberOfObjects: 1)
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
@@ -112,14 +144,17 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         XCTAssertTrue(cell is GameHistoryEndRoundTableViewCell)
     }
     
-    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldCallSetupCellForWithCorrectScoreChangesAndRoundNumberAndPlayers() {
+    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldCallSetupCellForWithCorrectScoreChangesAndRoundNumber() {
         // given
         let (sut, tableView) = getSutAndTableView()
-//        let player = Player.getBasicPlayer()
-//        let scoreChanges = [ScoreChange(player: player, scoreChange: 0)]
+        
+        let scoreChange = ScoreChangeMock(player: PlayerMock())
         let roundNumber = Int.random(in: 1...10)
-//        let endRound = EndRound(roundNumber: roundNumber, scoreChangeArray: scoreChanges)
-//        sut.viewModel.game.historySegments = [GameHistorySegment.endRound(endRound, [player])]
+        let endRound = EndRoundMock(roundNumber: roundNumber, scoreChangeArray: [scoreChange])
+        let game = GameMock()
+        game.gameType = .round
+        game.endRounds = [endRound]
+        sut.viewModel.game = game
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? GameHistoryEndRoundTableViewCellMock
@@ -127,17 +162,16 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         // then
         XCTAssertEqual(cell?.setupCellForCalledCount, 1)
         XCTAssertEqual(cell?.setupCellForRound, roundNumber)
-//        XCTAssertEqual(cell?.setupCellForScoreChanges?.first?.playerID, player.id)
-//        XCTAssertEqual(cell?.setupCellForPlayers?.first?.id, player.id)
+        XCTAssertEqual(cell?.setupCellForScoreChanges?.first?.id, scoreChange.id)
     }
     
     
     // MARK: - HeightForRowAt
     
-    func test_GameHistoryTableViewDelegate_WhenHeightForRowAtCalledIndexIsScoreChange_ShouldReturn44() {
+    func test_GameHistoryTableViewDelegate_WhenHeightForRowAtCalledGameTypeBasic_ShouldReturn44() {
         // given
         let (sut, tableView) = getSutAndTableView()
-//        sut.viewModel.game.historySegments = [GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange(), PlayerMock())]
+        sut.viewModel.game = getGameWithType(.basic, andNumberOfObjects: 0)
         
         // when
         let height = sut.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: 0))
@@ -146,14 +180,13 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         XCTAssertEqual(height, 44)
     }
     
-    func test_GameHistoryTableViewDelegate_WhenHeightForRowAtCalledIndexIsEndRound_ShouldReturnNumberCalculatedCorrectly() {
+    func test_GameHistoryTableViewDelegate_WhenHeightForRowAtCalledGameTypeRound_ShouldReturnNumberCalculatedCorrectly() {
         // given
         let (sut, tableView) = getSutAndTableView()
         let scoreChangeCount = Int.random(in: 0...10)
-//        let scoreChanges = Array(repeating: ScoreChange.getBlankScoreChange(), count: scoreChangeCount)
-//        let endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChanges)
-//        sut.viewModel.game.historySegments = [GameHistorySegment.endRound(endRound, [])]
-        
+        let scoreChanges = Array(repeating: ScoreChangeMock(), count: scoreChangeCount)
+        let endRound = EndRoundMock(scoreChangeArray: scoreChanges)
+        sut.viewModel.game = GameMock(gameType: .round, endRounds: [endRound])
         
         // when
         let height = sut.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: 0))
@@ -213,8 +246,8 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         action.handler(action, UIView(), {_ in})
         
         // then
-        XCTAssertEqual(viewModelMock.startDeletingHistorySegmentAtCalledCount, 1)
-        XCTAssertEqual(viewModelMock.startDeletingHistorySegmentAtIndex, index)
+        XCTAssertEqual(viewModelMock.startDeletingRowAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock.startDeletingRowAtIndex, index)
     }
     
     
@@ -272,7 +305,4 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         // then
         XCTAssertEqual(height, 44)
     }
-    
-    
-
 }

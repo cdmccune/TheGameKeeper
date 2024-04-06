@@ -10,15 +10,23 @@ import Foundation
 
 class EndRoundMock: EndRoundProtocol {
     
+    static func getEndRoundWith(numberOfPlayers: Int) -> EndRoundMock {
+        var scoreChanges: [ScoreChangeProtocol] = []
+        for i in 0..<numberOfPlayers {
+            scoreChanges.append(ScoreChangeMock(player: PlayerMock(position: i + 1), scoreChange: 0))
+        }
+        return EndRoundMock(roundNumber: 0, scoreChangeArray: scoreChanges)
+    }
+    
     init(id: UUID = UUID(),
          roundNumber: Int = 0,
-         scoreChanges: Set<ScoreChange> = []) {
+         scoreChangeArray: [ScoreChangeProtocol] = []) {
         self.id = id
         self.roundNumber = roundNumber
-        self.scoreChanges = scoreChanges
+        self.scoreChanges = scoreChangeArray
     }
     
     var id: UUID
     var roundNumber: Int
-    var scoreChanges: Set<Whats_The_Score.ScoreChange>
+    var scoreChanges: [ScoreChangeProtocol]
 }

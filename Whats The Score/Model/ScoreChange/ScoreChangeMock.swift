@@ -11,7 +11,7 @@ import Foundation
 class ScoreChangeMock: ScoreChangeProtocol {
     init(endRound: EndRound? = nil,
          game: Game? = nil,
-         player: Player,
+         player: PlayerProtocol = PlayerMock(),
          scoreChange: Int = 0,
          id: UUID = UUID()) {
         
@@ -25,7 +25,7 @@ class ScoreChangeMock: ScoreChangeProtocol {
     
     var endRound: Whats_The_Score.EndRound?
     var game: Whats_The_Score.Game?
-    var player: Whats_The_Score.Player
+    var player: Whats_The_Score.PlayerProtocol
     var scoreChange: Int
     var id: UUID
 }

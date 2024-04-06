@@ -25,9 +25,9 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     }
     
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (ScoreboardTableViewDelegateDatasource, UITableView) {
-//        let players = Array(repeating: Player(name: "", position: 0), count: playerCount)
+        let players = Array(repeating: PlayerMock(), count: playerCount)
         let viewModelMock = ScoreboardViewModelMock()
-        viewModelMock.sortedPlayers = []
+        viewModelMock.sortedPlayers = players
         
         let sut = ScoreboardTableViewDelegateDatasource(viewModel: viewModelMock)
         let tableView = tableViewMock!
@@ -66,19 +66,19 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         XCTAssertTrue(cell is ScoreboardTableViewCell)
     }
     
-//    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldCallCellsSetupCellWithPlayerAtIndex() {
-//        // given
-//        let (sut, tableView) = getSutAndTableView(withPlayerCount: 3)
-//        
-//        let player = sut.viewModel.sortedPlayers[2]
-//        
-//        // when
-//        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 2, section: 0)) as? ScoreboardTableViewCellMock
-//        
-//        // then
-//        XCTAssertEqual(cell?.setupCellWithCalledCount, 1)
-//        XCTAssertEqual(cell?.setupCellWithPlayer?.id, player.id)
-//    }
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldCallCellsSetupCellWithPlayerAtIndex() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 3)
+        
+        let player = sut.viewModel.sortedPlayers[2]
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 2, section: 0)) as? ScoreboardTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupCellWithCalledCount, 1)
+        XCTAssertEqual(cell?.setupCellWithPlayer?.id, player.id)
+    }
     
     func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledOutOfIndexForPlayer_ShouldCallCellsSetupCellForError() {
         // given
