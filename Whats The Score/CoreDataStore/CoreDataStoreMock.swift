@@ -25,4 +25,9 @@ class CoreDataStoreMock: CoreDataStoreProtocol {
     }
         
     var persistentContainer: NSPersistentContainer
+    
+    var saveContextCalledCount = 0
+    func saveContext() {
+        saveContextCalledCount += 1
+    }
 }

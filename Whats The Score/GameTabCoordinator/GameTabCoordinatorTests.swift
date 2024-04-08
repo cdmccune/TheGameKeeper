@@ -10,6 +10,17 @@ import XCTest
 
 final class GameTabCoordinatorTests: XCTestCase {
     
+    // MARK: - Mock Classes
+    
+    class GameTabCoordinatorStartScoreboardMock: GameTabCoordinator {
+        var startScoreboardCalledCount = 0
+        var startScoreboardGame: GameProtocol?
+        override func startScoreboard(with game: GameProtocol) {
+            startScoreboardCalledCount += 1
+            startScoreboardGame = game
+        }
+    }
+    
     // MARK: - Initial Properties
 
     func test_GameTabCoordinator_WhenInitialiazed_ShouldSetGameSetupCoordinatorAsFirstChildCoordinator() {
@@ -95,25 +106,13 @@ final class GameTabCoordinatorTests: XCTestCase {
     
     class GameTabCoordinatorGameSetupCompleteMock: GameTabCoordinator {
         var gameSetupCompleteGameType: GameType?
-        var gameSetupCompletePlayers: [PlayerProtocol]?
+        var gameSetupCompletePlayers: [PlayerSettings]?
         var gameSetupCompleteCalledCount = 0
-        override func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerProtocol]) {
+        override func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerSettings]) {
             gameSetupCompleteGameType = gameType
             gameSetupCompletePlayers = players
             gameSetupCompleteCalledCount += 1
         }
-    }
-    
-    func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallGameSetupCompleteWithBasicGameType() {
-        // given
-        let sut = GameTabCoordinatorGameSetupCompleteMock(navigationController: RootNavigationController())
-        
-        // when
-        sut.startQuickGame()
-        
-        // then
-        XCTAssertEqual(sut.gameSetupCompleteGameType, .basic)
-        XCTAssertEqual(sut.gameSetupCompleteCalledCount, 1)
     }
     
     func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallGameTabCoreDataModelHelperStartQuickGame() {
@@ -129,94 +128,101 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(coreDataHelper.startQuickGameCalledCount, 1)
     }
     
-//    func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallGameSetupWithTwoPlayersPlayer1And2WithCorrectPositions() {
-//        // given
-//        let sut = GameTabCoordinatorGameSetupCompleteMock(navigationController: RootNavigationController())
-//        
-//        // when
-//        sut.startQuickGame()
-//        
-//        // then
-//        XCTAssertEqual(sut.gameSetupCompletePlayers?.count, 2)
-//        XCTAssertEqual(sut.gameSetupCompletePlayers?[0].position, 0)
-//        XCTAssertEqual(sut.gameSetupCompletePlayers?[1].position, 1)
-//        XCTAssertEqual(sut.gameSetupCompletePlayers?[0].name, "Player 1")
-//        XCTAssertEqual(sut.gameSetupCompletePlayers?[1].name, "Player 2")
-//    }
+    func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallStartScoreboardWithGameReturnedFromGameTabCoreDataHelper() {
+        
+        // given
+        let sut = GameTabCoordinatorStartScoreboardMock(navigationController: RootNavigationController())
+        
+        let game = GameMock()
+        let coreDataHelperMock = GameTabCoreDataHelperMock()
+        coreDataHelperMock.gameToReturn = game
+        sut.coreDataHelper = coreDataHelperMock
+        
+        // when
+        sut.startQuickGame()
+        
+        // then
+        XCTAssertEqual(sut.startScoreboardCalledCount, 1)
+        XCTAssertEqual(sut.startScoreboardGame?.id, game.id)
+    }
     
     
     // MARK: - GameSetupComplete
     
-//    func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldSetGamePropertyOfScoreboardCoordinatorWithPropertiesFromGameSetupComplete() {
-//        // given
-//        let sut = GameTabCoordinator(navigationController: RootNavigationController())
-//        
-//        let gameType = GameType.allCases.randomElement()!
-//        let gameEndType = GameEndType.allCases.randomElement()!
-//        let players = [PlayerMock()]
-//        
-//        // when
-//        sut.gameSetupComplete(withGameType: gameType,
-//                              gameEndType: gameEndType,
-//                              gameEndQuantity: 0,
-//                              andPlayers: players)
-//        
-//        // then
-//        let scoreboardCoordinator = sut.childCoordinators.last as? ScoreboardCoordinator
-//        XCTAssertEqual(scoreboardCoordinator?.game?.gameType, gameType)
-//        XCTAssertEqual(scoreboardCoordinator?.game?.gameEndType, gameEndType)
-//        XCTAssertEqual(scoreboardCoordinator?.game?.players as? [PlayerMock], players)
-//    }
-//    
-//    func test_GameTabCoordinator_WhenGameSetupCompleteCalledGameEndTypeRound_ShouldSetScoreboardCoordinatorGameNumberOfRoundsToGameEndQuantity() {
-//        // given
-//        let sut = GameTabCoordinator(navigationController: RootNavigationController())
-//        
-//        let gameEndQuantity = Int.random(in: 1...1000)
-//        
-//        // when
-//        sut.gameSetupComplete(withGameType: .basic,
-//                              gameEndType: .round,
-//                              gameEndQuantity: gameEndQuantity,
-//                              andPlayers: [])
-//        
-//        // then
-//        let scoreboardCoordinator = sut.childCoordinators.last as? ScoreboardCoordinator
-//        XCTAssertEqual(scoreboardCoordinator?.game?.numberOfRounds, gameEndQuantity)
-//    }
-//    
-//    func test_GameTabCoordinator_WhenGameSetupCompleteCalledGameEndTypeScore_ShouldSetScoreboardCoordinatorGameEndingScoreToGameEndQuantity() {
-//        // given
-//        let sut = GameTabCoordinator(navigationController: RootNavigationController())
-//        
-//        let gameEndQuantity = Int.random(in: 1...1000)
-//        
-//        // when
-//        sut.gameSetupComplete(withGameType: .basic,
-//                              gameEndType: .score,
-//                              gameEndQuantity: gameEndQuantity,
-//                              andPlayers: [])
-//        
-//        // then
-//        let scoreboardCoordinator = sut.childCoordinators.last as? ScoreboardCoordinator
-//        XCTAssertEqual(scoreboardCoordinator?.game?.endingScore, gameEndQuantity)
-//    }
-//    
-//    func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldCallStartOnScoreboardCoordinator() {
-//        
-//        let scoreboardCoordinatorMock = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
-//        
-//        // given
-//        let sut = GameTabCoordinator(navigationController: RootNavigationController())
-//        sut.childCoordinators[1] = scoreboardCoordinatorMock
-//        
-//        // when
-//        sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, andPlayers: [])
-//        
-//        // then
-//        XCTAssertEqual(scoreboardCoordinatorMock.startCalledCount, 1)
-//    }
+    func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldCallGameTabCoreDataHelperWithSameSettings() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        
+        let coreDataHelper = GameTabCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let gameType = GameType.allCases.randomElement()!
+        let gameEndType = GameEndType.allCases.randomElement()!
+        let gameEndQuantity = Int.random(in: 3...10)
+        let playerName = UUID().uuidString
+        let playerSettings = [PlayerSettings(name: playerName)]
+        
+        // when
+        sut.gameSetupComplete(withGameType: gameType, gameEndType: gameEndType, gameEndQuantity: gameEndQuantity, andPlayers: playerSettings)
+        
+        // then
+        XCTAssertEqual(coreDataHelper.initializeGameGameType, gameType)
+        XCTAssertEqual(coreDataHelper.initializeGameGameEndType, gameEndType)
+        XCTAssertEqual(coreDataHelper.initializeGameGameEndQuantity, gameEndQuantity)
+        XCTAssertEqual(coreDataHelper.initializeGamePlayerSettings, playerSettings)
+        XCTAssertEqual(coreDataHelper.initializeGameCalledCount, 1)
+    }
     
+    func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldCallStartScoreboardWithGameFromCoreDataHelper() {
+        // given
+        let sut = GameTabCoordinatorStartScoreboardMock(navigationController: RootNavigationController())
+        
+        let game = GameMock()
+        let coreDataHelperMock = GameTabCoreDataHelperMock()
+        coreDataHelperMock.gameToReturn = game
+        sut.coreDataHelper = coreDataHelperMock
+        
+        // when
+        sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, andPlayers: [])
+        
+        // then
+        XCTAssertEqual(sut.startScoreboardCalledCount, 1)
+        XCTAssertEqual(sut.startScoreboardGame?.id, game.id)
+    }
+
+    
+    // MARK: - StartScoreboard
+    
+    func test_GameTabCoordinator_WhenStartScoreboardCalled_ShouldCallStartOnScoreboardCoordinator() {
+        
+        let scoreboardCoordinatorMock = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        sut.childCoordinators[1] = scoreboardCoordinatorMock
+        
+        // when
+        sut.startScoreboard(with: GameMock())
+        
+        // then
+        XCTAssertEqual(scoreboardCoordinatorMock.startCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenStartScoreboardCalled_ShouldSetGameToScoreboardCoordinatorsGame() {
+        // given
+        let scoreboardCoordinatorMock = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        sut.childCoordinators[1] = scoreboardCoordinatorMock
+        
+        let game = GameMock()
+        
+        // when
+        sut.startScoreboard(with: game)
+        
+        // then
+        XCTAssertEqual(scoreboardCoordinatorMock.game?.id, game.id)
+    }
     
     // MARK: - ShowGameEndScreen
     
@@ -246,7 +252,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         // then
         let endGameVC = navigationController.viewControllers.first as? EndGameViewController
         XCTAssertNotNil(endGameVC?.viewModel)
-//        XCTAssertTrue(endGameVC?.viewModel.game.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(endGameVC?.viewModel.game.isEqualTo(game: game) ?? false)
     }
     
     func test_GameTabCoordinator_WhenShowGameEndScreenCalled_ShouldSetEndGameViewControllerCoordinatorAsSelf() {
@@ -278,7 +284,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         // then
         let scoreboardCoordinator = sut.childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
         
-//        XCTAssertTrue(scoreboardCoordinator?.game?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(scoreboardCoordinator?.game?.isEqualTo(game: game) ?? false)
     }
     
     func test_GameTabCoordinator_WhenGoToScoreboardCalled_ShouldCallScoreboardCoordinatorStart() {

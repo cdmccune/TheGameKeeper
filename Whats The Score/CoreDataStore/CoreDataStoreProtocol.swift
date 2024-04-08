@@ -10,4 +10,6 @@ import CoreData
 
 protocol CoreDataStoreProtocol: AnyObject {
     var persistentContainer: NSPersistentContainer { get set }
+    
+    func saveContext()
 }

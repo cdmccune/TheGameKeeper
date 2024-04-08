@@ -31,12 +31,12 @@ class GameTabCoordinatorMock: GameTabCoordinator {
     var gameSetupCompleteGameType: GameType?
     var gameSetupCompleteGameEndType: GameEndType?
     var gameSetupCompleteGameEndQuantity: Int?
-    var gameSetupCompletePlayers: [PlayerProtocol]?
+    var gameSetupCompletePlayers: [PlayerSettings]?
     var gameSetupCompleteCalledCount = 0
     override func gameSetupComplete(withGameType gameType: GameType,
                                     gameEndType: GameEndType,
                                     gameEndQuantity: Int,
-                                    andPlayers players: [PlayerProtocol]) {
+                                    andPlayers players: [PlayerSettings]) {
         self.gameSetupCompleteGameType = gameType
         self.gameSetupCompleteGameEndType = gameEndType
         self.gameSetupCompleteGameEndQuantity = gameEndQuantity

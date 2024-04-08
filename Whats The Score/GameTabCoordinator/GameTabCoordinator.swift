@@ -30,29 +30,24 @@ class GameTabCoordinator: Coordinator {
     
     func startQuickGame() {
         let game = coreDataHelper.startQuickGame()
-//        let player1 = Player(name: "Player 1", position: 0)
-//        let player2 = Player(name: "Player 2", position: 0)
-//        var players: [PlayerProtocol] = [player1, player2]
-//        players.setPositions()
-        
-        gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, andPlayers: [])
+        startScoreboard(with: game)
     }
     
-    func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerProtocol]) {
+    func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerSettings]) {
         
         let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
         
-//        var game = Game(gameType: gameType, gameEndType: gameEndType, players: players)
+        let game = coreDataHelper.initializeGame(with: gameType, gameEndType, gameEndQuantity: gameEndQuantity, players)
         
-//        if gameEndType == .round {
-//            game.numberOfRounds = gameEndQuantity
-//        } else if gameEndType == .score {
-//            game.endingScore = gameEndQuantity
-//        }
+        startScoreboard(with: game)
+    }
+    
+    func startScoreboard(with game: GameProtocol) {
+        let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
         
-//        scoreboardCoordinator?.game = game
-        
+        scoreboardCoordinator?.game = game
         scoreboardCoordinator?.start()
+        
     }
     
     func showEndGameScreen(forGame game: GameProtocol) {

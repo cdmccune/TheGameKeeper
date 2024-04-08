@@ -106,6 +106,7 @@
 		249B7EFE2BC0971C0030C7CC /* GameTabCoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249B7EFD2BC0971C0030C7CC /* GameTabCoreDataHelper.swift */; };
 		249B7F002BC099440030C7CC /* GameTabCoreDataHelperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249B7EFF2BC099440030C7CC /* GameTabCoreDataHelperMock.swift */; };
 		249B7F022BC099FD0030C7CC /* GameTabCoreDataHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249B7F012BC099FD0030C7CC /* GameTabCoreDataHelperTests.swift */; };
+		249BFEE82BC43E540085F21E /* PlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249BFEE72BC43E540085F21E /* PlayerSettings.swift */; };
 		24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */; };
 		24A4233E2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */; };
 		24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */; };
@@ -283,6 +284,7 @@
 		249B7EFD2BC0971C0030C7CC /* GameTabCoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTabCoreDataHelper.swift; sourceTree = "<group>"; };
 		249B7EFF2BC099440030C7CC /* GameTabCoreDataHelperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTabCoreDataHelperMock.swift; sourceTree = "<group>"; };
 		249B7F012BC099FD0030C7CC /* GameTabCoreDataHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTabCoreDataHelperTests.swift; sourceTree = "<group>"; };
+		249BFEE72BC43E540085F21E /* PlayerSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSettings.swift; sourceTree = "<group>"; };
 		24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModel.swift; sourceTree = "<group>"; };
 		24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewModelTests.swift; sourceTree = "<group>"; };
 		24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewDelegate.swift; sourceTree = "<group>"; };
@@ -640,6 +642,7 @@
 			children = (
 				244A463C2B5AF7820033199F /* Game */,
 				243228D52B4DBCDB00C42C62 /* Player */,
+				249BFEE62BC43E3B0085F21E /* PlayerSettings */,
 				24CF37442BBF1C5500CE08FB /* ScoreChange */,
 				24CF37452BBF1C6300CE08FB /* EndRound */,
 				249B7EF62BC08AB90030C7CC /* GameType+EndType */,
@@ -930,6 +933,14 @@
 				249B7F012BC099FD0030C7CC /* GameTabCoreDataHelperTests.swift */,
 			);
 			path = CoreDataHelper;
+			sourceTree = "<group>";
+		};
+		249BFEE62BC43E3B0085F21E /* PlayerSettings */ = {
+			isa = PBXGroup;
+			children = (
+				249BFEE72BC43E540085F21E /* PlayerSettings.swift */,
+			);
+			path = PlayerSettings;
 			sourceTree = "<group>";
 		};
 		24A4233A2B45B8320047CCD3 /* PlayerSetupViewModel */ = {
@@ -1509,6 +1520,7 @@
 				24495CDA2B9FA08700E0AB61 /* EndRoundPopoverTextField.swift in Sources */,
 				2410F71A2B5596D200860BA4 /* ViewControllerExtensions.swift in Sources */,
 				24EC1D7C2B44CC600060D27D /* PlayerSetupViewController.swift in Sources */,
+				249BFEE82BC43E540085F21E /* PlayerSettings.swift in Sources */,
 				24E36C462BAB82AB00334CD1 /* Coordinator.swift in Sources */,
 				2457FA2B2B7FD45700CF7F40 /* EndRoundPopoverViewController.swift in Sources */,
 			);

@@ -88,6 +88,7 @@ class GameSetupCoordinator: Coordinator {
         coordinator?.gameSetupComplete(withGameType: gameType,
                                        gameEndType: gameEndType,
                                        gameEndQuantity: gameEndQuantity,
-                                       andPlayers: players)
+                                       andPlayers: [])
+//                                       andPlayers: players)
     }
  }
