@@ -80,17 +80,17 @@ extension Game {
     func changeScore(with scoreChangeSettings: ScoreChangeSettings) {
         guard let managedObjectContext else { return }
         guard players.contains(where: { $0.id == scoreChangeSettings.player.id }),
-            let player = scoreChangeSettings.player as? Player else { return }
+              let player = scoreChangeSettings.player as? Player else { return }
         
         _ = ScoreChange(player: player,
-                                      scoreChange: scoreChangeSettings.scoreChange,
-                                      position: scoreChanges.count,
-                                      game: self,
-                                      context: managedObjectContext)
+                        scoreChange: scoreChangeSettings.scoreChange,
+                        position: scoreChanges.count,
+                        game: self,
+                        context: managedObjectContext)
     }
     
-//    func editScore(scoreChange: ScoreChangeProtocol) {
-//        guard let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) else { return }
+    //    func editScore(scoreChange: ScoreChangeProtocol) {
+    //        guard let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) else { return }
 //        
 //        players[index].scoreChanges.append(scoreChange)
 ////        let historySegment = GameHistorySegment.scoreChange(scoreChange, players[index])
@@ -98,7 +98,22 @@ extension Game {
 ////        historySegments.append(historySegment)
 //    }
     
-    func endRound(_ endRound: EndRoundProtocol) {
+    func endRound(with endRoundSettings: EndRoundSettings) {
+        guard let managedObjectContext else { return }
+        
+        let endRound = EndRound(game: self, roundNumber: 0, scoreChanges: [], context: managedObjectContext)
+        
+        endRoundSettings.scoreChangeSettingsArray.enumerated().forEach { (index, scoreChangeSettings) in
+            guard players.contains(where: { $0.id == scoreChangeSettings.player.id }),
+                  let player = scoreChangeSettings.player as? Player else { return }
+            
+            _ = ScoreChange(player: player,
+                            scoreChange: scoreChangeSettings.scoreChange,
+                            position: index,
+                            endRound: endRound,
+                            context: managedObjectContext)
+            
+        }
 //
 //        var playersInThisRound: [PlayerProtocol] = []
 //        
@@ -114,7 +129,7 @@ extension Game {
 ////        let historySegment = GameHistorySegment.endRound(endRound, playersInThisRound)
 ////        historySegments.append(historySegment)
 //        
-//        currentRound += 1
+        currentRound += 1
     }
     
     func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {

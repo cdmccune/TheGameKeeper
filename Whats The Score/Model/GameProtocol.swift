@@ -26,7 +26,7 @@ protocol GameProtocol {
     func randomizePlayers()
     func deletePlayer(_ player: PlayerProtocol)
     func changeScore(with scoreChangeSettings: ScoreChangeSettings)
-    func endRound(_ endRound: EndRoundProtocol)
+    func endRound(with endRoundSettings: EndRoundSettings)
     func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int)
     func resetGame()
     func editScoreChange(_ newScoreChange: ScoreChangeProtocol)

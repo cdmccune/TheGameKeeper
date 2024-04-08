@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G436" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="EndRound" representedClassName=".EndRound" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="roundNumber_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="game" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="endRounds_" inverseEntity="Game"/>
         <relationship name="scoreChanges_" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ScoreChange" inverseName="endRound" inverseEntity="ScoreChange"/>
     </entity>
     <entity name="Game" representedClassName=".Game" syncable="YES">
-        <attribute name="currentRound_" optional="YES" attributeType="Integer 64" defaultValueString="1" usesScalarValueType="YES"/>
-        <attribute name="endingScore_" optional="YES" attributeType="Integer 64" defaultValueString="10" usesScalarValueType="YES"/>
-        <attribute name="gameEndType_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="gameType_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="currentRound_" attributeType="Integer 64" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="endingScore_" attributeType="Integer 64" defaultValueString="10" usesScalarValueType="YES"/>
+        <attribute name="gameEndType_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="gameType_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="numberOfRounds_" attributeType="Integer 64" defaultValueString="2" usesScalarValueType="YES"/>
         <relationship name="endRounds_" toMany="YES" deletionRule="Cascade" destinationEntity="EndRound" inverseName="game" inverseEntity="EndRound"/>
@@ -24,9 +25,9 @@
         <relationship name="scoreChanges_" toMany="YES" deletionRule="Cascade" destinationEntity="ScoreChange" inverseName="player_" inverseEntity="ScoreChange"/>
     </entity>
     <entity name="ScoreChange" representedClassName=".ScoreChange" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="position_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="scoreChange_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="position_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="scoreChange_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="endRound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EndRound" inverseName="scoreChanges_" inverseEntity="EndRound"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="scoreChanges_" inverseEntity="Game"/>
         <relationship name="player_" maxCount="1" deletionRule="Nullify" destinationEntity="Player" inverseName="scoreChanges_" inverseEntity="Player"/>

@@ -224,17 +224,10 @@ final class GameTests: XCTestCase {
     
     // MARK: - Winning Players
     
-    class GamePlayersArrayMock: Game {
-        var temporaryPlayerArray: [PlayerProtocol] = []
-        override var players: [PlayerProtocol] {
-            temporaryPlayerArray
-        }
-    }
-    
     func test_Game_WhenWinningPlayersIsReadOnePlayerWithTopScore_ShouldReturnArrayWithThatPlayer() {
         
         // given
-        var sut = GamePlayersArrayMock()
+        let sut = GamePropertyMock()
         
         let player1 = PlayerMock(name: "", position: 0, score: 1)
         let player2 = PlayerMock(name: "", position: 0, score: 2)
@@ -250,8 +243,9 @@ final class GameTests: XCTestCase {
     }
     
     func test_Game_WhenWinningPlayersIsReadMultiplePlayersWithTopScore_ShouldReturnArrayWithThosePlayers() {
+        
         // given
-        var sut = GamePlayersArrayMock()
+        let sut = GamePropertyMock()
         
         let player1 = PlayerMock(name: "", position: 0, score: 1)
         let player2 = PlayerMock(name: "", position: 0, score: 2)
@@ -379,244 +373,211 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.scoreChanges[1].position, 1)
         XCTAssertEqual(sut.scoreChanges[2].position, 2)
     }
-//
-//    func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeToPlayer() {
-//        // given
-//        let player = Player(name: "", position: 0)
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        let pointsChange = Int.random(in: (-1000...1000))
-//        
-//        let scoreChangeObject = ScoreChange(player: player, scoreChange: pointsChange)
-//        
-//        // when
-//        sut.editScore(scoreChange: scoreChangeObject)
-//        
-//        // then
-//        XCTAssertEqual(sut.players.first?.scoreChanges.first, scoreChangeObject)
-//    }
-//    
-//    func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeGameHistorySegmentWithPlayerAndScoreChangeAndPlayer() {
-//        // given
-//        let totalScore = Int.random(in: 1...1000)
-//        let player = PlayerMock(score: totalScore)
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        let pointChange = Int.random(in: (-1000...1000))
-//        
-//        let scoreChangeObject = ScoreChange(player: player, scoreChange: pointChange)
-//        
-//        // when
-//        sut.editScore(scoreChange: scoreChangeObject)
-//        
-//        // then
-//        guard case .scoreChange(let scoreChange, let playerFromSegment) = sut.historySegments.first else {
-//            XCTFail("Didn't add a history segment")
-//            return
-//        }
-//        
-//        XCTAssertEqual(scoreChange.scoreChange, pointChange)
-//        XCTAssertEqual(scoreChange.playerID, player.id)
-//        XCTAssertEqual(playerFromSegment.id, player.id)
-//    }
-//    
-//    
-//    // MARK: - EndRound
-//    
-//    func test_Game_WhenEndRoundCalled_ShouldIncrementTheCurrentRound() {
-//        // given
-//        var sut = Game(basicGameWithPlayers: [])
-//        let currentRound = Int.random(in: 1...10)
-//        sut.currentRound = currentRound
-//        
-//        // when
-//        sut.endRound(EndRound.getBlankEndRound())
-//        
-//        // then
-//        XCTAssertEqual(sut.currentRound, currentRound + 1)
-//    }
-//    
-//    func test_Game_WhenEndRoundCalled_ShouldAppendScoreChangeObjectsToPlayers() {
-//        // given
-//        let player1 = Player.getBasicPlayer()
-//        let player2 = Player.getBasicPlayer()
-//        let player3 = Player.getBasicPlayer()
-//        let players = [player1, player2, player3]
-//        
-//        var sut = Game(basicGameWithPlayers: players)
-//        
-//        let scoreChange1 = Int.random(in: 1...10)
-//        let scoreChange2 = Int.random(in: 1...10)
-//        let scoreChange3 = Int.random(in: 1...10)
-//        
-//        let scoreChangeArray = [
-//            ScoreChange(player: player1, scoreChange: scoreChange1),
-//            ScoreChange(player: player2, scoreChange: scoreChange2),
-//            ScoreChange(player: player3, scoreChange: scoreChange3)
-//        ]
-//        
-//        let endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChangeArray)
-//        
-//        // when
-//        sut.endRound(endRound)
-//        
-//        // then
-//        XCTAssertEqual(sut.players[0].scoreChanges.first, scoreChangeArray[0])
-//        XCTAssertEqual(sut.players[1].scoreChanges.first, scoreChangeArray[1])
-//        XCTAssertEqual(sut.players[2].scoreChanges.first, scoreChangeArray[2])
-// 
-//    }
-//    
-//    func test_Game_WhenEndRoundCalled_ShouldAppendEndRoundGameHistorySegmentWithCurrentRoundBeforeIncrementingPlayerAndPlayers() {
-//        // given
-//        
-//        
-//        let player1 = PlayerMock()
-//        let player2 = PlayerMock()
-//        let player3 = PlayerMock()
-//        let players = [player1, player2, player3]
-//        
-//        var sut = Game(basicGameWithPlayers: players)
-//        
-//        let currentRound = Int.random(in: 1...10)
-//        sut.currentRound = currentRound
-//        
-//        let scoreChange1 = Int.random(in: 1...10)
-//        let scoreChange2 = Int.random(in: 1...10)
-//        let scoreChange3 = Int.random(in: 1...10)
-//        let scores = [scoreChange1, scoreChange2, scoreChange3]
-//        
-//        let scoreChangeArray = [
-//            ScoreChange(player: player1, scoreChange: scoreChange1),
-//            ScoreChange(player: player2, scoreChange: scoreChange2),
-//            ScoreChange(player: player3, scoreChange: scoreChange3)
-//        ]
-//        
-//        let endRound = EndRound(roundNumber: currentRound, scoreChangeArray: scoreChangeArray)
-//        
-//        // when
-//        sut.endRound(endRound)
-//        
-//        // then
-//        guard case .endRound(let endRound, let playersFromSegment) = sut.historySegments.first else {
-//            XCTFail("Didn't add a history segment")
-//            return
-//        }
-//        
-//        XCTAssertEqual(currentRound, endRound.roundNumber)
-//        XCTAssertEqual(endRound.scoreChangeArray.count, 3)
-//        endRound.scoreChangeArray.enumerated().forEach { (index, scoreChange) in
-//            XCTAssertEqual(players[index].id, scoreChange.playerID)
-//            XCTAssertEqual(scores[index], scoreChange.scoreChange)
-//        }
-//        
-//        XCTAssertEqual(playersFromSegment[0].id, player1.id)
-//        XCTAssertEqual(playersFromSegment[1].id, player2.id)
-//        XCTAssertEqual(playersFromSegment[2].id, player3.id)
-//        
-//    }
-//    
-//    
-//    // MARK: - UpdateSettings
-//    
-//    func test_Game_WhenUpdateSettingsCalled_ShouldSetGameEndTypeEndingScoreAndNumberOfRoundsToNewValue() {
-//        // given
-//        var sut = Game(basicGameWithPlayers: [])
-//        
-//        let gameEndType = GameEndType(rawValue: Int.random(in: 1...2))!
-//        let endingScore = Int.random(in: 15...1000)
-//        let numbeOfRounds = Int.random(in: 15...1000)
-//        
-//        // when
-//        sut.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numbeOfRounds)
-//        
-//        // then
-//        XCTAssertEqual(sut.gameEndType, gameEndType)
-//        XCTAssertEqual(sut.numberOfRounds, numbeOfRounds)
-//        XCTAssertEqual(sut.endingScore, endingScore)
-//    }
-//    
-//    
-//    // MARK: - IsEndOfGame
-//    
-//    func test_Game_WhenIsEndOfGameCalledNoneEndGameType_ShouldReturnFalse() {
-//        // given
-//        let sut = Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0)
-//        
-//        // when
-//        let isEndOfGame = sut.isEndOfGame()
-//        
-//        // then
-//        XCTAssertFalse(isEndOfGame)
-//    }
-//    
-//    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundLessThanNumberOfRounds_ShouldReturnFalse() {
-//        // given
-//        var sut = Game(gameType: .round, gameEndType: .round, numberOfPlayers: 0)
-//        sut.currentRound = 0
-//        sut.numberOfRounds = 4
-//        
-//        // when
-//        let isEndOfGame = sut.isEndOfGame()
-//        
-//        // then
-//        XCTAssertFalse(isEndOfGame)
-//    }
-//    
-//    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundEqualToNumberOfRounds_ShouldReturnFalse() {
-//        // given
-//        var sut = Game(gameType: .round, gameEndType: .round, numberOfPlayers: 0)
-//        sut.currentRound = 4
-//        sut.numberOfRounds = 4
-//        
-//        // when
-//        let isEndOfGame = sut.isEndOfGame()
-//        
-//        // then
-//        XCTAssertFalse(isEndOfGame)
-//    }
-//    
-//    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundMoreThanNumberOfRounds_ShouldReturnTrue() {
-//        // given
-//        var sut = Game(gameType: .round, gameEndType: .round, numberOfPlayers: 0)
-//        sut.currentRound = 5
-//        sut.numberOfRounds = 4
-//        
-//        // when
-//        let isEndOfGame = sut.isEndOfGame()
-//        
-//        // then
-//        XCTAssertTrue(isEndOfGame)
-//    }
-//    
-//    func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanEndingScore_ShouldReturnFalse() {
-//        // given
-//        var sut = Game(gameType: .round, gameEndType: .score, numberOfPlayers: 0)
-////        sut.players = [Player(name: "", position: 0, score: 10)]
-//        sut.players = [Player(name: "", position: 0)]
-//        sut.endingScore = 100
-//        
-//        // when
-//        let isEndOfGame = sut.isEndOfGame()
-//        
-//        // then
-//        XCTAssertFalse(isEndOfGame)
-//    }
-//    
-//    func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanWinningScore_ShouldReturnTrue() {
-//        // given
-//        var sut = Game(gameType: .round, gameEndType: .score, numberOfPlayers: 0)
-//        sut.players = [PlayerMock(score: 100)]
-//        sut.endingScore = 100
-//        
-//        // when
-//        let isEndOfGame = sut.isEndOfGame()
-//        
-//        // then
-//        XCTAssertTrue(isEndOfGame)
-//    }
-//    
-//    
+
+    
+    // MARK: - EndRound
+    
+    func test_Game_WhenEndRoundCalled_ShouldAddEndRoundToGame() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        // when
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: 0))
+        
+        // then
+        XCTAssertEqual(sut.endRounds.count, 1)
+    }
+    
+    func test_Game_WhenEndRoundCalled_ShouldIncrementTheCurrentRound() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let currentRound = Int.random(in: 1...10)
+        sut.currentRound = currentRound
+        
+        // when
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: currentRound))
+        
+        // then
+        XCTAssertEqual(sut.currentRound, currentRound + 1)
+    }
+    
+    func test_Game_WhenEndRoundCalled_ShouldCreateScoreChangesForEachScoreChangeSettings() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let player1 = Player(game: sut, name: "", position: 0, context: context)
+        let player2 = Player(game: sut, name: "", position: 0, context: context)
+        
+        let scoreChangeSetting1 = ScoreChangeSettings(player: player1)
+        let scoreChangeSetting2 = ScoreChangeSettings(player: player2)
+        
+        let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: [scoreChangeSetting1, scoreChangeSetting2], roundNumber: 0)
+        
+        // when
+        sut.endRound(with: endRoundSettings)
+        
+        // then
+        do {
+            let scoreChanges = try context.fetch(ScoreChange.fetchRequest()) as? [ScoreChange]
+            XCTAssertEqual(scoreChanges?.count, 2)
+        } catch {
+            XCTFail("scoreChanges couldn't be loaded from view context \(error)")
+        }
+    }
+    
+    func test_Game_WhenEndRoundCalled_ShouldCreateScoreChangesWithCorrectScoreChange() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let scoreChangeInt = Int.random(in: 2...100)
+        
+        let player1 = Player(game: sut, name: "", position: 0, context: context)
+        let scoreChangeSetting1 = ScoreChangeSettings(player: player1, scoreChange: scoreChangeInt)
+        let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: [scoreChangeSetting1], roundNumber: 0)
+        
+        // when
+        sut.endRound(with: endRoundSettings)
+        
+        // then
+        do {
+            let scoreChanges = try context.fetch(ScoreChange.fetchRequest()) as? [ScoreChange]
+            XCTAssertEqual(scoreChanges?.first?.scoreChange, scoreChangeInt)
+        } catch {
+            XCTFail("scoreChanges couldn't be loaded from view context \(error)")
+        }
+    }
+    
+    func test_Game_WhenEndRoundCalled_ShouldAddScoreChangesToPlayersAndEndRoundWithPositions() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let player1 = Player(game: sut, name: "", position: 0, context: context)
+        let player2 = Player(game: sut, name: "", position: 0, context: context)
+        let scoreChangeSettings1 = ScoreChangeSettings(player: player1)
+        let scoreChangeSettings2 = ScoreChangeSettings(player: player2)
+        
+        let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: [scoreChangeSettings1, scoreChangeSettings2], roundNumber: 0)
+        
+        // when
+        sut.endRound(with: endRoundSettings)
+        
+        // then
+        XCTAssertEqual(player1.scoreChanges.count, 1)
+        XCTAssertEqual(player2.scoreChanges.count, 1)
+        XCTAssertEqual(sut.endRounds.first?.scoreChanges.count, 2)
+        XCTAssertEqual(sut.endRounds.first?.scoreChanges[0].position, 0)
+        XCTAssertEqual(sut.endRounds.first?.scoreChanges[1].position, 1)
+    }
+
+    
+    // MARK: - UpdateSettings
+    
+    func test_Game_WhenUpdateSettingsCalled_ShouldSetGameEndTypeEndingScoreAndNumberOfRoundsToNewValue() {
+        // given
+        var sut = Game(basicGameWithContext: context)
+        
+        let gameEndType = GameEndType(rawValue: Int.random(in: 1...2))!
+        let endingScore = Int.random(in: 15...1000)
+        let numbeOfRounds = Int.random(in: 15...1000)
+        
+        // when
+        sut.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numbeOfRounds)
+        
+        // then
+        XCTAssertEqual(sut.gameEndType, gameEndType)
+        XCTAssertEqual(sut.numberOfRounds, numbeOfRounds)
+        XCTAssertEqual(sut.endingScore, endingScore)
+    }
+    
+    
+    // MARK: - IsEndOfGame
+    
+    func test_Game_WhenIsEndOfGameCalledNoneEndGameType_ShouldReturnFalse() {
+        // given
+        let sut = Game(gameType: .basic, gameEndType: .none, players: [], context: context)
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundLessThanNumberOfRounds_ShouldReturnFalse() {
+        // given
+        var sut = Game(gameType: .round, gameEndType: .round, players: [], context: context)
+        sut.currentRound = 0
+        sut.numberOfRounds = 4
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundEqualToNumberOfRounds_ShouldReturnFalse() {
+        // given
+        var sut = Game(gameType: .round, gameEndType: .round, players: [], context: context)
+        sut.currentRound = 4
+        sut.numberOfRounds = 4
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundMoreThanNumberOfRounds_ShouldReturnTrue() {
+        // given
+        var sut = Game(gameType: .round, gameEndType: .round, players: [], context: context)
+        sut.currentRound = 5
+        sut.numberOfRounds = 4
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertTrue(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanEndingScore_ShouldReturnFalse() {
+        // given
+        var sut = GamePropertyMock()
+
+        sut.gameType = .round
+        sut.gameEndType = .score
+        let player = PlayerMock(score: 0)
+        sut.temporaryPlayerArray = [player]
+        sut.endingScore = 100
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertFalse(isEndOfGame)
+    }
+    
+    func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanWinningScore_ShouldReturnTrue() {
+        // given
+        var sut = GamePropertyMock()
+
+        sut.gameType = .round
+        sut.gameEndType = .score
+        let player = PlayerMock(score: 100)
+        sut.temporaryPlayerArray = [player]
+        sut.endingScore = 100
+        
+        // when
+        let isEndOfGame = sut.isEndOfGame()
+        
+        // then
+        XCTAssertTrue(isEndOfGame)
+    }
+    
+    
 //    // MARK: - DeleteHistorySegmentAt
 //    
 //    func test_Game_WhenDeleteHistorySegmentAtCalled_ShouldDeleteHistorySegmentAtIndex() {
@@ -1063,10 +1024,10 @@ class GameMock: GameProtocol {
 //        editScoreCalledCount += 1
 //    }
     
-    var endRoundEndRound: EndRoundProtocol?
+    var endRoundEndRound: EndRoundSettings?
     var endRoundCalledCount = 0
-    func endRound(_ endRound: EndRoundProtocol) {
-        endRoundEndRound = endRound
+    func endRound(with endRoundSettings: EndRoundSettings) {
+        endRoundEndRound = endRoundSettings
         endRoundCalledCount += 1
     }
     

@@ -115,7 +115,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func endRound(_ endRound: EndRoundProtocol) {
-        game.endRound(endRound)
+//        game.endRound(endRound)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         

@@ -16,8 +16,9 @@ protocol EndRoundProtocol {
 
 class EndRound: NSManagedObject, EndRoundProtocol {
     
-    convenience init(roundNumber: Int, scoreChanges: [ScoreChange], context: NSManagedObjectContext) {
+    convenience init(game: Game, roundNumber: Int, scoreChanges: [ScoreChange], context: NSManagedObjectContext) {
         self.init(context: context)
+        self.game = game
         self.id = UUID()
         self.roundNumber_ = Int64(roundNumber)
         self.scoreChanges_ = Set(scoreChanges)
@@ -25,6 +26,7 @@ class EndRound: NSManagedObject, EndRoundProtocol {
     
     
     @NSManaged public var id: UUID
+    @NSManaged public var game: Game
     @NSManaged private var roundNumber_: Int64
     @NSManaged private var scoreChanges_: Set<ScoreChange>
     
