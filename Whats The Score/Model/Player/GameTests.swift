@@ -220,6 +220,102 @@ final class GameTests: XCTestCase {
             XCTAssertEqual(player.position, index)
         }
     }
+    
+    
+    // MARK: - DeleteEndRound
+    
+    func test_Game_WhenDeleteEndRoundCalled_ShouldCallGameRemoveFromEndRounds() {
+        
+        class GameRemoveFromEndRoundsMock: Game {
+            var removeFromEndRoundCalledCount = 0
+            var removeFromEndRoundsEndRound: EndRound?
+            override func removeFromEndRounds_(_ value: EndRound) {
+                removeFromEndRoundCalledCount += 1
+                removeFromEndRoundsEndRound = value
+            }
+        }
+        
+        // given
+        let sut = GameRemoveFromEndRoundsMock()
+        let gameStub = Game(basicGameWithContext: context)
+        let endRound = EndRound(game: gameStub, roundNumber: 0, scoreChanges: [], context: context)
+        
+        // when
+        sut.deleteEndRound(endRound)
+        
+        // then
+        XCTAssertEqual(sut.removeFromEndRoundCalledCount, 1)
+        XCTAssertEqual(sut.removeFromEndRoundsEndRound, endRound)
+    }
+    
+    func test_Game_WhenDeleteEndRoundCalled_ShouldFixEndRoundsRoundNumberValues() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: 1))
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: 2))
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: 3))
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: 4))
+        
+        // when
+        sut.deleteEndRound(sut.endRounds[2] as! EndRound)
+        
+        // then
+        XCTAssertEqual(sut.endRounds.count, 3)
+        XCTAssertEqual(sut.endRounds[0].roundNumber, 1)
+        XCTAssertEqual(sut.endRounds[1].roundNumber, 2)
+        XCTAssertEqual(sut.endRounds[2].roundNumber, 3)
+    }
+
+    
+    // MARK: - DeleteScoreChange
+    
+    func test_Game_WhenDeleteScoreChangeCalled_ShouldCallGameRemoveFromScoreChanges() {
+        class GameRemoveFromScoreChangesMock: Game {
+            var removeFromScoreChangesCalledCount = 0
+            var removeFromScoreChangesScoreChange: ScoreChange?
+            override func removeFromScoreChanges_(_ value: ScoreChange) {
+                removeFromScoreChangesCalledCount += 1
+                removeFromScoreChangesScoreChange = value
+            }
+        }
+        
+        // given
+        let sut = GameRemoveFromScoreChangesMock()
+        let scoreChange = ScoreChange(context: context)
+        
+        // when
+        sut.deleteScoreChange(scoreChange)
+        
+        // then
+        XCTAssertEqual(sut.removeFromScoreChangesCalledCount, 1)
+        XCTAssertEqual(sut.removeFromScoreChangesScoreChange, scoreChange)
+    }
+    
+    func test_Game_WhenDeleteScoreChangesCalled_ShouldFixPositionsOfOtherScoreChanges() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let scoreChangeCount = Int.random(in: 3...8)
+        for i in 0..<scoreChangeCount {
+            _ = ScoreChange(player: Player(game: sut, name: "", position: 0, context: context),
+                            scoreChange: 0,
+                            position: i,
+                            game: sut,
+                            context: context)
+        }
+        
+        let scoreChangeToRemove = sut.scoreChanges.randomElement()!
+        
+        // when
+        sut.deleteScoreChange(scoreChangeToRemove as! ScoreChange)
+        
+        // then
+        XCTAssertEqual(sut.scoreChanges.count, scoreChangeCount - 1)
+        sut.scoreChanges.enumerated().forEach { (index, scoreChange) in
+            XCTAssertEqual(scoreChange.position, index)
+        }
+    }
 
     
     // MARK: - Winning Players
@@ -576,7 +672,6 @@ final class GameTests: XCTestCase {
         // then
         XCTAssertTrue(isEndOfGame)
     }
-    
     
 //    // MARK: - DeleteHistorySegmentAt
 //    
@@ -1002,6 +1097,14 @@ class GameMock: GameProtocol {
     }
     
     func deletePlayer(_ player: PlayerProtocol) {
+        
+    }
+    
+    func deleteEndRound(_ endRound: EndRound) {
+        
+    }
+    
+    func deleteScoreChange(_ scoreChange: ScoreChange) {
         
     }
     

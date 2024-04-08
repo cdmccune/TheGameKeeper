@@ -77,6 +77,26 @@ extension Game {
 ////        }
     }
     
+    func deleteEndRound(_ endRound: EndRound) {
+        removeFromEndRounds_(endRound)
+        
+        var endRounds = endRounds
+        
+        for i in 0..<endRounds.count {
+            endRounds[i].roundNumber = i + 1
+        }
+    }
+    
+    func deleteScoreChange(_ scoreChange: ScoreChange) {
+        removeFromScoreChanges_(scoreChange)
+        
+        var scoreChanges = scoreChanges
+        
+        for i in 0..<scoreChanges.count {
+            scoreChanges[i].position = i
+        }
+    }
+    
     func changeScore(with scoreChangeSettings: ScoreChangeSettings) {
         guard let managedObjectContext else { return }
         guard players.contains(where: { $0.id == scoreChangeSettings.player.id }),
@@ -280,16 +300,16 @@ extension Game {
 // MARK: Generated accessors for endRounds
 extension Game {
 
-    @objc(addEndRoundsObject:)
+    @objc(addEndRounds_Object:)
     @NSManaged public func addToEndRounds_(_ value: EndRound)
 
-    @objc(removeEndRoundsObject:)
+    @objc(removeEndRounds_Object:)
     @NSManaged public func removeFromEndRounds_(_ value: EndRound)
 
-    @objc(addEndRounds:)
+    @objc(addEndRounds_:)
     @NSManaged public func addToEndRounds_(_ values: NSSet)
 
-    @objc(removeEndRounds:)
+    @objc(removeEndRounds_:)
     @NSManaged public func removeFromEndRounds_(_ values: NSSet)
 
 }
@@ -297,16 +317,16 @@ extension Game {
 // MARK: Generated accessors for scoreChanges
 extension Game {
 
-    @objc(addScoreChangesObject:)
+    @objc(addScoreChanges_Object:)
     @NSManaged public func addToScoreChanges_(_ value: ScoreChange)
 
-    @objc(removeScoreChangesObject:)
+    @objc(removeScoreChanges_Object:)
     @NSManaged public func removeFromScoreChanges_(_ value: ScoreChange)
 
-    @objc(addScoreChanges:)
+    @objc(addScoreChanges_:)
     @NSManaged public func addToScoreChanges_(_ values: NSSet)
 
-    @objc(removeScoreChanges:)
+    @objc(removeScoreChanges_:)
     @NSManaged public func removeFromScoreChanges_(_ values: NSSet)
 
 }
