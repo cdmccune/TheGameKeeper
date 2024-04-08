@@ -8,47 +8,24 @@
 import Foundation
 import CoreData
 
-// enum GameHistorySegment {
-//    case scoreChange(ScoreChange, PlayerProtocol)
-//    case endRound(EndRound, [PlayerProtocol])
-//    
-//    var id: UUID {
-//        switch self {
-//        case .scoreChange(let scoreChange, _):
-//            return scoreChange.id
-//        case .endRound(let endRound, _):
-//            return endRound.id
-//        }
-//    }
-// }
-//
-// extension GameHistorySegment: Equatable {
-// }
-// func == (lhs: GameHistorySegment, rhs: GameHistorySegment) -> Bool {
-//    return lhs.id == rhs.id
-// }
-
-protocol ScoreChangeProtocol {
-    var endRound: EndRound? { get set }
-    var game: Game? { get set }
-    var player: PlayerProtocol { get }
-    var scoreChange: Int { get set }
-    var id: UUID { get set }
-}
-
 class ScoreChange: NSManagedObject, ScoreChangeProtocol {
     
-    convenience init(player: Player, context: NSManagedObjectContext) {
+    convenience init(player: Player, scoreChange: Int, position: Int, game: Game? = nil, endRound: EndRound? = nil, context: NSManagedObjectContext) {
         self.init(context: context)
         self.id = UUID()
         self.player_ = player
+        self.game = game
+        self.endRound = endRound
+        self.scoreChange = scoreChange
+        self.position = position
     }
     
     @NSManaged public var endRound: EndRound?
     @NSManaged public var game: Game?
-    @NSManaged private var player_: Player
-    @NSManaged public var scoreChange_: Int64
     @NSManaged public var id: UUID
+    @NSManaged private var scoreChange_: Int64
+    @NSManaged private var player_: Player
+    @NSManaged private var position_: Int64
     
     var scoreChange: Int {
         get {
@@ -62,5 +39,13 @@ class ScoreChange: NSManagedObject, ScoreChangeProtocol {
     var player: PlayerProtocol {
         player_
     }
+    
+    var position: Int {
+        get {
+            return Int(truncatingIfNeeded: position_)
+        }
+        set {
+            position_ = Int64(newValue)
+        }
+    }
 }
-

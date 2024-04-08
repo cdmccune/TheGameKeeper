@@ -13,12 +13,14 @@ class ScoreChangeMock: ScoreChangeProtocol {
          game: Game? = nil,
          player: PlayerProtocol = PlayerMock(),
          scoreChange: Int = 0,
+         position: Int = 0,
          id: UUID = UUID()) {
         
         self.endRound = endRound
         self.game = game
         self.player = player
         self.scoreChange = scoreChange
+        self.position = position
         self.id = id
     }
     
@@ -27,5 +29,6 @@ class ScoreChangeMock: ScoreChangeProtocol {
     var game: Whats_The_Score.Game?
     var player: Whats_The_Score.PlayerProtocol
     var scoreChange: Int
+    var position: Int
     var id: UUID
 }

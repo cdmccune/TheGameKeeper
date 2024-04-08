@@ -221,78 +221,165 @@ final class GameTests: XCTestCase {
         }
     }
 
-//    // MARK: - Winning Players
-//    
-//    func test_Game_WhenWinningPlayersIsReadOnePlayerWithTopScore_ShouldReturnArrayWithThatPlayer() {
-//        // given
-//        var sut = Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0)
-//        
-//        let player1 = PlayerMock(name: "", position: 0, score: 1)
-//        let player2 = PlayerMock(name: "", position: 0, score: 2)
-//        let player3 = PlayerMock(name: "", position: 0, score: 3)
-//        
-//        sut.players = [player1, player2, player3]
-//        
-//        // when
-//        let winningPlayers = sut.winningPlayers as? [PlayerMock]
-//        
-//        // then
-//        XCTAssertEqual(winningPlayers, [player3])
-//    }
-//    
-//    func test_Game_WhenWinningPlayersIsReadMultiplePlayersWithTopScore_ShouldReturnArrayWithThosePlayers() {
-//        // given
-//        var sut = Game(gameType: .basic, gameEndType: .none, numberOfPlayers: 0)
-//        
-//        let player1 = PlayerMock(name: "", position: 0, score: 1)
-//        let player2 = PlayerMock(name: "", position: 0, score: 2)
-//        let player3 = PlayerMock(name: "", position: 0, score: 2)
-//        
-//        sut.players = [player1, player2, player3]
-//        
-//        // when
-//        guard let winningPlayers = sut.winningPlayers as? [PlayerMock] else {
-//            XCTFail("object not present")
-//            return
-//        }
-//        
-//        // then
-//        XCTAssertEqual(winningPlayers.count, 2)
-//        XCTAssertTrue(winningPlayers.contains(player2))
-//        XCTAssertTrue(winningPlayers.contains(player3))
-//    }
-//    
-//    // MARK: - isEqualTo
-//    
-//    func test_Game_WhenIsEqualToCalledDifferentIDs_ShouldReturnFalse() {
-//        // given
-//        let sut = Game(basicGameWithPlayers: [])
-//        let secondGame = GameMock()
-//        secondGame.id = UUID()
-//        
-//        // when
-//        let bool = sut.isEqualTo(game: secondGame)
-//        
-//        // then
-//        XCTAssertFalse(bool)
-//    }
-//    
-//    func test_Game_WhenIsEqualToCalledSameIDs_ShouldReturnTrue() {
-//        // given
-//        let sut = Game(basicGameWithPlayers: [])
-//        let secondGame = GameMock()
-//        secondGame.id = sut.id
-//        
-//        // when
-//        let bool = sut.isEqualTo(game: secondGame)
-//        
-//        // then
-//        XCTAssertTrue(bool)
-//    }
-//    
-//    
-//    // MARK: - EditScore
-//    
+    
+    // MARK: - Winning Players
+    
+    class GamePlayersArrayMock: Game {
+        var temporaryPlayerArray: [PlayerProtocol] = []
+        override var players: [PlayerProtocol] {
+            temporaryPlayerArray
+        }
+    }
+    
+    func test_Game_WhenWinningPlayersIsReadOnePlayerWithTopScore_ShouldReturnArrayWithThatPlayer() {
+        
+        // given
+        var sut = GamePlayersArrayMock()
+        
+        let player1 = PlayerMock(name: "", position: 0, score: 1)
+        let player2 = PlayerMock(name: "", position: 0, score: 2)
+        let player3 = PlayerMock(name: "", position: 0, score: 3)
+        sut.temporaryPlayerArray = [player1, player2, player3]
+        
+        
+        // when
+        let winningPlayers = sut.winningPlayers as? [PlayerMock]
+        
+        // then
+        XCTAssertEqual(winningPlayers, [player3])
+    }
+    
+    func test_Game_WhenWinningPlayersIsReadMultiplePlayersWithTopScore_ShouldReturnArrayWithThosePlayers() {
+        // given
+        var sut = GamePlayersArrayMock()
+        
+        let player1 = PlayerMock(name: "", position: 0, score: 1)
+        let player2 = PlayerMock(name: "", position: 0, score: 2)
+        let player3 = PlayerMock(name: "", position: 0, score: 2)
+        
+        sut.temporaryPlayerArray = [player1, player2, player3]
+        
+        // when
+        guard let winningPlayers = sut.winningPlayers as? [PlayerMock] else {
+            XCTFail("object not present")
+            return
+        }
+        
+        // then
+        XCTAssertEqual(winningPlayers.count, 2)
+        XCTAssertTrue(winningPlayers.contains(player2))
+        XCTAssertTrue(winningPlayers.contains(player3))
+    }
+
+    
+    // MARK: - isEqualTo
+    
+    func test_Game_WhenIsEqualToCalledDifferentIDs_ShouldReturnFalse() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let secondGame = GameMock()
+        secondGame.id = UUID()
+        
+        // when
+        let bool = sut.isEqualTo(game: secondGame)
+        
+        // then
+        XCTAssertFalse(bool)
+    }
+    
+    func test_Game_WhenIsEqualToCalledSameIDs_ShouldReturnTrue() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let secondGame = GameMock()
+        secondGame.id = sut.id
+        
+        // when
+        let bool = sut.isEqualTo(game: secondGame)
+        
+        // then
+        XCTAssertTrue(bool)
+    }
+    
+    
+    // MARK: - ChangeScore
+    
+    func test_Game_WhenChangeScoreCalledPlayerNotInGame_ShouldNotCreateScoreChangeInContext() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let playerMock = PlayerMock()
+        let scoreChangeSettings = ScoreChangeSettings(player: playerMock, scoreChange: 0)
+        
+        // when
+        sut.changeScore(with: scoreChangeSettings)
+        
+        // then
+        
+        do {
+            let scoreChanges = try context.fetch(ScoreChange.fetchRequest()) as? [ScoreChange]
+            XCTAssertEqual(scoreChanges?.count, 0)
+        } catch {
+            XCTFail("scoreChanges couldn't be loaded from view context \(error)")
+        }
+    }
+    
+    func test_Game_WhenChangeScoreCalledPlayerInGame_ShouldCreateScoreChangeInContextWithCorrectPlayerGameAndScoreChangeInt() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let player = Player(game: sut, name: "", position: 0, context: context)
+        let scoreChangeInt = Int.random(in: 1...10)
+        let scoreChangeSettings = ScoreChangeSettings(player: player, scoreChange: scoreChangeInt)
+        
+        // when
+        sut.changeScore(with: scoreChangeSettings)
+        
+        // then
+        
+        do {
+            let scoreChanges = try context.fetch(ScoreChange.fetchRequest()) as? [ScoreChange]
+            XCTAssertEqual(scoreChanges?.count, 1)
+            XCTAssertEqual(scoreChanges?.first?.game, sut)
+            XCTAssertEqual(scoreChanges?.first?.scoreChange, scoreChangeInt)
+            XCTAssertEqual(scoreChanges?.first?.player as? Player, player)
+        } catch {
+            XCTFail("scoreChanges couldn't be loaded from view context \(error)")
+        }
+    }
+    
+    func test_Game_WhenChangeScoreCalled_ShouldAddScoreChangeToPlayerAndGame() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let player = Player(game: sut, name: "", position: 0, context: context)
+        
+        let scoreChangeSettings = ScoreChangeSettings(player: player, scoreChange: 0)
+        
+        // when
+        sut.changeScore(with: scoreChangeSettings)
+        
+        // then
+        XCTAssertEqual(player.scoreChanges.count, 1)
+        XCTAssertEqual(player.game.scoreChanges.count, 1)
+    }
+    
+    func test_Game_WhenChangeScoreCalled_ShouldSetScoreChangePosition() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let player = Player(game: sut, name: "", position: 0, context: context)
+        
+        let scoreChangeSettings = ScoreChangeSettings(player: player, scoreChange: 0)
+        
+        // when
+        sut.changeScore(with: scoreChangeSettings)
+        sut.changeScore(with: scoreChangeSettings)
+        sut.changeScore(with: scoreChangeSettings)
+        
+        // then
+        XCTAssertEqual(sut.scoreChanges[0].position, 0)
+        XCTAssertEqual(sut.scoreChanges[1].position, 1)
+        XCTAssertEqual(sut.scoreChanges[2].position, 2)
+    }
+//
 //    func test_Game_WhenEditPlayerScoreCalled_ShouldAppendScoreChangeToPlayer() {
 //        // given
 //        let player = Player(name: "", position: 0)
@@ -957,6 +1044,10 @@ class GameMock: GameProtocol {
         
     }
     
+    func changeScore(with scoreChangeSettings: ScoreChangeSettings) {
+        
+    }
+    
 //    var deletePlayerAtCalledCount = 0
 //    var deletePlayerAtIndex: Int?
 //    func deletePlayerAt(_ index: Int) {
@@ -964,13 +1055,13 @@ class GameMock: GameProtocol {
 //        deletePlayerAtCalledCount += 1
 //    }
     
-    var editScoreScoreChange: ScoreChangeProtocol?
-    var editScoreChange: Int?
-    var editScoreCalledCount = 0
-    func editScore(scoreChange: ScoreChangeProtocol) {
-        editScoreScoreChange = scoreChange
-        editScoreCalledCount += 1
-    }
+//    var editScoreScoreChange: ScoreChangeProtocol?
+//    var editScoreChange: Int?
+//    var editScoreCalledCount = 0
+//    func editScore(scoreChange: ScoreChangeProtocol) {
+//        editScoreScoreChange = scoreChange
+//        editScoreCalledCount += 1
+//    }
     
     var endRoundEndRound: EndRoundProtocol?
     var endRoundCalledCount = 0

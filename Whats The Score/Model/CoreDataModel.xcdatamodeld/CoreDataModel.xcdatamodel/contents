@@ -25,6 +25,7 @@
     </entity>
     <entity name="ScoreChange" representedClassName=".ScoreChange" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="position_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="scoreChange_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="endRound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EndRound" inverseName="scoreChanges_" inverseEntity="EndRound"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="scoreChanges_" inverseEntity="Game"/>

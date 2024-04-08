@@ -88,7 +88,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     func editScore(_ scoreChange: ScoreChangeProtocol) {
         guard game.players.contains(where: { $0.id == scoreChange.player.id }) else { return }
         
-        game.editScore(scoreChange: scoreChange)
+//        game.editScore(scoreChange: scoreChange)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         

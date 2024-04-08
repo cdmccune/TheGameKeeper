@@ -114,6 +114,6 @@ class Game: NSManagedObject, GameProtocol {
     }
     
     var scoreChanges: [ScoreChangeProtocol] {
-        return Array(scoreChanges_)
+        return scoreChanges_.sorted { $0.position < $1.position }
     }
 }

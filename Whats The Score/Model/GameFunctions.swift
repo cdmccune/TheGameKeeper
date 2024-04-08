@@ -77,14 +77,26 @@ extension Game {
 ////        }
     }
     
-    func editScore(scoreChange: ScoreChangeProtocol) {
+    func changeScore(with scoreChangeSettings: ScoreChangeSettings) {
+        guard let managedObjectContext else { return }
+        guard players.contains(where: { $0.id == scoreChangeSettings.player.id }),
+            let player = scoreChangeSettings.player as? Player else { return }
+        
+        _ = ScoreChange(player: player,
+                                      scoreChange: scoreChangeSettings.scoreChange,
+                                      position: scoreChanges.count,
+                                      game: self,
+                                      context: managedObjectContext)
+    }
+    
+//    func editScore(scoreChange: ScoreChangeProtocol) {
 //        guard let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) else { return }
 //        
 //        players[index].scoreChanges.append(scoreChange)
 ////        let historySegment = GameHistorySegment.scoreChange(scoreChange, players[index])
 ////        
 ////        historySegments.append(historySegment)
-    }
+//    }
     
     func endRound(_ endRound: EndRoundProtocol) {
 //
