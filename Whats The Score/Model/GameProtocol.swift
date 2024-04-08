@@ -20,11 +20,11 @@ protocol GameProtocol {
     var endingScore: Int { get set }
     var id: UUID { get }
     
-    func playerNameChanged(withIndex index: Int, toName name: String)
+    func changeName(of player: PlayerProtocol, to name: String)
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
-    func addPlayer()
+    func addPlayer(withName: String)
     func randomizePlayers()
-    func deletePlayerAt(_ index: Int)
+    func deletePlayer(_ player: PlayerProtocol)
     func editScore(scoreChange: ScoreChangeProtocol)
     func endRound(_ endRound: EndRoundProtocol)
     func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int)

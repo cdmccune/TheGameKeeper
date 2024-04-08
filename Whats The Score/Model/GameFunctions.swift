@@ -12,35 +12,10 @@ extension Game {
     
     // MARK: - Functions
     
-    func playerNameChanged(withIndex index: Int, toName name: String) {
-//        guard players.indices.contains(index) else { return }
-//        var player = playerArray[index]
-//        player.name = name
-//        
-//        for i in 0..<player.scoreChanges.count {
-//            player.scoreChanges[i].playerName = name
-//        }
+    func changeName(of player: PlayerProtocol, to name: String) {
+        guard var playerToUpdateName = players.first(where: { $0.id == player.id }) else { return }
         
-//        // This is for changing the names on the score changes
-//        historySegments.enumerated().forEach { (segmentIndex, segment) in
-//            if case .scoreChange(var scoreChange, let segmentPlayer) = segment {
-//                if player.id == segmentPlayer.id {
-//                    scoreChange.playerName = name
-//                    
-//                    let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChange, player)
-//                    historySegments[segmentIndex] = scoreChangeHistorySegment
-//                }
-//            } else if case .endRound(var endRound, let players) = segment {
-//                endRound.scoreChangeArray.enumerated().forEach { (scoreChangeIndex, scoreChange) in
-//                    if scoreChange.playerID == player.id {
-//                        endRound.scoreChangeArray[scoreChangeIndex].playerName = name
-//                    }
-//                }
-//                
-//                let endRoundHistorySegment = GameHistorySegment.endRound(endRound, players)
-//                historySegments[segmentIndex] = endRoundHistorySegment
-//            }
-//        }
+        playerToUpdateName.name = name
     }
     
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
@@ -53,8 +28,9 @@ extension Game {
 //        players.setPositions()
     }
     
-    func addPlayer() {
-//        players.append(Player(name: "", position: players.indices.upperBound))
+    func addPlayer(withName name: String) {
+        guard let managedObjectContext else { return }
+        _ = Player(game: self, name: name, position: players.count, context: managedObjectContext)
     }
 //    
     func randomizePlayers() {
@@ -62,7 +38,13 @@ extension Game {
 //        players.setPositions()
     }
 //    
-    func deletePlayerAt(_ index: Int) {
+    func deletePlayer(_ player: PlayerProtocol) {
+        guard let playerObject = player as? Player else { return }
+        removeFromPlayers_(playerObject)
+        
+        var playersToSetPosition = players
+        playersToSetPosition.setPositions()
+        
 //        guard players.indices.contains(index) else {
 //            return
 //        }
@@ -254,16 +236,16 @@ extension Game {
 // MARK: Generated accessors for players
 extension Game {
 
-    @objc(addPlayersObject:)
+    @objc(addPlayers_Object:)
     @NSManaged public func addToPlayers_(_ value: Player)
 
-    @objc(removePlayersObject:)
+    @objc(removePlayers_Object:)
     @NSManaged public func removeFromPlayers_(_ value: Player)
 
-    @objc(addPlayers:)
+    @objc(addPlayers_:)
     @NSManaged public func addToPlayers_(_ values: NSSet)
 
-    @objc(removePlayers:)
+    @objc(removePlayers_:)
     @NSManaged public func removeFromPlayers_(_ values: NSSet)
 
 }

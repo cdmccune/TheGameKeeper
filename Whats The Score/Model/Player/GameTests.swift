@@ -6,9 +6,22 @@
 //
 
 import XCTest
+import CoreData
 @testable import Whats_The_Score
 
 final class GameTests: XCTestCase {
+    
+    // MARK: - Setup
+    
+    var context: NSManagedObjectContext!
+    
+    override func setUp() {
+        context = CoreDataStore(.inMemory).persistentContainer.viewContext
+    }
+    
+    override func tearDown() {
+        context = nil
+    }
 
 //    // MARK: - Init
 //    
@@ -27,97 +40,23 @@ final class GameTests: XCTestCase {
 //    }
 //    
 //    
-//    // MARK: - PlayerNameChanged
-//    
-//    func test_Game_WhenPlayerNameChangedCalledOutOfPlayerRange_ShouldDoNothing() {
-//        // given
-//        let player = Player(name: UUID().uuidString, position: 0)
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        // when
-//        sut.playerNameChanged(withIndex: 1, toName: UUID().uuidString)
-//        
-//        // then
-//        XCTAssertEqual(sut.players[0].name, player.name)
-//    }
-//    
-//    func test_Game_WhenPlayerNameChangedCalledInRange_ShouldChangePlayerName() {
-//        // given
-//        let player = Player(name: "", position: 0)
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        // when
-//        let newName = UUID().uuidString
-//        sut.playerNameChanged(withIndex: 0, toName: newName)
-//        
-//        // then
-//        XCTAssertEqual(sut.players[0].name, newName)
-//    }
-//    
-//    func test_Game_WhenPlayerNameChanged_ShouldChangePlayerNameOnAppropriateScoreChangeHistorySegment() {
-//        // given
-//        let player = PlayerMock()
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        let scoreChange = ScoreChange(player: player, scoreChange: 0)
-//        let scoreChangeHistorySegment = GameHistorySegment.scoreChange(scoreChange, player)
-//        sut.historySegments = [scoreChangeHistorySegment]
-//        
-//        // when
-//        let newName = UUID().uuidString
-//        sut.playerNameChanged(withIndex: 0, toName: newName)
-//        
-//        // then
-//        guard case .scoreChange(let scoreChange, _) = sut.historySegments[0] else {
-//            XCTFail("history segment not there")
-//            return
-//        }
-//
-//        XCTAssertEqual(scoreChange.playerName, newName)
-//    }
-//    
-//    func test_Game_WhenPlayerNameChanged_ShouldChangePlayerNameAllPlayersScoreChanges() {
-//        // given
-//        let player = PlayerMock()
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        let scoreChange = ScoreChange(player: player, scoreChange: 0)
-//        player.scoreChanges = [scoreChange]
-//        
-//        // when
-//        let newName = UUID().uuidString
-//        sut.playerNameChanged(withIndex: 0, toName: newName)
-//        
-//        // then
-//        let playerScoreChange = player.scoreChanges.first
-//
-//        XCTAssertEqual(playerScoreChange?.playerName, newName)
-//    }
-//    
-//    func test_Game_WhenPlayerNameChanged_ShouldChangePlayerNameOnAppropriateScoreChangeInEndRoundHistorySegment() {
-//        // given
-//        let player = PlayerMock()
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        let scoreChange = ScoreChange(player: player, scoreChange: 0)
-//        let endRound = EndRound(roundNumber: 0, scoreChangeArray: [scoreChange])
-//        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [player])
-//        sut.historySegments = [endRoundHistorySegment]
-//        
-//        // when
-//        let newName = UUID().uuidString
-//        sut.playerNameChanged(withIndex: 0, toName: newName)
-//        
-//        // then
-//        guard case .endRound(let endRound, _) = sut.historySegments[0] else {
-//            XCTFail("history segment not there")
-//            return
-//        }
-//
-//        XCTAssertEqual(endRound.scoreChangeArray[0].playerName, newName)
-//    }
-//    
-//    
+    // MARK: - changeNameOfPlayer
+    
+    func test_Game_WhenChangeNameCalled_ShouldChangePlayerNameToNewName() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let player = Player(game: sut, name: "", position: 0, context: context)
+        let playerName = UUID().uuidString
+        
+        // when
+        sut.changeName(of: player, to: playerName)
+        
+        // then
+        XCTAssertEqual(player.name, playerName)
+    }
+
+
 //    // MARK: - MovePlayerAt
 //    
 //    func test_Game_WhenMovePlayerAtSourceCalledOutOfRange_ShouldDoNothing() {
@@ -174,28 +113,42 @@ final class GameTests: XCTestCase {
 //        XCTAssertEqual(sut.players[2].name, player2Name)
 //        XCTAssertEqual(sut.players[2].position, 2)
 //    }
-//    
-//    
-//    // MARK: - AddPlayer
-//    
-//    func test_Game_WhenAddPlayerCalled_ShouldAddPlayerToPlayersArrayWithCorrectPosition() {
-//        // given
-//        let player = Player(name: "", position: 0)
-//        let players = Array(repeating: player, count: Int.random(in: 1...5))
-//        var sut = Game(basicGameWithPlayers: players)
-//        
-//        // when
-//        sut.addPlayer()
-//        
-//        // then
-//        XCTAssertEqual(sut.players.count, players.indices.upperBound + 1)
-//        XCTAssertTrue(sut.players.last?.hasDefaultName ?? false)
-//        XCTAssertEqual(sut.players.last?.position, players.indices.upperBound)
-//    }
-//    
-//    
-//    // MARK: - RandomizePlayers
-//    
+//
+//
+    // MARK: - AddPlayer
+    
+    func test_Game_WhenAddPlayerCalled_ShouldCreateANewPlayerInGame() {
+        let sut = Game(basicGameWithContext: context)
+        
+        // when
+        sut.addPlayer(withName: "")
+        
+        // then
+        XCTAssertEqual(sut.players.count, 1)
+    }
+    
+    func test_Game_WhenAddPlayerCalled_ShouldSetPlayerPositionAndNameCorrectly() {
+        let sut = Game(basicGameWithContext: context)
+        
+        let count = Int.random(in: 3...5)
+        
+        for i in 0..<count {
+            _ = Player(game: sut, name: "", position: 0, context: context)
+        }
+        
+        let playerName = UUID().uuidString
+        // when
+        sut.addPlayer(withName: playerName)
+        
+        // then
+        XCTAssertEqual(sut.players.count, count + 1)
+        XCTAssertEqual(sut.players.last?.position, count)
+        XCTAssertEqual(sut.players.last?.name, playerName)
+    }
+    
+
+    // MARK: - RandomizePlayers
+//
 //    func test_Game_WhenRandomizeCalled_ShouldRandomizePlayersAndSetTheirPosition() {
 //        // given
 //        var players = [Player]()
@@ -220,102 +173,54 @@ final class GameTests: XCTestCase {
 //    }
 //    
 //    
-//    // MARK: - DeletePlayersAt
-//    
-//    func test_Game_WhenDeletePlayerAtCalledOutOfRange_ShouldDoNothing() {
-//        // given
-//        let player = Player(name: "", position: 0)
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        // when
-//        sut.deletePlayerAt(1)
-//        
-//        // then
-//        XCTAssertEqual([player], sut.players as? [Player])
-//    }
-//    
-//    func test_Game_WhenDeletePlayerAtCalledInRange_ShouldRemovePlayerFromIndexAndSetPositions() {
-//        // given
-//
-//        let player1 = Player(name: UUID().uuidString, position: 0)
-//        let player2 = Player(name: UUID().uuidString, position: 0)
-//        let player3 = Player(name: UUID().uuidString, position: 0)
-//        var players: [PlayerProtocol] = [player1, player2, player3]
-//        
-//        var sut = Game(basicGameWithPlayers: players)
-//        let playerToRemoveIndex = Int.random(in: 0...2)
-//        
-//        // when
-//        sut.deletePlayerAt(playerToRemoveIndex)
-//        players.remove(at: playerToRemoveIndex)
-//        players.setPositions()
-//        
-//        // then)
-//        XCTAssertEqual(sut.players as? [Player], players as? [Player])
-//        for (index, player) in sut.players.enumerated() {
-//            XCTAssertEqual(player.position, index)
-//        }
-//    }
-//    
-//    func test_Game_WhenDeletePlayerAtCalled_ShouldRemoveScoreChangesForThatPlayerFromGameHistory() {
-//        // given
-//        let player = PlayerMock()
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        let playerScoreChangeHistorySegments = Array(repeating: GameHistorySegment.scoreChange(ScoreChange(player: player, scoreChange: 1), player), count: Int.random(in: 3...10))
-//        let otherScoreChangeHistorySegment = GameHistorySegment.scoreChange(ScoreChange.getBlankScoreChange(), PlayerMock())
-//        sut.historySegments = playerScoreChangeHistorySegments
-//        sut.historySegments.append(otherScoreChangeHistorySegment)
-//        sut.historySegments.shuffle()
-//        
-//        // when
-//        sut.deletePlayerAt(0)
-//        
-//        // then
-//        XCTAssertEqual(sut.historySegments, [otherScoreChangeHistorySegment])
-//    }
-//    
-//    func test_Game_WhenDeletePlayerAtCalled_ShouldDeleteEndRoundHistorySegmentScoreChangesForThatPlayer() {
-//        // given
-//        let player = PlayerMock()
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        let endRound = EndRound(withPlayers: [player], roundNumber: 0)
-//        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [player])
-//        sut.historySegments = [endRoundHistorySegment]
-//        
-//        // when
-//        sut.deletePlayerAt(0)
-//        
-//        // then
-//        guard case .endRound(let endRound, _) = sut.historySegments.first else {
-//            return
-//        }
-//
-//        XCTAssertTrue(endRound.scoreChangeArray.isEmpty)
-//    }
-//    
-//    func test_Game_WhenDeletePlayerAtCalled_ShouldRemovePlayerFromEndRoundHistorySegmentPlayersArray() {
-//        // given
-//        let player = PlayerMock()
-//        var sut = Game(basicGameWithPlayers: [player])
-//        
-//        let endRound = EndRound(withPlayers: [player], roundNumber: 0)
-//        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [player])
-//        sut.historySegments = [endRoundHistorySegment]
-//        
-//        // when
-//        sut.deletePlayerAt(0)
-//        
-//        // then
-//        guard case .endRound(_, let playerArray) = sut.historySegments.first else {
-//            return
-//        }
-//
-//        XCTAssertTrue(playerArray.isEmpty)
-//    }
-//    
-//    
+    // MARK: - DeletePlayer
+    
+    func test_Game_WhenDeletePlayerCalled_ShouldCallRemoveFromPlayersFunction() {
+        
+        class GameRemoveFromPlayersMock: Game {
+            var removeFromPlayersCalledCount = 0
+            var removeFromPlayersPlayer: Player?
+            override func removeFromPlayers_(_ value: Player) {
+                removeFromPlayersCalledCount += 1
+                removeFromPlayersPlayer = value
+            }
+        }
+        
+        // given
+        let sut = GameRemoveFromPlayersMock()
+        let gameStub = Game(basicGameWithContext: context)
+        
+        let player = Player(game: gameStub, name: "", position: 0, context: context)
+        
+        // when
+        sut.deletePlayer(player)
+        
+        // then
+        XCTAssertEqual(sut.removeFromPlayersCalledCount, 1)
+        XCTAssertEqual(sut.removeFromPlayersPlayer?.id, player.id)
+    }
+    
+    func test_Game_WhenDeletePlayerCalled_ShouldFixPositionsOfOtherPlayers() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let playerCount = Int.random(in: 3...8)
+        for i in 0..<playerCount {
+            _ = Player(game: sut, name: "", position: i, context: context)
+        }
+        
+        let playerToRemove = sut.players.randomElement()!
+        
+        // when
+        sut.deletePlayer(playerToRemove)
+        
+        // then
+        XCTAssertEqual(sut.players.count, playerCount - 1)
+        sut.players.enumerated().forEach { (index, player) in
+            XCTAssertEqual(player.position, index)
+        }
+    }
+
 //    // MARK: - Winning Players
 //    
 //    func test_Game_WhenWinningPlayersIsReadOnePlayerWithTopScore_ShouldReturnArrayWithThatPlayer() {
@@ -1016,14 +921,18 @@ class GameMock: GameProtocol {
     var endRounds: [EndRoundProtocol] = []
     var scoreChanges: [ScoreChangeProtocol] = []
     
-    var playerNameChangedCalledCount = 0
-    var playerNameChangedIndex: Int?
-    var playerNameChangedName: String?
-    func playerNameChanged(withIndex index: Int, toName name: String) {
-        self.playerNameChangedCalledCount += 1
-        self.playerNameChangedIndex = index
-        self.playerNameChangedName = name
+    func changeName(of player: PlayerProtocol, to name: String) {
+        
     }
+    
+//    var playerNameChangedCalledCount = 0
+//    var playerNameChangedIndex: Int?
+//    var playerNameChangedName: String?
+//    func playerNameChanged(withIndex index: Int, toName name: String) {
+//        self.playerNameChangedCalledCount += 1
+//        self.playerNameChangedIndex = index
+//        self.playerNameChangedName = name
+//    }
     
     var movePlayerAtCalledCount = 0
     var movePlayerAtSourceRowIndex: Int?
@@ -1035,7 +944,7 @@ class GameMock: GameProtocol {
     }
     
     var addPlayerCalledCount = 0
-    func addPlayer() {
+    func addPlayer(withName name: String) {
         addPlayerCalledCount += 1
     }
     
@@ -1044,12 +953,16 @@ class GameMock: GameProtocol {
         randomizePlayersCalledCount += 1
     }
     
-    var deletePlayerAtCalledCount = 0
-    var deletePlayerAtIndex: Int?
-    func deletePlayerAt(_ index: Int) {
-        deletePlayerAtIndex = index
-        deletePlayerAtCalledCount += 1
+    func deletePlayer(_ player: PlayerProtocol) {
+        
     }
+    
+//    var deletePlayerAtCalledCount = 0
+//    var deletePlayerAtIndex: Int?
+//    func deletePlayerAt(_ index: Int) {
+//        deletePlayerAtIndex = index
+//        deletePlayerAtCalledCount += 1
+//    }
     
     var editScoreScoreChange: ScoreChangeProtocol?
     var editScoreChange: Int?

@@ -105,12 +105,12 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func deletePlayer(_ player: PlayerProtocol) {
-        game.deletePlayerAt(player.position)
+//        game.deletePlayerAt(player.position)
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 
     func addPlayer() {
-        game.addPlayer()
+        game.addPlayer(withName: "")
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
@@ -156,7 +156,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
     func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {
         guard let index = game.players.firstIndex(where: { $0.id == player.id }) else { return }
-        game.playerNameChanged(withIndex: index, toName: name)
+//        game.playerNameChanged(withIndex: index, toName: name)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }

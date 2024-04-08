@@ -113,8 +113,7 @@ class Game: NSManagedObject, GameProtocol {
         endRounds_.sorted { $0.roundNumber < $1.roundNumber }
     }
     
-    
-    var scoreChanges: [ScoreChangeProtocol]  {
+    var scoreChanges: [ScoreChangeProtocol] {
         return Array(scoreChanges_)
     }
 }
