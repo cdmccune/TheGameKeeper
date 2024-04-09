@@ -56,13 +56,13 @@ class GameHistoryViewController: UIViewController, Storyboarded {
     
     // MARK: - Binding functionality
     
-    private func presentEditPlayerScorePopoverWith(_ scoreChange: ScoreChangeProtocol) {
+    private func presentEditPlayerScorePopoverWith(_ scoreChange: ScoreChangeSettings) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let editPlayerScoreVC = storyboard.instantiateViewController(withIdentifier: "ScoreboardPlayerEditScorePopoverViewController") as? ScoreboardPlayerEditScorePopoverViewController else { fatalError("ScoreboardPlayerEditScorePopoverViewController not instantiated")}
         
         
-        editPlayerScoreVC.scoreChange = scoreChange
+        editPlayerScoreVC.scoreChangeSettings = scoreChange
         editPlayerScoreVC.delegate = viewModel!
         
         defaultPopoverPresenter.setupPopoverCentered(onView: self.view, withPopover: editPlayerScoreVC, withWidth: 300, andHeight: 200, tapToExit: true)
@@ -108,7 +108,7 @@ class GameHistoryViewController: UIViewController, Storyboarded {
         viewModel.scoreChangeToEdit.valueChanged = { [weak self] scoreChange in
             guard let scoreChange else { return }
             
-            self?.presentEditPlayerScorePopoverWith(scoreChange)
+//            self?.presentEditPlayerScorePopoverWith(scoreChange)
         }
         
         viewModel.endRoundToEdit.valueChanged = { [weak self] endRound in

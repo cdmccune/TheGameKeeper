@@ -389,7 +389,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         // when
-        sut.showEditPlayerScorePopover(withScoreChange: ScoreChangeMock(), andDelegate: ScoreboardPlayerEditScorePopoverDelegateMock())
+        sut.showEditPlayerScorePopover(withScoreChange: ScoreChangeSettings.getStub(), andDelegate: ScoreboardPlayerEditScorePopoverDelegateMock())
         
         // then
         XCTAssertEqual(viewController.presentCalledCount, 1)
@@ -400,7 +400,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         // given
         let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
-        let scoreChange = ScoreChangeMock()
+        let scoreChange = ScoreChangeSettings.getStub()
         let delegate = ScoreboardPlayerEditScorePopoverDelegateMock()
         
         // when
@@ -408,7 +408,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         
         // then
         let editPlayerScorePopoverVC = viewController.presentViewController as? ScoreboardPlayerEditScorePopoverViewController
-        XCTAssertTrue(editPlayerScorePopoverVC?.scoreChange as? ScoreChangeMock === scoreChange)
+        XCTAssertTrue(editPlayerScorePopoverVC?.scoreChangeSettings == scoreChange)
         XCTAssertTrue(editPlayerScorePopoverVC?.delegate as? ScoreboardPlayerEditScorePopoverDelegateMock === delegate)
     }
     
@@ -423,7 +423,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
         
         // when
-        sut.showEditPlayerScorePopover(withScoreChange: ScoreChangeMock(), andDelegate: ScoreboardPlayerEditScorePopoverDelegateMock())
+        sut.showEditPlayerScorePopover(withScoreChange: ScoreChangeSettings.getStub(), andDelegate: ScoreboardPlayerEditScorePopoverDelegateMock())
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)

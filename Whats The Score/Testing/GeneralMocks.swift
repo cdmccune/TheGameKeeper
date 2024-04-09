@@ -169,3 +169,12 @@ class NSManagedObjectContextDeleteObjectMock: NSManagedObjectContext {
         deleteNSManagedObjects.append(object)
     }
 }
+
+
+    // MARK: - ScoreChangeSettings
+
+extension ScoreChangeSettings {
+    static func getStub() -> ScoreChangeSettings {
+        return ScoreChangeSettings(player: PlayerMock())
+    }
+}

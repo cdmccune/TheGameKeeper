@@ -57,7 +57,7 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         shouldRefreshTableView.value = true
     }
     
-    func editScore(_ scoreChange: ScoreChangeProtocol) {
+    func editScore(_ scoreChange: ScoreChangeSettings) {
 //        game.editScoreChange(scoreChange)
         
         shouldRefreshTableView.value = true

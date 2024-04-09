@@ -102,8 +102,8 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         
         let playerName = UUID().uuidString
         let player = PlayerMock(name: playerName)
-        let scoreChange = ScoreChangeMock(player: player)
-        sut.scoreChange = scoreChange
+        let scoreChange = ScoreChangeSettings(player: player)
+        sut.scoreChangeSettings = scoreChange
         
         // when
         sut.viewDidLoad()
@@ -118,8 +118,8 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let scoreChangeInt = Int.random(in: 1...100)
-        let scoreChange = ScoreChangeMock(scoreChange: scoreChangeInt)
-        sut.scoreChange = scoreChange
+        let scoreChange = ScoreChangeSettings(player: PlayerMock(), scoreChange: scoreChangeInt)
+        sut.scoreChangeSettings = scoreChange
         
         // when
         sut.viewDidLoad()
@@ -134,8 +134,8 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let scoreChangeInt = 0
-        let scoreChange = ScoreChangeMock(scoreChange: scoreChangeInt)
-        sut.scoreChange = scoreChange
+        let scoreChange = ScoreChangeSettings(player: PlayerMock())
+        sut.scoreChangeSettings = scoreChange
         
         // when
         sut.viewDidLoad()
@@ -150,8 +150,8 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let scoreChangeInt = Int.random(in: (-1000)...(-1))
-        let scoreChange = ScoreChangeMock(scoreChange: scoreChangeInt)
-        sut.scoreChange = scoreChange
+        let scoreChange = ScoreChangeSettings(player: PlayerMock(), scoreChange: scoreChangeInt)
+        sut.scoreChangeSettings = scoreChange
         
         // when
         sut.viewDidLoad()
@@ -246,8 +246,9 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
         
-        let scoreChange = ScoreChangeMock()
-        sut.scoreChange = scoreChange
+        var scoreChange = ScoreChangeSettings.getStub()
+        scoreChange.scoreChangeID = UUID()
+        sut.scoreChangeSettings = scoreChange
         
         sut.pointsTextField.text = "1"
         
@@ -258,129 +259,126 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
         sut.addButtonTapped(0)
         
         // then
-        XCTAssertEqual(delegateMock.editScoreChangeObject?.id, scoreChange.id)
+        XCTAssertEqual(delegateMock.editScoreChangeObject, scoreChange)
     }
     
     
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenAddButtonTapped_ShouldCallDelegateEditWithPositiveTextFieldTextAndPlayer() {
+        // given
+        let sut = viewController!
+        let textField = UITextField()
+        
+        let scoreNumber = Int.random(in: 1...1000)
+        textField.text = String(scoreNumber)
+        sut.pointsTextField = textField
+        
+        let delegateMock = ScoreboardPlayerEditScorePopoverDelegateMock()
+        sut.delegate = delegateMock
+        
+        sut.scoreChangeSettings = ScoreChangeSettings.getStub()
+        
+        // when
+        sut.addButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegateMock.editCalledCount, 1)
+        XCTAssertEqual(delegateMock.editChange, scoreNumber)
+    }
     
-//    func test_ScoreboardPlayerEditScorePopoverViewController_WhenAddButtonTapped_ShouldCallDelegateEditWithPositiveTextFieldTextAndPlayer() {
-//        // given
-//        let sut = viewController!
-//        let textField = UITextField()
-//        
-//        let scoreNumber = Int.random(in: 1...1000)
-//        textField.text = String(scoreNumber)
-//        sut.pointsTextField = textField
-//        
-//        let delegateMock = ScoreboardPlayerEditScorePopoverDelegateMock()
-//        sut.delegate = delegateMock
-//        
-//        let player = Player(name: UUID().uuidString, position: 0)
-//        sut.scoreChange = ScoreChange.init(player: player, scoreChange: 0)
-//        
-//        // when
-//        sut.addButtonTapped(0)
-//        
-//        // then
-//        XCTAssertEqual(delegateMock.editCalledCount, 1))
-//        XCTAssertEqual(delegateMock.editChange, scoreNumber)
-//    }
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenAddButtonTapped_ShouldDismissView() {
+        
+        class ScoreboardPlayerEditScorePopoverViewControllerDismissMock: ScoreboardPlayerEditScorePopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = ScoreboardPlayerEditScorePopoverViewControllerDismissMock()
+        let textFieldMock = UITextField()
+        textFieldMock.text = "3"
+        sut.pointsTextField = textFieldMock
+        
+        sut.scoreChangeSettings = ScoreChangeSettings.getStub()
+        
+        // when
+        sut.addButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
     
-//    func test_ScoreboardPlayerEditScorePopoverViewController_WhenAddButtonTapped_ShouldDismissView() {
-//        
-//        class ScoreboardPlayerEditScorePopoverViewControllerDismissMock: ScoreboardPlayerEditScorePopoverViewController {
-//            var dismissedCalledCount = 0
-//            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-//                dismissedCalledCount += 1
-//            }
-//        }
-//        
-//        // given
-//        let sut = ScoreboardPlayerEditScorePopoverViewControllerDismissMock()
-//        let textFieldMock = UITextField()
-//        textFieldMock.text = "3"
-//        sut.pointsTextField = textFieldMock
-//        
-//        sut.scoreChange = ScoreChange.getBlankScoreChange()
-//        
-//        // when
-//        sut.addButtonTapped(0)
-//        
-//        // then
-//        XCTAssertEqual(sut.dismissedCalledCount, 1)
-//    }
-//    
-//    
-//    // MARK: SubtractButtonTapped
-//    
-//    func test_ScoreboardPlayerEditScorePopoverViewController_WhenSubtractButtonTapped_ShouldReturnScoreChangeThatIsProperty() {
-//        // given
-//        let sut = viewController!
-//        sut.loadView()
-//        
-//        let scoreChange = ScoreChange(player: Player.getBasicPlayer(), scoreChange: 0)
-//        sut.scoreChange = scoreChange
-//        
-//        sut.pointsTextField.text = "1"
-//        
-//        let delegateMock = ScoreboardPlayerEditScorePopoverDelegateMock()
-//        sut.delegate = delegateMock
-//        
-//        // when
-//        sut.subtractButtonTapped(0)
-//        
-//        // then
-//        XCTAssertEqual(delegateMock.editScoreChangeObject, scoreChange)
-//    }
-//    
-//    func test_ScoreboardPlayerEditScorePopoverViewController_WhenSubtractButtonTapped_ShouldCallDelegateEditWithNegativeTextFieldTextAndPlayer() {
-//        // given
-//        let sut = viewController!
-//        let textField = UITextField()
-//        
-//        let scoreNumber = Int.random(in: 1...1000)
-//        textField.text = String(scoreNumber)
-//        sut.pointsTextField = textField
-//        
-//        let delegateMock = ScoreboardPlayerEditScorePopoverDelegateMock()
-//        sut.delegate = delegateMock
-//        
-//        let player = Player(name: UUID().uuidString, position: 0)
-//        sut.scoreChange = ScoreChange.init(player: player, scoreChange: 0)
-//        
-//        // when
-//        sut.subtractButtonTapped(0)
-//        
-//        // then
-//        XCTAssertEqual(delegateMock.editCalledCount, 1)
-//        XCTAssertEqual(delegateMock.editPlayerID, player.id)
-//        XCTAssertEqual(delegateMock.editPlayerName, player.name)
-//        XCTAssertEqual(delegateMock.editChange, (-1 * scoreNumber))
-//    }
-//    
-//    func test_ScoreboardPlayerEditScorePopoverViewController_WhenSubtractButtonTapped_ShouldDismissView() {
-//        
-//        class ScoreboardPlayerEditScorePopoverViewControllerDismissMock: ScoreboardPlayerEditScorePopoverViewController {
-//            var dismissedCalledCount = 0
-//            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-//                dismissedCalledCount += 1
-//            }
-//        }
-//        
-//        // given
-//        let sut = ScoreboardPlayerEditScorePopoverViewControllerDismissMock()
-//        let textFieldMock = UITextField()
-//        textFieldMock.text = "3"
-//        sut.pointsTextField = textFieldMock
-//        
-//        sut.scoreChange = ScoreChange.getBlankScoreChange()
-//        
-//        // when
-//        sut.subtractButtonTapped(0)
-//        
-//        // then
-//        XCTAssertEqual(sut.dismissedCalledCount, 1)
-//    }
+    
+    // MARK: SubtractButtonTapped
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenSubtractButtonTapped_ShouldReturnScoreChangeThatIsProperty() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        var scoreChange = ScoreChangeSettings.getStub()
+        scoreChange.scoreChangeID = UUID()
+        sut.scoreChangeSettings = scoreChange
+        
+        sut.pointsTextField.text = "1"
+        
+        let delegateMock = ScoreboardPlayerEditScorePopoverDelegateMock()
+        sut.delegate = delegateMock
+        
+        // when
+        sut.subtractButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegateMock.editScoreChangeObject, scoreChange)
+    }
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenSubtractButtonTapped_ShouldCallDelegateEditWithNegativeTextFieldText() {
+        // given
+        let sut = viewController!
+        let textField = UITextField()
+        
+        let scoreNumber = Int.random(in: 1...1000)
+        textField.text = String(scoreNumber)
+        sut.pointsTextField = textField
+        
+        let delegateMock = ScoreboardPlayerEditScorePopoverDelegateMock()
+        sut.delegate = delegateMock
+        
+
+        sut.scoreChangeSettings = ScoreChangeSettings.getStub()
+        
+        // when
+        sut.subtractButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegateMock.editCalledCount, 1)
+        XCTAssertEqual(delegateMock.editChange, (-1 * scoreNumber))
+    }
+    
+    func test_ScoreboardPlayerEditScorePopoverViewController_WhenSubtractButtonTapped_ShouldDismissView() {
+        
+        class ScoreboardPlayerEditScorePopoverViewControllerDismissMock: ScoreboardPlayerEditScorePopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = ScoreboardPlayerEditScorePopoverViewControllerDismissMock()
+        let textFieldMock = UITextField()
+        textFieldMock.text = "3"
+        sut.pointsTextField = textFieldMock
+        
+        sut.scoreChangeSettings = ScoreChangeSettings.getStub()
+        
+        // when
+        sut.subtractButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
     
     
     // MARK: - ExitButtonTapped
@@ -407,10 +405,10 @@ final class ScoreboardPlayerEditScorePopoverViewControllerTests: XCTestCase {
 
 class ScoreboardPlayerEditScorePopoverDelegateMock: ScoreboardPlayerEditScorePopoverDelegate {
     var editChange: Int?
-    var editScoreChangeObject: ScoreChangeProtocol?
+    var editScoreChangeObject: ScoreChangeSettings?
     var editCalledCount = 0
     
-    func editScore(_ scoreChange: ScoreChangeProtocol) {
+    func editScore(_ scoreChange: ScoreChangeSettings) {
         editCalledCount += 1
         editChange = scoreChange.scoreChange
         editScoreChangeObject = scoreChange

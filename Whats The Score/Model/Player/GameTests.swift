@@ -342,7 +342,7 @@ final class GameTests: XCTestCase {
         let context = NSManagedObjectContextDeleteObjectMock()
         let sut = GamePropertyRemoveFromScoreChangesMock()
         sut.temporaryManagedObjectContext = context
-        let scoreChange = ScoreChange(context: context)
+        let scoreChange = ScoreChange()
         
         // when
         sut.deleteScoreChange(scoreChange)

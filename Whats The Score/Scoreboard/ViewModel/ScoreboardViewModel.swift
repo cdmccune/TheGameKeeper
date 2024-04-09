@@ -75,7 +75,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         guard sortedPlayers.indices.contains(index) else { return }
         
         let player = sortedPlayers[index]
-//        coordinator?.showEditPlayerScorePopover(withScoreChange: ScoreChange(player: player, scoreChange: 0), andDelegate: self)
+        coordinator?.showEditPlayerScorePopover(withScoreChange: ScoreChangeSettings(player: player), andDelegate: self)
     }
     
     func startEditingPlayerAt(_ index: Int) {
@@ -85,7 +85,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         
     }
     
-    func editScore(_ scoreChange: ScoreChangeProtocol) {
+    func editScore(_ scoreChange: ScoreChangeSettings) {
         guard game.players.contains(where: { $0.id == scoreChange.player.id }) else { return }
         
 //        game.editScore(scoreChange: scoreChange)

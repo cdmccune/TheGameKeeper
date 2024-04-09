@@ -87,11 +87,11 @@ class ScoreboardCoordinator: Coordinator {
         viewController.present(editPlayerPopoverVC, animated: true)
     }
     
-    func showEditPlayerScorePopover(withScoreChange scoreChange: ScoreChangeProtocol, andDelegate delegate: ScoreboardPlayerEditScorePopoverDelegate) {
+    func showEditPlayerScorePopover(withScoreChange scoreChange: ScoreChangeSettings, andDelegate delegate: ScoreboardPlayerEditScorePopoverDelegate) {
         guard let viewController = navigationController.topViewController else { return }
         let editPlayerScorePopoverVC = ScoreboardPlayerEditScorePopoverViewController.instantiate()
         
-        editPlayerScorePopoverVC.scoreChange = scoreChange
+        editPlayerScorePopoverVC.scoreChangeSettings = scoreChange
         editPlayerScorePopoverVC.delegate = delegate
         
         defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerScorePopoverVC, withWidth: 300, andHeight: 200, tapToExit: true)

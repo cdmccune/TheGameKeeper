@@ -110,7 +110,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         }
     }
     
-    func test_GameTabCoordiantor_WhenInitializeGameCalledGameTypeRoundGameEndTypeScore_ShouldSetGameNumberOfRoundsToGameEndQuantity() {
+    func test_GameTabCoordiantor_WhenInitializeGameCalledGameTypeRoundGameEndTypeScore_ShouldSetGameEndingScoreToGameEndQuantity() {
         // given
         let coreDataStore = CoreDataStoreMock()
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
@@ -125,7 +125,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         // then
         do {
             let games = try coreDataStore.persistentContainer.viewContext.fetch(Game.fetchRequest())  as? [Game]
-            XCTAssertEqual(games?.first?.numberOfRounds, gameEndQuantity)
+            XCTAssertEqual(games?.first?.endingScore, gameEndQuantity)
             
         } catch {
             XCTFail("games couldn't be loaded from view context \(error)")
