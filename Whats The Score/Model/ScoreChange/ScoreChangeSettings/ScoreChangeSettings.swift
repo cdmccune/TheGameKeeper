@@ -10,4 +10,5 @@ import Foundation
 struct ScoreChangeSettings {
     var player: PlayerProtocol
     var scoreChange: Int = 0
+    var scoreChangeID: UUID? = nil
 }

@@ -53,18 +53,18 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
     }
     
     func deleteRowAt(_ index: Int) {
-        game.deleteHistorySegmentAt(index: index)
+//        game.deleteHistorySegmentAt(index: index)
         shouldRefreshTableView.value = true
     }
     
     func editScore(_ scoreChange: ScoreChangeProtocol) {
-        game.editScoreChange(scoreChange)
+//        game.editScoreChange(scoreChange)
         
         shouldRefreshTableView.value = true
     }
     
     func endRound(_ endRound: EndRoundProtocol) {
-        game.editEndRound(endRound)
+//        game.editEndRound(endRound)
         
         shouldRefreshTableView.value = true
     }

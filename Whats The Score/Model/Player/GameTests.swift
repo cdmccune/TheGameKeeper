@@ -790,343 +790,52 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.currentRound, 1)
     }
 
-//    // MARK: - EditScoreChange
-//    
-//    func test_Game_WhenEditScoreChangeCalled_ShouldEditPlayerScoreChangeToNewValue() {
-//        // given
-//        let player1 = Player.getBasicPlayer()
-//        let scoreChangeOriginalChange = Int.random(in: 0...1000)
-//        
-//        var scoreChangeObject = ScoreChange(player: player1, scoreChange: scoreChangeOriginalChange)
-//        
-//        player1.scoreChanges = [scoreChangeObject]
-//        
-//        var sut = Game(basicGameWithPlayers: [player1])
-//        
-//        let gameHistorySegmentScoreChange = GameHistorySegment.scoreChange(scoreChangeObject, player1)
-//        sut.historySegments = [gameHistorySegmentScoreChange]
-//        
-//        let scoreChangeAfterChange = Int.random(in: 0...1000)
-//        scoreChangeObject.scoreChange = scoreChangeAfterChange
-//        
-//        // when
-//        sut.editScoreChange(scoreChangeObject)
-//        
-//        // then
-//        XCTAssertEqual(sut.players.first?.scoreChanges.first?.scoreChange, scoreChangeAfterChange)
-//    }
-//    
-//    func test_Game_WhenEditScoreChangeCalled_ShouldEditHistorySegmentScoreChange() {
-//        // given
-//        let player1 = Player.getBasicPlayer()
-//        let player2 = Player.getBasicPlayer()
-//        let players = [player1, player2]
-//        
-//        var sut = Game(basicGameWithPlayers: players)
-//        sut.players = [player1, player2]
-//        
-//        let indexOfPlayer = Int.random(in: 0...1)
-//        var scoreChangeObject = ScoreChange(player: players[indexOfPlayer], scoreChange: 0)
-//        players[indexOfPlayer].scoreChanges = [scoreChangeObject]
-//        let gameHistorySegmentScoreChange = GameHistorySegment.scoreChange(scoreChangeObject, players[indexOfPlayer])
-//        sut.historySegments = [gameHistorySegmentScoreChange]
-//        
-//        let scoreChangeAfterChange = Int.random(in: 0...1000)
-//        scoreChangeObject.scoreChange = scoreChangeAfterChange
-//        
-//        // when
-//        sut.editScoreChange(scoreChangeObject)
-//        
-//        // then
-//        guard case GameHistorySegment.scoreChange(let newScoreChange, _) = sut.historySegments.first! else {
-//            XCTFail("The history segment should be a score change")
-//            return
-//        }
-//        
-//        XCTAssertEqual(newScoreChange.scoreChange, scoreChangeAfterChange)
-//    }
-//    
-//    func test_Game_WhenEditScoreChangeCalled_ShouldSetScoreChangeHistorySegmentPlayerToPlayer() {
-//        // given
-//        let player = PlayerMock()
-//        
-//        var sut = Game(basicGameWithPlayers: [player])
-//        let scoreChange = ScoreChange(player: player, scoreChange: 0)
-//        player.scoreChanges = [scoreChange]
-//        sut.historySegments = [GameHistorySegment.scoreChange(scoreChange, player)]
-//        
-//        // when
-//        sut.editScoreChange(scoreChange)
-//        
-//        // then
-//        guard case GameHistorySegment.scoreChange(_, let playerFromSegment) = sut.historySegments.first! else {
-//            XCTFail("The history segment should be a score change")
-//            return
-//        }
-//        
-//        XCTAssertEqual(player.id, playerFromSegment.id)
-//    }
-//    
-//    
-//    // MARK: - EditEndRound
-//    
-//    func test_Game_WhenEditEndRoundCalled_ShouldEditPlayersScoreChanges() {
-//        // given
-//        let player1 = Player.getBasicPlayer()
-//        let player2 = Player.getBasicPlayer()
-//        let players = [player1, player2]
-//        
-//        var sut = Game(basicGameWithPlayers: players)
-//        
-//        var scoreChangeObjects = [
-//            ScoreChange(player: player1, scoreChange: 0),
-//            ScoreChange(player: player2, scoreChange: 0)
-//        ]
-//        
-//        player1.scoreChanges = [scoreChangeObjects[0]]
-//        player2.scoreChanges = [scoreChangeObjects[1]]
-//        
-//        var endRound = EndRound(roundNumber: 0, scoreChangeArray: scoreChangeObjects)
-//        let gameHistorySegment = GameHistorySegment.endRound(endRound, [])
-//        sut.historySegments = [gameHistorySegment]
-//        
-//        let scoreChangePointAfters = [
-//            Int.random(in: 1...1000),
-//            Int.random(in: 1...1000)
-//        ]
-//        
-//        scoreChangeObjects[0].scoreChange = scoreChangePointAfters[0]
-//        scoreChangeObjects[1].scoreChange = scoreChangePointAfters[1]
-//        
-//        endRound.scoreChangeArray = scoreChangeObjects
-//        
-//        // when
-//        sut.editEndRound(endRound)
-//        
-//        // then
-//        XCTAssertEqual(sut.players[0].scoreChanges.first?.scoreChange, scoreChangePointAfters[0])
-//        XCTAssertEqual(sut.players[1].score, scoreChangePointAfters[1])
-//    }
-//    
-//    func test_Game_WhenEditEndRoundCalled_ShouldSetEndRoundGameHistoryObjectScoreChanges() {
-//        // given
-//        let player1 = Player.getBasicPlayer()
-//        var sut = Game(basicGameWithPlayers: [player1])
-//        
-//        var endRound = EndRound(roundNumber: 0, scoreChangeArray: [])
-//        let endRoundHistoryObject = GameHistorySegment.endRound(endRound, [])
-//        sut.historySegments = [endRoundHistoryObject]
-//        
-//        let scoreChangeInt = Int.random(in: 1...1000)
-//        var scoreChangeObject = ScoreChange(player: player1, scoreChange: 0)
-//        player1.scoreChanges = [scoreChangeObject]
-//        
-//        scoreChangeObject.scoreChange = scoreChangeInt
-//        
-//        endRound.scoreChangeArray = [scoreChangeObject]
-//        
-//        // when
-//        sut.editEndRound(endRound)
-//        
-//        // then
-//        guard case .endRound(let newEndRound, _) = sut.historySegments[0] else {
-//            XCTFail("History Segment not present")
-//            return
-//        }
-//        
-//        XCTAssertEqual(newEndRound.scoreChangeArray, [scoreChangeObject])
-//    }
-//    
-//    func test_Game_WhenEditEndRoundCalled_ShouldSetEndRoundHistorySegmentPlayersToPlayersInScoreChange() {
-//        // given
-//        let player1 = PlayerMock()
-//        let player2 = PlayerMock()
-//        
-//        var sut = Game(basicGameWithPlayers: [player1, player2])
-//        
-//        let scoreChange1 = ScoreChange(player: player1, scoreChange: 0)
-//        player1.scoreChanges = [scoreChange1]
-//        
-//        let scoreChange2 = ScoreChange(player: player2, scoreChange: 0)
-//        player2.scoreChanges = [scoreChange2]
-//        
-//        let endRound = EndRound(roundNumber: 0, scoreChangeArray: [scoreChange1, scoreChange2])
-//        let endRoundHistorySegment = GameHistorySegment.endRound(endRound, [])
-//        
-//        sut.historySegments = [
-//            endRoundHistorySegment
-//        ]
-//        
-//        // when
-//        sut.editEndRound(endRound)
-//        
-//        // then
-//        guard case .endRound(_, let playersFromSegment) = sut.historySegments[0] else {
-//            XCTFail("History Segment not present")
-//            return
-//        }
-//        XCTAssertEqual(playersFromSegment[0].id, player1.id)
-//        XCTAssertEqual(playersFromSegment[1].id, player2.id)
-//    }
+    // MARK: - EditScoreChange
     
+    func test_Game_WhenEditScoreChangeCalledPlayerHasScoreChange_ShouldChangeScoreChangesScoreChangeValue() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let player = Player(game: sut, name: "", position: 0, context: context)
+        let scoreChange = ScoreChange(player: player, scoreChange: 0, position: 0, game: sut, context: context)
+        let newScoreChangeInt = Int.random(in: 1...10)
+        
+        let scoreChangeSettings = ScoreChangeSettings(player: player, scoreChange: newScoreChangeInt, scoreChangeID: scoreChange.id)
+        
+        // when
+        sut.editScoreChange(scoreChangeSettings)
+        
+        // then
+        XCTAssertEqual(scoreChange.scoreChange, newScoreChangeInt)
+    }
     
-    // MARK: - Classes
-}
 
-class GameIsEndOfGameMock: GameMock {
-    var isEndOfGameBool = false
-    var isEndOfGameCalledCount = 0
-    override func isEndOfGame() -> Bool {
-        isEndOfGameCalledCount += 1
-        return isEndOfGameBool
-    }
-}
-
-class GameMock: GameProtocol {
-    convenience init(gameType: GameType = .basic,
-                     gameEndType: GameEndType = .none,
-                     numberOfRounds: Int = 0,
-                     endingScore: Int = 0,
-                     currentRounts: Int = 0,
-                     players: [PlayerProtocol] = [],
-                     endRounds: [EndRoundProtocol] = [],
-                     scoreChanges: [ScoreChangeProtocol] = []) {
-        self.init()
-        self.players = players
-        self.gameType = gameType
-        self.gameEndType = gameEndType
-        self.numberOfRounds = numberOfRounds
-        self.endingScore = endingScore
-        self.currentRound = currentRounts
-        self.scoreChanges = scoreChanges
-        self.endRounds = endRounds
-    }
+    // MARK: - EditEndRound
     
-    var id: UUID = UUID()
-    var gameType: GameType = .basic
-    var gameEndType: GameEndType = .none
-    var numberOfRounds: Int = 2
-    var endingScore: Int = 10
-    var currentRound: Int = 0
-    var players: [PlayerProtocol] = []
-    var winningPlayers: [PlayerProtocol] = []
-    
-    var endRounds: [EndRoundProtocol] = []
-    var scoreChanges: [ScoreChangeProtocol] = []
-    
-    func changeName(of player: PlayerProtocol, to name: String) {
+    func test_Game_WhenEditEndRoundCalledEndRoundInGame_ShouldChangeEachOfTheScoreChangesToNewInts() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let endRound = EndRound(game: sut, roundNumber: 0, scoreChanges: [], context: context)
         
-    }
-    
-//    var playerNameChangedCalledCount = 0
-//    var playerNameChangedIndex: Int?
-//    var playerNameChangedName: String?
-//    func playerNameChanged(withIndex index: Int, toName name: String) {
-//        self.playerNameChangedCalledCount += 1
-//        self.playerNameChangedIndex = index
-//        self.playerNameChangedName = name
-//    }
-    
-    var movePlayerAtCalledCount = 0
-    var movePlayerAtSourceRowIndex: Int?
-    var movePlayerAtDestinationRowIndex: Int?
-    func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
-        movePlayerAtCalledCount += 1
-        movePlayerAtSourceRowIndex = sourceRowIndex
-        movePlayerAtDestinationRowIndex = destinationRowIndex
-    }
-    
-    var addPlayerCalledCount = 0
-    func addPlayer(withName name: String) {
-        addPlayerCalledCount += 1
-    }
-    
-    var randomizePlayersCalledCount = 0
-    func randomizePlayers() {
-        randomizePlayersCalledCount += 1
-    }
-    
-    func deletePlayer(_ player: PlayerProtocol) {
+        let player1 = Player(game: sut, name: "", position: 0, context: context)
+        let player2 = Player(game: sut, name: "", position: 0, context: context)
+        let scoreChange1 = ScoreChange(player: player1, scoreChange: 0, position: 0, endRound: endRound, context: context)
+        let scoreChange2 = ScoreChange(player: player2, scoreChange: 0, position: 0, endRound: endRound, context: context)
         
-    }
-    
-    func deleteEndRound(_ endRound: EndRoundProtocol) {
+        let scoreChangeNewInt1 = Int.random(in: 1...100)
+        let scoreChangeNewInt2 = Int.random(in: 1...100)
         
-    }
-    
-    func deleteScoreChange(_ scoreChange: ScoreChangeProtocol) {
+        let scoreChangeSettings = [
+            ScoreChangeSettings(player: player1, scoreChange: scoreChangeNewInt1, scoreChangeID: scoreChange1.id),
+            ScoreChangeSettings(player: player2, scoreChange: scoreChangeNewInt2, scoreChangeID: scoreChange2.id)
+        ]
         
-    }
-    
-    func changeScore(with scoreChangeSettings: ScoreChangeSettings) {
+        let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: scoreChangeSettings, roundNumber: 0, endRoundID: endRound.id)
         
-    }
-    
-//    var deletePlayerAtCalledCount = 0
-//    var deletePlayerAtIndex: Int?
-//    func deletePlayerAt(_ index: Int) {
-//        deletePlayerAtIndex = index
-//        deletePlayerAtCalledCount += 1
-//    }
-    
-//    var editScoreScoreChange: ScoreChangeProtocol?
-//    var editScoreChange: Int?
-//    var editScoreCalledCount = 0
-//    func editScore(scoreChange: ScoreChangeProtocol) {
-//        editScoreScoreChange = scoreChange
-//        editScoreCalledCount += 1
-//    }
-    
-    var endRoundEndRound: EndRoundSettings?
-    var endRoundCalledCount = 0
-    func endRound(with endRoundSettings: EndRoundSettings) {
-        endRoundEndRound = endRoundSettings
-        endRoundCalledCount += 1
-    }
-    
-    var updateSettingsCalledCount = 0
-    var updateSettingsGameEndType: GameEndType?
-    var updateSettingsEndingScore: Int?
-    var updateSettingsNumberOfRounds: Int?
-    
-    func updateSettings(with gameEndType: Whats_The_Score.GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {
-        self.updateSettingsCalledCount += 1
-        self.updateSettingsGameEndType = gameEndType
-        self.updateSettingsEndingScore = endingScore
-        self.updateSettingsNumberOfRounds = numberOfRounds
-    }
-    
-    var resetGameCalledCount = 0
-    func resetGame() {
-        resetGameCalledCount += 1
-    }
-    
-    var editScoreChangeScoreChange: ScoreChangeProtocol?
-    var editScoreChangeCalledCount = 0
-    func editScoreChange(_ scoreChange: ScoreChangeProtocol) {
-        editScoreChangeScoreChange = scoreChange
-        editScoreChangeCalledCount += 1
-    }
-    
-    var editEndRoundCalledCount = 0
-    var editEndRoundEndRound: EndRoundProtocol?
-    func editEndRound(_ newEndRound: EndRoundProtocol) {
-        editEndRoundCalledCount += 1
-        editEndRoundEndRound = newEndRound
-    }
-    
-    var deleteHistorySegmentAtCalledCount = 0
-    var deleteHistorySegmentAtIndex: Int?
-    func deleteHistorySegmentAt(index: Int) {
-        deleteHistorySegmentAtCalledCount += 1
-        deleteHistorySegmentAtIndex = index
-    }
-    
-    func isEqualTo(game: GameProtocol) -> Bool {
-        game.id == self.id
-    }
-    
-    func isEndOfGame() -> Bool {
-        return false
+        // when
+        sut.editEndRound(endRoundSettings)
+        
+        // then
+        XCTAssertEqual(scoreChange1.scoreChange, scoreChangeNewInt1)
+        XCTAssertEqual(scoreChange2.scoreChange, scoreChangeNewInt2)
     }
 }

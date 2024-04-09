@@ -191,55 +191,29 @@ extension Game {
         currentRound = 1
     }
     
-    func editScoreChange(_ newScoreChange: ScoreChangeProtocol) {
-//
-////        if let playerIndex = players.firstIndex(where: { $0.id == newScoreChange.playerID }),
-////           let scoreChangeIndex = historySegments.getIndexOfElement(withID: newScoreChange.id),
-////           case .scoreChange(let scoreChangeOriginal, let player) = historySegments[scoreChangeIndex] {
-////            
-////            guard let scoreChangeIndex = players[playerIndex].scoreChanges.firstIndex(of: newScoreChange) else {
-////                fatalError("Score change not found")
-////            }
-////            
-////            players[playerIndex].scoreChanges[scoreChangeIndex] = (newScoreChange)
-////            historySegments[scoreChangeIndex] = .scoreChange(newScoreChange, players[playerIndex])
-////        }
+    func editScoreChange(_ newScoreChange: ScoreChangeSettings) {
+        guard let id = newScoreChange.scoreChangeID,
+              var scoreChange = newScoreChange.player.scoreChanges.first(where: { $0.id == id }) else {
+            return
+        }
+        
+        scoreChange.scoreChange = newScoreChange.scoreChange
     }
     
-    func editEndRound(_ newEndRound: EndRoundProtocol) {
-//
-//        var playerInEndRoundArray = [PlayerProtocol]()
-//        
-//        // Loop through new score changes
-//        newEndRound.scoreChangeArray.forEach { newScoreChange in
-//            // find player index for player in new scoreChange
-//            guard let playerIndex = players.firstIndex(where: { $0.id == newScoreChange.playerID }) else {
-//                fatalError("Player not in player array")
-//            }
-//            
-//            var player = players[playerIndex]
-//            
-//            // Append player to players in this endRound array
-//            playerInEndRoundArray.append(player)
-//            
-//            // Find the index of score change in player
-//            guard let playerScoreChangeIndex = player.scoreChanges.firstIndex(of: newScoreChange) else {
-//                fatalError("Score change not in player score change array")
-//            }
-//            
-//            // Set player ScoreChange to new value
-//            player.scoreChanges[playerScoreChangeIndex] = newScoreChange
-//        }
-//        
-////        // Find the end round history object
-////        guard let endRoundIndex = historySegments.getIndexOfElement(withID: newEndRound.id) else {
-////            fatalError("EndRound object not found")
-////        }
-////        
-////        // Set the history object to new changes
-////        let newGameHistorySegment = GameHistorySegment.endRound(newEndRound, playerInEndRoundArray)
-////        historySegments[endRoundIndex] = newGameHistorySegment
+    func editEndRound(_ newEndRound: EndRoundSettings) {
+        
+        guard let id = newEndRound.endRoundID,
+              let endRound = endRounds.first(where: { $0.id == id }) else {
+            return
+        }
+        
+        newEndRound.scoreChangeSettingsArray.forEach { scoreChangeSetting in
+            if var scoreChange = endRound.scoreChanges.first(where: { $0.id == scoreChangeSetting.scoreChangeID }) {
+                scoreChange.scoreChange = scoreChangeSetting.scoreChange
+            }
+        }
     }
+    
     
     // MARK: - Non-Mutating Functions
     

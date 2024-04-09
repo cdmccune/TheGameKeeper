@@ -31,9 +31,8 @@ protocol GameProtocol {
     func endRound(with endRoundSettings: EndRoundSettings)
     func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int)
     func resetGame()
-    func editScoreChange(_ newScoreChange: ScoreChangeProtocol)
-    func editEndRound(_ newEndRound: EndRoundProtocol)
-    func deleteHistorySegmentAt(index: Int)
+    func editScoreChange(_ newScoreChange: ScoreChangeSettings)
+    func editEndRound(_ newEndRound: EndRoundSettings)
     func isEqualTo(game: GameProtocol) -> Bool
     
     func isEndOfGame() -> Bool

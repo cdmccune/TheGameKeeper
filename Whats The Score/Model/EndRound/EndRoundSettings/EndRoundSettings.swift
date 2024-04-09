@@ -10,4 +10,5 @@ import Foundation
 struct EndRoundSettings {
     var scoreChangeSettingsArray: [ScoreChangeSettings]
     var roundNumber: Int
+    var endRoundID: UUID? = nil
 }
