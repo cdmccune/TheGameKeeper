@@ -92,18 +92,14 @@ class GameMock: GameProtocol {
     var endRounds: [EndRoundProtocol] = []
     var scoreChanges: [ScoreChangeProtocol] = []
     
+    var changeNamePlayer: PlayerProtocol?
+    var changeNameName: String?
+    var changeNameCalledCount: Int = 0
     func changeName(of player: PlayerProtocol, to name: String) {
-        
+        changeNameCalledCount += 1
+        changeNamePlayer = player
+        changeNameName = name
     }
-    
-//    var playerNameChangedCalledCount = 0
-//    var playerNameChangedIndex: Int?
-//    var playerNameChangedName: String?
-//    func playerNameChanged(withIndex index: Int, toName name: String) {
-//        self.playerNameChangedCalledCount += 1
-//        self.playerNameChangedIndex = index
-//        self.playerNameChangedName = name
-//    }
     
     var movePlayerAtCalledCount = 0
     var movePlayerAtSourceRowIndex: Int?
@@ -124,8 +120,11 @@ class GameMock: GameProtocol {
         randomizePlayersCalledCount += 1
     }
     
+    var deletePlayerPlayer: PlayerProtocol?
+    var deletePlayerCalledCount = 0
     func deletePlayer(_ player: PlayerProtocol) {
-        
+        deletePlayerPlayer = player
+        deletePlayerCalledCount += 1
     }
     
     func deleteEndRound(_ endRound: EndRoundProtocol) {
@@ -136,24 +135,12 @@ class GameMock: GameProtocol {
         
     }
     
+    var changeScoreScoreChangeSettings: ScoreChangeSettings?
+    var changeScoreCalledCount = 0
     func changeScore(with scoreChangeSettings: ScoreChangeSettings) {
-        
+        changeScoreScoreChangeSettings = scoreChangeSettings
+        changeScoreCalledCount += 1
     }
-    
-//    var deletePlayerAtCalledCount = 0
-//    var deletePlayerAtIndex: Int?
-//    func deletePlayerAt(_ index: Int) {
-//        deletePlayerAtIndex = index
-//        deletePlayerAtCalledCount += 1
-//    }
-    
-//    var editScoreScoreChange: ScoreChangeProtocol?
-//    var editScoreChange: Int?
-//    var editScoreCalledCount = 0
-//    func editScore(scoreChange: ScoreChangeProtocol) {
-//        editScoreScoreChange = scoreChange
-//        editScoreCalledCount += 1
-//    }
     
     var endRoundEndRound: EndRoundSettings?
     var endRoundCalledCount = 0
@@ -166,7 +153,6 @@ class GameMock: GameProtocol {
     var updateSettingsGameEndType: GameEndType?
     var updateSettingsEndingScore: Int?
     var updateSettingsNumberOfRounds: Int?
-    
     func updateSettings(with gameEndType: Whats_The_Score.GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {
         self.updateSettingsCalledCount += 1
         self.updateSettingsGameEndType = gameEndType
@@ -191,13 +177,6 @@ class GameMock: GameProtocol {
     func editEndRound(_ newEndRound: EndRoundSettings) {
         editEndRoundCalledCount += 1
         editEndRoundEndRound = newEndRound
-    }
-    
-    var deleteHistorySegmentAtCalledCount = 0
-    var deleteHistorySegmentAtIndex: Int?
-    func deleteHistorySegmentAt(index: Int) {
-        deleteHistorySegmentAtCalledCount += 1
-        deleteHistorySegmentAtIndex = index
     }
     
     func isEqualTo(game: GameProtocol) -> Bool {

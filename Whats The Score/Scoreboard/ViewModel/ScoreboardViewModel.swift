@@ -87,9 +87,8 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     
     func editScore(_ scoreChange: ScoreChangeSettings) {
         guard game.players.contains(where: { $0.id == scoreChange.player.id }) else { return }
-        
-//        game.editScore(scoreChange: scoreChange)
-        
+    
+        game.changeScore(with: scoreChange)
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
         if game.isEndOfGame() {
@@ -105,7 +104,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
     }
     
     func deletePlayer(_ player: PlayerProtocol) {
-//        game.deletePlayerAt(player.position)
+        game.deletePlayer(player)
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 
@@ -155,9 +154,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
 
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
     func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {
-        guard let index = game.players.firstIndex(where: { $0.id == player.id }) else { return }
-//        game.playerNameChanged(withIndex: index, toName: name)
-        
+        game.changeName(of: player, to: name)
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 }
