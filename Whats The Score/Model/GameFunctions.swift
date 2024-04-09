@@ -77,8 +77,10 @@ extension Game {
 ////        }
     }
     
-    func deleteEndRound(_ endRound: EndRound) {
-        removeFromEndRounds_(endRound)
+    func deleteEndRound(_ endRound: EndRoundProtocol) {
+        guard let endRoundObject = endRound as? EndRound else { return }
+        
+        removeFromEndRounds_(endRoundObject)
         
         var endRounds = endRounds
         
@@ -87,8 +89,10 @@ extension Game {
         }
     }
     
-    func deleteScoreChange(_ scoreChange: ScoreChange) {
-        removeFromScoreChanges_(scoreChange)
+    func deleteScoreChange(_ scoreChange: ScoreChangeProtocol) {
+        guard let scoreChangeObject = scoreChange as? ScoreChange else { return }
+        
+        removeFromScoreChanges_(scoreChangeObject)
         
         var scoreChanges = scoreChanges
         
@@ -203,13 +207,20 @@ extension Game {
     }
     
     func resetGame() {
-//        for i in 0..<players.count {
-//            players[i].scoreChanges = []
-//        }
-//        
-//        currentRound = 1
-//        
-////        historySegments = []
+        
+        if let scoreChanges = scoreChanges as? [ScoreChange] {
+            scoreChanges.forEach { scoreChange in
+                managedObjectContext?.delete(scoreChange)
+            }
+        }
+        
+        if let endRounds = endRounds as? [EndRound] {
+            endRounds.forEach { endRounds in
+                managedObjectContext?.delete(endRounds)
+            }
+        }
+        
+        currentRound = 1
     }
     
     func editScoreChange(_ newScoreChange: ScoreChangeProtocol) {

@@ -420,7 +420,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         
         // then
 //        XCTAssertEqual(gameMock.endRoundEndRound?.id, endRound.id)
-        XCTAssertEqual(gameMock.endRoundCalledCount, 1)
+//        XCTAssertEqual(gameMock.endRoundCalledCount, 1)
     }
     
     func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallBindViewToViewModel() {

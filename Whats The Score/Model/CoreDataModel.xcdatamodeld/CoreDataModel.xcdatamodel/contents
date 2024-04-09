@@ -23,6 +23,9 @@
         <attribute name="position_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="game" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="players_" inverseEntity="Game"/>
         <relationship name="scoreChanges_" toMany="YES" deletionRule="Cascade" destinationEntity="ScoreChange" inverseName="player_" inverseEntity="ScoreChange"/>
+        <fetchedProperty name="fetchedProperty" optional="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Player"/>
+        </fetchedProperty>
     </entity>
     <entity name="ScoreChange" representedClassName=".ScoreChange" syncable="YES">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>

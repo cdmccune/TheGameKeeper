@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 @testable import Whats_The_Score
 
 // MARK: - ViewController
@@ -147,5 +148,24 @@ class TabbarControllerMock: UITabBarController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         didSelectCalledCount += 1
         didSelectTabbarItem = item
+    }
+}
+
+
+// MARK: - ManagedObjectContext
+
+class NSManagedObjectContextDeleteObjectMock: NSManagedObjectContext {
+    
+    init() {
+        super.init(concurrencyType: NSManagedObjectContextConcurrencyType(rawValue: 0)!)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var deleteNSManagedObjects: [NSManagedObject] = []
+    override func delete(_ object: NSManagedObject) {
+        deleteNSManagedObjects.append(object)
     }
 }
