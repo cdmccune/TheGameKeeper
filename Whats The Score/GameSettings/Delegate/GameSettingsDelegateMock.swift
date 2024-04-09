@@ -9,11 +9,15 @@ import XCTest
 @testable import Whats_The_Score
 
 class GameSettingsDelegateMock: GameSettingsDelegate {
-    var updateCalledCount = 0
-    var updateGame: GameProtocol?
+    var updateGameSettingsCalledCount = 0
+    var updateGameSettingsGameEndType: GameEndType?
+    var updateGameSettingsNumberOfRounds: Int?
+    var updateGameSettingsEndingScore: Int?
     
-    func update(_ game: GameProtocol) {
-        updateCalledCount += 1
-        updateGame = game
+    func updateGameSettings(gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int) {
+        self.updateGameSettingsCalledCount += 1
+        updateGameSettingsGameEndType = gameEndType
+        updateGameSettingsNumberOfRounds = numberOfRounds
+        updateGameSettingsEndingScore = endingScore
     }
 }

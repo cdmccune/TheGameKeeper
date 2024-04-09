@@ -398,14 +398,14 @@ final class ScoreboardViewModelTests: XCTestCase {
         let gameMock = GameMock()
         let sut = ScoreboardViewModel(game: gameMock)
         
-        let endRound = EndRoundMock()
+        let endRound = EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: 0, endRoundID: UUID())
         
         // when
         sut.endRound(endRound)
         
         // then
-//        XCTAssertEqual(gameMock.endRoundEndRound?.id, endRound.id)
-//        XCTAssertEqual(gameMock.endRoundCalledCount, 1)
+        XCTAssertEqual(gameMock.endRoundEndRound, endRound)
+        XCTAssertEqual(gameMock.endRoundCalledCount, 1)
     }
     
     func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallBindViewToViewModel() {
@@ -418,7 +418,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         let bindViewToViewModelCalledCount = viewDelegate.bindViewToViewModelCalledCount
         
         // when3
-        sut.endRound(EndRoundMock())
+        sut.endRound(EndRoundSettings.getStub(withPlayerCount: 0))
         
         // then
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCount + 1)
@@ -432,7 +432,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         let sut = ScoreboardViewModel(game: game)
         
         // when
-        sut.endRound(EndRoundMock())
+        sut.endRound(EndRoundSettings.getStub(withPlayerCount: 0))
         
         // then
         XCTAssertEqual(game.isEndOfGameCalledCount, 1)
@@ -448,7 +448,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         sut.coordinator = coordinator
         
         // when
-        sut.endRound(EndRoundMock())
+        sut.endRound(EndRoundSettings.getStub(withPlayerCount: 0))
         
         // then
         XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
@@ -467,7 +467,7 @@ final class ScoreboardViewModelTests: XCTestCase {
         sut.coordinator = coordinator
         
         // when
-        sut.endRound(EndRoundMock())
+        sut.endRound(EndRoundSettings.getStub(withPlayerCount: 0))
         
         // then
         XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 0)
@@ -715,73 +715,80 @@ final class ScoreboardViewModelTests: XCTestCase {
     }
     
     
-//    // MARK: - UpdateGame
-//    
-//    func test_ScoreboardViewModel_WhenUpdateGameCalled_ShouldSetGameEqualToNewGame() {
-//        // given
-//        let sut = getViewModelWithBasicGame()
-//        
-//        let newGame = GameMock()
-//        
-//        // when
-//        sut.update(newGame)
-//        
-//        // then
-//        XCTAssertTrue(sut.game.isEqualTo(game: newGame))
-//    }
-//    
-//    func test_ScoreboardViewModel_WhenUpdateGameCalled_ShouldCallBindViewToViewModel() {
-//        // given
-//        let sut = getViewModelWithBasicGame()
-//        
-//        let viewDelegate = ScoreboardViewModelViewProtocolMock()
-//        sut.delegate = viewDelegate
-//        
-//        let bindCount = viewDelegate.bindViewToViewModelCalledCount
-//        
-//        // when
-//        sut.update(GameMock())
-//        
-//        // then
-//        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindCount + 1)
-//    }
-//    
-//    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameTrue_ShouldCallCoordinatorShowEndGamePopoverWithDelayHalfASecond() {
-//        // given
-//        let sut = ScoreboardViewModel(game: GameMock())
-//        
-//        let game = GameIsEndOfGameMock()
-//        game.isEndOfGameBool = true
-//        
-//        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
-//        sut.coordinator = coordinator
-//        
-//        // when
-//        sut.update(game)
-//        
-//        // then
-//        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
-//        XCTAssertTrue(coordinator.showEndGamePopoverGame?.isEqualTo(game: game) ?? false)
-//        XCTAssertTrue(coordinator.showEndGamePopoverDelegate === sut)
-//        XCTAssertEqual(coordinator.showEndGamePopoverDelay, 0.5)
-//    }
-//    
-//    func test_ScoreboardViewModel_WhenUpdateGameCalledGameIsEndOfGameFalse_ShouldNotCallCoordinatorShowEndGamePopover() {
-//        // given
-//        let sut = ScoreboardViewModel(game: GameMock())
-//        
-//        let game = GameIsEndOfGameMock()
-//        game.isEndOfGameBool = false
-//        
-//        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
-//        sut.coordinator = coordinator
-//        
-//        // when
-//        sut.update(game)
-//        
-//        // then
-//        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 0)
-//    }
+    // MARK: - UpdateGameSettings
+    
+    func test_ScoreboardViewModel_WhenUpdateGameSettingsCalled_ShouldCallGameUpdateSettingsWithCorrectSettings() {
+        // given
+        let gameMock = GameMock()
+        let sut = ScoreboardViewModel(game: gameMock)
+        
+        let numberOfRounds = Int.random(in: 1...10)
+        let endingScore = Int.random(in: 1...10)
+        let gameEndType = GameEndType.allCases.randomElement()!
+        
+        // when
+        sut.updateGameSettings(gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
+        
+        // then
+        XCTAssertEqual(gameMock.updateSettingsCalledCount, 1)
+        XCTAssertEqual(gameMock.updateSettingsGameEndType, gameEndType)
+        XCTAssertEqual(gameMock.updateSettingsNumberOfRounds, numberOfRounds)
+        XCTAssertEqual(gameMock.updateSettingsEndingScore, endingScore)
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateGameSettingsCalled_ShouldCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.updateGameSettings(gameEndType: .none, numberOfRounds: 0, endingScore: 0)
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindCount + 1)
+    }
+    
+    // MARK: - UpdateFromHistory
+    
+    func test_ScoreboardViewModel_WhenUpdateFromHistoryCalled_ShouldCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.updateFromHistory()
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindCount + 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateFromHistoryCalledGameIsEndOfGameTrue_ShouldCallCoordinatorShowEndGamePopoverWithDelayHalfASecond() {
+        // given
+        
+        let game = GameIsEndOfGameMock()
+        game.isEndOfGameBool = true
+        let sut = ScoreboardViewModel(game: game)
+        
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.updateFromHistory()
+        
+        // then
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
+        XCTAssertTrue(coordinator.showEndGamePopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showEndGamePopoverDelegate === sut)
+        XCTAssertEqual(coordinator.showEndGamePopoverDelay, 0.5)
+    }
     
     
     // MARK: - ShowGameHistory
@@ -943,12 +950,12 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     }
     
     func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {}
-    func endRound(_ endRound: EndRoundProtocol) {}
+    func endRound(_ endRound: EndRoundSettings) {}
     func goToEndGameScreen() {}
     func keepPlayingSelected() {}
     func updateNumberOfRounds(to numberOfRounds: Int) {}
     func updateWinningScore(to winningScore: Int) {}
     func setNoEnd() {}
-    func update(_ game: GameProtocol) {}
-    func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {}
+    func updateFromHistory() {}
+    func updateGameSettings(gameEndType: GameEndType, numberOfRounds endingScore: Int, endingScore numberOfRounds: Int) {}
 }

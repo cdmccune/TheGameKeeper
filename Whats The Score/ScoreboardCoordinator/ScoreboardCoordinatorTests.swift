@@ -188,42 +188,42 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         XCTAssertTrue(viewController.presentViewController is EndRoundPopoverViewController)
     }
     
-    #warning("These involves creating EndRound Object that a coredatahelper will need to do")
-//    func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundPopoverVCEndRoundObjectWithGamePlayers() {
-//        // given
-//        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
-//        
-//        let players = [
-//            PlayerMock(),
-//            PlayerMock(),
-//            PlayerMock()
-//        ]
-//        
-//        // when
-//        sut.showEndRoundPopover(withGame: GameMock(players: players), andDelegate: EndRoundPopoverDelegateProtocolMock())
-//        
-//        // then
-//        let endRoundPopoverVC = viewController.presentViewController as? EndRoundPopoverViewController
-//        for (index, player) in players.enumerated() {
-//            XCTAssertEqual(endRoundPopoverVC?.endRound?.scoreChanges[index].player.id, player.id)
-//        }
-//    }
     
-//    func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundRoundNumberToGameCurrentRound() {
-//        // given
-//        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
-//        
-//        let game = GameMock()
-//        let currentRound = Int.random(in: 1...1000)
-//        game.currentRound = currentRound
-//        
-//        // when
-//        sut.showEndRoundPopover(withGame: game, andDelegate: EndRoundPopoverDelegateProtocolMock())
-//        
-//        // then
-//        let endRoundPopoverVC = viewController.presentViewController as? EndRoundPopoverViewController
-//        XCTAssertEqual(endRoundPopoverVC?.endRound?.roundNumber, currentRound)
-//    }
+    func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundPopoverVCEndRoundSettingsWithScoreChangesWithGamePlayers() {
+        // given
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
+        let players = [
+            PlayerMock(),
+            PlayerMock(),
+            PlayerMock()
+        ]
+        
+        // when
+        sut.showEndRoundPopover(withGame: GameMock(players: players), andDelegate: EndRoundPopoverDelegateProtocolMock())
+        
+        // then
+        let endRoundPopoverVC = viewController.presentViewController as? EndRoundPopoverViewController
+        for (index, player) in players.enumerated() {
+            XCTAssertEqual(endRoundPopoverVC?.endRound?.scoreChangeSettingsArray[index].player.id, player.id)
+        }
+    }
+    
+    func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundRoundNumberToGameCurrentRound() {
+        // given
+        let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
+        
+        let game = GameMock()
+        let currentRound = Int.random(in: 1...1000)
+        game.currentRound = currentRound
+        
+        // when
+        sut.showEndRoundPopover(withGame: game, andDelegate: EndRoundPopoverDelegateProtocolMock())
+        
+        // then
+        let endRoundPopoverVC = viewController.presentViewController as? EndRoundPopoverViewController
+        XCTAssertEqual(endRoundPopoverVC?.endRound?.roundNumber, currentRound)
+    }
     
     func test_ScoreboardCoordinator_WhenShowEndRoundPopoverCalled_ShouldSetEndRoundPopoverVCDelegateEqualToDelegate() {
         // given

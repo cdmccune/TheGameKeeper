@@ -9,7 +9,7 @@ import Foundation
 @testable import Whats_The_Score
 
 class GameHistoryViewControllerDelegateMock: GameHistoryViewControllerDelegate {
-    func update(_ game: Whats_The_Score.GameProtocol) {
+    func updateFromHistory() {
         
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EndRoundPopoverDelegateProtocol {
-    func endRound(_ endRound: EndRoundProtocol)
+    func endRound(_ endRound: EndRoundSettings)
 }
 
 class EndRoundPopoverViewController: UIViewController, Storyboarded {
@@ -22,7 +22,7 @@ class EndRoundPopoverViewController: UIViewController, Storyboarded {
     // MARK: - Properties
     
     var delegate: EndRoundPopoverDelegateProtocol?
-    var endRound: EndRoundProtocol?
+    var endRound: EndRoundSettings?
     var playerViewHeight: Int?
     var playerSeparatorHeight: Int?
     var textFields: [UITextField] = []
@@ -43,15 +43,15 @@ class EndRoundPopoverViewController: UIViewController, Storyboarded {
     
     private func setupPlayerStackView() {
         guard let endRound else { return }
-        for i in endRound.scoreChanges.indices {
+        for i in endRound.scoreChangeSettingsArray.indices {
             let textField = EndRoundPopoverTextField(delegate: self,
-                                                     isLast: i == endRound.scoreChanges.count - 1,
+                                                     isLast: i == endRound.scoreChangeSettingsArray.count - 1,
                                                      index: i)
             let textFieldDelegate = StackViewTextFieldDelegate(delegate: self)
             textField.tag = i
             textFields.append(textField)
             
-            let singlePlayerStackView = EndRoundPopoverPlayerStackView(playerName: endRound.scoreChanges[i].player.name, playerID: endRound.scoreChanges[i].player.id, textField: textField, textFieldDelegate: textFieldDelegate)
+            let singlePlayerStackView = EndRoundPopoverPlayerStackView(playerName: endRound.scoreChangeSettingsArray[i].player.name, playerID: endRound.scoreChangeSettingsArray[i].player.id, textField: textField, textFieldDelegate: textFieldDelegate)
             
             singlePlayerStackView.heightAnchor.constraint(equalToConstant: CGFloat(playerViewHeight ?? 0)).isActive = true
             
@@ -73,7 +73,7 @@ class EndRoundPopoverViewController: UIViewController, Storyboarded {
         guard let endRound else { return }
         
         for index in 0..<textFields.count {
-            let scoreChange = endRound.scoreChanges[index].scoreChange
+            let scoreChange = endRound.scoreChangeSettingsArray[index].scoreChange
             
             if scoreChange == 0 {
                 textFields[index].text = ""
@@ -102,9 +102,8 @@ class EndRoundPopoverViewController: UIViewController, Storyboarded {
 
 extension EndRoundPopoverViewController: StackViewTextFieldDelegateDelegateProtocol {
     func textFieldValueChanged(forIndex index: Int, to newValue: String?) {
-        guard endRound?.scoreChanges.indices.contains(index) ?? false else { return }
-        var scoreChange = endRound?.scoreChanges[index]
-        scoreChange?.scoreChange = Int(newValue ?? "0") ?? 0
+        guard endRound?.scoreChangeSettingsArray.indices.contains(index) ?? false else { return }
+        endRound?.scoreChangeSettingsArray[index].scoreChange = Int(newValue ?? "0") ?? 0
     }
     
     func textFieldShouldReturn(for index: Int) {

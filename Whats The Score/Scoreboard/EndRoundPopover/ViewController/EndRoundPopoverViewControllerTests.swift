@@ -55,7 +55,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let round = Int.random(in: 0...1000)
-        let endRound = EndRoundMock(roundNumber: round, scoreChangeArray: [])
+        let endRound = EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: round)
 
         sut.endRound = endRound
         
@@ -91,10 +91,10 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
             Int.random(in: 1...100)
         ]
         
-        var endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 3)
-        endRound.scoreChanges[0].scoreChange = playersScoreChanges[0]
-        endRound.scoreChanges[1].scoreChange = playersScoreChanges[1]
-        endRound.scoreChanges[2].scoreChange = playersScoreChanges[2]
+        var endRound = EndRoundSettings.getStub(withPlayerCount: 3)
+        endRound.scoreChangeSettingsArray[0].scoreChange = playersScoreChanges[0]
+        endRound.scoreChangeSettingsArray[1].scoreChange = playersScoreChanges[1]
+        endRound.scoreChangeSettingsArray[2].scoreChange = playersScoreChanges[2]
         
         sut.endRound = endRound
         
@@ -112,8 +112,8 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         // given
         let sut = viewController!
         
-        var endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 1)
-        endRound.scoreChanges[0].scoreChange = 0
+        var endRound = EndRoundSettings.getStub(withPlayerCount: 1)
+        endRound.scoreChangeSettingsArray[0].scoreChange = 0
         sut.endRound = endRound
         
         // when
@@ -132,7 +132,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let playerCount = Int.random(in: 1...10)
-        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        let endRound = EndRoundSettings.getStub(withPlayerCount: playerCount)
         sut.endRound = endRound
         
         // when
@@ -149,7 +149,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let playerCount = Int.random(in: 2...10)
-        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        let endRound = EndRoundSettings.getStub(withPlayerCount: playerCount)
         sut.endRound = endRound
         let randomPlayerIndex = Int.random(in: 0...playerCount-1)
         
@@ -158,7 +158,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let endRoundPopoverPlayerStackView = sut.playerStackView.subviews[randomPlayerIndex] as? EndRoundPopoverPlayerStackView
         
         // then
-        XCTAssertEqual(endRoundPopoverPlayerStackView?.playerID, endRound.scoreChanges[randomPlayerIndex].player.id)
+        XCTAssertEqual(endRoundPopoverPlayerStackView?.playerID, endRound.scoreChangeSettingsArray[randomPlayerIndex].player.id)
     }
     
     func test_EndRoundPopoverViewController_WhenViewDidLoad_ShouldSetTextFieldIndexAndActionDelegateToSelf() {
@@ -167,7 +167,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let playerCount = Int.random(in: 2...10)
-        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        let endRound = EndRoundSettings.getStub(withPlayerCount: playerCount)
         sut.endRound = endRound
         
         // when
@@ -191,7 +191,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let playerCount = Int.random(in: 2...10)
-        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        let endRound = EndRoundSettings.getStub(withPlayerCount: playerCount)
         sut.endRound = endRound
         
         // when
@@ -214,7 +214,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let playerCount = Int.random(in: 2...10)
-        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        let endRound = EndRoundSettings.getStub(withPlayerCount: playerCount)
         sut.endRound = endRound
         
         // when
@@ -237,7 +237,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         sut.loadView()
         
         let playerCount = Int.random(in: 2...10)
-        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        let endRound = EndRoundSettings.getStub(withPlayerCount: playerCount)
         sut.endRound = endRound
         
         // when
@@ -260,7 +260,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
         
-        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: Int.random(in: 2...10))
+        let endRound = EndRoundSettings.getStub(withPlayerCount: Int.random(in: 2...10))
         sut.endRound = endRound
         
         // when
@@ -282,7 +282,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
         
-        sut.endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 0)
+        sut.endRound = EndRoundSettings.getStub(withPlayerCount: 0)
         
         let separatorHeight = Int.random(in: 1...1000)
         sut.playerSeparatorHeight = separatorHeight
@@ -299,7 +299,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
     
-        sut.endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 2)
+        sut.endRound = EndRoundSettings.getStub(withPlayerCount: 2)
         
         let playerViewHeight = Int.random(in: 1...1000)
         sut.playerViewHeight = playerViewHeight
@@ -323,7 +323,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
         
-        let endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 0)
+        let endRound = EndRoundSettings.getStub(withPlayerCount: 0)
         sut.endRound = endRound
         
         let endRoundDelegateMock = EndRoundPopoverDelegateProtocolMock()
@@ -335,7 +335,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         // then
         
         XCTAssertEqual(endRoundDelegateMock.endRoundCalledCount, 1)
-        XCTAssertTrue(endRoundDelegateMock.endRoundEndRound as? EndRoundMock === endRound)
+        XCTAssertTrue(endRoundDelegateMock.endRoundEndRound == endRound)
     }
     
     func test_EndRoundPopoverViewController_WhenEndRoundButtonTapped_ShouldDismissItself() {
@@ -349,7 +349,7 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         
         // given
         let sut = EndRoundPopoverViewControllerDismissMock()
-        sut.endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: 0)
+        sut.endRound = EndRoundSettings.getStub(withPlayerCount: 0)
         
         // when
         sut.endRoundButtonTapped(0)
@@ -489,13 +489,13 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
         let randomPlayer = Int.random(in: 0...playerCount-1)
         let randomScore = Int.random(in: 1...10000)
         
-        sut.endRound = EndRoundMock.getEndRoundWith(numberOfPlayers: playerCount)
+        sut.endRound = EndRoundSettings.getStub(withPlayerCount: playerCount)
         
         // when
         sut.textFieldValueChanged(forIndex: randomPlayer, to: "\(randomScore)")
         
         // then
-        XCTAssertEqual(sut.endRound?.scoreChanges[randomPlayer].scoreChange, randomScore)
+        XCTAssertEqual(sut.endRound?.scoreChangeSettingsArray[randomPlayer].scoreChange, randomScore)
     }
     
     
@@ -505,8 +505,8 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
 
 class EndRoundPopoverDelegateProtocolMock: EndRoundPopoverDelegateProtocol {
     var endRoundCalledCount = 0
-    var endRoundEndRound: EndRoundProtocol?
-    func endRound(_ endRound: EndRoundProtocol) {
+    var endRoundEndRound: EndRoundSettings?
+    func endRound(_ endRound: EndRoundSettings) {
         endRoundCalledCount += 1
         endRoundEndRound = endRound
     }

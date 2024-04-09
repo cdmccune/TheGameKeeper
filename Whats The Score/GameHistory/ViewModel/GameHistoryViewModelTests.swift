@@ -220,7 +220,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         let endRound = EndRoundMock()
         
         // when
-        sut.endRound(endRound)
+//        sut.endRound(endRound)
         
         // then
         XCTAssertEqual(game.editEndRoundCalledCount, 1)
@@ -241,7 +241,7 @@ final class GameHistoryViewModelTests: XCTestCase {
         }
         
         // when
-        sut.endRound(EndRoundMock())
+//        sut.endRound(EndRoundMock())
         
         // then
         wait(for: [expectation], timeout: 0.1)
@@ -279,5 +279,5 @@ class GameHistoryViewModelMock: GameHistoryViewModelProtocol, ScoreboardPlayerEd
     }
     
     func editScore(_ scoreChange: ScoreChangeSettings) {}
-    func endRound(_ endRound: EndRoundProtocol) {}
+    func endRound(_ endRound: EndRoundSettings) {}
 }

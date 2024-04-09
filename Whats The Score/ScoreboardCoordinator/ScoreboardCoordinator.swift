@@ -62,8 +62,14 @@ class ScoreboardCoordinator: Coordinator {
     func showEndRoundPopover(withGame game: GameProtocol, andDelegate delegate: EndRoundPopoverDelegateProtocol) {
         guard let viewController = navigationController.topViewController else { return }
         let endRoundPopoverVC = EndRoundPopoverViewController.instantiate()
-//        let endRound = EndRound(withPlayers: game.players, roundNumber: game.currentRound)
-//        endRoundPopoverVC.endRound = endRound
+        
+        var scoreChangeSettingsArray = [ScoreChangeSettings]()
+        for player in game.players {
+            scoreChangeSettingsArray.append(ScoreChangeSettings(player: player))
+        }
+        let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: scoreChangeSettingsArray, roundNumber: game.currentRound)
+        
+        endRoundPopoverVC.endRound = endRoundSettings
         endRoundPopoverVC.delegate = delegate
         
         endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight

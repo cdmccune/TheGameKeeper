@@ -41,7 +41,6 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     func saveChanges() {
         guard let gameEndType = gameEndType.value else { return }
         
-        game.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numberOfRounds)
-        delegate?.update(game)
+        delegate?.updateGameSettings(gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
     }
 }

@@ -32,32 +32,8 @@ final class GameSettingsViewModelTests: XCTestCase {
         // then
         wait(for: [expectation], timeout: 0.1)
     }
-
-    func test_GameSettingsViewModel_WhenSaveChangesCalled_ShouldCallGameUpdateSettings() {
-        // given
-        let game = GameMock()
-        let sut = GameSettingsViewModel(game: game)
-        
-        let gameEndType = GameEndType(rawValue: Int.random(in: 0...2))!
-        let endingScore = Int.random(in: 1...1000)
-        let numberOfRounds = Int.random(in: 1...1000)
-        
-        sut.gameEndType.value = gameEndType
-        sut.endingScore = endingScore
-        sut.numberOfRounds = numberOfRounds
-        
-        
-        // when
-        sut.saveChanges()
-        
-        // then
-        XCTAssertEqual(game.updateSettingsCalledCount, 1)
-        XCTAssertEqual(game.updateSettingsGameEndType, gameEndType)
-        XCTAssertEqual(game.updateSettingsNumberOfRounds, numberOfRounds)
-        XCTAssertEqual(game.updateSettingsEndingScore, endingScore)
-    }
     
-    func test_GameSettingsViewModel_WhenSaveChangesCalled_ShouldCallDelegateUpdateWithGameAfterUpdateSettingsCalled() {
+    func test_GameSettingsViewModel_WhenSaveChangesCalled_ShouldCallDelegateUpdateGameSettings() {
         // given
         let game = GameMock()
         let sut = GameSettingsViewModel(game: game)
@@ -74,7 +50,31 @@ final class GameSettingsViewModelTests: XCTestCase {
         sut.saveChanges()
         
         // then
-        XCTAssertEqual((delegate.updateGame as? GameMock)?.updateSettingsCalledCount, 1)
+        XCTAssertEqual(delegate.updateGameSettingsCalledCount, 1)
+    }
+    
+    func test_GameSettingsViewModel_WhenSaveChangesCalled_ShouldCallDelegateWithCorrectSettings() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        
+        let gameEndType = GameEndType.allCases.randomElement()!
+        let endingScore = Int.random(in: 1...10)
+        let numberOfRounds = Int.random(in: 1...10)
+        
+        sut.gameEndType.value = gameEndType
+        sut.endingScore = endingScore
+        sut.numberOfRounds = numberOfRounds
+        
+        let delegate = GameSettingsDelegateMock()
+        sut.delegate = delegate
+        
+        // when
+        sut.saveChanges()
+        
+        // then
+        XCTAssertEqual(delegate.updateGameSettingsEndingScore, endingScore)
+        XCTAssertEqual(delegate.updateGameSettingsNumberOfRounds, numberOfRounds)
+        XCTAssertEqual(delegate.updateGameSettingsGameEndType, gameEndType)
     }
 }
 

@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol GameSettingsDelegate {
-    func update(_ game: GameProtocol)
+protocol GameSettingsDelegate: AnyObject {
+    func updateGameSettings(gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int)
 }

@@ -63,7 +63,7 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         shouldRefreshTableView.value = true
     }
     
-    func endRound(_ endRound: EndRoundProtocol) {
+    func endRound(_ endRound: EndRoundSettings) {
 //        game.editEndRound(endRound)
         
         shouldRefreshTableView.value = true

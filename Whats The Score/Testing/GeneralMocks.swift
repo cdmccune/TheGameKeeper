@@ -178,3 +178,15 @@ extension ScoreChangeSettings {
         return ScoreChangeSettings(player: PlayerMock())
     }
 }
+
+// MARK: - EndRoundSettings
+
+extension EndRoundSettings {
+    static func getStub(withPlayerCount playerCount: Int) -> EndRoundSettings {
+        var endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: 0)
+        for _ in 0..<playerCount {
+            endRoundSettings.scoreChangeSettingsArray.append(ScoreChangeSettings.getStub())
+        }
+        return endRoundSettings
+    }
+}

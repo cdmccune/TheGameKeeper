@@ -113,8 +113,8 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol, EndRoundPopove
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
-    func endRound(_ endRound: EndRoundProtocol) {
-//        game.endRound(endRound)
+    func endRound(_ endRound: EndRoundSettings) {
+        game.endRound(with: endRound)
         
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
@@ -187,11 +187,16 @@ extension ScoreboardViewModel: KeepPlayingPopoverDelegate {
     }
 }
 
-extension ScoreboardViewModel: GameHistoryViewControllerDelegate, GameSettingsDelegate {
-    func update(_ game: GameProtocol) {
-        self.game = game
+extension ScoreboardViewModel: GameSettingsDelegate {
+    func updateGameSettings(gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int) {
+        game.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numberOfRounds)
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
-        
+    }
+}
+
+extension ScoreboardViewModel: GameHistoryViewControllerDelegate {
+    func updateFromHistory() {
+        self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
         if game.isEndOfGame() {
             coordinator?.showEndGamePopover(withGame: game, andDelegate: self, delay: 0.5)
         }

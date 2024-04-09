@@ -36,7 +36,7 @@ class GameHistoryViewController: UIViewController, Storyboarded {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        delegate?.update(viewModel.game)
+        delegate?.updateFromHistory()
     }
     
     // MARK: - Private Functions
@@ -76,7 +76,7 @@ class GameHistoryViewController: UIViewController, Storyboarded {
         
         #warning("Write a test for these being set before the default popover presenter")
         
-        endRoundPopoverVC.endRound = endRound
+//        endRoundPopoverVC.endRound = endRound
         endRoundPopoverVC.playerViewHeight = endRoundPopoverHeightHelper.playerViewHeight
         endRoundPopoverVC.playerSeparatorHeight = endRoundPopoverHeightHelper.playerSeperatorHeight
         endRoundPopoverVC.delegate = viewModel
