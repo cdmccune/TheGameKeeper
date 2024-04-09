@@ -41,49 +41,18 @@ extension Game {
     func deletePlayer(_ player: PlayerProtocol) {
         guard let playerObject = player as? Player else { return }
         removeFromPlayers_(playerObject)
+        managedObjectContext?.delete(playerObject)
         
         var playersToSetPosition = players
         playersToSetPosition.setPositions()
-        
-//        guard players.indices.contains(index) else {
-//            return
-//        }
-//        
-//        let player = players[index]
-//        
-//        players.remove(at: index)
-//        players.setPositions()
-//        
-//        
-////        // Cycle backwards through history so deleting one won't affect other indices
-////        historySegments.enumerated().reversed().forEach { (segmentIndex, segment) in
-////            
-////            // Check if history segment is score change
-////            if case .scoreChange(_, let segmentPlayer) = segment {
-////                
-////                // Remove segment from history if it's players
-////                if player.id == segmentPlayer.id {
-////                    historySegments.remove(at: segmentIndex)
-////                }
-////            } else if case .endRound(var endRound, var players) = segment {
-////                
-////                // Remove players and score changes from end round segment
-////                players.removeAll { $0.id == player.id }
-////                endRound.scoreChangeArray.removeAll { $0.playerID == player.id }
-////                
-////                // Set EndRound segment to values with player removed
-////                historySegments[segmentIndex] = GameHistorySegment.endRound(endRound, players)
-////            }
-////        }
     }
     
     func deleteEndRound(_ endRound: EndRoundProtocol) {
         guard let endRoundObject = endRound as? EndRound else { return }
-        
         removeFromEndRounds_(endRoundObject)
+        managedObjectContext?.delete(endRoundObject)
         
         var endRounds = endRounds
-        
         for i in 0..<endRounds.count {
             endRounds[i].roundNumber = i + 1
         }
@@ -91,11 +60,10 @@ extension Game {
     
     func deleteScoreChange(_ scoreChange: ScoreChangeProtocol) {
         guard let scoreChangeObject = scoreChange as? ScoreChange else { return }
-        
         removeFromScoreChanges_(scoreChangeObject)
+        managedObjectContext?.delete(scoreChangeObject)
         
         var scoreChanges = scoreChanges
-        
         for i in 0..<scoreChanges.count {
             scoreChanges[i].position = i
         }

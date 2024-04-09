@@ -200,6 +200,26 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.removeFromPlayersPlayer?.id, player.id)
     }
     
+    func test_Game_WhenDeletePlayerCalled_ShouldCallDeleteObjectFromContext() {
+        
+        class GamePropertyRemoveFromPlayersMock: GamePropertyMock {
+            override func removeFromPlayers_(_ value: Player) {}
+        }
+        
+        // given
+        let context = NSManagedObjectContextDeleteObjectMock()
+        let sut = GamePropertyRemoveFromPlayersMock()
+        sut.temporaryManagedObjectContext = context
+        let player = Player(context: context)
+        
+        // when
+        sut.deletePlayer(player)
+        
+        // then
+        XCTAssertEqual(context.deleteNSManagedObjects.count, 1)
+        XCTAssertEqual(context.deleteNSManagedObjects.first, player)
+    }
+    
     func test_Game_WhenDeletePlayerCalled_ShouldFixPositionsOfOtherPlayers() {
         // given
         let sut = Game(basicGameWithContext: context)
@@ -248,6 +268,26 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.removeFromEndRoundsEndRound, endRound)
     }
     
+    func test_Game_WhenDeleteEndRoundCalled_ShouldCallDeleteObjectFromContext() {
+        
+        class GamePropertyRemoveFromEndRoundsMock: GamePropertyMock {
+            override func removeFromEndRounds_(_ value: EndRound) {}
+        }
+        
+        // given
+        let context = NSManagedObjectContextDeleteObjectMock()
+        let sut = GamePropertyRemoveFromEndRoundsMock()
+        sut.temporaryManagedObjectContext = context
+        let endRound = EndRound(context: context)
+        
+        // when
+        sut.deleteEndRound(endRound)
+        
+        // then
+        XCTAssertEqual(context.deleteNSManagedObjects.count, 1)
+        XCTAssertEqual(context.deleteNSManagedObjects.first, endRound)
+    }
+    
     func test_Game_WhenDeleteEndRoundCalled_ShouldFixEndRoundsRoundNumberValues() {
         // given
         let sut = Game(basicGameWithContext: context)
@@ -290,6 +330,26 @@ final class GameTests: XCTestCase {
         // then
         XCTAssertEqual(sut.removeFromScoreChangesCalledCount, 1)
         XCTAssertEqual(sut.removeFromScoreChangesScoreChange, scoreChange)
+    }
+    
+    func test_Game_WhenDeleteScoreChangeCalled_ShouldCallDeleteObjectFromContext() {
+        
+        class GamePropertyRemoveFromScoreChangesMock: GamePropertyMock {
+            override func removeFromScoreChanges_(_ value: ScoreChange) {}
+        }
+        
+        // given
+        let context = NSManagedObjectContextDeleteObjectMock()
+        let sut = GamePropertyRemoveFromScoreChangesMock()
+        sut.temporaryManagedObjectContext = context
+        let scoreChange = ScoreChange(context: context)
+        
+        // when
+        sut.deleteScoreChange(scoreChange)
+        
+        // then
+        XCTAssertEqual(context.deleteNSManagedObjects.count, 1)
+        XCTAssertEqual(context.deleteNSManagedObjects.first, scoreChange)
     }
     
     func test_Game_WhenDeleteScoreChangesCalled_ShouldFixPositionsOfOtherScoreChanges() {
