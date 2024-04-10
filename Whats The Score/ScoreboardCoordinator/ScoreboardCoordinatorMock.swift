@@ -34,11 +34,11 @@ class ScoreboardCoordinatorMock: ScoreboardCoordinator {
         showSettingsCalledCount += 1
     }
     
-    var showEndRoundPopoverGame: GameProtocol?
+    var showEndRoundPopoverEndRound: EndRoundSettings?
     var showEndRoundPopoverDelegate: EndRoundPopoverDelegateProtocol?
     var showEndRoundPopoverCalledCount = 0
-    override func showEndRoundPopover(withGame game: GameProtocol, andDelegate delegate: EndRoundPopoverDelegateProtocol) {
-        showEndRoundPopoverGame = game
+    override func showEndRoundPopover(withEndRound endRound: EndRoundSettings, andDelegate delegate: EndRoundPopoverDelegateProtocol) {
+        showEndRoundPopoverEndRound = endRound
         showEndRoundPopoverDelegate = delegate
         showEndRoundPopoverCalledCount += 1
     }

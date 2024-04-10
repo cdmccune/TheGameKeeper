@@ -65,7 +65,7 @@ class GameMock: GameProtocol {
                      gameEndType: GameEndType = .none,
                      numberOfRounds: Int = 0,
                      endingScore: Int = 0,
-                     currentRounts: Int = 0,
+                     currentRound: Int = 0,
                      players: [PlayerProtocol] = [],
                      endRounds: [EndRoundProtocol] = [],
                      scoreChanges: [ScoreChangeProtocol] = []) {
@@ -75,7 +75,7 @@ class GameMock: GameProtocol {
         self.gameEndType = gameEndType
         self.numberOfRounds = numberOfRounds
         self.endingScore = endingScore
-        self.currentRound = currentRounts
+        self.currentRound = currentRound
         self.scoreChanges = scoreChanges
         self.endRounds = endRounds
     }
@@ -127,12 +127,18 @@ class GameMock: GameProtocol {
         deletePlayerCalledCount += 1
     }
     
+    var deleteEndRoundEndRound: EndRoundProtocol?
+    var deleteEndRoundCalledCount = 0
     func deleteEndRound(_ endRound: EndRoundProtocol) {
-        
+        deleteEndRoundEndRound = endRound
+        deleteEndRoundCalledCount += 1
     }
     
+    var deleteScoreChangeScoreChange: ScoreChangeProtocol?
+    var deleteScoreChangeCalledCount = 0
     func deleteScoreChange(_ scoreChange: ScoreChangeProtocol) {
-        
+        deleteScoreChangeScoreChange = scoreChange
+        deleteScoreChangeCalledCount += 1
     }
     
     var changeScoreScoreChangeSettings: ScoreChangeSettings?

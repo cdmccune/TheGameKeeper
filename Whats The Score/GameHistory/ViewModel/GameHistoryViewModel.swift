@@ -8,12 +8,11 @@
 import Foundation
 
 
-
 protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
     var game: GameProtocol { get set }
+    var coordinator: ScoreboardCoordinator? { get set }
+    var coreDataStore: CoreDataStoreProtocol { get set }
     
-    var scoreChangeToEdit: Observable<ScoreChangeProtocol> { get }
-    var endRoundToEdit: Observable<EndRoundProtocol> { get }
     var shouldRefreshTableView: Observable<Bool> { get }
     var shouldShowDeleteSegmentWarningIndex: Observable<Int> { get }
     
@@ -23,13 +22,15 @@ protocol GameHistoryViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate,
 }
 
 class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditScorePopoverDelegate, EndRoundPopoverDelegateProtocol {
-    init(game: GameProtocol) {
+    init(game: GameProtocol, coreDataStore: CoreDataStoreProtocol = CoreDataStore()) {
         self.game = game
+        self.coreDataStore = coreDataStore
     }
     
     var game: GameProtocol
-    var scoreChangeToEdit: Observable<ScoreChangeProtocol> = Observable(nil)
-    var endRoundToEdit: Observable<EndRoundProtocol> = Observable(nil)
+    var coreDataStore: CoreDataStoreProtocol
+    weak var coordinator: ScoreboardCoordinator?
+    
     var shouldRefreshTableView: Observable<Bool> = Observable(false)
     var shouldShowDeleteSegmentWarningIndex: Observable<Int> = Observable(nil)
     
@@ -40,9 +41,23 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         
         switch game.gameType {
         case .basic:
-            scoreChangeToEdit.value = game.scoreChanges[row]
+
+            let scoreChange = game.scoreChanges[row]
+            let scoreChangeSettings = ScoreChangeSettings(player: scoreChange.player, scoreChange: scoreChange.scoreChange, scoreChangeID: scoreChange.id)
+            
+            coordinator?.showEditPlayerScorePopover(withScoreChange: scoreChangeSettings, andDelegate: self)
+            
         case .round:
-            endRoundToEdit.value = game.endRounds[row]
+            
+            let endRound = game.endRounds[row]
+            
+            var scoreChangeSettings = [ScoreChangeSettings]()
+            for scoreChange in endRound.scoreChanges {
+                scoreChangeSettings.append(ScoreChangeSettings(player: scoreChange.player, scoreChange: scoreChange.scoreChange, scoreChangeID: scoreChange.id))
+            }
+            
+            let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: scoreChangeSettings, roundNumber: endRound.roundNumber, endRoundID: endRound.id)
+            coordinator?.showEndRoundPopover(withEndRound: endRoundSettings, andDelegate: self)
         }
     }
     
@@ -52,19 +67,33 @@ class GameHistoryViewModel: GameHistoryViewModelProtocol, ScoreboardPlayerEditSc
         shouldShowDeleteSegmentWarningIndex.value = row
     }
     
+    
+    // MARK: - Data Altering Functions
+    
     func deleteRowAt(_ index: Int) {
-//        game.deleteHistorySegmentAt(index: index)
+        guard game.gameType == .basic ? game.scoreChanges.indices.contains(index) : game.endRounds.indices.contains(index) else { return }
+        
+        switch game.gameType {
+        case .basic:
+            game.deleteScoreChange(game.scoreChanges[index])
+        case .round:
+            game.deleteEndRound(game.endRounds[index])
+        }
+        
+        coreDataStore.saveContext()
         shouldRefreshTableView.value = true
     }
     
     func editScore(_ scoreChange: ScoreChangeSettings) {
-//        game.editScoreChange(scoreChange)
+        game.editScoreChange(scoreChange)
+        coreDataStore.saveContext()
         
         shouldRefreshTableView.value = true
     }
     
     func endRound(_ endRound: EndRoundSettings) {
-//        game.editEndRound(endRound)
+        game.editEndRound(endRound)
+        coreDataStore.saveContext()
         
         shouldRefreshTableView.value = true
     }

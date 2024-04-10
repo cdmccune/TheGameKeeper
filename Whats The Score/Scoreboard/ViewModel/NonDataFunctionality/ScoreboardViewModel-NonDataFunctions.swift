@@ -45,7 +45,16 @@ extension ScoreboardViewModel {
     }
     
     func showEndRoundPopover() {
-        coordinator?.showEndRoundPopover(withGame: game, andDelegate: self)
+        
+        var scoreChangeSettingsArray = [ScoreChangeSettings]()
+        for player in game.players {
+            scoreChangeSettingsArray.append(ScoreChangeSettings(player: player))
+        }
+        let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: scoreChangeSettingsArray, roundNumber: game.currentRound)
+        
+        coordinator?.showEndRoundPopover(withEndRound: endRoundSettings, andDelegate: self)
+        
+        //        coordinator?.showEndRoundPopover(withGame: game, andDelegate: self)
     }
     
     func endGame() {

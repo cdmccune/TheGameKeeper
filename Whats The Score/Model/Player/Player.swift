@@ -50,7 +50,7 @@ class Player: NSManagedObject, PlayerProtocol {
     }
     
     var scoreChanges: [ScoreChangeProtocol] {
-        return Array(scoreChanges_)
+        return Array(scoreChanges_).sorted { $0.position < $1.position }
     }
     
     

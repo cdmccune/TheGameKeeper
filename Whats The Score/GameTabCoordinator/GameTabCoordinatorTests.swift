@@ -42,6 +42,16 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertTrue(gameSetupCoordinator?.coordinator === sut)
     }
     
+    func test_GameTabCoordinator_WhenInitialiazed_ShouldSetGameSetupCoordinatorsNavigationControllerAsOwnNavController() {
+        // given
+        // when
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        
+        // then
+        let gameSetupCoordinator = sut.childCoordinators.first as? GameSetupCoordinator
+        XCTAssertTrue(gameSetupCoordinator?.navigationController === sut.navigationController)
+    }
+    
     func test_GameTabCoordinator_WhenInitialiazed_ShouldSetScoreboardCoordinatorAsSecondChildCoordinator() {
         // given
         // when
@@ -61,15 +71,15 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertTrue(scoreboardCoordinator?.coordinator === sut)
     }
     
-    
-    func test_GameTabCoordinator_WhenInitialiazed_ShouldSetGameSetupCoordinatorsNavigationControllerAsOwnNavController() {
+    func test_GameTabCoordinator_WhenInitialized_ShouldSetScoreboardCoordinatorCoreDataStoreAsOwnCoreDataStore() {
         // given
         // when
-        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoordinatorStartScoreboardMock(navigationController: RootNavigationController(), coreDataStore: coreDataStore)
         
         // then
-        let gameSetupCoordinator = sut.childCoordinators.first as? GameSetupCoordinator
-        XCTAssertTrue(gameSetupCoordinator?.navigationController === sut.navigationController)
+        let scoreboardCoordinator = sut.childCoordinators[1] as? ScoreboardCoordinator
+        XCTAssertTrue(scoreboardCoordinator?.coreDataStore as? CoreDataStoreMock === coreDataStore)
     }
     
     func test_GameTabCoordinator_WhenInitialized_ShouldSetCoreDataHelperCoreDataStoreToOwnCoreDataStore() {

@@ -122,6 +122,7 @@
 		24A423432B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423422B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift */; };
 		24A423462B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423452B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift */; };
 		24A423482B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A423472B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift */; };
+		24ACF32F2BC6F7830053CD0A /* GameHistoryViewModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24ACF32E2BC6F7830053CD0A /* GameHistoryViewModelMock.swift */; };
 		24ADCAC02BADE1FC007A9FA7 /* GameHistoryViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24ADCABF2BADE1FC007A9FA7 /* GameHistoryViewControllerDelegateMock.swift */; };
 		24ADCAC22BADFB98007A9FA7 /* EditPlayerPopoverDelegateProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24ADCAC12BADFB98007A9FA7 /* EditPlayerPopoverDelegateProtocolMock.swift */; };
 		24ADCAC42BAE070E007A9FA7 /* EndGamePopoverDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24ADCAC32BAE070E007A9FA7 /* EndGamePopoverDelegateMock.swift */; };
@@ -309,6 +310,7 @@
 		24A423422B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewDelegateTests.swift; sourceTree = "<group>"; };
 		24A423452B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewDelegateTests.swift; sourceTree = "<group>"; };
 		24A423472B45BF3F0047CCD3 /* PlayerSetupPositionTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPositionTableViewDelegate.swift; sourceTree = "<group>"; };
+		24ACF32E2BC6F7830053CD0A /* GameHistoryViewModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryViewModelMock.swift; sourceTree = "<group>"; };
 		24ADCABF2BADE1FC007A9FA7 /* GameHistoryViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryViewControllerDelegateMock.swift; sourceTree = "<group>"; };
 		24ADCAC12BADFB98007A9FA7 /* EditPlayerPopoverDelegateProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlayerPopoverDelegateProtocolMock.swift; sourceTree = "<group>"; };
 		24ADCAC32BAE070E007A9FA7 /* EndGamePopoverDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGamePopoverDelegateMock.swift; sourceTree = "<group>"; };
@@ -763,6 +765,7 @@
 			children = (
 				24495CFA2B9FBDBB00E0AB61 /* GameHistoryViewModel.swift */,
 				24495CFC2B9FBE8A00E0AB61 /* GameHistoryViewModelTests.swift */,
+				24ACF32E2BC6F7830053CD0A /* GameHistoryViewModelMock.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1632,6 +1635,7 @@
 				24A423462B45BF390047CCD3 /* PlayerSetupPositionTableViewDelegateTests.swift in Sources */,
 				24E36C592BAB8E0C00334CD1 /* HomeTabCoordinatorTests.swift in Sources */,
 				249B7F002BC099440030C7CC /* GameTabCoreDataHelperMock.swift in Sources */,
+				24ACF32F2BC6F7830053CD0A /* GameHistoryViewModelMock.swift in Sources */,
 				24C7C4272B9BB8180043F159 /* EndGamePlayerCollectionViewDelegateTests.swift in Sources */,
 				241DAE472BAA344E00D236E7 /* GameSettingsDelegateMock.swift in Sources */,
 				24CFA0BF2BA8AD8F00007F9C /* GameHistoryTableViewHeaderViewTests.swift in Sources */,

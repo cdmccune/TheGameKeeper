@@ -16,7 +16,7 @@ class GameTabCoordinator: Coordinator {
     
     lazy var childCoordinators: [Coordinator] = [
         GameSetupCoordinator(navigationController: navigationController, parentCoordinator: self),
-        ScoreboardCoordinator(navigationController: navigationController, parentCoordinator: self)
+        ScoreboardCoordinator(navigationController: navigationController, parentCoordinator: self, coreDataStore: coreDataStore)
     ]
     
     var coreDataStore: CoreDataStoreProtocol
@@ -35,7 +35,7 @@ class GameTabCoordinator: Coordinator {
     
     func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerSettings]) {
         
-        let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
+        _ = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
         
         let game = coreDataHelper.initializeGame(with: gameType, gameEndType, gameEndQuantity: gameEndQuantity, players)
         

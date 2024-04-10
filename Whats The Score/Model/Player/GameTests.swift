@@ -210,7 +210,7 @@ final class GameTests: XCTestCase {
         let context = NSManagedObjectContextDeleteObjectMock()
         let sut = GamePropertyRemoveFromPlayersMock()
         sut.temporaryManagedObjectContext = context
-        let player = Player(context: context)
+        let player = Player()
         
         // when
         sut.deletePlayer(player)
@@ -278,7 +278,7 @@ final class GameTests: XCTestCase {
         let context = NSManagedObjectContextDeleteObjectMock()
         let sut = GamePropertyRemoveFromEndRoundsMock()
         sut.temporaryManagedObjectContext = context
-        let endRound = EndRound(context: context)
+        let endRound = EndRound()
         
         // when
         sut.deleteEndRound(endRound)

@@ -265,7 +265,7 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
     
     // MARK: - ShowEndRoundPopover
     
-    func test_ScoreboardViewModel_WhenShowEndRoundPopoverCalled_ShouldCallShowEndRoundPopoverWithGameAndDelegate() {
+    func test_ScoreboardViewModel_WhenShowEndRoundPopoverCalled_ShouldCallCoordinatorShowEndRoundPopoverWithSelfAsDelegate() {
         // given
         let game = GameMock()
         let sut = ScoreboardViewModel(game: game)
@@ -279,8 +279,47 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
         
         // then
         XCTAssertEqual(coordinator.showEndRoundPopoverCalledCount, 1)
-        XCTAssertTrue(coordinator.showEndRoundPopoverGame?.isEqualTo(game: game) ?? false)
         XCTAssertTrue(coordinator.showEndRoundPopoverDelegate as? ScoreboardViewModel === sut)
+    }
+    
+    func test_ScoreboardViewModel_WhenShowEndRoundPopoverCalled_ShouldCallCoordinatorShowEndRoundPopoverWithEndRoundWithScoreChangesOfGamePlayers() {
+        // given
+        
+        let players = [
+            PlayerMock(),
+            PlayerMock(),
+            PlayerMock()
+        ]
+        let game = GameMock(players: players)
+        let sut = ScoreboardViewModel(game: game)
+        
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.showEndRoundPopover()
+        
+        // then
+        let endRoundSettings = coordinator.showEndRoundPopoverEndRound
+        
+        for (index, player) in players.enumerated() {
+            XCTAssertEqual(endRoundSettings?.scoreChangeSettingsArray[index].player.id, player.id)
+        }
+    }
+    
+    func test_ScoreboardViewModel_WhenShowEndRoundPopoverCalled_ShouldCallCoordintatorShowEndRoundPopoverWithEndROundSettingsRoundNumberEqaulToGameCurrentRound() {
+        // given
+        let round = Int.random(in: 1...10)
+        let sut = ScoreboardViewModel(game: GameMock(currentRound: round))
+        
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.showEndRoundPopover()
+        
+        // then
+        XCTAssertEqual(coordinator.showEndRoundPopoverEndRound?.roundNumber, round)
     }
     
     
