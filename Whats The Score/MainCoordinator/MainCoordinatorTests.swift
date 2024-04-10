@@ -10,6 +10,21 @@ import XCTest
 
 final class MainCoordinatorTests: XCTestCase {
     
+    // MARK: - Properties
+    
+    func test_MainCoordinator_WhenCoreDataHelperInitialiazed_ShouldSetItsCoreDataStoreAsSelf() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = MainCoordinatorMock(coreDataStore: coreDataStore)
+        
+        // when
+        let coreDataHelper = sut.coreDataHelper
+        
+        // then
+        XCTAssertTrue(coreDataHelper.coreDataStore as? CoreDataStoreMock === coreDataStore)
+    }
+    
+    
     // MARK: - Start
 
     func test_MainCoordinator_WhenStartCalled_ShouldSetChildCoordinatorsToHomeTabCoordinatorAndGameTabCoordinator() {

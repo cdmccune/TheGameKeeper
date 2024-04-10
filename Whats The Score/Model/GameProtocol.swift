@@ -15,6 +15,7 @@ protocol GameProtocol {
     
     var gameType: GameType { get set }
     var gameEndType: GameEndType { get set }
+    var gameStatus: GameStatus { get set }
     var numberOfRounds: Int { get set }
     var currentRound: Int { get set }
     var endingScore: Int { get set }

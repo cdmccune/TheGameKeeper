@@ -53,6 +53,25 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         }
     }
     
+    func test_GameTabCoreDataHelper_WhenStartQuickGameCalled_ShouldSetGameTypeToBasicAndStatusActive() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        _ = sut.startQuickGame()
+        
+        // then
+        
+        do {
+            let games = try coreDataStore.persistentContainer.viewContext.fetch(Game.fetchRequest())  as? [Game]
+            XCTAssertEqual(games?.first?.gameType, .basic)
+            XCTAssertEqual(games?.first?.gameStatus, .active)
+        } catch {
+            XCTFail("games couldn't be loaded from view context \(error)")
+        }
+    }
+    
     func test_GameTabCoreDataHelper_WhenStartQuickGameCalled_ShouldCallSaveContextOnCoreDataStore() {
         // given
         let coreDataStore = CoreDataStoreMock()
@@ -67,7 +86,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
 
     // MARK: - InitializeGame
     
-    func test_GameTabCoreDataHelper_WhenInitializeGameCalled_ShouldInitializeGameWithGameTypeAndGameEndType() {
+    func test_GameTabCoreDataHelper_WhenInitializeGameCalled_ShouldInitializeGameWithGameTypeAndGameEndTypeAndStatusActive() {
         // given
         let coreDataStore = CoreDataStoreMock()
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
@@ -83,6 +102,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
             let games = try coreDataStore.persistentContainer.viewContext.fetch(Game.fetchRequest())  as? [Game]
             XCTAssertEqual(games?.first?.gameType, gameType)
             XCTAssertEqual(games?.first?.gameEndType, gameEndType)
+            XCTAssertEqual(games?.first?.gameStatus, .active)
         } catch {
             XCTFail("games couldn't be loaded from view context \(error)")
         }

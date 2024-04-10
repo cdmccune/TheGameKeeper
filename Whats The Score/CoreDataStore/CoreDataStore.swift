@@ -43,4 +43,8 @@ class CoreDataStore: CoreDataStoreProtocol {
             }
         }
     }
+    
+    func makeFetchRequest<T:NSFetchRequestResult>(with fetchRequest: NSFetchRequest<T>) throws -> [T] {
+        return []
+    }
 }

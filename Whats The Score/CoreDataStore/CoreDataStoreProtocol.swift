@@ -12,4 +12,5 @@ protocol CoreDataStoreProtocol: AnyObject {
     var persistentContainer: NSPersistentContainer { get set }
     
     func saveContext()
+    func makeFetchRequest<T:NSFetchRequestResult>(with fetchRequest: NSFetchRequest<T>) throws -> [T]
 }

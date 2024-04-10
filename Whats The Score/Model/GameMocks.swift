@@ -63,6 +63,7 @@ class GameIsEndOfGameMock: GameMock {
 class GameMock: GameProtocol {
     convenience init(gameType: GameType = .basic,
                      gameEndType: GameEndType = .none,
+                     gameStatus: GameStatus = .active,
                      numberOfRounds: Int = 0,
                      endingScore: Int = 0,
                      currentRound: Int = 0,
@@ -73,6 +74,7 @@ class GameMock: GameProtocol {
         self.players = players
         self.gameType = gameType
         self.gameEndType = gameEndType
+        self.gameStatus = gameStatus
         self.numberOfRounds = numberOfRounds
         self.endingScore = endingScore
         self.currentRound = currentRound
@@ -83,6 +85,7 @@ class GameMock: GameProtocol {
     var id: UUID = UUID()
     var gameType: GameType = .basic
     var gameEndType: GameEndType = .none
+    var gameStatus: GameStatus = .active
     var numberOfRounds: Int = 2
     var endingScore: Int = 10
     var currentRound: Int = 0

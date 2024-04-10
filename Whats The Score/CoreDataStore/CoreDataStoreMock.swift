@@ -30,4 +30,12 @@ class CoreDataStoreMock: CoreDataStoreProtocol {
     func saveContext() {
         saveContextCalledCount += 1
     }
+    
+    var makeFetchRequestCalledCount = 0
+    var makeFetchRequestRequest: Any?
+    func makeFetchRequest<T>(with fetchRequest: NSFetchRequest<T>) throws -> [T] where T: NSFetchRequestResult {
+        self.makeFetchRequestCalledCount += 1
+        self.makeFetchRequestRequest = fetchRequest
+        return []
+    }
 }

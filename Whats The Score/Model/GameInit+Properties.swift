@@ -22,6 +22,7 @@ class Game: NSManagedObject, GameProtocol {
     
     convenience init(gameType: GameType,
                      gameEndType: GameEndType,
+                     gameStatus: GameStatus = .active,
                      numberOfRounds: Int = 2,
                      currentRound: Int = 1,
                      endingScore: Int = 10,
@@ -31,6 +32,7 @@ class Game: NSManagedObject, GameProtocol {
         self.id = UUID()
         self.gameType = gameType
         self.gameEndType = gameEndType
+        self.gameStatus = gameStatus
         self.numberOfRounds = numberOfRounds
         self.currentRound = currentRound
         self.endingScore = endingScore
@@ -52,6 +54,7 @@ class Game: NSManagedObject, GameProtocol {
     @NSManaged private var numberOfRounds_: Int64
     @NSManaged private var endingScore_: Int64
     @NSManaged private var currentRound_: Int64
+    @NSManaged private var gameStatus_: Int64
     
     // MARK: - Computed Public Properties
     
@@ -70,6 +73,16 @@ class Game: NSManagedObject, GameProtocol {
         }
         set {
             gameEndType_ = Int64(newValue.rawValue)
+        }
+    }
+    
+    var gameStatus: GameStatus {
+        get {
+            return GameStatus(rawValue: Int(truncatingIfNeeded: gameStatus_)) ?? .active
+        }
+        
+        set {
+            gameStatus_ = Int64(newValue.rawValue)
         }
     }
     

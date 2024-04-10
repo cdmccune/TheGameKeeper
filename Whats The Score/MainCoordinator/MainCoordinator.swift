@@ -18,6 +18,8 @@ class MainCoordinator {
     var childCoordinators = [Coordinator]()
     var coreDataStore: CoreDataStoreProtocol
     
+    lazy var coreDataHelper: MainCoordinatorCoreDataHelperProtocol = MainCoordinatorCoreDataHelper(coreDataStore: coreDataStore)
+    
     var homeTabbarCoordinatorType: HomeTabCoordinator.Type = HomeTabCoordinator.self
     var gameTabbarCoordinatorType: GameTabCoordinator.Type = GameTabCoordinator.self
     
