@@ -49,6 +49,19 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCount + 1)
     }
     
+    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
     
     // MARK: - DeletePlayer
     
@@ -82,6 +95,18 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
     }
     
+    func test_ScoreboardViewModel_WhenDeletePlayerCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.deletePlayer(PlayerMock())
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
     
     // MARK: - ResetGame
     
@@ -112,23 +137,17 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCountBefore + 1)
     }
     
-    
-    // MARK: - EndGame
-    
-    func test_ScoreboardViewModel_WhenEndGameCalled_ShouldCallCoordinatorShowEndGameWithGameAndDelegate() {
+    func test_ScoreboardViewModel_WhenResetCalled_ShouldCallCoreDataStoreSaveChanges() {
         // given
-        let game = GameMock()
-        let sut = ScoreboardViewModel(game: game)
-        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
-        sut.coordinator = coordinator
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
         
         // when
-        sut.endGame()
+        sut.resetGame()
         
         // then
-        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
-        XCTAssertTrue(coordinator.showEndGamePopoverGame?.isEqualTo(game: game) ?? false)
-        XCTAssertTrue(coordinator.showEndGamePopoverDelegate as? ScoreboardViewModel === sut)
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
     
     
@@ -167,6 +186,19 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenFinishedEditingCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.finishedEditing(PlayerMock(), toNewName: "")
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
 
     
@@ -360,6 +392,19 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 0)
     }
     
+    func test_ScoreboardViewModel_WhenEndRoundCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.endRound(EndRoundSettings.getStub(withPlayerCount: 0))
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
     
     // MARK: - UpdateGameSettings
     
@@ -398,6 +443,19 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindCount + 1)
     }
     
+    func test_ScoreboardViewModel_WhenUpdateGameSettingsCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.updateGameSettings(gameEndType: GameEndType.none, numberOfRounds: 0, endingScore: 0)
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
     
     // MARK: - UpdateNumberOfRounds
     
@@ -428,6 +486,19 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewCalledCount + 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenUpdateNumberOfRoundsCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.updateNumberOfRounds(to: 0)
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
     
     
@@ -462,6 +533,19 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewCalledCount + 1)
     }
     
+    func test_ScoreboardViewModel_WhenUpdateWinningScoreCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.updateWinningScore(to: 0)
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
     
     // MARK: - SetNoEnd
     
@@ -492,8 +576,18 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewCalledCount + 1)
     }
     
-    
-    
+    func test_ScoreboardViewModel_WhenSetNoEndCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.setNoEnd()
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
 
     
     // MARK: - Classes

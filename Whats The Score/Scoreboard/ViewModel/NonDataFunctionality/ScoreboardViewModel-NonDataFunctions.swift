@@ -48,6 +48,10 @@ extension ScoreboardViewModel {
         coordinator?.showEndRoundPopover(withGame: game, andDelegate: self)
     }
     
+    func endGame() {
+        coordinator?.showEndGamePopover(withGame: game, andDelegate: self)
+    }
+    
 }
 
 extension ScoreboardViewModel: EndGamePopoverDelegate {

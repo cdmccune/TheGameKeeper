@@ -13,29 +13,28 @@ extension ScoreboardViewModel {
     
     func addPlayer() {
         game.addPlayer(withName: "")
+        coreDataStore.saveContext()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
     func deletePlayer(_ player: PlayerProtocol) {
         game.deletePlayer(player)
+        coreDataStore.saveContext()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
     func resetGame() {
         game.resetGame()
+        coreDataStore.saveContext()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
-    
-    func endGame() {
-        coordinator?.showEndGamePopover(withGame: game, andDelegate: self)
-    }
-    
 }
 
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
     
     func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {
         game.changeName(of: player, to: name)
+        coreDataStore.saveContext()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
 }
@@ -57,9 +56,10 @@ extension ScoreboardViewModel: ScoreboardPlayerEditScorePopoverDelegate {
 extension ScoreboardViewModel: EndRoundPopoverDelegateProtocol {
     
     func endRound(_ endRound: EndRoundSettings) {
-        game.endRound(with: endRound)
+        self.game.endRound(with: endRound)
+        self.coreDataStore.saveContext()
         
-        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+        self.delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
         
         if game.isEndOfGame() {
             coordinator?.showEndGamePopover(withGame: game, andDelegate: self, delay: 1.0)
@@ -70,7 +70,8 @@ extension ScoreboardViewModel: EndRoundPopoverDelegateProtocol {
 extension ScoreboardViewModel: GameSettingsDelegate {
     
     func updateGameSettings(gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int) {
-        game.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numberOfRounds)
+        self.game.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numberOfRounds)
+        self.coreDataStore.saveContext()
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
 }
@@ -79,16 +80,19 @@ extension ScoreboardViewModel: KeepPlayingPopoverDelegate {
     
     func updateNumberOfRounds(to numberOfRounds: Int) {
         self.game.numberOfRounds = numberOfRounds
+        self.coreDataStore.saveContext()
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
     
     func updateWinningScore(to winningScore: Int) {
         self.game.endingScore = winningScore
+        self.coreDataStore.saveContext()
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
     
     func setNoEnd() {
         self.game.gameEndType = .none
+        self.coreDataStore.saveContext()
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
 }

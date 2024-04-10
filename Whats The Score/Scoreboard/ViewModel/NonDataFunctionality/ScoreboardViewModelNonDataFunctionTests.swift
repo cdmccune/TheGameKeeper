@@ -304,6 +304,25 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
     }
     
     
+    // MARK: - EndGame
+    
+    func test_ScoreboardViewModel_WhenEndGameCalled_ShouldCallCoordinatorShowEndGameWithGameAndDelegate() {
+        // given
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.endGame()
+        
+        // then
+        XCTAssertEqual(coordinator.showEndGamePopoverCalledCount, 1)
+        XCTAssertTrue(coordinator.showEndGamePopoverGame?.isEqualTo(game: game) ?? false)
+        XCTAssertTrue(coordinator.showEndGamePopoverDelegate as? ScoreboardViewModel === sut)
+    }
+    
+    
     // MARK: - KeepPlayingSelected
     
     func test_ScoreboardViewModel_WhenKeepPlayingSelectedCalledIsEndOfGameFalse_ShouldNotCallCoordinatorShowKeepPlayingPopover() {
