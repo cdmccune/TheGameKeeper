@@ -306,6 +306,41 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.endRounds[1].roundNumber, 2)
         XCTAssertEqual(sut.endRounds[2].roundNumber, 3)
     }
+    
+    func test_Game_WhenDeleteEndRoundCalled_ShouldDecrementCurrentRoundNumber() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let currentRound = Int.random(in: 1...10)
+        sut.currentRound = currentRound
+        
+        let endRound = EndRound(game: sut, roundNumber: 0, scoreChanges: [], context: context)
+        
+        // when
+        sut.deleteEndRound(endRound)
+        
+        // then
+        XCTAssertEqual(sut.currentRound, currentRound - 1)
+    }
+    
+    func test_Game_WhenDeleteEndRoundCalled_ShouldSetPositionScoreChangesInEachEndRoundRemainingToEndRoundRoundNumber() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+            
+        let player1 = Player(game: sut, name: "", position: 0, context: context)
+        
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [ScoreChangeSettings(player: player1)], roundNumber: 1))
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [ScoreChangeSettings(player: player1)], roundNumber: 2))
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [ScoreChangeSettings(player: player1)], roundNumber: 3))
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [ScoreChangeSettings(player: player1)], roundNumber: 4))
+        
+        // when
+        sut.deleteEndRound(sut.endRounds[2] as! EndRound)
+        
+        // then
+        XCTAssertEqual(sut.endRounds[0].scoreChanges.first?.position, 0)
+        XCTAssertEqual(sut.endRounds[1].scoreChanges.first?.position, 1)
+        XCTAssertEqual(sut.endRounds[2].scoreChanges.first?.position, 2)
+    }
 
     
     // MARK: - DeleteScoreChange
@@ -544,6 +579,18 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.endRounds.count, 1)
     }
     
+    func test_Game_WhenEndRoundCalled_ShouldSetEndRoundRoundToEndRoundSettingsRoundNumber() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let roundNumber = Int.random(in: 1...10)
+        
+        // when
+        sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [], roundNumber: roundNumber))
+        
+        // then
+        XCTAssertEqual(sut.endRounds.first?.roundNumber, roundNumber)
+    }
+    
     func test_Game_WhenEndRoundCalled_ShouldIncrementTheCurrentRound() {
         // given
         let sut = Game(basicGameWithContext: context)
@@ -604,7 +651,7 @@ final class GameTests: XCTestCase {
         }
     }
     
-    func test_Game_WhenEndRoundCalled_ShouldAddScoreChangesToPlayersAndEndRoundWithPositions() {
+    func test_Game_WhenEndRoundCalled_ShouldAddScoreChangesToPlayersAndEndRound() {
         // given
         let sut = Game(basicGameWithContext: context)
         
@@ -622,8 +669,27 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(player1.scoreChanges.count, 1)
         XCTAssertEqual(player2.scoreChanges.count, 1)
         XCTAssertEqual(sut.endRounds.first?.scoreChanges.count, 2)
-        XCTAssertEqual(sut.endRounds.first?.scoreChanges[0].position, 0)
-        XCTAssertEqual(sut.endRounds.first?.scoreChanges[1].position, 1)
+    }
+    
+    func test_Game_WhenEndRoundCalled_ShouldSetEndRoundScoreChangesPositionToRoundNumber() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        
+        let player1 = Player(game: sut, name: "", position: 0, context: context)
+        let player2 = Player(game: sut, name: "", position: 1, context: context)
+        let scoreChangeSettingsArray = [
+            ScoreChangeSettings(player: player1),
+            ScoreChangeSettings(player: player2)
+        ]
+        let roundNumber = Int.random(in: 1...10)
+        let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: scoreChangeSettingsArray, roundNumber: roundNumber)
+        
+        // when
+        sut.endRound(with: endRoundSettings)
+        
+        // then
+        XCTAssertEqual(sut.endRounds.first?.scoreChanges.first?.position, roundNumber)
+        XCTAssertEqual(sut.endRounds.first?.scoreChanges[1].position, roundNumber)
     }
 
     

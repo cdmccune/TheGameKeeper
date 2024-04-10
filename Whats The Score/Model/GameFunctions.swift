@@ -52,9 +52,14 @@ extension Game {
         removeFromEndRounds_(endRoundObject)
         managedObjectContext?.delete(endRoundObject)
         
+        currentRound -= 1
+        
         var endRounds = endRounds
         for i in 0..<endRounds.count {
             endRounds[i].roundNumber = i + 1
+            for var scoreChange in endRounds[i].scoreChanges {
+                scoreChange.position = i
+            }
         }
     }
     
@@ -81,27 +86,18 @@ extension Game {
                         context: managedObjectContext)
     }
     
-    //    func editScore(scoreChange: ScoreChangeProtocol) {
-    //        guard let index = players.firstIndex(where: { $0.id == scoreChange.playerID }) else { return }
-//        
-//        players[index].scoreChanges.append(scoreChange)
-////        let historySegment = GameHistorySegment.scoreChange(scoreChange, players[index])
-////        
-////        historySegments.append(historySegment)
-//    }
-    
     func endRound(with endRoundSettings: EndRoundSettings) {
         guard let managedObjectContext else { return }
         
-        let endRound = EndRound(game: self, roundNumber: 0, scoreChanges: [], context: managedObjectContext)
+        let endRound = EndRound(game: self, roundNumber: endRoundSettings.roundNumber, scoreChanges: [], context: managedObjectContext)
         
-        endRoundSettings.scoreChangeSettingsArray.enumerated().forEach { (index, scoreChangeSettings) in
+        endRoundSettings.scoreChangeSettingsArray.forEach { scoreChangeSettings in
             guard players.contains(where: { $0.id == scoreChangeSettings.player.id }),
                   let player = scoreChangeSettings.player as? Player else { return }
             
             _ = ScoreChange(player: player,
                             scoreChange: scoreChangeSettings.scoreChange,
-                            position: index,
+                            position: endRoundSettings.roundNumber,
                             endRound: endRound,
                             context: managedObjectContext)
             
