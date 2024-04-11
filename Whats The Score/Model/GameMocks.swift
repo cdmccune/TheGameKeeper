@@ -17,6 +17,9 @@ class GamePropertyMock: Game {
         return temporaryManagedObjectContext
     }
     
+    var temporaryIsUpdated = true
+    override var isUpdated: Bool { temporaryIsUpdated }
+    
     var temporaryPlayerArray: [PlayerProtocol] = []
     override var players: [PlayerProtocol] { temporaryPlayerArray }
     
@@ -48,6 +51,12 @@ class GamePropertyMock: Game {
     override var currentRound: Int {
         get { temporaryCurrentRound }
         set { temporaryCurrentRound = newValue}
+    }
+    
+    private var temporaryLastModified: Date = Date()
+    override var lastModified: Date {
+        get { temporaryLastModified }
+        set { temporaryLastModified = newValue }
     }
 }
 

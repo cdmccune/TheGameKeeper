@@ -10,6 +10,20 @@ import XCTest
 
 final class HomeTabCoordinatorTests: XCTestCase {
     
+    // MARK: - Properties
+    
+    func test_HomeTabCoordinator_WhenCoreDataHelperSet_ShouldSetItsCoreDataStoreToOwnCoreDataStore() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController(), coreDataStore: coreDataStore)
+        
+        // when
+        let coreDataHelper = sut.coreDataHelper
+        
+        // then
+        XCTAssertTrue(sut.coreDataHelper.coreDataStore as? CoreDataStoreMock === coreDataStore)
+    }
+    
     // MARK: - Start
     
     func test_HomeTabCoordinator_WhenStartCalled_ShouldSetActiveGameOnHomeVCActiveGame() {
@@ -28,11 +42,11 @@ final class HomeTabCoordinatorTests: XCTestCase {
     
     func test_HomeTabCoordinator_WhenStartCalledHasActiveGameError_ShouldCallShowActiveGameError() {
         class HomeTabCoordinatorShowActiveGameErrorMock: HomeTabCoordinator {
-            var showActiveGameErrorError: CoreDataStoreError?
-            var showActiveGameErrorCalledCount = 0
-            override func showActiveGameError(_ error: CoreDataStoreError) {
-                showActiveGameErrorError = error
-                showActiveGameErrorCalledCount += 1
+            var showErrorError: CoreDataStoreError?
+            var showErrorCalledCount = 0
+            override func showError(_ error: CoreDataStoreError) {
+                showErrorError = error
+                showErrorCalledCount += 1
             }
         }
         
@@ -47,8 +61,8 @@ final class HomeTabCoordinatorTests: XCTestCase {
         sut.start()
         
         // then
-        XCTAssertEqual(sut.showActiveGameErrorCalledCount, 1)
-        if case CoreDataStoreError.dataError(let description) = sut.showActiveGameErrorError! {
+        XCTAssertEqual(sut.showErrorCalledCount, 1)
+        if case CoreDataStoreError.dataError(let description) = sut.showErrorError! {
             XCTAssertEqual(description, errorDescription)
         } else {
             XCTFail("Error should be sent in function")
@@ -124,9 +138,99 @@ final class HomeTabCoordinatorTests: XCTestCase {
     }
     
     
-    // MARK: - ShowActiveGameError
+    // MARK: - ShowMyGames
     
-    func test_HomeTabCoordinator_WhenShowActiveGameErrorCalled_ShouldPresentAlertControllerOnTopViewControllerAfterDelayOfPoint25() {
+    func test_HomeTabCoordinator_WhenShowMyGamesCalled_ShouldPushMyGamesViewControllerToNavigationController() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = HomeTabCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.showMyGames()
+        
+        // then
+        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
+        XCTAssertTrue(navigationController.pushedViewController is MyGamesViewController)
+    }
+    
+    func test_HomeTabCoordinator_WhenShowMyGamesCalled_ShouldSetMyGamesViewModelWithCoordinatorAsSelf() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = HomeTabCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.showMyGames()
+        
+        // then
+        let myGamesVC = navigationController.pushedViewController as? MyGamesViewController
+        XCTAssertNotNil(myGamesVC?.viewModel)
+    }
+    
+    func test_HomeTabCoordinator_WhenShowMyGamesCalled_ShouldCallCoreDataHelperGetAllGames() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        // when
+        sut.showMyGames()
+        
+        // then
+        XCTAssertEqual(coreDataHelper.getAllGamesCalledCount, 1)
+    }
+    
+    func test_HomeTabCoordinator_WhenShowMyGamesCalledHelperThrowsError_ShouldCallShowErrorWithError() {
+        class HomeTabCoordinatorShowErrorMock: HomeTabCoordinator {
+            var showErrorCalledCount = 0
+            var showErrorError: CoreDataStoreError?
+            override func showError(_ error: CoreDataStoreError) {
+                showErrorCalledCount += 1
+                showErrorError = error
+            }
+        }
+        
+        // given
+        let sut = HomeTabCoordinatorShowErrorMock(navigationController: RootNavigationController())
+        
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let errorDescription = UUID().uuidString
+        let error = CoreDataStoreError.dataError(description: errorDescription)
+        coreDataHelper.errorToReturn = error
+        
+        // when
+        sut.showMyGames()
+        
+        // then
+        XCTAssertEqual(sut.showErrorCalledCount, 1)
+        XCTAssertEqual(sut.showErrorError?.getDescription(), errorDescription)
+    }
+    
+    func test_HomeTabCoordinator_WhenShowMyGamesCalledHelperReturnsGames_ShouldSetViewControllersViewModelsGamesToGames() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = HomeTabCoordinator(navigationController: navigationController)
+        
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let gamesToReturn = [GameMock()]
+        coreDataHelper.gamesToReturn = gamesToReturn
+        
+        // when
+        sut.showMyGames()
+        
+        // then
+        let myGamesVC = navigationController.pushedViewController as? MyGamesViewController
+        XCTAssertEqual(myGamesVC?.viewModel.games[0].id, gamesToReturn[0].id)
+    }
+    
+    
+    // MARK: - ShowError
+    
+    func test_HomeTabCoordinator_WhenShowErrorCalled_ShouldPresentAlertControllerOnTopViewControllerAfterDelayOfPoint25() {
         // given
         let sut = HomeTabCoordinator(navigationController: RootNavigationController())
         let viewController = ViewControllerPresentMock()
@@ -136,7 +240,7 @@ final class HomeTabCoordinatorTests: XCTestCase {
         sut.dispatchQueue = dispatchQueueMock
         
         // when
-        sut.showActiveGameError(CoreDataStoreError.dataError(description: ""))
+        sut.showError(CoreDataStoreError.dataError(description: ""))
         
         // then
         
@@ -145,7 +249,7 @@ final class HomeTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(viewController.presentCalledCount, 1)
     }
     
-    func test_HomeTabCoordinator_WhenShowActiveGameErrorCalled_ShouldPresentAlertControllerOnTopViewControllerWithAlertControllerTitleErrorMessageErrorDescription() {
+    func test_HomeTabCoordinator_WhenShowErrorCalled_ShouldPresentAlertControllerOnTopViewControllerWithAlertControllerTitleErrorMessageErrorDescription() {
         // given
         let sut = HomeTabCoordinator(navigationController: RootNavigationController())
         let viewController = ViewControllerPresentMock()
@@ -158,7 +262,7 @@ final class HomeTabCoordinatorTests: XCTestCase {
         let error = CoreDataStoreError.dataError(description: errorDescription)
         
         // when
-        sut.showActiveGameError(error)
+        sut.showError(error)
         
         // then
         let alertVC = viewController.presentViewController as? UIAlertController
@@ -167,7 +271,7 @@ final class HomeTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(alertVC?.message, errorDescription)
     }
     
-    func test_HomeTabCoordinator_WhenShowActiveGameErrorCalled_ShouldAddOkActionToAlertControllerPresented() {
+    func test_HomeTabCoordinator_WhenShowErrorCalled_ShouldAddOkActionToAlertControllerPresented() {
         // given
         let sut = HomeTabCoordinator(navigationController: RootNavigationController())
         let viewController = ViewControllerPresentMock()
@@ -177,7 +281,7 @@ final class HomeTabCoordinatorTests: XCTestCase {
         sut.dispatchQueue = dispatchQueueMock
         
         // when
-        sut.showActiveGameError(CoreDataStoreError.dataError(description: ""))
+        sut.showError(CoreDataStoreError.dataError(description: ""))
         
         // then
         let alertVC = viewController.presentViewController as? UIAlertController
@@ -200,5 +304,10 @@ class HomeTabCoordinatorMock: HomeTabCoordinator {
     var playActiveGameCalledCount = 0
     override func playActiveGame() {
         playActiveGameCalledCount += 1
+    }
+    
+    var showMyGamesCalledCount = 0
+    override func showMyGames() {
+        showMyGamesCalledCount += 1
     }
 }

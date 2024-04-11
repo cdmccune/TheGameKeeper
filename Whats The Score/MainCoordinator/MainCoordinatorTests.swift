@@ -44,7 +44,7 @@ final class MainCoordinatorTests: XCTestCase {
         // given
         let sut = MainCoordinator()
         let coreDataHelper = MainCoordinatorCoreDataHelperMock()
-        let gameToReturn = Game()
+        let gameToReturn = GameMock()
         coreDataHelper.getActiveGameGameToReturn = gameToReturn
         sut.coreDataHelper = coreDataHelper
         
@@ -60,7 +60,7 @@ final class MainCoordinatorTests: XCTestCase {
         // given
         let sut = MainCoordinator()
         let coreDataHelper = MainCoordinatorCoreDataHelperMock()
-        let gameToReturn = Game()
+        let gameToReturn = GameMock()
         coreDataHelper.getActiveGameGameToReturn = gameToReturn
         sut.coreDataHelper = coreDataHelper
         
@@ -193,6 +193,20 @@ final class MainCoordinatorTests: XCTestCase {
         // then
         let homeTabCoordinatorMock = sut.childCoordinators.first as? HomeTabCoordinator
         XCTAssertTrue(homeTabCoordinatorMock?.coordinator === sut)
+    }
+    
+    func test_MainCoordinator_WhenStartCalled_ShouldSetHomeTabbarCoordinatorCoreDataStoreToOwnCoreDataStore() {
+        // given
+        let coreDataStoreMock = CoreDataStoreMock()
+        let sut = MainCoordinator(coreDataStore: coreDataStoreMock)
+        sut.homeTabbarCoordinatorType = HomeTabCoordinatorMock.self
+        
+        // when
+        sut.start()
+        
+        // then
+        let homeTabCoordinatorMock = sut.childCoordinators[0] as? HomeTabCoordinatorMock
+        XCTAssertTrue(homeTabCoordinatorMock?.coreDataStore as? CoreDataStoreMock === coreDataStoreMock)
     }
 
     func test_MainCoordinator_WhenStartCalled_ShouldSetGameTabbarCoordinatorCoreDataStoreToOwnCoreDataStore() {

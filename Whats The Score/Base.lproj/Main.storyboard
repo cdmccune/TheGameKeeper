@@ -37,7 +37,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="66F-Ce-HLQ">
-                                <rect key="frame" x="46.666666666666657" y="138" width="300" height="225"/>
+                                <rect key="frame" x="46.666666666666657" y="138" width="300" height="305"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7d-wA-93O">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="65"/>
@@ -91,6 +91,24 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="setupGameButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Oa0-U7-7aB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3i-b8-9G5">
+                                        <rect key="frame" x="0.0" y="240" width="300" height="65"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="KO0-8h-UrZ"/>
+                                            <constraint firstAttribute="height" constant="65" id="Vq2-7A-txu"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="My Games" cornerStyle="capsule">
+                                            <backgroundConfiguration key="background" strokeWidth="2">
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="strokeColor" name="AccentColor"/>
+                                            </backgroundConfiguration>
+                                            <fontDescription key="titleFontDescription" name="Poppins-Regular" family="Poppins" pointSize="30"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="myGamesButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mHc-Us-pPx"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1576,6 +1594,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Je-Om-sKR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6342.7480916030536" y="2624.6478873239439"/>
+        </scene>
+        <!--My Games View Controller-->
+        <scene sceneID="VRv-ix-q62">
+            <objects>
+                <viewController storyboardIdentifier="MyGamesViewController" id="6aL-aR-1sM" customClass="MyGamesViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="atT-Vr-1RY">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="FWW-yr-nay"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I0b-z1-z2R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2415" y="996"/>
         </scene>
     </scenes>
     <resources>

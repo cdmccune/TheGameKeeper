@@ -46,6 +46,7 @@ class Game: NSManagedObject, GameProtocol {
     // MARK: - NSManaged Properties
     
     @NSManaged public var id: UUID
+    @NSManaged public var lastModified: Date
     @NSManaged private var players_: Set<Player>
     @NSManaged private var scoreChanges_: Set<ScoreChange>
     @NSManaged private var endRounds_: Set<EndRound>
@@ -55,6 +56,22 @@ class Game: NSManagedObject, GameProtocol {
     @NSManaged private var endingScore_: Int64
     @NSManaged private var currentRound_: Int64
     @NSManaged private var gameStatus_: Int64
+    
+    
+    // MARK: - Overrides
+    
+    override func awakeFromInsert() {
+        super.awakeFromInsert()
+        lastModified = Date()
+    }
+    
+    override func willSave() {
+        super.willSave()
+        if isUpdated {
+            lastModified = Date()
+        }
+    }
+    
     
     // MARK: - Computed Public Properties
     

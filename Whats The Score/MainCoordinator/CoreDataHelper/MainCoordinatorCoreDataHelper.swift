@@ -10,7 +10,7 @@ import Foundation
 protocol MainCoordinatorCoreDataHelperProtocol {
     var coreDataStore: CoreDataStoreProtocol { get set }
     
-    func getActiveGame() throws -> Game?
+    func getActiveGame() throws -> GameProtocol?
 }
 
 class MainCoordinatorCoreDataHelper: MainCoordinatorCoreDataHelperProtocol {
@@ -20,7 +20,7 @@ class MainCoordinatorCoreDataHelper: MainCoordinatorCoreDataHelperProtocol {
     
     var coreDataStore: CoreDataStoreProtocol
     
-    func getActiveGame() throws -> Game? {
+    func getActiveGame() throws -> GameProtocol? {
         let request = Game.fetchRequest()
         let activeStatusString = "active"
         request.predicate = NSPredicate(format: "gameStatus_ == %@", activeStatusString)

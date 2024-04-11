@@ -41,4 +41,9 @@ class HomeViewController: UIViewController, Storyboarded {
     @IBAction func continueGameButtonTapped(_ sender: Any) {
         coordinator?.playActiveGame()
     }
+    
+    @IBAction func myGamesButtonTapped(_ sender: Any) {
+        coordinator?.showMyGames()
+    }
+    
 }

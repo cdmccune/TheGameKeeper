@@ -22,6 +22,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
+//        let coreDataStore = CoreDataStore(.persistent)
+//        let games = try! coreDataStore.makeFetchRequest(with: Game.fetchRequest()) as? [Game]
+//        
+//        games?.forEach({ game in
+//            coreDataStore.persistentContainer.viewContext.delete(game)
+//        })
+//        
+//        coreDataStore.saveContext()
+        
         coordinator = MainCoordinator(coreDataStore: CoreDataStore(.persistent))
         coordinator?.start()
         

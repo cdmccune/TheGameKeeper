@@ -13,6 +13,7 @@
         <attribute name="gameStatus_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="gameType_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="lastModified" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="numberOfRounds_" attributeType="Integer 64" defaultValueString="2" usesScalarValueType="YES"/>
         <relationship name="endRounds_" toMany="YES" deletionRule="Cascade" destinationEntity="EndRound" inverseName="game" inverseEntity="EndRound"/>
         <relationship name="players_" toMany="YES" deletionRule="Cascade" destinationEntity="Player" inverseName="game" inverseEntity="Player"/>

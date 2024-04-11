@@ -10,25 +10,36 @@ import UIKit
 
 class HomeTabCoordinator: Coordinator {
     
-    required init(navigationController: RootNavigationController) {
+    // MARK: - Init
+    
+    required init(navigationController: RootNavigationController, coreDataStore: CoreDataStoreProtocol = CoreDataStore(.inMemory)) {
         self.navigationController = navigationController
+        self.coreDataStore = coreDataStore
     }
+    
+    
+    // MARK: - Properties
     
     var activeGame: GameProtocol?
     var activeGameError: CoreDataStoreError?
     var childCoordinators: [Coordinator] = []
     var navigationController: RootNavigationController
-    weak var coordinator: MainCoordinator?
+    var coreDataStore: CoreDataStoreProtocol
     
+    lazy var coreDataHelper: HomeTabCoordinatorCoreDataHelperProtocol = HomeTabCoordinatorCoreDataHelper(coreDataStore: coreDataStore)
     lazy var dispatchQueue: DispatchQueueProtocol? = DispatchQueue.main
     
+    weak var coordinator: MainCoordinator?
+    
+    
+    // MARK: - Functions
     
     func start() {
         let homeVC = HomeViewController.instantiate()
         homeVC.coordinator = self
         homeVC.activeGame = activeGame
         
-        if let activeGameError { showActiveGameError(activeGameError) }
+        if let activeGameError { showError(activeGameError) }
         
         navigationController.viewControllers = [homeVC]
     }
@@ -45,7 +56,26 @@ class HomeTabCoordinator: Coordinator {
         coordinator?.playActiveGame()
     }
     
-    func showActiveGameError(_ error: CoreDataStoreError) {
+    func showMyGames() {
+        let myGamesVC = MyGamesViewController.instantiate()
+        
+        let viewModel = MyGamesViewModel()
+        
+        do {
+            let games = try coreDataHelper.getAllGames()
+            viewModel.games = games
+        } catch let error as CoreDataStoreError {
+            showError(error)
+        } catch {
+            fatalError("Unhandled error \(error.localizedDescription)")
+        }
+        
+        myGamesVC.viewModel = viewModel
+        
+        navigationController.pushViewController(myGamesVC, animated: true)
+    }
+    
+    func showError(_ error: CoreDataStoreError) {
         dispatchQueue?.asyncAfterWrapper(delay: 0.25, work: {
             let alertController = UIAlertController(title: "Error", message: error.getDescription(), preferredStyle: .alert)
             

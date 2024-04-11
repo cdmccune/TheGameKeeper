@@ -90,7 +90,7 @@ final class MainCoordinatorCoreDataHelperTests: XCTestCase {
             return
         }
         
-        XCTAssertEqual(game, gameReturned)
+        XCTAssertEqual(game.id, gameReturned.id)
     }
     
     func test_MainCoordinatorCoreDataHelper_WhenGetActiveGameReturns0Game_ShouldReturnNil() {

@@ -12,9 +12,9 @@ class MainCoordinatorCoreDataHelperMock: MainCoordinatorCoreDataHelperProtocol {
     var coreDataStore: Whats_The_Score.CoreDataStoreProtocol = CoreDataStoreMock()
     
     var getActiveGameErrorToReturn: CoreDataStoreError? = nil
-    var getActiveGameGameToReturn: Game? = nil
+    var getActiveGameGameToReturn: GameProtocol? = nil
     var getActiveGameCalledCount = 0
-    func getActiveGame() throws -> Whats_The_Score.Game? {
+    func getActiveGame() throws -> Whats_The_Score.GameProtocol? {
         getActiveGameCalledCount += 1
         if let getActiveGameErrorToReturn {
             throw getActiveGameErrorToReturn

@@ -40,6 +40,52 @@ final class GameTests: XCTestCase {
 //    }
 //    
 //    
+    
+    // MARK: - awakeFromInsert
+    
+    func test_Game_WhenAwakeFromInsertCalled_ShouldSetLastModifiedDate() {
+        // given
+        let sut = Game(context: context)
+        
+        // when
+        sut.awakeFromInsert()
+        
+        // then
+        XCTAssertNotNil(sut.lastModified)
+    }
+    
+    
+    // MARK: - willSave
+    
+    func test_Game_WhenWillSaveCalledIsUpdatedTrue_ShouldUpdateDateObjectToCurrentDate() {
+        // given
+        let sut = GamePropertyMock()
+        sut.lastModified = Date(timeIntervalSince1970: 0)
+        sut.temporaryIsUpdated = true
+        
+        
+        // when
+        sut.willSave()
+        
+        // then
+        XCTAssertEqual(Date().timeIntervalSince1970, sut.lastModified.timeIntervalSince1970, accuracy: 2)
+    }
+    
+    func test_Game_WhenWillSaveCalledIsUpdatedFalse_ShouldNotDateObjectToCurrentDate() {
+        // given
+        let sut = GamePropertyMock()
+        sut.lastModified = Date(timeIntervalSince1970: 0)
+        sut.temporaryIsUpdated = false
+        
+        
+        // when
+        sut.willSave()
+        
+        // then
+        XCTAssertEqual(0, sut.lastModified.timeIntervalSince1970)
+    }
+    
+    
     // MARK: - changeNameOfPlayer
     
     func test_Game_WhenChangeNameCalled_ShouldChangePlayerNameToNewName() {

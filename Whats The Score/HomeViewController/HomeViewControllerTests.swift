@@ -112,5 +112,21 @@ final class HomeViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(coordinator.playActiveGameCalledCount, 1)
     }
+    
+    // MARK: - MyGamesButtonTapped
+    
+    func test_HomeViewController_WhenMyGamesButtonTapped_ShouldCallCoordinatorsShowMyGames() {
+        // given
+        let sut = viewController!
+        let coordinator = HomeTabCoordinatorMock(navigationController: RootNavigationController())
+        
+        sut.coordinator = coordinator
+        
+        // when
+        sut.myGamesButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(coordinator.showMyGamesCalledCount, 1)
+    }
 
 }
