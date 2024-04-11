@@ -97,7 +97,24 @@ final class GameTabCoordinatorTests: XCTestCase {
     
     // MARK: - Start
     
-    func test_GameTabCoordinator_WhenStartCalled_ShouldCallStartOnGameSetupCoordinator() {
+    func test_GameTabCoordinator_WhenStartCalledWithActiveGame_ShouldSetGameAndCallStartOnScoreboardCoordinator() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let activeGame = GameMock()
+        sut.activeGame = activeGame
+        
+        let scoreboardCoordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.childCoordinators = [scoreboardCoordinator]
+        
+        // when
+        sut.start()
+        
+        // then
+        XCTAssertEqual(scoreboardCoordinator.startCalledCount, 1)
+        XCTAssertEqual(scoreboardCoordinator.game?.id, activeGame.id)
+    }
+    
+    func test_GameTabCoordinator_WhenStartCalledNoActiveGame_ShouldCallStartOnGameSetupCoordinator() {
         
         // given
         let sut = GameTabCoordinator(navigationController: RootNavigationController())

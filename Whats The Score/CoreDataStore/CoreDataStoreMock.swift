@@ -26,16 +26,23 @@ class CoreDataStoreMock: CoreDataStoreProtocol {
         
     var persistentContainer: NSPersistentContainer
     
+    var errorToReturn: CoreDataStoreError?
+    
     var saveContextCalledCount = 0
     func saveContext() {
         saveContextCalledCount += 1
     }
     
+    var makeFetchRequestArrayToReturn = [Any]()
     var makeFetchRequestCalledCount = 0
     var makeFetchRequestRequest: Any?
     func makeFetchRequest<T>(with fetchRequest: NSFetchRequest<T>) throws -> [T] where T: NSFetchRequestResult {
         self.makeFetchRequestCalledCount += 1
         self.makeFetchRequestRequest = fetchRequest
-        return []
+        if let errorToReturn {
+            throw errorToReturn
+        } else {
+            return makeFetchRequestArrayToReturn as! [T]
+        }
     }
 }

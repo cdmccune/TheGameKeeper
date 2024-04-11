@@ -19,13 +19,22 @@ class GameTabCoordinator: Coordinator {
         ScoreboardCoordinator(navigationController: navigationController, parentCoordinator: self, coreDataStore: coreDataStore)
     ]
     
+    var activeGame: GameProtocol?
     var coreDataStore: CoreDataStoreProtocol
     var navigationController: RootNavigationController
     lazy var coreDataHelper: GameTabCoreDataHelperProtocol = GameTabCoreDataHelper(coreDataStore: coreDataStore)
     
     
     func start() {
-        childCoordinators.first { $0 is GameSetupCoordinator }?.start()
+        if let activeGame {
+            let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator} as? ScoreboardCoordinator
+            scoreboardCoordinator?.game = activeGame
+            scoreboardCoordinator?.start()
+            
+        } else {
+            childCoordinators.first { $0 is GameSetupCoordinator }?.start()
+        }
+        
     }
     
     func startQuickGame() {

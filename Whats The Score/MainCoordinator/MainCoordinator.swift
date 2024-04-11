@@ -40,6 +40,17 @@ class MainCoordinator {
         
         tabbarController.viewControllers = [homeNavigationController, gameNavigationController]
         
+        do {
+            let activeGame = try coreDataHelper.getActiveGame()
+            homeTabCoordinator.activeGame = activeGame
+            gameTabCoordinator.activeGame = activeGame
+    
+        } catch let error as CoreDataStoreError {
+            homeTabCoordinator.activeGameError = error
+        } catch let error {
+            fatalError("unhandled error \(error.localizedDescription)")
+        }
+        
         homeTabCoordinator.start()
         gameTabCoordinator.start()
     }

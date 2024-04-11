@@ -26,6 +26,73 @@ final class MainCoordinatorTests: XCTestCase {
     
     
     // MARK: - Start
+    
+    func test_MainCoordinator_WhenStartCalled_ShouldCallCoreDataHelperGetActiveGame() {
+        // given
+        let sut = MainCoordinator()
+        let coreDataHelper = MainCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        // when
+        sut.start()
+        
+        // then
+        XCTAssertEqual(coreDataHelper.getActiveGameCalledCount, 1)
+    }
+    
+    func test_MainCoordinator_WhenStartCalledGetActiveGameReturnsGame_ShouldSetHomeTabCoordinatorActiveGame() {
+        // given
+        let sut = MainCoordinator()
+        let coreDataHelper = MainCoordinatorCoreDataHelperMock()
+        let gameToReturn = Game()
+        coreDataHelper.getActiveGameGameToReturn = gameToReturn
+        sut.coreDataHelper = coreDataHelper
+        
+        // when
+        sut.start()
+        
+        // then
+        let homeTabCoordinator = sut.childCoordinators.first as? HomeTabCoordinator
+        XCTAssertEqual(homeTabCoordinator?.activeGame?.id, gameToReturn.id)
+    }
+    
+    func test_MainCoordinator_WhenStartCalledGetActiveGameReturnsGame_ShouldSetGameTabCoordinatorActiveGame() {
+        // given
+        let sut = MainCoordinator()
+        let coreDataHelper = MainCoordinatorCoreDataHelperMock()
+        let gameToReturn = Game()
+        coreDataHelper.getActiveGameGameToReturn = gameToReturn
+        sut.coreDataHelper = coreDataHelper
+        
+        // when
+        sut.start()
+        
+        // then
+        let gameTabCoordinator = sut.childCoordinators[1] as? GameTabCoordinator
+        XCTAssertEqual(gameTabCoordinator?.activeGame?.id, gameToReturn.id)
+    }
+    
+    func test_MainCoordinator_WhenStartCalledGetActiveGameThrowsError_ShouldSetHomeTabCoordinatorActiveGameError() {
+        // given
+        let sut = MainCoordinator()
+        let coreDataHelper = MainCoordinatorCoreDataHelperMock()
+        
+        let errorDescription = UUID().uuidString
+        let errorToReturn = CoreDataStoreError.dataError(description: errorDescription)
+        coreDataHelper.getActiveGameErrorToReturn = errorToReturn
+        sut.coreDataHelper = coreDataHelper
+        
+        // when
+        sut.start()
+        
+        // then
+        let homeTabCoordinator = sut.childCoordinators.first as? HomeTabCoordinator
+        if case CoreDataStoreError.dataError(let description) = homeTabCoordinator!.activeGameError! {
+            XCTAssertEqual(description, errorDescription)
+        } else {
+            XCTFail("Should set error")
+        }
+    }
 
     func test_MainCoordinator_WhenStartCalled_ShouldSetChildCoordinatorsToHomeTabCoordinatorAndGameTabCoordinator() {
         // given

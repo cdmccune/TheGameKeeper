@@ -19,6 +19,7 @@ class HomeViewController: UIViewController, Storyboarded {
     // MARK: - Properties
     
     weak var coordinator: HomeTabCoordinator?
+    var activeGame: GameProtocol?
     
     
     // MARK: - Lifecycles

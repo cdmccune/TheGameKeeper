@@ -44,7 +44,12 @@ class CoreDataStore: CoreDataStoreProtocol {
         }
     }
     
-    func makeFetchRequest<T:NSFetchRequestResult>(with fetchRequest: NSFetchRequest<T>) throws -> [T] {
-        return []
+    func makeFetchRequest<T: NSFetchRequestResult>(with fetchRequest: NSFetchRequest<T>) throws -> [T] {
+        do {
+            let result = try persistentContainer.viewContext.fetch(fetchRequest)
+            return result
+        } catch {
+            throw CoreDataStoreError.fetchError(description: error.localizedDescription)
+        }
     }
 }

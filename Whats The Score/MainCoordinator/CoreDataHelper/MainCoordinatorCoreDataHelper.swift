@@ -10,7 +10,7 @@ import Foundation
 protocol MainCoordinatorCoreDataHelperProtocol {
     var coreDataStore: CoreDataStoreProtocol { get set }
     
-    func getActiveGame() -> Game?
+    func getActiveGame() throws -> Game?
 }
 
 class MainCoordinatorCoreDataHelper: MainCoordinatorCoreDataHelperProtocol {
@@ -20,14 +20,17 @@ class MainCoordinatorCoreDataHelper: MainCoordinatorCoreDataHelperProtocol {
     
     var coreDataStore: CoreDataStoreProtocol
     
-    func getActiveGame() -> Game? {
+    func getActiveGame() throws -> Game? {
         let request = Game.fetchRequest()
         let activeStatusString = "active"
         request.predicate = NSPredicate(format: "gameStatus_ == %@", activeStatusString)
         
-        try? coreDataStore.makeFetchRequest(with: request)
+        let games = try coreDataStore.makeFetchRequest(with: request) as? [Game]
         
+        if (games?.count ?? 0) > 1 {
+            throw CoreDataStoreError.dataError(description: "Error - there are multiple active games")
+        }
         
-        return nil
+        return games?.first
     }
 }
