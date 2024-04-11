@@ -9,6 +9,11 @@ import UIKit
 
 class MyGamesViewController: UIViewController, Storyboarded {
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    
     // MARK: - Properties
     
     var viewModel: MyGamesViewModelProtocol!

@@ -25,6 +25,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
     
     override func tearDown() {
         viewController = nil
+        views = nil
     }
     
     func getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded() -> (ScoreboardViewControllerPresentMock) {
