@@ -108,6 +108,22 @@ final class HomeTabCoordinatorTests: XCTestCase {
     }
     
     
+    // MARK: - PlayActiveGame
+    
+    func test_HomeTabCoordinator_WhenPlayActiveGameCalled_ShouldCallMainCoordinatorPlayActiveGame() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        // when
+        sut.playActiveGame()
+        
+        // then
+        XCTAssertEqual(coordinator.playActiveGameCalledCount, 1)
+    }
+    
+    
     // MARK: - ShowActiveGameError
     
     func test_HomeTabCoordinator_WhenShowActiveGameErrorCalled_ShouldPresentAlertControllerOnTopViewControllerAfterDelayOfPoint25() {
@@ -179,5 +195,10 @@ class HomeTabCoordinatorMock: HomeTabCoordinator {
     var setupQuickGameCalledCount = 0
     override func setupQuickGame() {
         setupQuickGameCalledCount += 1
+    }
+    
+    var playActiveGameCalledCount = 0
+    override func playActiveGame() {
+        playActiveGameCalledCount += 1
     }
 }

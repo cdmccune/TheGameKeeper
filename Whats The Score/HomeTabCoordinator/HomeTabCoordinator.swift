@@ -41,6 +41,10 @@ class HomeTabCoordinator: Coordinator {
         coordinator?.setupQuickGame()
     }
     
+    func playActiveGame() {
+        coordinator?.playActiveGame()
+    }
+    
     func showActiveGameError(_ error: CoreDataStoreError) {
         dispatchQueue?.asyncAfterWrapper(delay: 0.25, work: {
             let alertController = UIAlertController(title: "Error", message: error.getDescription(), preferredStyle: .alert)

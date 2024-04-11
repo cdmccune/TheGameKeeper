@@ -14,7 +14,7 @@ class HomeViewController: UIViewController, Storyboarded {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var quickStartButton: UIButton!
     @IBOutlet weak var setupGameButton: UIButton!
-    
+    @IBOutlet weak var continueGameButton: UIButton!
     
     // MARK: - Properties
     
@@ -24,6 +24,9 @@ class HomeViewController: UIViewController, Storyboarded {
     
     // MARK: - Lifecycles
     
+    override func viewDidLoad() {
+        continueGameButton.isHidden = activeGame == nil
+    }
     
     // MARK: - IBActions
     
@@ -33,5 +36,9 @@ class HomeViewController: UIViewController, Storyboarded {
     
     @IBAction func quickStartButtonTapped(_ sender: Any) {
         coordinator?.setupQuickGame()
+    }
+    
+    @IBAction func continueGameButtonTapped(_ sender: Any) {
+        coordinator?.playActiveGame()
     }
 }

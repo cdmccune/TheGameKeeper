@@ -64,4 +64,8 @@ class MainCoordinator {
         gameTabCoordinator?.startQuickGame()
         tabbarController.selectedIndex = 1
     }
+    
+    func playActiveGame() {
+        tabbarController.selectedIndex = 1
+    }
 }

@@ -37,10 +37,29 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="66F-Ce-HLQ">
-                                <rect key="frame" x="46.666666666666657" y="138" width="300" height="145"/>
+                                <rect key="frame" x="46.666666666666657" y="138" width="300" height="225"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nY1-O4-eaM">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7d-wA-93O">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="65"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="65" id="ZiJ-x7-RGM"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.9939959491" green="0.9939959491" blue="0.9939959491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Quick Start"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Continue Game" cornerStyle="capsule">
+                                            <backgroundConfiguration key="background" strokeWidth="2">
+                                                <color key="backgroundColor" name="AccentColor"/>
+                                                <color key="strokeColor" systemColor="lightTextColor"/>
+                                            </backgroundConfiguration>
+                                            <fontDescription key="titleFontDescription" name="Poppins-Regular" family="Poppins" pointSize="30"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="continueGameButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0w4-xc-z19"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nY1-O4-eaM">
+                                        <rect key="frame" x="0.0" y="80" width="300" height="65"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="65" id="9Ru-b9-HSR"/>
                                         </constraints>
@@ -57,7 +76,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gmK-qk-bQF">
-                                        <rect key="frame" x="0.0" y="80" width="300" height="65"/>
+                                        <rect key="frame" x="0.0" y="160" width="300" height="65"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="65" id="T6V-Gr-mv8"/>
                                             <constraint firstAttribute="width" constant="300" id="dxC-7F-v5M"/>
@@ -89,6 +108,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="5Gf-7u-PCT"/>
                     <connections>
+                        <outlet property="continueGameButton" destination="R7d-wA-93O" id="46U-V4-yAT"/>
                         <outlet property="quickStartButton" destination="nY1-O4-eaM" id="NAp-Pp-hK7"/>
                         <outlet property="setupGameButton" destination="gmK-qk-bQF" id="ByV-DS-3wf"/>
                         <outlet property="titleLabel" destination="gip-9B-ioQ" id="SvM-0j-fQr"/>
@@ -750,7 +770,7 @@
                                                 <rect key="frame" x="89" y="0.0" width="102" height="95.333333333333329"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="0" textAlignment="right" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="he4-Ns-wXb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="95.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="95.333333333333343"/>
                                                         <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="72"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
@@ -990,7 +1010,7 @@
                                         <viewLayoutGuide key="frameLayoutGuide" id="kjM-TL-rQA"/>
                                     </scrollView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="icO-di-f32">
-                                        <rect key="frame" x="56.666666666666657" y="160" width="187" height="30"/>
+                                        <rect key="frame" x="56.666666666666657" y="160" width="186.99999999999997" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="NTw-MX-VNE"/>
                                         </constraints>
@@ -1563,23 +1583,26 @@
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="lightTextColor">
+            <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

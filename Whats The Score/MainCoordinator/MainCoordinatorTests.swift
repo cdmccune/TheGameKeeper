@@ -273,4 +273,18 @@ final class MainCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(sut.tabbarController.selectedIndex, 1)
     }
+    
+    // MARK: - PlayActiveGame
+
+    func test_MainCoordinator_WhenPlayActiveGameCalled_ShouldSelectGameTab() {
+        // given
+        let sut = MainCoordinator()
+        sut.start()
+        
+        // when
+        sut.playActiveGame()
+        
+        // then
+        XCTAssertEqual(sut.tabbarController.selectedIndex, 1)
+    }
 }
