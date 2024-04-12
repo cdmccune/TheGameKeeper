@@ -34,4 +34,70 @@ final class MyGamesViewControllerTests: XCTestCase {
         // then
         XCTAssertNotNil(sut.tableView)
     }
+    
+    
+    // MARK: - TableViewDelegate
+    
+    func test_MyGamesViewController_WhenTableViewDelegateSet_ShouldSetItWithViewModel() {
+        // given
+        let sut = viewController!
+        let viewModel = MyGamesViewModelMock()
+        sut.viewModel = viewModel
+        
+        // when
+        sut.loadView()
+        let tableViewDelegate = sut.tableViewDelegate
+        
+        // then
+        XCTAssertIdentical(tableViewDelegate.viewModel as? MyGamesViewModelMock, viewModel)
+    }
+    
+    
+    // MARK: - ViewDidLoad
+    
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldSetTableViewDelegateToMyGamesTableViewDelegate() {
+        // given
+        let sut = viewController!
+        sut.viewModel = MyGamesViewModelMock()
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(sut.tableView.delegate is MyGamesTableViewDelegateDatasource)
+        XCTAssertTrue(sut.tableView.dataSource is MyGamesTableViewDelegateDatasource)
+    }
+    
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldRegisterMyGamesTableViewCellWithTableView() {
+        // given
+        let sut = viewController!
+        sut.viewModel = MyGamesViewModelMock()
+        sut.loadView()
+        
+        let tableView = UITableViewRegisterMock()
+        sut.tableView = tableView
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(tableView.registerCellReuseIdentifiers.contains("MyGamesTableViewCell"))
+    }
+    
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldTableViewCallforHeaderFooterViewReuseIdentifierForMyGamesTableViewHeader() {
+        // given
+        let sut = viewController!
+        sut.viewModel = MyGamesViewModelMock()
+        sut.loadView()
+        
+        let tableView = UITableViewRegisterMock()
+        sut.tableView = tableView
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(tableView.registerHeaderFooterIdentifier, "MyGamesTableViewHeaderView")
+    }
 }

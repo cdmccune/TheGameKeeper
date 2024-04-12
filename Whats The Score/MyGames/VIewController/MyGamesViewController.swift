@@ -17,12 +17,29 @@ class MyGamesViewController: UIViewController, Storyboarded {
     // MARK: - Properties
     
     var viewModel: MyGamesViewModelProtocol!
+    lazy var tableViewDelegate = MyGamesTableViewDelegateDatasource(viewModel: viewModel)
     
+    
+    // MARK: - Lifecycles
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        setDelegates()
+        registerNibs()
+    }
+    
+    
+    // MARK: - Private Functions
+    
+    func setDelegates() {
+        self.tableView.delegate = tableViewDelegate
+        self.tableView.dataSource = tableViewDelegate
+    }
+    
+    func registerNibs() {
+        self.tableView.register(UINib(nibName: "MyGamesTableViewCell", bundle: nil), forCellReuseIdentifier: "MyGamesTableViewCell")
+        self.tableView.register(UINib(nibName: "MyGamesTableViewHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "MyGamesTableViewHeaderView")
     }
     
 

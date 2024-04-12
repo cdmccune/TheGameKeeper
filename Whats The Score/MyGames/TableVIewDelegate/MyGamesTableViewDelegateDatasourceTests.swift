@@ -17,6 +17,7 @@ final class MyGamesTableViewDelegateDatasourceTests: XCTestCase {
     override func setUp() {
         tableViewMock = UITableView()
         tableViewMock?.register(MyGamesTableViewCellMock.self, forCellReuseIdentifier: "MyGamesTableViewCell")
+        tableViewMock?.register(UINib(nibName: "MyGamesTableViewHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "MyGamesTableViewHeaderView")
     }
     
     override func tearDown() {
@@ -83,6 +84,51 @@ final class MyGamesTableViewDelegateDatasourceTests: XCTestCase {
         
         // then
         XCTAssertEqual(count, gameCount)
+    }
+    
+    func test_MyGamesTableViewDelegateDatasource_WhenNumberOfRowsInSectionCalledSection0WithEmptyActiveGames_ShouldReturn1() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+
+        let viewModel = MyGamesViewModelMock()
+        viewModel.activeGames = []
+        sut.viewModel = viewModel
+
+        // when
+        let count = sut.tableView(tableView, numberOfRowsInSection: 0)
+
+        // then
+        XCTAssertEqual(count, 1)
+    }
+
+    func test_MyGamesTableViewDelegateDatasource_WhenNumberOfRowsInSectionCalledSection1WithEmptyPausedGames_ShouldReturn1() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+
+        let viewModel = MyGamesViewModelMock()
+        viewModel.pausedGames = []
+        sut.viewModel = viewModel
+
+        // when
+        let count = sut.tableView(tableView, numberOfRowsInSection: 1)
+
+        // then
+        XCTAssertEqual(count, 1)
+    }
+
+    func test_MyGamesTableViewDelegateDatasource_WhenNumberOfRowsInSectionCalledSection2WithEmptyCompletedGames_ShouldReturn1() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+
+        let viewModel = MyGamesViewModelMock()
+        viewModel.completedGames = []
+        sut.viewModel = viewModel
+
+        // when
+        let count = sut.tableView(tableView, numberOfRowsInSection: 2)
+
+        // then
+        XCTAssertEqual(count, 1)
     }
     
     
@@ -231,6 +277,59 @@ final class MyGamesTableViewDelegateDatasourceTests: XCTestCase {
         
         // then
         XCTAssertEqual(cell?.setupErrorCellCalledCount, 1)
+    }
+    
+    
+    // MARK: - HeaderInSection
+    
+    func test_MyGamesTableViewDelegateDatasource_WhenHeaderInSectionCalledSection0_ShouldReturnActiveGameHeader() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+
+        // when
+        let header = sut.tableView(tableView, viewForHeaderInSection: 0) as? MyGamesTableViewHeaderView
+
+        // then
+        XCTAssertNotNil(header)
+        XCTAssertEqual(header?.sectionTitleLabel.text, "Active Game")
+    }
+
+    func test_MyGamesTableViewDelegateDatasource_WhenHeaderInSectionCalledSection1_ShouldReturnPausedGamesHeader() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+
+        // when
+        let header = sut.tableView(tableView, viewForHeaderInSection: 1) as? MyGamesTableViewHeaderView
+
+        // then
+        XCTAssertNotNil(header)
+        XCTAssertEqual(header?.sectionTitleLabel.text, "Paused Games")
+    }
+
+    func test_MyGamesTableViewDelegateDatasource_WhenHeaderInSectionCalledSection2_ShouldReturnCompletedGamesHeader() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+
+        // when
+        let header = sut.tableView(tableView, viewForHeaderInSection: 2) as? MyGamesTableViewHeaderView
+
+        // then
+        XCTAssertNotNil(header)
+        XCTAssertEqual(header?.sectionTitleLabel.text, "Completed Games")
+    }
+    
+    
+    // MARK: - HeightForHeaderInSection
+    
+    func test_MyGamesTableViewDelegateDatasource_WhenHeightForHeaderInSectionCalled_ShouldReturn40() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+
+        // when
+        let height = sut.tableView(tableView, heightForHeaderInSection: 0)
+
+        // then
+        XCTAssertEqual(height, 40)
     }
     
     

@@ -172,6 +172,8 @@
 		24D71FDE2B928F240043CC62 /* EndGameViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FDD2B928F240043CC62 /* EndGameViewControllerTests.swift */; };
 		24D71FE32B9292E90043CC62 /* KeepPlayingPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FE22B9292E90043CC62 /* KeepPlayingPopoverViewController.swift */; };
 		24D71FE52B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D71FE42B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift */; };
+		24D98DD92BC99077003137D0 /* MyGamesTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24D98DD82BC99077003137D0 /* MyGamesTableViewHeaderView.xib */; };
+		24D98DDB2BC99090003137D0 /* MyGamesTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D98DDA2BC99090003137D0 /* MyGamesTableViewHeaderView.swift */; };
 		24DAC6B72B52F1C90069C7C9 /* Whats The Score Tests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */; };
 		24E1BE3C2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E1BE3A2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.swift */; };
 		24E1BE3D2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24E1BE3B2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.xib */; };
@@ -375,6 +377,8 @@
 		24D71FDD2B928F240043CC62 /* EndGameViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewControllerTests.swift; sourceTree = "<group>"; };
 		24D71FE22B9292E90043CC62 /* KeepPlayingPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepPlayingPopoverViewController.swift; sourceTree = "<group>"; };
 		24D71FE42B9292F50043CC62 /* KeepPlayingPopoverViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepPlayingPopoverViewControllerTests.swift; sourceTree = "<group>"; };
+		24D98DD82BC99077003137D0 /* MyGamesTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyGamesTableViewHeaderView.xib; sourceTree = "<group>"; };
+		24D98DDA2BC99090003137D0 /* MyGamesTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGamesTableViewHeaderView.swift; sourceTree = "<group>"; };
 		24DAC6B62B52F1C90069C7C9 /* Whats The Score Tests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Whats The Score Tests.xctestplan"; sourceTree = SOURCE_ROOT; };
 		24E1BE3A2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistoryErrorTableViewCell.swift; sourceTree = "<group>"; };
 		24E1BE3B2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHistoryErrorTableViewCell.xib; sourceTree = "<group>"; };
@@ -1087,6 +1091,8 @@
 				24BA09ED2BC858D800ABDB7B /* VIewController */,
 				24BA09F52BC8911B00ABDB7B /* TableVIewDelegate */,
 				24BA09F82BC8917A00ABDB7B /* TableViewCell */,
+				24D98DD82BC99077003137D0 /* MyGamesTableViewHeaderView.xib */,
+				24D98DDA2BC99090003137D0 /* MyGamesTableViewHeaderView.swift */,
 			);
 			path = MyGames;
 			sourceTree = "<group>";
@@ -1516,6 +1522,7 @@
 			files = (
 				243A3DDA2B9B7F4E00A84A51 /* EndGamePlayerTableViewCell.xib in Resources */,
 				24E1BE3D2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.xib in Resources */,
+				24D98DD92BC99077003137D0 /* MyGamesTableViewHeaderView.xib in Resources */,
 				2437F6EF2B40AAE100BB75A1 /* LaunchScreen.storyboard in Resources */,
 				24C7C42D2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.xib in Resources */,
 				24495CF72B9FBB6500E0AB61 /* GameHistoryEndRoundTableViewCell.xib in Resources */,
@@ -1641,6 +1648,7 @@
 				24E1BE3C2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.swift in Sources */,
 				24CD526E2B6167A500C481A8 /* ScoreboardTableViewCell.swift in Sources */,
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
+				24D98DDB2BC99090003137D0 /* MyGamesTableViewHeaderView.swift in Sources */,
 				24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */,
 				24CF37472BBF1C7D00CE08FB /* EndRound.swift in Sources */,
 				24A4233C2B45B8420047CCD3 /* PlayerSetupViewModel.swift in Sources */,

@@ -19,11 +19,11 @@ class MyGamesTableViewCell: UITableViewCell {
     }
     
     func setupNoGamesCell(for status: GameStatus) {
-        
+        titleLabel.text = "No games"
     }
     
     func setupErrorCell() {
-        
+        titleLabel.text = "Error"
     }
     
 }

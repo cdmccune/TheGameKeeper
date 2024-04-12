@@ -11,4 +11,6 @@ enum GameStatus: Int, CaseIterable {
     case active = 0
     case paused = 1
     case completed = 2
+    
+    
 }

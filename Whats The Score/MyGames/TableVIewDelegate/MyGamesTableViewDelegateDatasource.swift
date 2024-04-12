@@ -22,11 +22,11 @@ class MyGamesTableViewDelegateDatasource: NSObject, UITableViewDataSource, UITab
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return viewModel.activeGames.count
+            return max(viewModel.activeGames.count, 1)
         case 1:
-            return viewModel.pausedGames.count
+            return max(viewModel.pausedGames.count, 1)
         case 2:
-            return viewModel.completedGames.count
+            return max(viewModel.completedGames.count, 1)
         default:
             fatalError("Invalid section")
         }
@@ -69,5 +69,28 @@ class MyGamesTableViewDelegateDatasource: NSObject, UITableViewDataSource, UITab
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MyGamesTableViewHeaderView") as? MyGamesTableViewHeaderView else {
+            fatalError("MyGamesTableViewHeaderView not found")
+        }
+        
+        switch section {
+        case 0:
+            header.sectionTitleLabel.text = "Active Game"
+        case 1:
+            header.sectionTitleLabel.text = "Paused Games"
+        case 2:
+            header.sectionTitleLabel.text = "Completed Games"
+        default:
+            fatalError("Invalid section")
+        }
+        
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
 }
