@@ -108,7 +108,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         }
     }
     
-    func test_GameTabCoordiantor_WhenInitializeGameCalledGameTypeRoundGameEndTypeRound_ShouldSetGameNumberOfRoundsToGameEndQuantity() {
+    func test_GameTabCoreDataHelper_WhenInitializeGameCalledGameTypeRoundGameEndTypeRound_ShouldSetGameNumberOfRoundsToGameEndQuantity() {
         // given
         let coreDataStore = CoreDataStoreMock()
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
@@ -130,7 +130,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         }
     }
     
-    func test_GameTabCoordiantor_WhenInitializeGameCalledGameTypeRoundGameEndTypeScore_ShouldSetGameEndingScoreToGameEndQuantity() {
+    func test_GameTabCoreDataHelper_WhenInitializeGameCalledGameTypeRoundGameEndTypeScore_ShouldSetGameEndingScoreToGameEndQuantity() {
         // given
         let coreDataStore = CoreDataStoreMock()
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
@@ -152,7 +152,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         }
     }
     
-    func test_GameTabCoordiantor_WhenInitializeGameCalled_ShouldCreatePlayersFromPlayerSettings() {
+    func test_GameTabCoreDataHelper_WhenInitializeGameCalled_ShouldCreatePlayersFromPlayerSettings() {
         // given
         let coreDataStore = CoreDataStoreMock()
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
@@ -202,13 +202,67 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         }
     }
     
-    func test_GameTabCoordinator_WhenInitializeGameCalled_ShouldCallSaveContextOnCoreDataStore() {
+    func test_GameTabCoreDataHelper_WhenInitializeGameCalled_ShouldCallSaveContextOnCoreDataStore() {
         // given
         let coreDataStore = CoreDataStoreMock()
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
         
         // when
         _ = sut.initializeGame(with: .basic, .none, gameEndQuantity: 0, [])
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
+    
+    // MARK: - EndGame
+    
+    func test_GameTabCoreDataHelper_WhenEndGameCalled_ShouldSetGameGameStatusToCompleted() {
+        // given
+        let sut = GameTabCoreDataHelper(coreDataStore: CoreDataStoreMock())
+        let game = GameMock(gameStatus: .active)
+        
+        // when
+        sut.endGame(game)
+        
+        // then
+        XCTAssertEqual(game.gameStatus, .completed)
+    }
+    
+    func test_GameTabCoreDataHelper_WhenEndGameCalled_ShouldCallSaveContextOnCoreDataStore() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        sut.endGame(GameMock())
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
+    
+    // MARK: - MakeGameActive
+    
+    func test_GameTabCoreDataHelper_WhenMakeGameActiveCalled_ShouldSetGameGameStatusToActive() {
+        // given
+        let sut = GameTabCoreDataHelper(coreDataStore: CoreDataStoreMock())
+        let game = GameMock(gameStatus: .completed)
+        
+        // when
+        sut.makeGameActive(game)
+        
+        // then
+        XCTAssertEqual(game.gameStatus, .active)
+    }
+    
+    func test_GameTabCoreDataHelper_WhenMakeGameActiveCalled_ShouldCallSaveContextOnCoreDataStore() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        sut.makeGameActive(GameMock())
         
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)

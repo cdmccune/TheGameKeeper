@@ -159,8 +159,8 @@ final class GameTabCoordinatorTests: XCTestCase {
         sut.startQuickGame()
         
         // then
-        XCTAssertEqual(mainCoordinator.gameTabGameCreatedCalledCount, 1)
-        XCTAssertEqual(mainCoordinator.gameTabGameCreatedGame?.id, game.id)
+        XCTAssertEqual(mainCoordinator.gameTabGameMadeActiveCalledCount, 1)
+        XCTAssertEqual(mainCoordinator.gameTabGameMadeActiveGame?.id, game.id)
     }
     
     func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallStartScoreboardWithGameReturnedFromGameTabCoreDataHelper() {
@@ -223,8 +223,8 @@ final class GameTabCoordinatorTests: XCTestCase {
         sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, andPlayers: [])
         
         // then
-        XCTAssertEqual(mainCoordinator.gameTabGameCreatedCalledCount, 1)
-        XCTAssertEqual(mainCoordinator.gameTabGameCreatedGame?.id, game.id)
+        XCTAssertEqual(mainCoordinator.gameTabGameMadeActiveCalledCount, 1)
+        XCTAssertEqual(mainCoordinator.gameTabGameMadeActiveGame?.id, game.id)
     }
     
     func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldCallStartScoreboardWithGameFromCoreDataHelper() {
@@ -280,6 +280,22 @@ final class GameTabCoordinatorTests: XCTestCase {
     
     // MARK: - ShowGameEndScreen
     
+    func test_GameTabCoordinator_WhenShowGameEndScreenCalled_ShouldCallCoreDataHelperEndGameWithGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = GameTabCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let game = GameMock()
+        
+        // when
+        sut.showEndGameScreen(forGame: game)
+        
+        // then
+        XCTAssertEqual(coreDataHelper.endGameCalledCount, 1)
+        XCTAssertEqual(coreDataHelper.endGameGame?.id, game.id)
+    }
+    
     func test_GameTabCoordinator_WhenShowGameEndScreenCalled_ShouldSetNavigationControllersOnlyViewControllerAsEndGameViewController() {
         // given
         let navigationController = RootNavigationController()
@@ -324,8 +340,53 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertTrue(endGameVC?.coordinator === sut)
     }
     
+    func test_GameTabCoordinator_WhenShowGameEndScreenCalled_ShouldCallMainCoordinatorGameTabActiveGameCompleted() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        // when
+        sut.showEndGameScreen(forGame: GameMock())
+        
+        // then
+        XCTAssertEqual(coordinator.gameTabActiveGameCompletedCalledCount, 1)
+    }
+    
     
     // MARK: - GoToScoreboard
+    
+    func test_GameTabCoordinator_WhenGoToScoreboardCalled_ShouldCallMainCoordinatorGameTabGameMadeActiveWithGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let mainCoordinator = MainCoordinatorMock()
+        sut.coordinator = mainCoordinator
+        
+        let game = GameMock()
+        
+        // when
+        sut.goToScoreboard(forGame: game)
+        
+        // then
+        XCTAssertEqual(mainCoordinator.gameTabGameMadeActiveCalledCount, 1)
+        XCTAssertIdentical(mainCoordinator.gameTabGameMadeActiveGame, game)
+    }
+    
+    func test_GameTabCoordinator_WhenGoToScoreboardCalled_ShouldCallCoreDataHelperMakeGameActiveWithGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = GameTabCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let game = GameMock()
+        
+        // when
+        sut.goToScoreboard(forGame: game)
+        
+        // then
+        XCTAssertEqual(coreDataHelper.makeGameActiveCalledCount, 1)
+        XCTAssertIdentical(coreDataHelper.makeGameActiveGame, game)
+    }
     
     func test_GameTabCoordinator_WhenGoToScoreboardCalled_ShouldSetScoreboardCoordinatorGameToGame() {
         // given

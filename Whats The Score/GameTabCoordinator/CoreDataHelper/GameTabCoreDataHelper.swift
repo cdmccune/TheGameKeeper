@@ -12,6 +12,8 @@ protocol GameTabCoreDataHelperProtocol {
     
     func startQuickGame() -> GameProtocol
     func initializeGame(with gameType: GameType, _ gameEndType: GameEndType, gameEndQuantity: Int, _ playerSettings: [PlayerSettings]) -> GameProtocol
+    func endGame(_ game: GameProtocol)
+    func makeGameActive(_ game: GameProtocol)
 }
 
 class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
@@ -67,6 +69,16 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
         coreDataStore.saveContext()
         
         return game
+    }
+    
+    func endGame(_ game: GameProtocol) {
+        game.gameStatus = .completed
+        coreDataStore.saveContext()
+    }
+    
+    func makeGameActive(_ game: GameProtocol) {
+        game.gameStatus = .active
+        coreDataStore.saveContext()
     }
     
 }

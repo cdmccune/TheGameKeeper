@@ -331,7 +331,7 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     
-    // MARK: - GameTabGameCreated
+    // MARK: - GameTabGameMadeActive
     
     func test_GameTabCoordinator_WhenGameTabGameCreatedCalled_ShouldSetGameToHomeTabCoordinatorsActiveGameBeforeCallingStart() {
         class HomeTabCoordinatorStartMock: HomeTabCoordinator {
@@ -352,10 +352,38 @@ final class MainCoordinatorTests: XCTestCase {
         let game = GameMock()
         
         // when
-        sut.gameTabGameCreated(game)
+        sut.gameTabGameMadeActive(game)
         
         // then
         XCTAssertEqual(homeTabCoordinator.startCalledCount, 1)
         XCTAssertEqual(homeTabCoordinator.startActiveGame?.id, game.id)
+    }
+    
+    
+    // MARK: - GameTabActiveGameCompleted
+    
+    func test_GameTabCoordinator_WhenGameTabActiveGameCompletedCalled_ShouldSetGameToHomeTabCoordinatorsActiveGameToNilBeforeCallingStart() {
+        class HomeTabCoordinatorStartMock: HomeTabCoordinator {
+            var startCalledCount = 0
+            var startActiveGame: GameProtocol?
+            override func start() {
+                startCalledCount += 1
+                startActiveGame = activeGame
+            }
+        }
+        
+        
+        // given
+        let sut = MainCoordinator()
+        let homeTabCoordinator = HomeTabCoordinatorStartMock(navigationController: RootNavigationController())
+        homeTabCoordinator.activeGame = GameMock()
+        sut.childCoordinators = [homeTabCoordinator]
+        
+        // when
+        sut.gameTabActiveGameCompleted()
+        
+        // then
+        XCTAssertEqual(homeTabCoordinator.startCalledCount, 1)
+        XCTAssertNil(homeTabCoordinator.startActiveGame)
     }
 }

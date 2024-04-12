@@ -33,4 +33,18 @@ class GameTabCoreDataHelperMock: GameTabCoreDataHelperProtocol {
         
         return gameToReturn
     }
+    
+    var endGameCalledCount = 0
+    var endGameGame: GameProtocol?
+    func endGame(_ game: GameProtocol) {
+        endGameGame = game
+        endGameCalledCount += 1
+    }
+    
+    var makeGameActiveCalledCount = 0
+    var makeGameActiveGame: GameProtocol?
+    func makeGameActive(_ game: GameProtocol) {
+        makeGameActiveCalledCount += 1
+        makeGameActiveGame = game
+    }
 }

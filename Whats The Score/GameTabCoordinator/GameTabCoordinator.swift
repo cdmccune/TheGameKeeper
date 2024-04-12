@@ -40,7 +40,7 @@ class GameTabCoordinator: Coordinator {
     
     func startQuickGame() {
         let game = coreDataHelper.startQuickGame()
-        coordinator?.gameTabGameCreated(game)
+        coordinator?.gameTabGameMadeActive(game)
         startScoreboard(with: game)
     }
     
@@ -50,7 +50,7 @@ class GameTabCoordinator: Coordinator {
         
         let game = coreDataHelper.initializeGame(with: gameType, gameEndType, gameEndQuantity: gameEndQuantity, players)
         
-        coordinator?.gameTabGameCreated(game)
+        coordinator?.gameTabGameMadeActive(game)
         startScoreboard(with: game)
     }
     
@@ -64,6 +64,8 @@ class GameTabCoordinator: Coordinator {
     
     func showEndGameScreen(forGame game: GameProtocol) {
         let endGameVC = EndGameViewController.instantiate()
+        coreDataHelper.endGame(game)
+        coordinator?.gameTabActiveGameCompleted()
         
         endGameVC.viewModel = EndGameViewModel(game: game)
         endGameVC.coordinator = self
@@ -72,6 +74,9 @@ class GameTabCoordinator: Coordinator {
     }
     
     func goToScoreboard(forGame game: GameProtocol) {
+        coreDataHelper.makeGameActive(game)
+        coordinator?.gameTabGameMadeActive(game)
+        
         let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
         
         scoreboardCoordinator?.game = game
