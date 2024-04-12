@@ -32,15 +32,18 @@ class GameTabCoordinatorMock: GameTabCoordinator {
     var gameSetupCompleteGameEndType: GameEndType?
     var gameSetupCompleteGameEndQuantity: Int?
     var gameSetupCompletePlayers: [PlayerSettings]?
+    var gameSetupCompleteName: String?
     var gameSetupCompleteCalledCount = 0
     override func gameSetupComplete(withGameType gameType: GameType,
                                     gameEndType: GameEndType,
                                     gameEndQuantity: Int,
-                                    andPlayers players: [PlayerSettings]) {
+                                    players: [PlayerSettings],
+                                    andName name: String) {
         self.gameSetupCompleteGameType = gameType
         self.gameSetupCompleteGameEndType = gameEndType
         self.gameSetupCompleteGameEndQuantity = gameEndQuantity
         self.gameSetupCompletePlayers = players
+        self.gameSetupCompleteName = name
         self.gameSetupCompleteCalledCount += 1
         
     }

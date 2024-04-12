@@ -11,7 +11,7 @@ protocol GameTabCoreDataHelperProtocol {
     var coreDataStore: CoreDataStoreProtocol { get set }
     
     func startQuickGame() -> GameProtocol
-    func initializeGame(with gameType: GameType, _ gameEndType: GameEndType, gameEndQuantity: Int, _ playerSettings: [PlayerSettings]) -> GameProtocol
+    func initializeGame(with gameType: GameType, _ gameEndType: GameEndType, gameEndQuantity: Int, _ playerSettings: [PlayerSettings], andName name: String) -> GameProtocol
     func endGame(_ game: GameProtocol)
     func makeGameActive(_ game: GameProtocol)
 }
@@ -24,29 +24,31 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
     var coreDataStore: CoreDataStoreProtocol
     
     func startQuickGame() -> GameProtocol {
-        let game = Game(gameType: .basic,
+        let game = Game(name: "Quick Game",
+                        gameType: .basic,
                         gameEndType: .none,
                         players: [],
                         context: coreDataStore.persistentContainer.viewContext)
         
         _ = Player(game: game,
-                             name: "Player 1",
-                             position: 0,
-                             context: coreDataStore.persistentContainer.viewContext)
+                   name: "Player 1",
+                   position: 0,
+                   context: coreDataStore.persistentContainer.viewContext)
         
         _ = Player(game: game,
-                             name: "Player 2",
-                             position: 1,
-                             context: coreDataStore.persistentContainer.viewContext)
+                   name: "Player 2",
+                   position: 1,
+                   context: coreDataStore.persistentContainer.viewContext)
         
         coreDataStore.saveContext()
         
         return game
     }
     
-    func initializeGame(with gameType: GameType, _ gameEndType: GameEndType, gameEndQuantity: Int, _ playerSettings: [PlayerSettings]) -> GameProtocol {
+    func initializeGame(with gameType: GameType, _ gameEndType: GameEndType, gameEndQuantity: Int, _ playerSettings: [PlayerSettings], andName name: String) -> GameProtocol {
         
-        let game = Game(gameType: gameType,
+        let game = Game(name: name,
+                        gameType: gameType,
                         gameEndType: gameEndType,
                         players: [],
                         context: coreDataStore.persistentContainer.viewContext)

@@ -85,10 +85,16 @@ class GameSetupCoordinator: Coordinator {
     }
     
     func playersSetup(_ players: [PlayerProtocol]) {
-        coordinator?.gameSetupComplete(withGameType: gameType,
-                                       gameEndType: gameEndType,
-                                       gameEndQuantity: gameEndQuantity,
-                                       andPlayers: [])
-//                                       andPlayers: players)
+        let gameNameVC = GameNameViewController.instantiate()
+        gameNameVC.coordinator = self
+        navigationController.pushViewController(gameNameVC, animated: true)
+    }
+    
+    func gameNameSet(_ name: String) {
+                coordinator?.gameSetupComplete(withGameType: gameType,
+                                               gameEndType: gameEndType,
+                                               gameEndQuantity: gameEndQuantity,
+                                               players: [],
+                                               andName: name)
     }
  }

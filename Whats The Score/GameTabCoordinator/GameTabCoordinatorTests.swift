@@ -196,15 +196,17 @@ final class GameTabCoordinatorTests: XCTestCase {
         let gameEndQuantity = Int.random(in: 3...10)
         let playerName = UUID().uuidString
         let playerSettings = [PlayerSettings(name: playerName)]
+        let gameName = UUID().uuidString
         
         // when
-        sut.gameSetupComplete(withGameType: gameType, gameEndType: gameEndType, gameEndQuantity: gameEndQuantity, andPlayers: playerSettings)
+        sut.gameSetupComplete(withGameType: gameType, gameEndType: gameEndType, gameEndQuantity: gameEndQuantity, players: playerSettings, andName: gameName)
         
         // then
         XCTAssertEqual(coreDataHelper.initializeGameGameType, gameType)
         XCTAssertEqual(coreDataHelper.initializeGameGameEndType, gameEndType)
         XCTAssertEqual(coreDataHelper.initializeGameGameEndQuantity, gameEndQuantity)
         XCTAssertEqual(coreDataHelper.initializeGamePlayerSettings, playerSettings)
+        XCTAssertEqual(coreDataHelper.initializeGameName, gameName)
         XCTAssertEqual(coreDataHelper.initializeGameCalledCount, 1)
     }
     
@@ -220,7 +222,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         sut.coreDataHelper = coreDataHelperMock
         
         // when
-        sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, andPlayers: [])
+        sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, players: [], andName: "")
         
         // then
         XCTAssertEqual(mainCoordinator.gameTabGameMadeActiveCalledCount, 1)
@@ -237,7 +239,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         sut.coreDataHelper = coreDataHelperMock
         
         // when
-        sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, andPlayers: [])
+        sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, players: [], andName: "")
         
         // then
         XCTAssertEqual(sut.startScoreboardCalledCount, 1)

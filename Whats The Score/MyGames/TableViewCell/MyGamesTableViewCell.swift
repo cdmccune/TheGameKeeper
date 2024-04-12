@@ -15,7 +15,7 @@ class MyGamesTableViewCell: UITableViewCell {
     
 
     func setupCellFor(_ game: GameProtocol) {
-        titleLabel.text = game.id.uuidString
+        titleLabel.text = game.name
     }
     
     func setupNoGamesCell(for status: GameStatus) {

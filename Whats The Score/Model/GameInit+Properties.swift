@@ -18,9 +18,11 @@ class Game: NSManagedObject, GameProtocol {
         self.endRounds_ = []
         self.players_ = []
         self.scoreChanges_ = []
+        self.name = ""
     }
     
-    convenience init(gameType: GameType,
+    convenience init(name: String,
+                     gameType: GameType,
                      gameEndType: GameEndType,
                      gameStatus: GameStatus = .active,
                      numberOfRounds: Int = 2,
@@ -30,6 +32,7 @@ class Game: NSManagedObject, GameProtocol {
                      context: NSManagedObjectContext) {
         self.init(context: context)
         self.id = UUID()
+        self.name = name
         self.gameType = gameType
         self.gameEndType = gameEndType
         self.gameStatus = gameStatus
@@ -47,6 +50,7 @@ class Game: NSManagedObject, GameProtocol {
     
     @NSManaged public var id: UUID
     @NSManaged public var lastModified: Date
+    @NSManaged public var name: String
     @NSManaged private var players_: Set<Player>
     @NSManaged private var scoreChanges_: Set<ScoreChange>
     @NSManaged private var endRounds_: Set<EndRound>

@@ -53,6 +53,24 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         }
     }
     
+    func test_GameTabCoreDataHelper_WhenStartQuickGameCalled_ShouldSetGameNameToQuickGame() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        _ = sut.startQuickGame()
+        
+        // then
+        
+        do {
+            let games = try coreDataStore.persistentContainer.viewContext.fetch(Game.fetchRequest())  as? [Game]
+            XCTAssertEqual(games?.first?.name, "Quick Game")
+        } catch {
+            XCTFail("games couldn't be loaded from view context \(error)")
+        }
+    }
+    
     func test_GameTabCoreDataHelper_WhenStartQuickGameCalled_ShouldSetGameTypeToBasicAndStatusActive() {
         // given
         let coreDataStore = CoreDataStoreMock()
@@ -86,16 +104,17 @@ final class GameTabCoreDataHelperTests: XCTestCase {
 
     // MARK: - InitializeGame
     
-    func test_GameTabCoreDataHelper_WhenInitializeGameCalled_ShouldInitializeGameWithGameTypeAndGameEndTypeAndStatusActive() {
+    func test_GameTabCoreDataHelper_WhenInitializeGameCalled_ShouldInitializeGameWithNameGameTypeAndGameEndTypeAndStatusActive() {
         // given
         let coreDataStore = CoreDataStoreMock()
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
         
         let gameType = GameType.allCases.randomElement()!
         let gameEndType = GameEndType.allCases.randomElement()!
+        let name = UUID().uuidString
         
         // when
-        _ = sut.initializeGame(with: gameType, gameEndType, gameEndQuantity: 0, [])
+        _ = sut.initializeGame(with: gameType, gameEndType, gameEndQuantity: 0, [], andName: name)
         
         // then
         do {
@@ -103,6 +122,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
             XCTAssertEqual(games?.first?.gameType, gameType)
             XCTAssertEqual(games?.first?.gameEndType, gameEndType)
             XCTAssertEqual(games?.first?.gameStatus, .active)
+            XCTAssertEqual(games?.first?.name, name)
         } catch {
             XCTFail("games couldn't be loaded from view context \(error)")
         }
@@ -118,7 +138,8 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         _ = sut.initializeGame(with: GameType.round,
                                GameEndType.round,
                                gameEndQuantity: gameEndQuantity,
-                               [])
+                               [],
+                               andName: "")
         
         // then
         do {
@@ -140,7 +161,8 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         _ = sut.initializeGame(with: GameType.round,
                                GameEndType.score,
                                gameEndQuantity: gameEndQuantity,
-                               [])
+                               [],
+                               andName: "")
         
         // then
         do {
@@ -164,7 +186,8 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         _ = sut.initializeGame(with: .round,
                                .score,
                                gameEndQuantity: 0,
-                               playerSettings)
+                               playerSettings,
+                               andName: "")
         
         // then
         do {
@@ -188,7 +211,8 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         _ = sut.initializeGame(with: .round,
                                .score,
                                gameEndQuantity: 0,
-                               playerSettings)
+                               playerSettings,
+                               andName: "")
         
         // then
         do {
@@ -208,7 +232,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
         
         // when
-        _ = sut.initializeGame(with: .basic, .none, gameEndQuantity: 0, [])
+        _ = sut.initializeGame(with: .basic, .none, gameEndQuantity: 0, [], andName: "")
         
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)

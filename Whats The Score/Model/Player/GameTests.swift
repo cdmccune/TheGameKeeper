@@ -178,7 +178,7 @@ final class GameTests: XCTestCase {
         
         let count = Int.random(in: 3...5)
         
-        for i in 0..<count {
+        for _ in 0..<count {
             _ = Player(game: sut, name: "", position: 0, context: context)
         }
         
@@ -743,7 +743,7 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenUpdateSettingsCalled_ShouldSetGameEndTypeEndingScoreAndNumberOfRoundsToNewValue() {
         // given
-        var sut = Game(basicGameWithContext: context)
+        let sut = Game(basicGameWithContext: context)
         
         let gameEndType = GameEndType(rawValue: Int.random(in: 1...2))!
         let endingScore = Int.random(in: 15...1000)
@@ -763,7 +763,7 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenIsEndOfGameCalledNoneEndGameType_ShouldReturnFalse() {
         // given
-        let sut = Game(gameType: .basic, gameEndType: .none, players: [], context: context)
+        let sut = Game(name: "", gameType: .basic, gameEndType: .none, players: [], context: context)
         
         // when
         let isEndOfGame = sut.isEndOfGame()
@@ -774,7 +774,7 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundLessThanNumberOfRounds_ShouldReturnFalse() {
         // given
-        var sut = Game(gameType: .round, gameEndType: .round, players: [], context: context)
+        let sut = Game(name: "", gameType: .round, gameEndType: .round, players: [], context: context)
         sut.currentRound = 0
         sut.numberOfRounds = 4
         
@@ -787,7 +787,7 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundEqualToNumberOfRounds_ShouldReturnFalse() {
         // given
-        var sut = Game(gameType: .round, gameEndType: .round, players: [], context: context)
+        let sut = Game(name: "", gameType: .round, gameEndType: .round, players: [], context: context)
         sut.currentRound = 4
         sut.numberOfRounds = 4
         
@@ -800,7 +800,7 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenIsEndOfGameCalledRoundEndGameTypeCurrentRoundMoreThanNumberOfRounds_ShouldReturnTrue() {
         // given
-        var sut = Game(gameType: .round, gameEndType: .round, players: [], context: context)
+        let sut = Game(name: "", gameType: .round, gameEndType: .round, players: [], context: context)
         sut.currentRound = 5
         sut.numberOfRounds = 4
         
@@ -813,7 +813,7 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanEndingScore_ShouldReturnFalse() {
         // given
-        var sut = GamePropertyMock()
+        let sut = GamePropertyMock()
 
         sut.gameType = .round
         sut.gameEndType = .score
@@ -830,7 +830,7 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenIsEndOfGameCalledScoreEndGameTypePlayersDontHaveEqualOrMoreThanWinningScore_ShouldReturnTrue() {
         // given
-        var sut = GamePropertyMock()
+        let sut = GamePropertyMock()
 
         sut.gameType = .round
         sut.gameEndType = .score
@@ -853,7 +853,7 @@ final class GameTests: XCTestCase {
         
         let contextMock = NSManagedObjectContextDeleteObjectMock()
         
-        var sut = GamePropertyMock()
+        let sut = GamePropertyMock()
         sut.temporaryManagedObjectContext = contextMock
         
         let scoreChange1 = ScoreChange()
@@ -874,7 +874,7 @@ final class GameTests: XCTestCase {
         
         let contextMock = NSManagedObjectContextDeleteObjectMock()
         
-        var sut = GamePropertyMock()
+        let sut = GamePropertyMock()
         sut.temporaryManagedObjectContext = contextMock
         
         let endRound1 = EndRound()
@@ -892,7 +892,7 @@ final class GameTests: XCTestCase {
     
     func test_Game_WhenResetGameCalled_ShouldSetCurrentRoundTo1() {
         // given
-        var sut = GamePropertyMock()
+        let sut = GamePropertyMock()
         sut.currentRound = 5
         
         // when

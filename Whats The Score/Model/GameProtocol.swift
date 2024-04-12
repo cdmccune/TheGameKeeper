@@ -19,6 +19,7 @@ protocol GameProtocol: AnyObject {
     var numberOfRounds: Int { get set }
     var currentRound: Int { get set }
     var endingScore: Int { get set }
+    var name: String { get set }
     var id: UUID { get }
     
     func changeName(of player: PlayerProtocol, to name: String)

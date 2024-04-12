@@ -25,7 +25,7 @@ final class GameEndQuantitySelectionViewControllerTests: XCTestCase {
     
     // MARK: - Go Button Tapped
     
-    func test_GameEndQuantitySelectionViewController_WhenGoButtonTapped_ShouldCallCoordinatorGoButtonTappedWithGameEndQuantityTextFieldTextAsInt() {
+    func test_GameEndQuantitySelectionViewController_WhenGoButtonTapped_ShouldCallCoordinatorgameEndQuantitySelectedWithGameEndQuantityTextFieldTextAsInt() {
         // given
         let sut = viewController!
         

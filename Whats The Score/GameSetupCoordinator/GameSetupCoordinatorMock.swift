@@ -44,4 +44,11 @@ class GameSetupCoordinatorMock: GameSetupCoordinator {
         gameEndQuantityCalledCount += 1
         self.gameEndQuantity = gameEndQuantity
     }
+    
+    var gameNameSetCalledCount = 0
+    var gameNameSetName: String?
+    override func gameNameSet(_ name: String) {
+        gameNameSetCalledCount += 1
+        gameNameSetName = name
+    }
 }

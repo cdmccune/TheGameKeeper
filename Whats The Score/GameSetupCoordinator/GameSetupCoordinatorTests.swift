@@ -248,7 +248,35 @@ final class GameSetupCoordinatorTests: XCTestCase {
     
     // MARK: - PlayersSetup
     
-    func test_GameSetupCoordinator_WhenPlayersSetupCalled_ShouldCallGameTabCoordinatorGameSetupCompleteWithCorrectArguments() {
+//    func test_GameSetupCoordinator_WhenPlayersSetupCalled_ShouldSetPlayerSettingsToPlayerSettingsVariable() {
+//        // given
+//        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+////        let playerSettings = [PlayerSettings(name: UUID().uuidString)]
+//        
+//        // when
+//        sut.playersSetup([])
+//        
+//        // then
+//        <#then#>
+//    }
+    
+    func test_GameSetupCoordinator_WhenPlayersSetupCalled_ShouldPushGameNameViewControllerWithCoordinatorAsSelf() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = GameSetupCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.playersSetup([])
+        
+        // then
+        let gameNameVC = navigationController.pushedViewController as? GameNameViewController
+        XCTAssertIdentical(gameNameVC?.coordinator, sut)
+    }
+    
+    
+    // MARK: - GameNameSet
+    
+    func test_GameSetupCoordinator_WhenGameNameCalled_ShouldCallGameTabCoordinatorGameSetupCompleteWithCorrectArguments() {
         // given
         let sut = GameSetupCoordinator(navigationController: RootNavigationController())
 
@@ -258,19 +286,21 @@ final class GameSetupCoordinatorTests: XCTestCase {
         let gameType = GameType.allCases.randomElement()!
         let gameEndType = GameEndType.allCases.randomElement()!
         let gameEndQuantity = Int.random(in: 1...1000)
-        let players = [PlayerMock()]
+        let gameName = UUID().uuidString
+//        let players = [PlayerMock()]
         
         sut.gameType = gameType
         sut.gameEndType = gameEndType
         sut.gameEndQuantity = gameEndQuantity
         
         // when
-        sut.playersSetup(players)
+        sut.gameNameSet(gameName)
         
         // then
         XCTAssertEqual(coordinator.gameSetupCompleteGameType, gameType)
         XCTAssertEqual(coordinator.gameSetupCompleteGameEndType, gameEndType)
         XCTAssertEqual(coordinator.gameSetupCompleteGameEndQuantity, gameEndQuantity)
+        XCTAssertEqual(coordinator.gameSetupCompleteName, gameName)
 //        XCTAssertEqual(coordinator.gameSetupCompletePlayers as? [PlayerMock], players)
     }
 }

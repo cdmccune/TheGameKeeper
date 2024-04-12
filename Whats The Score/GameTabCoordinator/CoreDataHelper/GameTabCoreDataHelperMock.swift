@@ -23,12 +23,14 @@ class GameTabCoreDataHelperMock: GameTabCoreDataHelperProtocol {
     var initializeGameGameEndType: GameEndType?
     var initializeGameGameEndQuantity: Int?
     var initializeGamePlayerSettings: [PlayerSettings]?
+    var initializeGameName: String?
     var initializeGameCalledCount = 0
-    func initializeGame(with gameType: GameType, _ gameEndType: GameEndType, gameEndQuantity: Int, _ playerSettings: [PlayerSettings]) -> GameProtocol {
+    func initializeGame(with gameType: GameType, _ gameEndType: GameEndType, gameEndQuantity: Int, _ playerSettings: [PlayerSettings], andName name: String) -> GameProtocol {
         initializeGameGameType = gameType
         initializeGameGameEndType = gameEndType
         initializeGameGameEndQuantity = gameEndQuantity
         initializeGamePlayerSettings = playerSettings
+        initializeGameName = name
         initializeGameCalledCount += 1
         
         return gameToReturn

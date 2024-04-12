@@ -44,11 +44,11 @@ class GameTabCoordinator: Coordinator {
         startScoreboard(with: game)
     }
     
-    func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerSettings]) {
+    func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, players: [PlayerSettings], andName name: String) {
         
         _ = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
         
-        let game = coreDataHelper.initializeGame(with: gameType, gameEndType, gameEndQuantity: gameEndQuantity, players)
+        let game = coreDataHelper.initializeGame(with: gameType, gameEndType, gameEndQuantity: gameEndQuantity, players, andName: name)
         
         coordinator?.gameTabGameMadeActive(game)
         startScoreboard(with: game)
