@@ -11,6 +11,7 @@ protocol HomeTabCoordinatorCoreDataHelperProtocol {
     var coreDataStore: CoreDataStoreProtocol { get set }
     
     func getAllGames() throws -> [GameProtocol]
+    func pauseGame(game: GameProtocol)
 }
 
 class HomeTabCoordinatorCoreDataHelper: HomeTabCoordinatorCoreDataHelperProtocol {
@@ -26,5 +27,10 @@ class HomeTabCoordinatorCoreDataHelper: HomeTabCoordinatorCoreDataHelperProtocol
         let games = try coreDataStore.makeFetchRequest(with: Game.fetchRequest()) as? [Game]
         
         return games ?? []
+    }
+    
+    func pauseGame(game: GameProtocol) {
+        game.gameStatus = .paused
+        coreDataStore.saveContext()
     }
 }

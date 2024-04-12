@@ -108,6 +108,20 @@ final class HomeTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.setupNewGameCalledCount, 1)
     }
     
+    func test_HomeTabCoordinator_WhenSetupNewGameCalled_ShouldCallPauseCurrentGame() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        
+        // when
+        sut.setupNewGame()
+        
+        // then
+        XCTAssertEqual(sut.pauseCurrentGameCalledCount, 1)
+    }
+    
+    
+    // MARK: - QuickGame
+    
     func test_HomeTabCoordinator_WhenSetupQuickGameCalled_ShouldCallCoordinatorsSetupQuickGame() {
         // given
         let sut = HomeTabCoordinator(navigationController: RootNavigationController())
@@ -121,6 +135,16 @@ final class HomeTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.setupQuickGameCalledCount, 1)
     }
     
+    func test_HomeTabCoordinator_WhenSetupQuickGameCalled_ShouldCallPauseCurrentGame() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        
+        // when
+        sut.setupNewGame()
+        
+        // then
+        XCTAssertEqual(sut.pauseCurrentGameCalledCount, 1)
+    }
     
     // MARK: - PlayActiveGame
     
@@ -287,7 +311,85 @@ final class HomeTabCoordinatorTests: XCTestCase {
         let alertVC = viewController.presentViewController as? UIAlertController
         XCTAssertEqual(alertVC?.actions.first?.title, "OK")
     }
-
+    
+    
+    // MARK: - PauseCurrentGame
+    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledActiveGameNil_ShouldNotCallCoreDataHelperPauseGame() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        sut.activeGame = nil
+        
+        // when
+        sut.pauseCurrentGame()
+        
+        // then
+        XCTAssertEqual(coreDataHelper.pauseGameCalledCount, 0)
+    }
+    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledActiveGameNotNil_ShouldCallCoreDataHelperPauseGameWithGame() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let game = GameMock()
+        sut.activeGame = game
+        
+        // when
+        sut.pauseCurrentGame()
+        
+        // then
+        XCTAssertEqual(coreDataHelper.pauseGameCalledCount, 1)
+        XCTAssertEqual(coreDataHelper.pauseGameGame?.id, game.id)
+    }
+    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_ShouldSetActiveGameToNil() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        
+        sut.activeGame = GameMock()
+        
+        // when
+        sut.pauseCurrentGame()
+        
+        // then
+        XCTAssertNil(sut.activeGame)
+    }
+    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_ShouldCallStartAfterSettingActiveGameNil() {
+        
+        class HomeTabCoordinatorStartMock: HomeTabCoordinator {
+            var startCalledCount = 0
+            var startActiveGame: GameProtocol?
+            override func start() {
+                startCalledCount += 1
+                startActiveGame = activeGame
+            }
+        }
+        
+        // given
+        let sut = HomeTabCoordinatorStartMock(navigationController: RootNavigationController())
+        
+        sut.activeGame = GameMock()
+        
+        // when
+        sut.pauseCurrentGame()
+        
+        // then
+        XCTAssertEqual(sut.startCalledCount, 1)
+        XCTAssertNil(sut.activeGame)
+    }
+    
+    class HomeTabCoordinatorPauseCurrentGameMock: HomeTabCoordinator {
+        var pauseCurrentGameCalledCount = 0
+        override func pauseCurrentGame() {
+            pauseCurrentGameCalledCount += 1
+        }
+    }
 }
 
 class HomeTabCoordinatorMock: HomeTabCoordinator {

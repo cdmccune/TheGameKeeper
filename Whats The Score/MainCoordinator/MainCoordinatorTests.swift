@@ -176,14 +176,6 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     func test_MainCoordinator_WhenStartCalled_ShouldCallSelfAsHomeTabCoordinatorCoordinator() {
-        
-        class HomeTabCoordinatorMock: HomeTabCoordinator {
-            var startCalledCount = 0
-            override func start() {
-                startCalledCount += 1
-            }
-        }
-        
         // given
         let sut = MainCoordinator()
         
@@ -193,6 +185,18 @@ final class MainCoordinatorTests: XCTestCase {
         // then
         let homeTabCoordinatorMock = sut.childCoordinators.first as? HomeTabCoordinator
         XCTAssertTrue(homeTabCoordinatorMock?.coordinator === sut)
+    }
+    
+    func test_MainCoordinator_WhenStartCalled_ShouldCallSelfAsGameTabCoordinatorCoordinator() {
+        // given
+        let sut = MainCoordinator()
+        
+        // when
+        sut.start()
+        
+        // then
+        let gameTabCoordinator = sut.childCoordinators[1] as? GameTabCoordinator
+        XCTAssertTrue(gameTabCoordinator?.coordinator === sut)
     }
     
     func test_MainCoordinator_WhenStartCalled_ShouldSetHomeTabbarCoordinatorCoreDataStoreToOwnCoreDataStore() {
@@ -246,6 +250,30 @@ final class MainCoordinatorTests: XCTestCase {
     
     
     // MARK: - SetupNewGame
+    
+    func test_MainCoordinator_WhenSetupNewGameCalled_ShouldSetGameTabCoordinatorActiveGameToNilThenCallStart() {
+        class GameTabCoordinatorStartMock: GameTabCoordinator {
+            var startCalledCount = 0
+            var startActiveGame: GameProtocol?
+            override func start() {
+                startCalledCount += 1
+                startActiveGame = activeGame
+            }
+        }
+        
+        // given
+        let sut = MainCoordinator()
+        let gameTabCoordinator = GameTabCoordinatorStartMock(navigationController: RootNavigationController())
+        sut.childCoordinators = [gameTabCoordinator]
+        gameTabCoordinator.activeGame = GameMock()
+        
+        // when
+        sut.setupNewGame()
+        
+        // then
+        XCTAssertEqual(gameTabCoordinator.startCalledCount, 1)
+        XCTAssertNil(gameTabCoordinator.startActiveGame)
+    }
 
     func test_MainCoordinator_WhenSetupNewGameCalled_ShouldSelectGameTab() {
         // given
@@ -300,5 +328,34 @@ final class MainCoordinatorTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.tabbarController.selectedIndex, 1)
+    }
+    
+    
+    // MARK: - GameTabGameCreated
+    
+    func test_GameTabCoordinator_WhenGameTabGameCreatedCalled_ShouldSetGameToHomeTabCoordinatorsActiveGameBeforeCallingStart() {
+        class HomeTabCoordinatorStartMock: HomeTabCoordinator {
+            var startCalledCount = 0
+            var startActiveGame: GameProtocol?
+            override func start() {
+                startCalledCount += 1
+                startActiveGame = activeGame
+            }
+        }
+        
+        
+        // given
+        let sut = MainCoordinator()
+        let homeTabCoordinator = HomeTabCoordinatorStartMock(navigationController: RootNavigationController())
+        sut.childCoordinators = [homeTabCoordinator]
+        
+        let game = GameMock()
+        
+        // when
+        sut.gameTabGameCreated(game)
+        
+        // then
+        XCTAssertEqual(homeTabCoordinator.startCalledCount, 1)
+        XCTAssertEqual(homeTabCoordinator.startActiveGame?.id, game.id)
     }
 }

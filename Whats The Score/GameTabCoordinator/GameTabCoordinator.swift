@@ -19,6 +19,7 @@ class GameTabCoordinator: Coordinator {
         ScoreboardCoordinator(navigationController: navigationController, parentCoordinator: self, coreDataStore: coreDataStore)
     ]
     
+    weak var coordinator: MainCoordinator?
     var activeGame: GameProtocol?
     var coreDataStore: CoreDataStoreProtocol
     var navigationController: RootNavigationController
@@ -39,6 +40,7 @@ class GameTabCoordinator: Coordinator {
     
     func startQuickGame() {
         let game = coreDataHelper.startQuickGame()
+        coordinator?.gameTabGameCreated(game)
         startScoreboard(with: game)
     }
     
@@ -48,6 +50,7 @@ class GameTabCoordinator: Coordinator {
         
         let game = coreDataHelper.initializeGame(with: gameType, gameEndType, gameEndQuantity: gameEndQuantity, players)
         
+        coordinator?.gameTabGameCreated(game)
         startScoreboard(with: game)
     }
     

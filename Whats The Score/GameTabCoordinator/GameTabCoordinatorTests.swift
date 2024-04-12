@@ -131,17 +131,6 @@ final class GameTabCoordinatorTests: XCTestCase {
     
     // MARK: - StartQuickGame
     
-    class GameTabCoordinatorGameSetupCompleteMock: GameTabCoordinator {
-        var gameSetupCompleteGameType: GameType?
-        var gameSetupCompletePlayers: [PlayerSettings]?
-        var gameSetupCompleteCalledCount = 0
-        override func gameSetupComplete(withGameType gameType: GameType, gameEndType: GameEndType, gameEndQuantity: Int, andPlayers players: [PlayerSettings]) {
-            gameSetupCompleteGameType = gameType
-            gameSetupCompletePlayers = players
-            gameSetupCompleteCalledCount += 1
-        }
-    }
-    
     func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallGameTabCoreDataModelHelperStartQuickGame() {
         // given
         let sut = GameTabCoordinator(navigationController: RootNavigationController())
@@ -153,6 +142,25 @@ final class GameTabCoordinatorTests: XCTestCase {
         
         // then
         XCTAssertEqual(coreDataHelper.startQuickGameCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallCoordinatorGameTabGameCreated() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let mainCoordinator = MainCoordinatorMock()
+        sut.coordinator = mainCoordinator
+        
+        let game = GameMock()
+        let coreDataHelperMock = GameTabCoreDataHelperMock()
+        coreDataHelperMock.gameToReturn = game
+        sut.coreDataHelper = coreDataHelperMock
+        
+        // when
+        sut.startQuickGame()
+        
+        // then
+        XCTAssertEqual(mainCoordinator.gameTabGameCreatedCalledCount, 1)
+        XCTAssertEqual(mainCoordinator.gameTabGameCreatedGame?.id, game.id)
     }
     
     func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallStartScoreboardWithGameReturnedFromGameTabCoreDataHelper() {
@@ -198,6 +206,25 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(coreDataHelper.initializeGameGameEndQuantity, gameEndQuantity)
         XCTAssertEqual(coreDataHelper.initializeGamePlayerSettings, playerSettings)
         XCTAssertEqual(coreDataHelper.initializeGameCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldCallCoordinatorGameTabGameCreated() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let mainCoordinator = MainCoordinatorMock()
+        sut.coordinator = mainCoordinator
+        
+        let game = GameMock()
+        let coreDataHelperMock = GameTabCoreDataHelperMock()
+        coreDataHelperMock.gameToReturn = game
+        sut.coreDataHelper = coreDataHelperMock
+        
+        // when
+        sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, andPlayers: [])
+        
+        // then
+        XCTAssertEqual(mainCoordinator.gameTabGameCreatedCalledCount, 1)
+        XCTAssertEqual(mainCoordinator.gameTabGameCreatedGame?.id, game.id)
     }
     
     func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldCallStartScoreboardWithGameFromCoreDataHelper() {

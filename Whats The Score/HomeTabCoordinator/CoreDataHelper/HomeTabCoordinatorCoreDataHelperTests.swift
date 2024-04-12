@@ -11,6 +11,9 @@ import CoreData
 
 final class HomeTabCoordinatorCoreDataHelperTests: XCTestCase {
     
+    
+    // MARK: - GetAllGames
+    
     func test_HomeTabCoordinatorCoreDataHelper_WhenGetAllGamesCalled_ShouldCallCoreDataStoreFetchWithFetchRequestForGames() {
         // given
         let coreDataStore = CoreDataStoreMock()
@@ -55,6 +58,33 @@ final class HomeTabCoordinatorCoreDataHelperTests: XCTestCase {
         let games = try! sut.getAllGames()
         XCTAssertEqual(games[0] as? Game, gamesToReturn[0])
     }
+    
+    
+    // MARK: - PauseGame
+    
+    func test_HomeTabCoordinatorCoreDataHelper_WhenPauseGameCalled_ShouldSetGameStatusToPaused() {
+        // given
+        let sut = HomeTabCoordinatorCoreDataHelper(coreDataStore: CoreDataStoreMock())
+        let game = GameMock(gameStatus: .active)
+        
+        // when
+        sut.pauseGame(game: game)
+        
+        // then
+        XCTAssertEqual(game.gameStatus, .paused)
+    }
+    
+    func test_HomeTabCoordinatorCoreDataHelper_WhenPauseGameCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = HomeTabCoordinatorCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        sut.pauseGame(game: GameMock())
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
 
 }
 
@@ -71,5 +101,12 @@ class HomeTabCoordinatorCoreDataHelperMock: HomeTabCoordinatorCoreDataHelperProt
             throw errorToReturn
         }
         return gamesToReturn
+    }
+    
+    var pauseGameCalledCount = 0
+    var pauseGameGame: GameProtocol?
+    func pauseGame(game: GameProtocol) {
+        pauseGameCalledCount += 1
+        pauseGameGame = game
     }
 }

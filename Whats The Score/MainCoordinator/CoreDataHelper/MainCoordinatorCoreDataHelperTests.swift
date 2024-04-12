@@ -77,12 +77,12 @@ final class MainCoordinatorCoreDataHelperTests: XCTestCase {
         }
     }
     
-    func test_MainCoordinatorCoreDataHelper_WhenGetActiveGameReturns1Game_ShouldReturnGame() {
+    func test_MainCoordinatorCoreDataHelper_WhenGetActiveGameCalledCoreDataStoreReturns1Game_ShouldReturnGame() {
         // given
         let coreDataStore = CoreDataStoreMock()
         let sut = MainCoordinatorCoreDataHelper(coreDataStore: coreDataStore)
         
-        let game = Game()
+        let game = Game(basicGameWithContext: coreDataStore.persistentContainer.viewContext)
         coreDataStore.makeFetchRequestArrayToReturn = [game]
         
         // when

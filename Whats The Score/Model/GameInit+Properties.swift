@@ -67,7 +67,9 @@ class Game: NSManagedObject, GameProtocol {
     
     override func willSave() {
         super.willSave()
-        if isUpdated {
+        let date = Date()
+        if isUpdated,
+           (date.timeIntervalSince1970 - lastModified.timeIntervalSince1970) > 2 {
             lastModified = Date()
         }
     }

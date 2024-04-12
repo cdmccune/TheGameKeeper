@@ -35,6 +35,7 @@ class MainCoordinator {
         let gameNavigationController = RootNavigationController()
         gameNavigationController.tabBarItem = gameTabbarItem
         let gameTabCoordinator = gameTabbarCoordinatorType.init(navigationController: gameNavigationController, coreDataStore: coreDataStore)
+        gameTabCoordinator.coordinator = self
         
         childCoordinators = [homeTabCoordinator, gameTabCoordinator]
         
@@ -56,6 +57,9 @@ class MainCoordinator {
     }
     
     func setupNewGame() {
+        let gameTabCoordinator = childCoordinators.first { $0 is GameTabCoordinator } as? GameTabCoordinator
+        gameTabCoordinator?.activeGame = nil
+        gameTabCoordinator?.start()
         tabbarController.selectedIndex = 1
     }
     
@@ -68,4 +72,12 @@ class MainCoordinator {
     func playActiveGame() {
         tabbarController.selectedIndex = 1
     }
+    
+    func gameTabGameCreated(_ game: GameProtocol) {
+        let homeTabCoordinator = childCoordinators.first { $0 is HomeTabCoordinator } as? HomeTabCoordinator
+        homeTabCoordinator?.activeGame = game
+        homeTabCoordinator?.start()
+    }
+    
+    
 }

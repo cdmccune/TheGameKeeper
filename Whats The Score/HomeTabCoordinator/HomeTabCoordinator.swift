@@ -45,10 +45,12 @@ class HomeTabCoordinator: Coordinator {
     }
     
     func setupNewGame() {
+        pauseCurrentGame()
         coordinator?.setupNewGame()
     }
     
     func setupQuickGame() {
+        pauseCurrentGame()
         coordinator?.setupQuickGame()
     }
     
@@ -73,6 +75,15 @@ class HomeTabCoordinator: Coordinator {
         myGamesVC.viewModel = viewModel
         
         navigationController.pushViewController(myGamesVC, animated: true)
+    }
+    
+    
+    func pauseCurrentGame() {
+        guard let activeGame else { return }
+        
+        coreDataHelper.pauseGame(game: activeGame)
+        self.activeGame = nil
+        start()
     }
     
     func showError(_ error: CoreDataStoreError) {

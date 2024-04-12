@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol GameProtocol {
+protocol GameProtocol: AnyObject {
     var scoreChanges: [ScoreChangeProtocol] { get }
     var endRounds: [EndRoundProtocol] { get }
     var players: [PlayerProtocol] { get }
