@@ -314,6 +314,77 @@ final class GameSettingsViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - DeleteGameButtonTapped
+    
+    class GameSettingsViewControllerPresentMock: GameSettingsViewController {
+        var presentCalledCount = 0
+        var viewControllerPresented: UIViewController?
+        override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+            presentCalledCount += 1
+            self.viewControllerPresented = viewControllerToPresent
+        }
+    }
+    
+    func test_GameSettingsViewController_WhenDeleteGameButtonTappedCalled_ShouldPresentAlert() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        // when
+        sut.deleteGameButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertTrue(sut.viewControllerPresented is UIAlertController)
+    }
+    
+    func test_GameSettingsViewController_WhenDeleteGameButtonTappedCalled_ShouldPresentAlertWithCorrectTitleAndMessage() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        // when
+        sut.deleteGameButtonTapped(0)
+        
+        // then
+        let alertVC = sut.viewControllerPresented as? UIAlertController
+        XCTAssertEqual(alertVC?.title, "Delete Game")
+        XCTAssertEqual(alertVC?.message, "Are you sure? This will delete all data associated with this game.")
+    }
+    
+    func test_GameSettingsViewController_WhenDeleteGameButtonTappedCalled_ShouldSetTwoActionsWithCorrectTitlesAndStyles() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        // when
+        sut.deleteGameButtonTapped(0)
+        
+        // then
+        let alertVC = sut.viewControllerPresented as? UIAlertController
+        XCTAssertEqual(alertVC?.actions.count, 2)
+        XCTAssertEqual(alertVC?.actions.first?.title, "Cancel")
+        XCTAssertEqual(alertVC?.actions.first?.style, .cancel)
+        XCTAssertEqual(alertVC?.actions[1].title, "Delete")
+        XCTAssertEqual(alertVC?.actions[1].style, .destructive)
+    }
+    
+    func test_GameSettingsViewController_WhenDeleteGameButtonTappedDeleteActionTriggered_ShouldCallViewModelDeleteGame() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        let viewModel = GameSettingsViewModelMock()
+        sut.viewModel = viewModel
+        
+        // when
+        sut.deleteGameButtonTapped(0)
+        let alertVC = sut.viewControllerPresented as? UIAlertController
+        let deleteAction = alertVC?.actions[1] as? TestableUIAlertAction
+        
+        deleteAction?.handler?(deleteAction!)
+        
+        // then
+        XCTAssertEqual(viewModel.deleteGameCalledCount, 1)
+    }
+    
+    
     // MARK: - Save Changes
     
     func test_GameSettingsViewController_WhenSaveChangesCalled_ShouldCallViewModelSaveChanges() {

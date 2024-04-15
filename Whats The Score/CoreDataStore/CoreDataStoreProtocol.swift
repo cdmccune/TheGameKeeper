@@ -13,4 +13,5 @@ protocol CoreDataStoreProtocol: AnyObject {
     
     func saveContext()
     func makeFetchRequest<T:NSFetchRequestResult>(with fetchRequest: NSFetchRequest<T>) throws -> [T]
+    func deleteObject(_ object: NSManagedObject)
 }

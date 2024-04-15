@@ -91,4 +91,9 @@ class ScoreboardCoordinatorMock: ScoreboardCoordinator {
         showEndGameScreenDelay = delay
         showEndGameScreenCalledCount += 1
     }
+    
+    var deleteGameCalledCount = 0
+    override func deleteGame() {
+        deleteGameCalledCount += 1
+    }
 }

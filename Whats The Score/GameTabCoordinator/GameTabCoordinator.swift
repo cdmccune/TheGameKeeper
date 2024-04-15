@@ -83,4 +83,14 @@ class GameTabCoordinator: Coordinator {
         scoreboardCoordinator?.start()
     }
     
+    func deleteGame() {
+        guard let activeGame else { return }
+        coreDataHelper.deleteGame(activeGame)
+        
+        coordinator?.gameTabActiveGameCompleted()
+        
+        self.activeGame = nil
+        self.start()
+    }
+    
 }

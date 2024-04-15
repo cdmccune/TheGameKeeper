@@ -61,4 +61,9 @@ class GameTabCoordinatorMock: GameTabCoordinator {
         goToScoreboardGame = game
         goToScoreboardCalledCount += 1
     }
+    
+    var deleteGameCalledCount = 0
+    override func deleteGame() {
+        deleteGameCalledCount += 1
+    }
 }

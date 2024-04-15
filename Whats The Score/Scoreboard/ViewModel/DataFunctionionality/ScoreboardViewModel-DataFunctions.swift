@@ -74,6 +74,10 @@ extension ScoreboardViewModel: GameSettingsDelegate {
         self.coreDataStore.saveContext()
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
+    
+    func deleteGame() {
+        self.coordinator?.deleteGame()
+    }
 }
 
 extension ScoreboardViewModel: KeepPlayingPopoverDelegate {

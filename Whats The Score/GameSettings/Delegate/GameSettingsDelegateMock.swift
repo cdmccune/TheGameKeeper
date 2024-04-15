@@ -20,4 +20,9 @@ class GameSettingsDelegateMock: GameSettingsDelegate {
         updateGameSettingsNumberOfRounds = numberOfRounds
         updateGameSettingsEndingScore = endingScore
     }
+    
+    var deleteGameCalledCount = 0
+    func deleteGame() {
+        deleteGameCalledCount += 1
+    }
 }

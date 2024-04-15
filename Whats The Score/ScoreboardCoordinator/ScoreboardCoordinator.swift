@@ -137,5 +137,9 @@ class ScoreboardCoordinator: Coordinator {
         })
     }
     
+    func deleteGame() {
+        coordinator?.deleteGame()
+    }
+    
     
 }

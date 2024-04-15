@@ -291,4 +291,33 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
+    
+    
+    // MARK: - DeleteGame
+    
+    func test_GameTabCoreDataHelper_WhenDeleteGameCalled_ShouldCallDeleteObjectOnCoreDataStoreWithGame() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        let game = Game()
+        
+        // when
+        sut.deleteGame(game)
+        
+        // then
+        XCTAssertIdentical(game, coreDataStore.deleteObjectObject)
+    }
+    
+    func test_GameTabCoreDataHelper_WhenDeleteGameCalled_ShouldCallSaveContextOnCoreDataStore() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        sut.deleteGame(Game())
+        
+        // then
+        XCTAssertEqual(coreDataStore.deleteObjectCalledCount, 1)
+    }
 }

@@ -45,4 +45,11 @@ class CoreDataStoreMock: CoreDataStoreProtocol {
             return makeFetchRequestArrayToReturn as! [T]
         }
     }
+    
+    var deleteObjectObject: NSManagedObject?
+    var deleteObjectCalledCount = 0
+    func deleteObject(_ object: NSManagedObject) {
+        deleteObjectObject = object
+        deleteObjectCalledCount += 1
+    }
 }

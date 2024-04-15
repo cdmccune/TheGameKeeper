@@ -16,6 +16,7 @@ protocol GameSettingsViewModelProtocol {
 
     func setInitialValues()
     func saveChanges()
+    func deleteGame()
 }
 
 class GameSettingsViewModel: GameSettingsViewModelProtocol {
@@ -42,5 +43,9 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
         guard let gameEndType = gameEndType.value else { return }
         
         delegate?.updateGameSettings(gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
+    }
+    
+    func deleteGame() {
+        delegate?.deleteGame()
     }
 }

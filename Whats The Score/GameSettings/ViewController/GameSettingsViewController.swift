@@ -93,6 +93,21 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         viewModel?.gameEndType.value = endGameType
     }
     
+    @IBAction func deleteGameButtonTapped(_ sender: Any) {
+        let alertController = UIAlertController(title: "Delete Game", message: "Are you sure? This will delete all data associated with this game.", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        let deleteAction = TestableUIAlertAction.createWith(title: "Delete", style: .destructive) { _ in
+            self.viewModel?.deleteGame()
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        
+        self.present(alertController, animated: true)
+    }
+    
     
     // MARK: - Functions
     

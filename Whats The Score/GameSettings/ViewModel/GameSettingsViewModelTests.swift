@@ -9,6 +9,9 @@ import XCTest
 @testable import Whats_The_Score
 
 final class GameSettingsViewModelTests: XCTestCase {
+    
+    
+    // MARK: - Init
 
     func test_GameSettingsViewModel_WhenSetInitialValuesCalled_ShouldSetGameEndTypeValueToGameGameEndType() {
         // given
@@ -32,6 +35,9 @@ final class GameSettingsViewModelTests: XCTestCase {
         // then
         wait(for: [expectation], timeout: 0.1)
     }
+    
+    
+    // MARK: - SaveChanges
     
     func test_GameSettingsViewModel_WhenSaveChangesCalled_ShouldCallDelegateUpdateGameSettings() {
         // given
@@ -76,6 +82,23 @@ final class GameSettingsViewModelTests: XCTestCase {
         XCTAssertEqual(delegate.updateGameSettingsNumberOfRounds, numberOfRounds)
         XCTAssertEqual(delegate.updateGameSettingsGameEndType, gameEndType)
     }
+    
+    
+    // MARK: - deleteGame
+    
+    func test_GameSettingsViewModel_WhenDeleteGameCalled_ShouldCallDelegateDeleteGame() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        
+        let delegate = GameSettingsDelegateMock()
+        sut.delegate = delegate
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertEqual(delegate.deleteGameCalledCount, 1)
+    }
 }
 
 class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
@@ -94,5 +117,10 @@ class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
     var saveChangesCalledCount = 0
     func saveChanges() {
         saveChangesCalledCount += 1
+    }
+    
+    var deleteGameCalledCount = 0
+    func deleteGame() {
+        deleteGameCalledCount += 1
     }
 }

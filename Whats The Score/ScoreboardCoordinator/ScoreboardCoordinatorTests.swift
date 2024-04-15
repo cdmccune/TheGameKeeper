@@ -644,4 +644,21 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         XCTAssertTrue(coordinator.showEndGameScreenGame?.isEqualTo(game: game) ?? false)
         XCTAssertEqual(dispatchQueue.asyncAfterDelay, delay)
     }
+    
+    
+    // MARK: - DeleteGame
+    
+    func test_ScoreboardCoordinator_WhenDeleteGameCalled_ShouldCallGameTabCoordinatorDeleteGame() {
+        // given
+        let sut = ScoreboardCoordinator(navigationController: RootNavigationController())
+        
+        let gameTabCoordinator = GameTabCoordinatorMock()
+        sut.coordinator = gameTabCoordinator
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertEqual(gameTabCoordinator.deleteGameCalledCount, 1)
+    }
 }

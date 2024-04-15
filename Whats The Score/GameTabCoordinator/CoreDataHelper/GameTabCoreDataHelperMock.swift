@@ -49,4 +49,9 @@ class GameTabCoreDataHelperMock: GameTabCoreDataHelperProtocol {
         makeGameActiveCalledCount += 1
         makeGameActiveGame = game
     }
+    
+    var deleteGameCalledCount = 0
+    func deleteGame(_ game: GameProtocol) {
+        deleteGameCalledCount += 1
+    }
 }

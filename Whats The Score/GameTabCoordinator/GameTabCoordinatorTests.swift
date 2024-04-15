@@ -418,5 +418,61 @@ final class GameTabCoordinatorTests: XCTestCase {
         let scoreboardCoordinator = sut.childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinatorMock
         XCTAssertEqual(scoreboardCoordinator?.startCalledCount, 1)
     }
-
+    
+    
+    // MARK: - DeleteGame
+    
+    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldCallCoreDataHelperDeleteGameWithCurrentActiveGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = GameTabCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let game = GameMock()
+        sut.activeGame = game
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertEqual(coreDataHelper.deleteGameCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldCallMainCoordinatorGameTabActiveGameCompleted() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let mainCoordinator = MainCoordinatorMock()
+        sut.coordinator = mainCoordinator
+        sut.activeGame = GameMock()
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertEqual(mainCoordinator.gameTabActiveGameCompletedCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldSetActiveGameToNilBeforeCallingStartOnSelf() {
+        class GameTabCoordinatorStartMock: GameTabCoordinator {
+            var startCalledCount = 0
+            var startGame: GameProtocol?
+            override func start() {
+                startCalledCount += 1
+                startGame = activeGame
+            }
+        }
+        
+        // given
+        let sut = GameTabCoordinatorStartMock(navigationController: RootNavigationController())
+        
+        let game = GameMock()
+        sut.activeGame = game
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertNil(sut.startGame)
+        XCTAssertEqual(sut.startCalledCount, 1)
+    }
 }

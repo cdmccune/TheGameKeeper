@@ -52,4 +52,8 @@ class CoreDataStore: CoreDataStoreProtocol {
             throw CoreDataStoreError.fetchError(description: error.localizedDescription)
         }
     }
+    
+    func deleteObject(_ object: NSManagedObject) {
+        persistentContainer.viewContext.delete(object)
+    }
 }

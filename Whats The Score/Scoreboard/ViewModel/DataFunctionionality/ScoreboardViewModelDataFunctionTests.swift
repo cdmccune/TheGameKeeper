@@ -457,6 +457,23 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
     }
     
     
+    // MARK: - DeleteGame
+    
+    func test_ScoreboardViewModel_WhenDeleteGameCalled_ShouldCallCoordinatorDeleteGame() {
+        // given
+        let sut = getViewModelWithBasicGame()
+
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertEqual(coordinator.deleteGameCalledCount, 1)
+    }
+    
+    
     // MARK: - UpdateNumberOfRounds
     
     func test_ScoreboardViewModel_WhenUpdateNumberOfRoundsCalled_ShouldUpdateGameNumberOfRoundsToValueSent() {

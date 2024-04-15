@@ -9,4 +9,5 @@ import Foundation
 
 protocol GameSettingsDelegate: AnyObject {
     func updateGameSettings(gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int)
+    func deleteGame()
 }

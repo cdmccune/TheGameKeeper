@@ -14,6 +14,7 @@ protocol GameTabCoreDataHelperProtocol {
     func initializeGame(with gameType: GameType, _ gameEndType: GameEndType, gameEndQuantity: Int, _ playerSettings: [PlayerSettings], andName name: String) -> GameProtocol
     func endGame(_ game: GameProtocol)
     func makeGameActive(_ game: GameProtocol)
+    func deleteGame(_ game: GameProtocol)
 }
 
 class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
@@ -83,4 +84,8 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
         coreDataStore.saveContext()
     }
     
+    func deleteGame(_ game: GameProtocol) {
+        guard let game = game as? Game else { return }
+        coreDataStore.deleteObject(game)
+    }
 }
