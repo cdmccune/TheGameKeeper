@@ -40,6 +40,7 @@ class GameTabCoordinator: Coordinator {
     
     func startQuickGame() {
         let game = coreDataHelper.startQuickGame()
+        self.activeGame = game
         coordinator?.gameTabGameMadeActive(game)
         startScoreboard(with: game)
     }
@@ -49,6 +50,7 @@ class GameTabCoordinator: Coordinator {
         _ = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
         
         let game = coreDataHelper.initializeGame(with: gameType, gameEndType, gameEndQuantity: gameEndQuantity, players, andName: name)
+        self.activeGame = game
         
         coordinator?.gameTabGameMadeActive(game)
         startScoreboard(with: game)

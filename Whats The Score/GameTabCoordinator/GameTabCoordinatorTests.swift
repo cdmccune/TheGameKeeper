@@ -144,6 +144,22 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(coreDataHelper.startQuickGameCalledCount, 1)
     }
     
+    func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldSetGameAsActiveGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        
+        let game = GameMock()
+        let coreDataHelperMock = GameTabCoreDataHelperMock()
+        coreDataHelperMock.gameToReturn = game
+        sut.coreDataHelper = coreDataHelperMock
+        
+        // when
+        sut.startQuickGame()
+        
+        // then
+        XCTAssertIdentical(game, sut.activeGame)
+    }
+    
     func test_GameTabCoordinator_WhenStartQuickGameCalled_ShouldCallCoordinatorGameTabGameCreated() {
         // given
         let sut = GameTabCoordinator(navigationController: RootNavigationController())
@@ -208,6 +224,22 @@ final class GameTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(coreDataHelper.initializeGamePlayerSettings, playerSettings)
         XCTAssertEqual(coreDataHelper.initializeGameName, gameName)
         XCTAssertEqual(coreDataHelper.initializeGameCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldSetGameAsActiveGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        
+        let game = GameMock()
+        let coreDataHelperMock = GameTabCoreDataHelperMock()
+        coreDataHelperMock.gameToReturn = game
+        sut.coreDataHelper = coreDataHelperMock
+        
+        // when
+        sut.gameSetupComplete(withGameType: .basic, gameEndType: .none, gameEndQuantity: 0, players: [], andName: "")
+        
+        // then
+        XCTAssertIdentical(game, sut.activeGame)
     }
     
     func test_GameTabCoordinator_WhenGameSetupCompleteCalled_ShouldCallCoordinatorGameTabGameCreated() {
