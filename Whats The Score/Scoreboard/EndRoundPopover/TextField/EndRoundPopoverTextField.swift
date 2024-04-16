@@ -13,6 +13,7 @@ class EndRoundPopoverTextField: StackViewTextField {
 
     override init(delegate: StackViewTextFieldDelegateDelegateProtocol, isLast: Bool, index: Int) {
         super.init(delegate: delegate, isLast: isLast, index: index)
+        self.setupViews()
         self.addMakeNegativeButtonToToolbar()
     }
     
@@ -20,6 +21,21 @@ class EndRoundPopoverTextField: StackViewTextField {
     
     
     // MARK: - Private functions
+    
+    private func setupViews() {
+        self.backgroundColor = .clear
+        self.borderStyle = .roundedRect
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        self.layer.cornerRadius = 5
+        self.layer.borderWidth = 2.0
+        self.textColor = .textColor
+        self.font =  UIFont(name: "Press Start 2P Regular", size: 15)
+        
+        self.attributedPlaceholder = NSAttributedString(
+            string: "0",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+        )
+    }
     
     private func addMakeNegativeButtonToToolbar() {
         let plusMinusImage = UIImage(systemName: "plus.forwardslash.minus")

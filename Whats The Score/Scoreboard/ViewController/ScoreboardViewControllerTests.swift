@@ -60,22 +60,20 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.loadView()
         
         // then
+        XCTAssertNotNil(sut.gameNameLabel)
         XCTAssertNotNil(sut.roundLabel)
         XCTAssertNotNil(sut.tableView)
         XCTAssertNotNil(sut.filterButtonStackView)
         XCTAssertNotNil(sut.turnOrderSortButton)
         XCTAssertNotNil(sut.scoreSortButton)
         XCTAssertNotNil(sut.endRoundButton)
-        XCTAssertNotNil(sut.progressBarStackView)
-        XCTAssertNotNil(sut.progressBar)
-        XCTAssertNotNil(sut.progressBarLeftLabel)
-        XCTAssertNotNil(sut.progressBarRightLabel)
+        XCTAssertNotNil(sut.progressLabel)
     }
     
     
     // MARK: - Properties
     
-    func test_ScoreboardViewController_WhenSettingsBarButtonSet_ShouldHaveSettingsBarButtonCorrectImageAndTarget() {
+    func test_ScoreboardViewController_WhenSettingsBarButtonSet_ShouldHaveSettingsBarButtonCorrectImageTintAndTarget() {
         // given
         let sut = viewController!
         
@@ -83,8 +81,9 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let barButton = sut.settingsBarButton
         
         // then
-        XCTAssertEqual(barButton.image, UIImage(systemName: "gear")!)
+        XCTAssertEqual(barButton.image, UIImage(named: "gearIcon")!)
         XCTAssertEqual(barButton.target as? ScoreboardViewController, sut)
+        XCTAssertEqual(barButton.tintColor, UIColor.textColor)
     }
     
         func test_ScoreboardViewController_WhenSettingsBarButtonActionCalled_ShouldCallSettingsButtonTapped() {
@@ -109,7 +108,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
             XCTAssertEqual(sut.settingsBarButtonCalledCount, 1)
         }
     
-    func test_ScoreboardViewController_WhenResetBarButtonSet_ShouldHaveResetBarButtonCorrectTitleAndTarget() {
+    func test_ScoreboardViewController_WhenResetBarButtonSet_ShouldHaveResetBarButtonCorrectTitleColorAndTarget() {
         // given
         let sut = viewController!
         
@@ -143,7 +142,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.resetBarButtonCalledCount, 1)
     }
     
-    func test_ScoreboardViewController_WhenHistoryBarButtonSet_ShouldHaveHistoryBarButtonCorrectImageAndTarget() {
+    func test_ScoreboardViewController_WhenHistoryBarButtonSet_ShouldHaveHistoryBarButtonCorrectImageTintAndTarget() {
         // given
         let sut = viewController!
         
@@ -153,6 +152,8 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(barButton.image, UIImage(systemName: "clock.arrow.2.circlepath")!)
         XCTAssertEqual(barButton.target as? ScoreboardViewController, sut)
+        XCTAssertEqual(barButton.tintColor, .textColor)
+
     }
     
     func test_ScoreboardViewController_WhenHistoryBarButtonActionCalled_ShouldCallHistoryButtonTapped() {
@@ -698,6 +699,42 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.endRoundButton.isHidden)
     }
     
+    func test_ScoreboardViewController_WhenBindViewModelToViewCalled_ShouldGameNameLabelTextToGameNameLabel() {
+        // given
+        let sut = viewController!
+        
+        let gameName = UUID().uuidString
+        let game = GameMock(name: gameName)
+        sut.viewModel = ScoreboardViewModelMock(game: game)
+        
+        // when
+        sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.gameNameLabel.text, gameName)
+    }
+    
+    func test_ScoreboardViewController_WhenBindViewModelToViewCalled_ShouldSetAttributesForStrokeForegroundColorAndUnderlineOnGameNameLabel() {
+        // given
+        let sut = viewController!
+        
+        let game = GameMock(name: UUID().uuidString)
+        sut.viewModel = ScoreboardViewModelMock(game: game)
+        
+        // when
+        sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        let attributes = sut.gameNameLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
+        XCTAssertEqual(attributes?[.foregroundColor] as? UIColor, .white)
+        XCTAssertEqual(attributes?[.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(attributes?[.strokeColor] as? UIColor, .black)
+        XCTAssertEqual(attributes?[.underlineStyle] as? Int, 1)
+        XCTAssertEqual(attributes?[.underlineColor] as? UIColor, .textColor)
+    }
+    
     func test_ScoreboardViewController_WhenViewModelGameHasNotRoundGameTypeAndBindViewModelToViewCalled_ShouldHideRoundLabelAndEndRoundButton() {
         // given
         let sut = viewController!
@@ -769,7 +806,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(tableView.reloadDataCalledCount, 1)
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameNone_ShouldMakeProgressBarStackViewHidden() {
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameNone_ShouldMakeProgressLabelHidden() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -781,10 +818,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
-        XCTAssertTrue(sut.progressBarStackView.isHidden)
+        XCTAssertTrue(sut.progressLabel.isHidden)
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledGameTypeBasic_ShouldMakeProgressBarStackViewHidden() {
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledGameTypeBasic_ShouldMakeProgressLabelHidden() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -796,10 +833,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
-        XCTAssertTrue(sut.progressBarStackView.isHidden)
+        XCTAssertTrue(sut.progressLabel.isHidden)
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameNotNone_ShouldMakeProgressBarStackViewNotHidden() {
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameNotNone_ShouldMakeProgressLabelNotHidden() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -812,52 +849,11 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
-        XCTAssertFalse(sut.progressBarStackView.isHidden)
+        XCTAssertFalse(sut.progressLabel.isHidden)
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRound_ShouldSetProgressToOneLessOfCurrentRoundDividedByTotalRounds() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.viewModel = ScoreboardViewModelMock()
-        
-        sut.viewModel?.game.gameEndType = .round
-        sut.viewModel?.game.gameType = .round
-        
-        let totalNumberOfRounds = Int.random(in: 6...10)
-        sut.viewModel?.game.numberOfRounds = totalNumberOfRounds
-        
-        let currentRound = Int.random(in: 1...5)
-        sut.viewModel?.game.currentRound = currentRound
-        
-        // when
-        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
-        
-        // then
-        let expectedProgress: Float = (Float(currentRound - 1))/Float(totalNumberOfRounds)
-        XCTAssertEqual(sut.progressBar.progress, expectedProgress)
-    }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRound_ShouldSetProgressRightLabelToNumberOfRounds() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.viewModel = ScoreboardViewModelMock()
-        
-        sut.viewModel?.game.gameEndType = .round
-        sut.viewModel?.game.gameType = .round
-        
-        let totalNumberOfRounds = Int.random(in: 6...10)
-        sut.viewModel?.game.numberOfRounds = totalNumberOfRounds
-        
-        // when
-        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
-        
-        // then
-        XCTAssertEqual(sut.progressBarRightLabel.text, "\(totalNumberOfRounds)")
-    }
-    
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRoundMultipleRoundsLeft_ShouldSetProgressBarLeftLabelTextToHowManyRoundsAreLeftMultiple() {
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRoundMultipleRoundsLeft_ShouldSetProgressLabelTextToHowManyRoundsAreLeftMultiple() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -877,7 +873,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         let numberOfRoundsLeft = totalNumberOfRounds - (currentRound - 1)
-        XCTAssertEqual(sut.progressBarLeftLabel.text, "\(numberOfRoundsLeft) rounds left")
+        XCTAssertEqual(sut.progressLabel.text, "\(numberOfRoundsLeft) rounds left!")
     }
     
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRoundMultipleRoundsLeft_ShouldSetProgressBarLeftLabelTextToLastRound() {
@@ -899,36 +895,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
-        XCTAssertEqual(sut.progressBarLeftLabel.text, "last round")
-    }
-
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScore_ShouldSetProgressEqualToWinningPlayersScoreDividedByGameEndScore() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.viewModel = ScoreboardViewModelMock()
-        
-        var game = GameMock()
-        game.gameEndType = .score
-        game.gameType = .round
-        
-        let topPlayerScore = Int.random(in: 1...5)
-        game.winningPlayers = [PlayerMock(score: topPlayerScore)]
-        
-        let endingScore = Int.random(in: 6...10)
-        game.endingScore = endingScore
-        
-        sut.viewModel?.game = game
-        
-        // when
-        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
-        
-        // then
-        let expectedProgress: Float = (Float(topPlayerScore))/Float(endingScore)
-        XCTAssertEqual(sut.progressBar.progress, expectedProgress)
+        XCTAssertEqual(sut.progressLabel.text, "Last round!")
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreOneWinningPlayerSinglePoint_ShouldSetProgressBarLeftLabelTextToPlayerNeeds1PtToWin() {
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreOneWinningPlayerSinglePoint_ShouldSetProgressLabelTextToPlayerNeeds1PtToWin() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -951,10 +921,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
-        XCTAssertEqual(sut.progressBarLeftLabel.text, "\(playerName) needs 1 pt to win")
+        XCTAssertEqual(sut.progressLabel.text, "\(playerName) needs 1 pt to win!")
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreOneWinningPlayer_ShouldSetProgressBarLeftLabelTextToPlayerNeedsxPtsToWin() {
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreOneWinningPlayer_ShouldSetProgressLabelTextToPlayerNeedsxPtsToWin() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -977,10 +947,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
-        XCTAssertEqual(sut.progressBarLeftLabel.text, "\(playerName) needs \(endingScore-topPlayerScore) pts to win")
+        XCTAssertEqual(sut.progressLabel.text, "\(playerName) needs \(endingScore-topPlayerScore) pts to win!")
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreMultipleWinningPlayers_ShouldSetProgressBarLeftLabelTextToMultiplePlayersNeedxPntsToWin() {
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScoreMultipleWinningPlayers_ShouldSetProgresstLabelTextToMultiplePlayersNeedxPntsToWin() {
         // given
         let sut = viewController!
         sut.loadView()
@@ -1003,32 +973,10 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
         
         // then
-        XCTAssertEqual(sut.progressBarLeftLabel.text, "Multiple players need \(endingScore-topPlayerScore) pts to win")
+        XCTAssertEqual(sut.progressLabel.text, "Multiple players need \(endingScore-topPlayerScore) pts to win!")
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameScore_ShouldSetProgressBarRightLabelTextToEndingScore() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.viewModel = ScoreboardViewModelMock()
-        
-        let game = GameMock()
-        game.gameEndType = .score
-        game.gameType = .round
-        
-        let endingScore = Int.random(in: 6...10)
-        game.endingScore = endingScore
-        
-        sut.viewModel?.game = game
-        
-        // when
-        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
-        
-        // then
-        XCTAssertEqual(sut.progressBarRightLabel.text, "\(endingScore)")
-    }
-    
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledIsEndOfGameTrue_ShouldHideProgressViewAndSetRoundLabelToGameOver() {
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledIsEndOfGameTrue_ShouldHideProgressLabelAndSetRoundLabelToGameOver() {
         
         // given
         let sut = viewController!
@@ -1046,7 +994,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.roundLabel.text, "Game Over")
-        XCTAssertTrue(sut.progressBarStackView.isHidden)
+        XCTAssertTrue(sut.progressLabel.isHidden)
         XCTAssertEqual(gameMock.isEndOfGameCalledCount, 1)
     }
     

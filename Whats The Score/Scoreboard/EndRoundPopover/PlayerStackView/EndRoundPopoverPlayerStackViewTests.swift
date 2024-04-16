@@ -30,7 +30,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         XCTAssertTrue(sut.textField.delegate is UITextFieldDelegateMock)
     }
     
-    func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetItsAxisAsHorizontalAndSpacingAs5() {
+    func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetItsAxisAsHorizontalAndSpacingAs5AndAlignmentCenter() {
         
         // given
         let textField = UITextField()
@@ -42,6 +42,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         // then
         XCTAssertEqual(sut.axis, .horizontal)
         XCTAssertEqual(sut.spacing, 5)
+        XCTAssertEqual(sut.alignment, .center)
     }
     
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldAddTextFieldAndLabelInCorrectOrder() {
@@ -68,6 +69,21 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         
         // then
         XCTAssertEqual((sut.subviews.first as? UILabel)?.text, playerName)
+    }
+    
+    func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetLabelFontToPressPlay2PSize15WithWhiteText() {
+        // given
+        let textField = UITextField()
+        let textFieldDelegate = UITextFieldDelegateMock()
+        
+        
+        // when
+        let sut = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
+        
+        // then
+        let label = sut.subviews.first as? UILabel
+        XCTAssertEqual(label?.font, UIFont(name: "Press Start 2P Regular", size: 15))
+        XCTAssertEqual(label?.textColor, .textColor)
     }
     
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetCorrectPropertiesOnTextField() {

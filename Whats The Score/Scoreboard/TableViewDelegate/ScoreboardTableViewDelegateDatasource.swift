@@ -35,11 +35,12 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
         
         let player = viewModel.sortedPlayers[indexPath.row]
         cell.setupCellWith(player)
-        cell.editPlayer = {
-            self.viewModel.startEditingPlayerAt(indexPath.row)
-        }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 48
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -51,7 +52,12 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             self.viewModel.startDeletingPlayerAt(indexPath.row)
         }
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        let editAction = UIContextualAction(style: .normal, title: "Edit") { _, _, _ in
+            self.viewModel.startEditingPlayerAt(indexPath.row)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
 }

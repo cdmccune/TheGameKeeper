@@ -12,8 +12,6 @@ class ScoreboardTableViewCell: UITableViewCell {
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var playerScoreLabel: UILabel!
     
-    var editPlayer: (() -> Void)?
-    
     
     func setupCellWith(_ player: PlayerProtocol) {
         self.playerNameLabel.text = player.name
@@ -23,10 +21,5 @@ class ScoreboardTableViewCell: UITableViewCell {
     func setupCellForError() {
         self.playerNameLabel.text = "Error"
         self.playerScoreLabel.text = "000"
-    }
-    
-    
-    @IBAction func gearButtonTapped(_ sender: Any) {
-        editPlayer?()
     }
 }

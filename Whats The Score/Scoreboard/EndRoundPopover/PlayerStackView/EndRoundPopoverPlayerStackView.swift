@@ -32,10 +32,13 @@ class EndRoundPopoverPlayerStackView: UIStackView {
     private func setupViews() {
         self.axis = .horizontal
         self.spacing = 5
+        self.alignment = .center
     }
     
     private func addViewsAndConstraints() {
         let label = UILabel()
+        label.font = UIFont(name: "Press Start 2P Regular", size: 15)
+        label.textColor = .textColor
         label.text = playerName
         self.addArrangedSubview(label)
         

@@ -57,7 +57,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldReturnScoreboardTableViewCell() {
         // given
-        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 1)
         
         // when
         let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
@@ -80,33 +80,18 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         XCTAssertEqual(cell?.setupCellWithPlayer?.id, player.id)
     }
     
-    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledOutOfIndexForPlayer_ShouldCallCellsSetupCellForError() {
-        // given
-        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
-        
-        // when
-        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 2, section: 0)) as? ScoreboardTableViewCellMock
-        
-        // then
-        XCTAssertEqual(cell?.setupCellForErrorCalledCount, 1)
-    }
     
-    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldSetCellsEditPlayerFunctionToCallViewModelStartEditingPlayer() {
+    // MARK: - HeightForRowAt
+    
+    func test_ScoreboardTableviewDelegateDatasource_WhenHeightForRowAtCalled_ShouldReturn48() {
         // given
-        let count = Int.random(in: 2...10)
-        let (sut, tableView) = getSutAndTableView(withPlayerCount: count)
-        
-        let indexRow = Int.random(in: 0..<count)
-        
+        let (sut, _) = getSutAndTableView(withPlayerCount: 0)
+
         // when
-        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: indexRow, section: 0)) as? ScoreboardTableViewCellMock
-        
-        cell?.editPlayer?()
-        
+        let height = sut.tableView(UITableView(), heightForRowAt: IndexPath(row: 0, section: 0))
+
         // then
-        let viewModelMock = sut.viewModel as? ScoreboardViewModelMock
-        XCTAssertEqual(viewModelMock?.startEditingPlayerAtCalledCount, 1)
-        XCTAssertEqual(viewModelMock?.startEditingPlayerAtIndex, indexRow)
+        XCTAssertEqual(height, 48)
     }
     
     // MARK: - DidSelectRowAt
@@ -147,7 +132,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     // MARK: - TrailingSwipeActions
     
-    func test_ScoreboardTableViewDelegateDatasource_WhenTrailingSwipeActionsConfiguartionForRowAt_ShouldReturnOneActionWithDeleteTitle() {
+    func test_ScoreboardTableViewDelegateDatasource_WhenTrailingSwipeActionsConfigurationForAtCalled_ShouldReturnTwoActions() {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
         
@@ -155,9 +140,35 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 0))
         
         // then
-        XCTAssertNotNil(swipeActionsConfig?.actions.first)
-        XCTAssertEqual(swipeActionsConfig?.actions.first?.title, "Delete")
-        XCTAssertEqual(swipeActionsConfig?.actions.first?.style, .destructive)
+        XCTAssertEqual(swipeActionsConfig?.actions.count, 2)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenTrailingSwipeActionsConfiguartionForRowAt_ShouldReturnFirstActionAsDeleteAction() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        let deleteAction = swipeActionsConfig?.actions.first
+
+        XCTAssertEqual(deleteAction?.title, "Delete")
+        XCTAssertEqual(deleteAction?.style, .destructive)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenWhenTrailingSwipeActionsConfiguartionForRowAt_ShouldReturnFirstActionAsEditAction() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        let editAction = swipeActionsConfig?.actions[1]
+
+        XCTAssertEqual(editAction?.title, "Edit")
+        XCTAssertEqual(editAction?.style, .normal)
     }
     
     func test_ScoreboardTableViewDelegateDatasource_WhenDeleteSwipeActionCalled_ShouldCallViewModelDeletePlayerAt() {
@@ -179,6 +190,27 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         // then
         XCTAssertEqual(viewModelMock.startDeletingPlayerAtCalledCount, 1)
         XCTAssertEqual(viewModelMock.startDeletingPlayerAtIndex, index)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenEditSwipeActionCalled_ShouldCallViewModelStartEditingPlayerAt() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        let index = Int.random(in: 0...10)
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: index, section: 0))
+        guard let action = swipeActionsConfig?.actions[1] else {
+            XCTFail("This should have a edit action")
+            return
+        }
+        
+        action.handler(action, UIView(), {_ in})
+        
+        // then
+        XCTAssertEqual(viewModelMock.startEditingPlayerAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock.startEditingPlayerAtIndex, index)
     }
     
     

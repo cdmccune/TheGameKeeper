@@ -11,6 +11,7 @@ class ScoreboardViewController: UIViewController, Storyboarded {
 
     // MARK: - Outlets
     
+    @IBOutlet weak var gameNameLabel: UILabel!
     @IBOutlet weak var roundLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var filterButtonStackView: UIStackView!
@@ -18,11 +19,8 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     @IBOutlet weak var turnOrderSortButton: UIButton!
     @IBOutlet weak var scoreSortButton: UIButton!
     @IBOutlet weak var endRoundButton: UIButton!
+    @IBOutlet weak var progressLabel: UILabel!
     
-    @IBOutlet weak var progressBarStackView: UIStackView!
-    @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var progressBarLeftLabel: UILabel!
-    @IBOutlet weak var progressBarRightLabel: UILabel!
     
     // MARK: - Properties
     
@@ -30,8 +28,17 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
     var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     lazy var resetBarButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetButtonTapped))
-    lazy var historyBarButton = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(historyButtonTapped))
-    lazy var settingsBarButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonTapped))
+    lazy var historyBarButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(historyButtonTapped))
+        barButton.tintColor = .textColor
+        return barButton
+    }()
+    
+    lazy var settingsBarButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(image: UIImage(named: "gearIcon"), style: .plain, target: self, action: #selector(self.settingsButtonTapped))
+        barButton.tintColor = .textColor
+        return barButton
+    }()
 
     
     // MARK: - Lifecycle
@@ -162,6 +169,12 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             self.roundLabel.isHidden = game.gameType != .round
             self.endRoundButton.isHidden = game.gameType != .round
             
+            let attributedNameString = NSMutableAttributedString(string: game.name)
+            attributedNameString.addUnderlineAttribute(underlineColor: .textColor)
+            attributedNameString.addStrokeAttribute(strokeColor: .black, strokeWidth: -4.0)
+            attributedNameString.addTextColorAttribute(textColor: .white)
+            self.gameNameLabel.attributedText = attributedNameString
+            
             if game.isEndOfGame() {
                 self.roundLabel.text = "Game Over"
             } else {
@@ -175,28 +188,24 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             guard game.gameType == .round,
                   game.gameEndType != .none,
                   !game.isEndOfGame() else {
-                self.progressBarStackView.isHidden = true
+                self.progressLabel.isHidden = true
                 return
             }
             
-            self.progressBarStackView.isHidden = false
-            
+            self.progressLabel.isHidden = false
+
             if game.gameEndType == .round {
-                self.progressBar.progress = Float(game.currentRound - 1)/Float(game.numberOfRounds)
-                self.progressBarRightLabel.text = "\(game.numberOfRounds)"
+                self.progressLabel.text = "\(game.numberOfRounds)"
                 
                 let numberOfRoundsLeft = game.numberOfRounds - (game.currentRound - 1)
                 
                 if numberOfRoundsLeft > 1 {
-                    self.progressBarLeftLabel.text = "\(numberOfRoundsLeft) rounds left"
+                    self.progressLabel.text = "\(numberOfRoundsLeft) rounds left!"
                 } else {
-                    self.progressBarLeftLabel.text = "last round"
+                    self.progressLabel.text = "Last round!"
                 }
             } else if game.gameEndType == .score {
-                let topScore = game.winningPlayers.first?.score ?? 0
-                self.progressBar.progress = (Float(topScore))/Float(game.endingScore)
-                
-                self.progressBarRightLabel.text = "\(game.endingScore)"
+                self.progressLabel.text = "\(game.endingScore)"
                 
                 let pointsToWin = game.endingScore - (game.winningPlayers.first?.score ?? 0)
                 let pointsOrPoint = pointsToWin > 1 ? "pts" : "pt"
@@ -204,9 +213,9 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
                 if game.winningPlayers.count == 1 {
                     let playerName = game.winningPlayers.first?.name ?? ""
                     
-                    self.progressBarLeftLabel.text = "\(playerName) needs \(pointsToWin) \(pointsOrPoint) to win"
+                    self.progressLabel.text = "\(playerName) needs \(pointsToWin) \(pointsOrPoint) to win!"
                 } else {
-                    self.progressBarLeftLabel.text = "Multiple players need \(pointsToWin) \(pointsOrPoint) to win"
+                    self.progressLabel.text = "Multiple players need \(pointsToWin) \(pointsOrPoint) to win!"
                 }
             }
         }

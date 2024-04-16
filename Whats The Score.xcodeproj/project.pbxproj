@@ -197,6 +197,8 @@
 		24EC1D7C2B44CC600060D27D /* PlayerSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */; };
 		24EC1D7E2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */; };
 		24F089072BCEE76C00333A49 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24F089062BCEE76C00333A49 /* PressStart2P-Regular.ttf */; };
+		24F0892C2BCF128C00333A49 /* NSMutableAttributedStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F0892B2BCF128C00333A49 /* NSMutableAttributedStringExtension.swift */; };
+		24F0892F2BCF3FAC00333A49 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F0892E2BCF3FAC00333A49 /* UIColor.swift */; };
 		9D2D388E6EBDB0E728332E42 /* Pods_Whats_The_Score.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB3D71FC7484F9F7B4F53D5 /* Pods_Whats_The_Score.framework */; };
 		A43E59C3381D74773C52E34F /* Pods_Whats_The_Score_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C52C8F117C0FEDFA6DA5EBD1 /* Pods_Whats_The_Score_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -404,6 +406,8 @@
 		24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewController.swift; sourceTree = "<group>"; };
 		24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewControllerTests.swift; sourceTree = "<group>"; };
 		24F089062BCEE76C00333A49 /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
+		24F0892B2BCF128C00333A49 /* NSMutableAttributedStringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedStringExtension.swift; sourceTree = "<group>"; };
+		24F0892E2BCF3FAC00333A49 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		4F0EB3F0D4A8B52B3402D807 /* Pods-Whats The Score.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score.debug.xcconfig"; path = "Target Support Files/Pods-Whats The Score/Pods-Whats The Score.debug.xcconfig"; sourceTree = "<group>"; };
 		5E23E379F3019C31CB9C4FD9 /* Pods-Whats The Score Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score Tests.debug.xcconfig"; path = "Target Support Files/Pods-Whats The Score Tests/Pods-Whats The Score Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		9AC74366CAA063ABF7248ADA /* Pods-Whats The Score.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score.release.xcconfig"; path = "Target Support Files/Pods-Whats The Score/Pods-Whats The Score.release.xcconfig"; sourceTree = "<group>"; };
@@ -435,6 +439,8 @@
 		2410F7182B5596BB00860BA4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				24F0892D2BCF3F9D00333A49 /* UIColor */,
+				24F0892A2BCF126D00333A49 /* NSMutableAttributedString */,
 				24D71FD32B9253680043CC62 /* ViewController */,
 				24BD233F2B56DFAB000FCBE4 /* ArrayExtensions */,
 				2426156C2B59DEF50092B145 /* UITableViewExtensions */,
@@ -1433,6 +1439,22 @@
 			path = PlayerSetupViewController;
 			sourceTree = "<group>";
 		};
+		24F0892A2BCF126D00333A49 /* NSMutableAttributedString */ = {
+			isa = PBXGroup;
+			children = (
+				24F0892B2BCF128C00333A49 /* NSMutableAttributedStringExtension.swift */,
+			);
+			path = NSMutableAttributedString;
+			sourceTree = "<group>";
+		};
+		24F0892D2BCF3F9D00333A49 /* UIColor */ = {
+			isa = PBXGroup;
+			children = (
+				24F0892E2BCF3FAC00333A49 /* UIColor.swift */,
+			);
+			path = UIColor;
+			sourceTree = "<group>";
+		};
 		B083BAEB1E7E38F04F1104E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1667,6 +1689,7 @@
 				24CD526E2B6167A500C481A8 /* ScoreboardTableViewCell.swift in Sources */,
 				24A423412B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift in Sources */,
 				24D98DDB2BC99090003137D0 /* MyGamesTableViewHeaderView.swift in Sources */,
+				24F0892F2BCF3FAC00333A49 /* UIColor.swift in Sources */,
 				24D68E182B505FB700AD35AC /* PlayerSetupNameTextFieldDelegate.swift in Sources */,
 				24CF37472BBF1C7D00CE08FB /* EndRound.swift in Sources */,
 				24568C932BC9BBFA00A2A7D3 /* GameNameViewController.swift in Sources */,
@@ -1680,6 +1703,7 @@
 				24D71FD22B923AAA0043CC62 /* EndGamePopoverViewController.swift in Sources */,
 				24BA09F72BC8913900ABDB7B /* MyGamesTableViewDelegateDatasource.swift in Sources */,
 				2437F6E32B40AAE000BB75A1 /* AppDelegate.swift in Sources */,
+				24F0892C2BCF128C00333A49 /* NSMutableAttributedStringExtension.swift in Sources */,
 				24C7C42C2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.swift in Sources */,
 				2496A0732B753B94006AC047 /* EditPlayerPopoverViewController.swift in Sources */,
 				24E36C5E2BAB8ED100334CD1 /* Storyboarded.swift in Sources */,
