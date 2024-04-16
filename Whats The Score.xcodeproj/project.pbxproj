@@ -196,6 +196,7 @@
 		24E36C692BAB973100334CD1 /* GameTabCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E36C622BAB95B300334CD1 /* GameTabCoordinatorTests.swift */; };
 		24EC1D7C2B44CC600060D27D /* PlayerSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */; };
 		24EC1D7E2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */; };
+		24F089072BCEE76C00333A49 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24F089062BCEE76C00333A49 /* PressStart2P-Regular.ttf */; };
 		9D2D388E6EBDB0E728332E42 /* Pods_Whats_The_Score.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB3D71FC7484F9F7B4F53D5 /* Pods_Whats_The_Score.framework */; };
 		A43E59C3381D74773C52E34F /* Pods_Whats_The_Score_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C52C8F117C0FEDFA6DA5EBD1 /* Pods_Whats_The_Score_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -402,6 +403,7 @@
 		24E36C672BAB96DF00334CD1 /* GameSetupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupCoordinator.swift; sourceTree = "<group>"; };
 		24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewController.swift; sourceTree = "<group>"; };
 		24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupViewControllerTests.swift; sourceTree = "<group>"; };
+		24F089062BCEE76C00333A49 /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
 		4F0EB3F0D4A8B52B3402D807 /* Pods-Whats The Score.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score.debug.xcconfig"; path = "Target Support Files/Pods-Whats The Score/Pods-Whats The Score.debug.xcconfig"; sourceTree = "<group>"; };
 		5E23E379F3019C31CB9C4FD9 /* Pods-Whats The Score Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score Tests.debug.xcconfig"; path = "Target Support Files/Pods-Whats The Score Tests/Pods-Whats The Score Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		9AC74366CAA063ABF7248ADA /* Pods-Whats The Score.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score.release.xcconfig"; path = "Target Support Files/Pods-Whats The Score/Pods-Whats The Score.release.xcconfig"; sourceTree = "<group>"; };
@@ -692,6 +694,7 @@
 		2437F7122B40C3A800BB75A1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				24F089062BCEE76C00333A49 /* PressStart2P-Regular.ttf */,
 				246600532B5E13C6004F8512 /* Notable-Regular.ttf */,
 			);
 			path = Fonts;
@@ -1534,6 +1537,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24F089072BCEE76C00333A49 /* PressStart2P-Regular.ttf in Resources */,
 				243A3DDA2B9B7F4E00A84A51 /* EndGamePlayerTableViewCell.xib in Resources */,
 				24E1BE3D2BA0BCEA00B17505 /* GameHistoryErrorTableViewCell.xib in Resources */,
 				24D98DD92BC99077003137D0 /* MyGamesTableViewHeaderView.xib in Resources */,

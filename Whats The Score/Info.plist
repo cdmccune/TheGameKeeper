@@ -7,6 +7,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Notable-Regular</string>
+		<string>PressStart2P-Regular</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
