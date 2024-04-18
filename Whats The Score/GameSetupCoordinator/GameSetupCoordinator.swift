@@ -68,7 +68,7 @@ class GameSetupCoordinator: Coordinator {
         }
         
         guard let topViewController = navigationController.topViewController else {
-            fatalError("No top ViewController")
+            return
         }
         
         let gameEndQuantitySelectionPopoverVC = GameEndQuantitySelectionPopoverViewController.instantiate()
@@ -76,7 +76,7 @@ class GameSetupCoordinator: Coordinator {
         gameEndQuantitySelectionPopoverVC.coordinator = self
         gameEndQuantitySelectionPopoverVC.gameEndType = gameEndType
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: topViewController.view , withPopover: gameEndQuantitySelectionPopoverVC, withWidth: 300, andHeight: 151, tapToExit: true)
+        defaultPopoverPresenter.setupPopoverCentered(onView: topViewController.view, withPopover: gameEndQuantitySelectionPopoverVC, withWidth: 300, andHeight: 151, tapToExit: true)
         
         navigationController.topViewController?.present(gameEndQuantitySelectionPopoverVC, animated: true)
         

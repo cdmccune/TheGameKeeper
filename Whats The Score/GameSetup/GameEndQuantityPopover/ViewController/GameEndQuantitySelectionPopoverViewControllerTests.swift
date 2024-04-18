@@ -128,7 +128,7 @@ final class GameEndQuantitySelectionPopoverViewControllerTests: XCTestCase {
         sut.quantityTextField.sendActions(for: .editingChanged)
         
         // then
-        XCTAssertEqual(sut.issueLabel.text, "Winning score must be at least 1!")
+        XCTAssertEqual(sut.issueLabel.text, "Must be at least 1!")
         XCTAssertFalse(sut.saveButton.isEnabled)
     }
     
@@ -146,7 +146,7 @@ final class GameEndQuantitySelectionPopoverViewControllerTests: XCTestCase {
         sut.quantityTextField.sendActions(for: .editingChanged)
         
         // then
-        XCTAssertEqual(sut.issueLabel.text, "# of rounds must be at least 2!")
+        XCTAssertEqual(sut.issueLabel.text, "Must be at least 2!")
         XCTAssertFalse(sut.saveButton.isEnabled)
     }
     
@@ -186,5 +186,68 @@ final class GameEndQuantitySelectionPopoverViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(sut.issueLabel.text, "")
         XCTAssertTrue(sut.saveButton.isEnabled)
+    }
+    
+    
+    // MARK: - SaveButtonTapped
+    
+    func test_GameEndQuantitySelectionPopoverViewController_WhenSaveButtonTapped_ShouldCallCoordinatorGameQuantitySelectedWithTextFieldValue() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let coordinator = GameSetupCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        let value = Int.random(in: 2...10)
+        sut.quantityTextField.text = String(value)
+        
+        // when
+        sut.saveButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(coordinator.gameEndQuantityCalledCount, 1)
+        XCTAssertEqual(coordinator.gameEndQuantity, value)
+    }
+    
+    func test_GameEndQuantitySelectionPopoverViewController_WhenSaveButtonTapped_ShouldCallDismissOnPopover() {
+        class GameEndQuantitySelectionPopoverViewControllerDismissMock: GameEndQuantitySelectionPopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = GameEndQuantitySelectionPopoverViewControllerDismissMock()
+        let textField = UITextField()
+        sut.quantityTextField = textField
+        
+        // when
+        sut.saveButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
+    
+    
+    // MARK: - ExitButtonTapped
+    
+    func test_GameEndQuantitySelectionPopoverViewController_WhenExitButtonTappedCalled_ShouldCallDismissOnPopover() {
+        class GameEndQuantitySelectionPopoverViewControllerDismissMock: GameEndQuantitySelectionPopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = GameEndQuantitySelectionPopoverViewControllerDismissMock()
+        
+        // when
+        sut.exitButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
     }
 }

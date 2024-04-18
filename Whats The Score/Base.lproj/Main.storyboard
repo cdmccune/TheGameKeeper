@@ -759,7 +759,7 @@
                                                 <rect key="frame" x="89" y="0.0" width="102" height="95.333333333333329"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="0" textAlignment="right" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="he4-Ns-wXb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="95.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="95.333333333333343"/>
                                                         <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="72"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
@@ -1771,6 +1771,7 @@
                                         <rect key="frame" x="38.666666666666657" y="42" width="222.99999999999997" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="F8k-rP-eqS"/>
                                             <constraint firstAttribute="height" constant="40" id="mBB-pJ-LuZ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
@@ -1793,6 +1794,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="Save">
                                             <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="saveButtonTapped:" destination="OPw-Kd-31r" eventType="touchUpInside" id="JR5-eC-uja"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <edgeInsets key="layoutMargins" top="10" left="10" bottom="5" right="10"/>
@@ -1808,6 +1812,9 @@
                                 <buttonConfiguration key="configuration" style="plain">
                                     <imageReference key="image" image="xIcon" symbolScale="medium"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="exitButtonTapped:" destination="OPw-Kd-31r" eventType="touchUpInside" id="Gys-D9-ZOx"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VmR-DT-jXZ"/>

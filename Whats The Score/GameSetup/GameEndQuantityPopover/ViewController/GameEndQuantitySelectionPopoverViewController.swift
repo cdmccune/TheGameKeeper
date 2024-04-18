@@ -62,19 +62,33 @@ class GameEndQuantitySelectionPopoverViewController: UIViewController, Storyboar
             return
         }
         
-        
         if gameEndType == .score,
            Int(text) ?? 0 < 1 {
-            issueLabel.text = "Winning score must be at least 1!"
+            issueLabel.text = "Must be at least 1!"
             saveButton.isEnabled = false
         } else if gameEndType == .round,
                   Int(text) ?? 0 < 2 {
-            issueLabel.text = "# of rounds must be at least 2!"
+            issueLabel.text = "Must be at least 2!"
             saveButton.isEnabled = false
         } else {
             issueLabel.text = ""
             saveButton.isEnabled = true
         }
-           
     }
+    
+    
+    // MARK: - IBActions
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        let gameEndQuantity = Int(quantityTextField.text ?? "") ?? 2
+        coordinator?.gameEndQuantitySelected(gameEndQuantity)
+        
+        self.dismiss(animated: true)
+    }
+    
+    @IBAction func exitButtonTapped(_ sender: Any) {
+        dismiss(animated: true)
+    }
+    
+    
 }
