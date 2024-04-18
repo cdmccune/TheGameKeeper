@@ -190,3 +190,38 @@ extension EndRoundSettings {
         return endRoundSettings
     }
 }
+
+
+// MARK: - UIButton
+
+class UIButtonSetAttributedUnderlinedTitleWithSubtextMock: UIButton {
+    
+    var setAttributedUnderlinedTitleWithSubtextTitle: String?
+    var setAttributedUnderlinedTitleWithSubtextSubtext: String?
+    var setAttributedUnderlinedTitleWithSubtextCalledCount = 0
+    override func setAttributedUnderlinedTitleWithSubtext(title: String, subtext: String) {
+        setAttributedUnderlinedTitleWithSubtextTitle = title
+        setAttributedUnderlinedTitleWithSubtextSubtext = subtext
+        setAttributedUnderlinedTitleWithSubtextCalledCount += 1
+    }
+}
+
+class UIButtonUnderlineButtonForButtonStates: UIButton {
+    
+    var underlineButtonForButtonStatesTitle: String?
+    var underlineButtonForButtonStatesCalledCount = 0
+    override func underlineButtonForButtonStates(title: String) {
+        underlineButtonForButtonStatesTitle = title
+        underlineButtonForButtonStatesCalledCount += 1
+    }
+}
+
+// MARK: - Textfield
+
+class UITextFieldBecomeFirstResponderMock: UITextField {
+    var becomeFirstResponderCalledCount = 0
+    override func becomeFirstResponder() -> Bool {
+        becomeFirstResponderCalledCount += 1
+        return true
+    }
+}

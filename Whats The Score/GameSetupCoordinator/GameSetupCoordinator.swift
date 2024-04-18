@@ -22,6 +22,7 @@ class GameSetupCoordinator: Coordinator {
     weak var coordinator: GameTabCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: RootNavigationController
+    lazy var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     
     
     var gameType: GameType = .basic
@@ -56,22 +57,48 @@ class GameSetupCoordinator: Coordinator {
     
     func gameEndTypeSelected(_ gameEndType: GameEndType) {
         self.gameEndType = gameEndType
-        switch gameEndType {
-        case .none:
+        
+        guard gameEndType != .none else {
             let playerSetupVC = PlayerSetupViewController.instantiate()
             let viewModel = PlayerSetupViewModel()
             viewModel.coordinator = self
             playerSetupVC.viewModel = viewModel
             navigationController.pushViewController(playerSetupVC, animated: true)
-        case .round:
-            let gameEndQuantityVC = GameEndQuantitySelectionViewController.instantiate()
-            gameEndQuantityVC.coordinator = self
-            navigationController.pushViewController(gameEndQuantityVC, animated: true)
-        case .score:
-            let gameEndQuantityVC = GameEndQuantitySelectionViewController.instantiate()
-            gameEndQuantityVC.coordinator = self
-            navigationController.pushViewController(gameEndQuantityVC, animated: true)
+            return
         }
+        
+        guard let topViewController = navigationController.topViewController else {
+            fatalError("No top ViewController")
+        }
+        
+        let gameEndQuantitySelectionPopoverVC = GameEndQuantitySelectionPopoverViewController.instantiate()
+        
+        gameEndQuantitySelectionPopoverVC.coordinator = self
+        gameEndQuantitySelectionPopoverVC.gameEndType = gameEndType
+        
+        defaultPopoverPresenter.setupPopoverCentered(onView: topViewController.view , withPopover: gameEndQuantitySelectionPopoverVC, withWidth: 300, andHeight: 151, tapToExit: true)
+        
+        navigationController.topViewController?.present(gameEndQuantitySelectionPopoverVC, animated: true)
+        
+        
+//        switch gameEndType {
+//        case .none:
+//            let playerSetupVC = PlayerSetupViewController.instantiate()
+//            let viewModel = PlayerSetupViewModel()
+//            viewModel.coordinator = self
+//            playerSetupVC.viewModel = viewModel
+//            navigationController.pushViewController(playerSetupVC, animated: true)
+//        case .round:
+//            break
+////            let gameEndQuantityVC = GameEndQuantitySelectionViewController.instantiate()
+////            gameEndQuantityVC.coordinator = self
+////            navigationController.pushViewController(gameEndQuantityVC, animated: true)
+//        case .score:
+//            break
+////            let gameEndQuantityVC = GameEndQuantitySelectionViewController.instantiate()
+////            gameEndQuantityVC.coordinator = self
+////            navigationController.pushViewController(gameEndQuantityVC, animated: true)
+//        }
     }
     
     func gameEndQuantitySelected(_ gameEndQuantity: Int) {

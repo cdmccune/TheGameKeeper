@@ -404,7 +404,7 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-II-8cD">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="835.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1351"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Input the players names and set turn order" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YnO-FG-5Yf">
                                                 <rect key="frame" x="14" y="0.0" width="365" height="58.333333333333336"/>
@@ -461,7 +461,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="240" verticalCompressionResistancePriority="746" translatesAutoresizingMaskIntoConstraints="NO" id="eDU-Jq-tko">
-                                                <rect key="frame" x="76.666666666666671" y="273.33333333333326" width="239.66666666666663" height="562"/>
+                                                <rect key="frame" x="76.666666666666686" y="273.33333333333337" width="240" height="1077.6666666666665"/>
                                             </view>
                                         </subviews>
                                         <constraints>
@@ -521,19 +521,19 @@
                                             <constraint firstAttribute="height" constant="90" id="4rW-lc-hVi"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="45"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="TextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Round 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3DQ-xe-Gm3">
                                         <rect key="frame" x="10" y="95" width="373" height="22"/>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="TextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="4 Rounds Left!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wE3-tm-SKg">
                                         <rect key="frame" x="10" y="122" width="373" height="10"/>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="TextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MqA-gq-D7o">
@@ -542,12 +542,12 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cip-hz-RAt">
                                                 <rect key="frame" x="8" y="0.0" width="75" height="29"/>
                                                 <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="textColor" name="TextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A2j-tM-tB9">
                                                 <rect key="frame" x="82.999999999999986" y="0.0" width="178.66666666666663" height="29"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" name="TextColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Turn Order">
                                                     <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
@@ -558,7 +558,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhl-B8-pxI">
                                                 <rect key="frame" x="261.66666666666669" y="0.0" width="103.33333333333331" height="29"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" name="TextColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Score">
                                                     <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
@@ -579,7 +579,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="b32-3X-kP5"/>
                                         </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" name="TextColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Add Player">
                                             <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
@@ -590,7 +590,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="txo-KT-kJR">
                                         <rect key="frame" x="85.666666666666686" y="657" width="222" height="61"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" name="TextColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="End Round">
                                             <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
@@ -601,7 +601,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnd-Cp-Pjb">
                                         <rect key="frame" x="96.666666666666686" y="723" width="200" height="36"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" name="TextColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="End Game">
                                             <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
@@ -734,48 +734,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9fC-Cy-CPT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3662" y="2225"/>
-        </scene>
-        <!--Game Type Selection View Controller-->
-        <scene sceneID="Ss3-V5-Dbl">
-            <objects>
-                <viewController storyboardIdentifier="GameTypeSelectionViewController" id="cy9-OX-iWW" customClass="GameTypeSelectionViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gLT-MB-IEN">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfr-9h-QiH">
-                                <rect key="frame" x="153" y="154" width="87" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dei-gZ-qjP">
-                                <rect key="frame" x="164" y="275" width="66" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Basic"/>
-                                <connections>
-                                    <action selector="basicButtonTapped:" destination="cy9-OX-iWW" eventType="touchUpInside" id="Din-e9-Giv"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4M-Ex-qVQ">
-                                <rect key="frame" x="159" y="408" width="74" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Round"/>
-                                <connections>
-                                    <action selector="roundButtonTapped:" destination="cy9-OX-iWW" eventType="touchUpInside" id="WsI-sR-PVW"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Gpr-Ol-uS9"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Vhv-co-SeB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4888" y="2625"/>
         </scene>
         <!--Scoreboard Player Edit Score Popover View Controller-->
         <scene sceneID="i43-A8-LKh">
@@ -962,10 +920,10 @@
                                     <constraint firstAttribute="height" constant="25" id="ax1-Bi-9AC"/>
                                     <constraint firstAttribute="width" secondItem="AcL-Ks-X5i" secondAttribute="height" id="cru-sk-2r5"/>
                                 </constraints>
-                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" name="TextColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
-                                    <imageReference key="image" image="xmark.circle.fill" catalog="system" symbolScale="medium"/>
+                                    <imageReference key="image" image="xIcon" symbolScale="medium"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="exitButtonTapped:" destination="Y3g-S3-D9N" eventType="touchUpInside" id="1gJ-oc-vPT"/>
@@ -1531,6 +1489,75 @@
             </objects>
             <point key="canvasLocation" x="6740" y="1494"/>
         </scene>
+        <!--Game Type Selection View Controller-->
+        <scene sceneID="Ss3-V5-Dbl">
+            <objects>
+                <viewController storyboardIdentifier="GameTypeSelectionViewController" id="cy9-OX-iWW" customClass="GameTypeSelectionViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gLT-MB-IEN">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="7wM-a6-qpf">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GameType" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="23" translatesAutoresizingMaskIntoConstraints="NO" id="Rfr-9h-QiH">
+                                        <rect key="frame" x="10" y="0.0" width="373" height="47"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="47" id="xLM-0D-1Ck"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="45"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dei-gZ-qjP">
+                                        <rect key="frame" x="10" y="82" width="373" height="89"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Basic A simple game where points are added individually to players and game is manually ended">
+                                            <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="basicButtonTapped:" destination="cy9-OX-iWW" eventType="touchUpInside" id="Din-e9-Giv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4M-Ex-qVQ">
+                                        <rect key="frame" x="10" y="206" width="373" height="104"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Round Round based game where points are added to players when the round is ended. Allows for conditions for winning to be set.">
+                                            <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="roundButtonTapped:" destination="cy9-OX-iWW" eventType="touchUpInside" id="WsI-sR-PVW"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="745" translatesAutoresizingMaskIntoConstraints="NO" id="HFF-Ap-ppx">
+                                        <rect key="frame" x="10" y="345" width="373" height="414"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="0.0" left="10" bottom="0.0" right="10"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Gpr-Ol-uS9"/>
+                        <color key="backgroundColor" name="BackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Gpr-Ol-uS9" firstAttribute="trailing" secondItem="7wM-a6-qpf" secondAttribute="trailing" id="CM5-jl-juS"/>
+                            <constraint firstItem="7wM-a6-qpf" firstAttribute="top" secondItem="Gpr-Ol-uS9" secondAttribute="top" id="LYK-Rs-hNk"/>
+                            <constraint firstItem="7wM-a6-qpf" firstAttribute="leading" secondItem="Gpr-Ol-uS9" secondAttribute="leading" id="bGG-Ra-cfE"/>
+                            <constraint firstItem="Gpr-Ol-uS9" firstAttribute="bottom" secondItem="7wM-a6-qpf" secondAttribute="bottom" id="vWZ-4G-kOn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="basicButton" destination="Dei-gZ-qjP" id="pfb-GL-Jui"/>
+                        <outlet property="gameTypeLabel" destination="Rfr-9h-QiH" id="Ihs-9c-SZF"/>
+                        <outlet property="roundButton" destination="v4M-Ex-qVQ" id="iDG-Vc-chu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vhv-co-SeB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4888" y="2625"/>
+        </scene>
         <!--Game End Type Selection View Controller-->
         <scene sceneID="aAK-ru-zGo">
             <objects>
@@ -1539,44 +1566,71 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game End Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="46V-Wl-Xjw">
-                                <rect key="frame" x="136" y="127" width="121" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xy1-CC-4aT">
-                                <rect key="frame" x="164" y="213" width="65" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="None"/>
-                                <connections>
-                                    <action selector="noneButtonTapped:" destination="ahV-Jf-6AF" eventType="touchUpInside" id="nxn-Gk-9ks"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFe-C3-Jfe">
-                                <rect key="frame" x="162" y="518" width="69" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Score"/>
-                                <connections>
-                                    <action selector="scoreButtonTapped:" destination="ahV-Jf-6AF" eventType="touchUpInside" id="wkJ-5T-Kwt"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNE-eS-kka">
-                                <rect key="frame" x="160" y="358" width="74" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Round"/>
-                                <connections>
-                                    <action selector="roundButtonTapped:" destination="ahV-Jf-6AF" eventType="touchUpInside" id="llB-Iu-QQP"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="jlv-E9-qRN">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game End" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="23" translatesAutoresizingMaskIntoConstraints="NO" id="46V-Wl-Xjw">
+                                        <rect key="frame" x="10" y="0.0" width="373" height="45"/>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="45"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xy1-CC-4aT">
+                                        <rect key="frame" x="10" y="80" width="373" height="59"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="None You will manually end the game when you are finished">
+                                            <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="noneButtonTapped:" destination="ahV-Jf-6AF" eventType="touchUpInside" id="nxn-Gk-9ks"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNE-eS-kka">
+                                        <rect key="frame" x="10" y="174" width="373" height="59"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Round The game ends after a certain number of rounds">
+                                            <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="roundButtonTapped:" destination="ahV-Jf-6AF" eventType="touchUpInside" id="llB-Iu-QQP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFe-C3-Jfe">
+                                        <rect key="frame" x="10" y="268" width="373" height="59"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Score The game ends once a player reaches the end score">
+                                            <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="scoreButtonTapped:" destination="ahV-Jf-6AF" eventType="touchUpInside" id="wkJ-5T-Kwt"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="745" translatesAutoresizingMaskIntoConstraints="NO" id="WoL-qA-8EJ">
+                                        <rect key="frame" x="10" y="362" width="373" height="397"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="0.0" left="10" bottom="0.0" right="10"/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="M14-Do-hmD"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="BackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jlv-E9-qRN" firstAttribute="top" secondItem="M14-Do-hmD" secondAttribute="top" id="Rjn-Uo-H13"/>
+                            <constraint firstItem="jlv-E9-qRN" firstAttribute="leading" secondItem="M14-Do-hmD" secondAttribute="leading" id="SaD-Zl-vQQ"/>
+                            <constraint firstItem="M14-Do-hmD" firstAttribute="bottom" secondItem="jlv-E9-qRN" secondAttribute="bottom" id="k8S-fy-XeD"/>
+                            <constraint firstItem="M14-Do-hmD" firstAttribute="trailing" secondItem="jlv-E9-qRN" secondAttribute="trailing" id="wP3-d7-c8c"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="gameEndLabel" destination="46V-Wl-Xjw" id="x2l-Md-msl"/>
+                        <outlet property="noneButton" destination="xy1-CC-4aT" id="uUh-of-P90"/>
+                        <outlet property="roundButton" destination="TNE-eS-kka" id="YTK-uR-TQ2"/>
+                        <outlet property="scoreButton" destination="iFe-C3-Jfe" id="rEa-Hh-Oku"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t7y-xC-Rnz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1696,35 +1750,122 @@
             </objects>
             <point key="canvasLocation" x="1126" y="2181"/>
         </scene>
+        <!--Game End Quantity Selection Popover View Controller-->
+        <scene sceneID="5OE-0e-bK8">
+            <objects>
+                <viewController storyboardIdentifier="GameEndQuantitySelectionPopoverViewController" automaticallyAdjustsScrollViewInsets="NO" id="OPw-Kd-31r" customClass="GameEndQuantitySelectionPopoverViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qi7-vF-EGI">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="153"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="7iy-0X-cfR">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="153"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VBF-AK-2cL">
+                                        <rect key="frame" x="95" y="10" width="110" height="22"/>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Winning Score" textAlignment="center" clearsOnBeginEditing="YES" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="FD8-lC-51h">
+                                        <rect key="frame" x="38.666666666666657" y="42" width="222.99999999999997" height="40"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="mBB-pJ-LuZ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jCS-El-J1V">
+                                        <rect key="frame" x="25" y="92" width="250" height="10"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="10" id="ANC-ba-ZlT"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="247" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fXo-Sr-3hg">
+                                        <rect key="frame" x="94" y="112" width="112" height="36"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Save"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Save">
+                                            <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="10" left="10" bottom="5" right="10"/>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c2S-fH-iWl">
+                                <rect key="frame" x="270" y="5" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="iFn-Ti-9Vy"/>
+                                    <constraint firstAttribute="width" secondItem="c2S-fH-iWl" secondAttribute="height" id="xHN-7H-afA"/>
+                                </constraints>
+                                <color key="tintColor" name="TextColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="xIcon" symbolScale="medium"/>
+                                </buttonConfiguration>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="VmR-DT-jXZ"/>
+                        <color key="backgroundColor" name="BackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="VmR-DT-jXZ" firstAttribute="trailing" secondItem="7iy-0X-cfR" secondAttribute="trailing" id="3iX-1y-kBD"/>
+                            <constraint firstItem="VmR-DT-jXZ" firstAttribute="trailing" secondItem="c2S-fH-iWl" secondAttribute="trailing" constant="5" id="LCX-R2-eYp"/>
+                            <constraint firstItem="7iy-0X-cfR" firstAttribute="top" secondItem="qi7-vF-EGI" secondAttribute="top" id="N1J-tR-YRR"/>
+                            <constraint firstItem="c2S-fH-iWl" firstAttribute="top" secondItem="qi7-vF-EGI" secondAttribute="top" constant="5" id="QK5-4w-R6n"/>
+                            <constraint firstItem="7iy-0X-cfR" firstAttribute="leading" secondItem="VmR-DT-jXZ" secondAttribute="leading" id="e5f-lz-jjX"/>
+                            <constraint firstAttribute="bottom" secondItem="7iy-0X-cfR" secondAttribute="bottom" id="jcw-Lu-TIM"/>
+                        </constraints>
+                    </view>
+                    <size key="freeformSize" width="300" height="153"/>
+                    <connections>
+                        <outlet property="issueLabel" destination="jCS-El-J1V" id="Fhv-JD-Uba"/>
+                        <outlet property="quantityTextField" destination="FD8-lC-51h" id="fqE-ts-yzi"/>
+                        <outlet property="saveButton" destination="fXo-Sr-3hg" id="nCQ-J6-898"/>
+                        <outlet property="titleLabel" destination="VBF-AK-2cL" id="hcF-Ms-uGL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MVp-Sx-hBF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5642.7480916030536" y="3034.8591549295775"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="xIcon" width="15" height="15"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundColor">
-            <color red="0.090196078431372548" green="0.13725490196078433" blue="0.16862745098039217" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TextColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="lightTextColor">
             <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -150,56 +150,72 @@ final class GameSetupCoordinatorTests: XCTestCase {
         XCTAssertTrue(playerSetupVC?.viewModel?.coordinator === sut)
     }
     
-    func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledRound_ShouldPushGameEndQuantitySelectionViewController() {
+    func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledRound_ShouldPresentGameEndQuantitySelectionPopoverViewControllerOnTopViewController() {
         // given
-        let navigationController = RootNavigationControllerPushMock()
-        let sut = GameSetupCoordinator(navigationController: navigationController)
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
         
         // when
         sut.gameEndTypeSelected(GameEndType.round)
         
         // then
-        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
-        XCTAssertTrue(navigationController.pushedViewController is GameEndQuantitySelectionViewController)
+        XCTAssertEqual(viewController.presentCalledCount, 1)
+        XCTAssertTrue(viewController.presentViewController is GameEndQuantitySelectionPopoverViewController)
     }
     
-    func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledRound_ShouldSetGameEndQuantitySelectionViewControllerCoordinatorAsSelf() {
+    func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledScore_ShouldPresentGameEndQuantitySelectionPopoverViewControllerOnTopViewController() {
         // given
-        let navigationController = RootNavigationControllerPushMock()
-        let sut = GameSetupCoordinator(navigationController: navigationController)
-        
-        // when
-        sut.gameEndTypeSelected(GameEndType.round)
-        
-        // then
-        let gameEndQuantityVC = navigationController.pushedViewController as? GameEndQuantitySelectionViewController
-        XCTAssertTrue(gameEndQuantityVC?.coordinator === sut)
-    }
-    
-    func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledScore_ShouldPushGameEndQuantitySelectionViewController() {
-        // given
-        let navigationController = RootNavigationControllerPushMock()
-        let sut = GameSetupCoordinator(navigationController: navigationController)
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
         
         // when
         sut.gameEndTypeSelected(GameEndType.score)
         
         // then
-        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
-        XCTAssertTrue(navigationController.pushedViewController is GameEndQuantitySelectionViewController)
+        XCTAssertEqual(viewController.presentCalledCount, 1)
+        XCTAssertTrue(viewController.presentViewController is GameEndQuantitySelectionPopoverViewController)
     }
     
-    func test_GameSetupCoordinator_WhenGameEndTypeSelectedCalledScore_ShouldSetGameEndQuantitySelectionViewControllerCoordinatorAsSelf() {
-        // given
-        let navigationController = RootNavigationControllerPushMock()
-        let sut = GameSetupCoordinator(navigationController: navigationController)
+    func test_GameSetupCoordinator_WhenGameEndTypeSelectionCalledRoundOrScore_ShouldPassGameEndTypeToVCAndSetSelfAsCoordinator() {
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+        
+        let gameEndType: GameEndType = Bool.random() ? .score : .round
         
         // when
-        sut.gameEndTypeSelected(GameEndType.score)
+        sut.gameEndTypeSelected(gameEndType)
         
         // then
-        let gameEndQuantityVC = navigationController.pushedViewController as? GameEndQuantitySelectionViewController
-        XCTAssertTrue(gameEndQuantityVC?.coordinator === sut)
+        let gameEndQuantityPopover = viewController.presentViewController as? GameEndQuantitySelectionPopoverViewController
+        XCTAssertEqual(gameEndQuantityPopover?.gameEndType, gameEndType)
+        XCTAssertIdentical(gameEndQuantityPopover?.coordinator, sut)
+    }
+    
+    func test_ScoreCoordinator_WhenGameEndTypeSelectedCalledNotNone_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithCorrectArguments() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+        
+        let view = UIView()
+        viewController.view = view
+        
+        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
+        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
+        
+        // when
+        sut.gameEndTypeSelected(.round)
+        
+        // then
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 151)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is GameEndQuantitySelectionPopoverViewController)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
     }
     
     
