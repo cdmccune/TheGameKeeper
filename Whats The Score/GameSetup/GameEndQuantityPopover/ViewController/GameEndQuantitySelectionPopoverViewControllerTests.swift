@@ -44,7 +44,7 @@ final class GameEndQuantitySelectionPopoverViewControllerTests: XCTestCase {
         let sut = viewController!
         sut.loadView()
         
-        let button = UIButtonUnderlineButtonForButtonStates()
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
         sut.saveButton = button
         
         // when

@@ -206,7 +206,7 @@ class UIButtonSetAttributedUnderlinedTitleWithSubtextMock: UIButton {
     }
 }
 
-class UIButtonUnderlineButtonForButtonStates: UIButton {
+class UIButtonUnderlineButtonForButtonStatesMock: UIButton {
     
     var underlineButtonForButtonStatesTitle: String?
     var underlineButtonForButtonStatesCalledCount = 0

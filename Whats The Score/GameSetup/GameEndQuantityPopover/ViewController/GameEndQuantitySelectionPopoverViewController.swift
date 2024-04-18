@@ -54,7 +54,7 @@ class GameEndQuantitySelectionPopoverViewController: UIViewController, Storyboar
         quantityTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
-    @objc  private func textFieldDidChange(_ textField: UITextField) {
+    @objc private func textFieldDidChange(_ textField: UITextField) {
         guard let gameEndType,
               let text = quantityTextField.text else {
             saveButton.isEnabled = false

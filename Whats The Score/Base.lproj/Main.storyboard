@@ -1489,6 +1489,75 @@
             </objects>
             <point key="canvasLocation" x="6740" y="1494"/>
         </scene>
+        <!--Game Name View Controller-->
+        <scene sceneID="10S-kl-3Jn">
+            <objects>
+                <viewController storyboardIdentifier="GameNameViewController" id="0El-rw-Aq9" customClass="GameNameViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qYY-A5-TS7">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bhY-O9-bI6">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="23" translatesAutoresizingMaskIntoConstraints="NO" id="Who-o5-82j">
+                                        <rect key="frame" x="10" y="0.0" width="373" height="47"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="47" id="yk1-Vx-tMX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="45"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ZsJ-Gf-FJ8">
+                                        <rect key="frame" x="10" y="62" width="373" height="40"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="2VC-Rt-r1y"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="continue" enablesReturnKeyAutomatically="YES"/>
+                                    </textField>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rMj-hc-xMI">
+                                        <rect key="frame" x="10" y="117" width="373" height="36"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Save"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Continue">
+                                            <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="continueButtonTapped:" destination="0El-rw-Aq9" eventType="touchUpInside" id="IBH-YA-Uvm"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" verticalHuggingPriority="246" verticalCompressionResistancePriority="745" translatesAutoresizingMaskIntoConstraints="NO" id="boK-nJ-er8">
+                                        <rect key="frame" x="10" y="168" width="373" height="591"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="0.0" left="10" bottom="0.0" right="10"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ErE-J9-jQl"/>
+                        <color key="backgroundColor" name="BackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bhY-O9-bI6" firstAttribute="leading" secondItem="ErE-J9-jQl" secondAttribute="leading" id="5qY-NT-MEk"/>
+                            <constraint firstItem="ErE-J9-jQl" firstAttribute="bottom" secondItem="bhY-O9-bI6" secondAttribute="bottom" id="Lr5-a5-mfC"/>
+                            <constraint firstItem="bhY-O9-bI6" firstAttribute="top" secondItem="ErE-J9-jQl" secondAttribute="top" id="P8I-kX-Gdb"/>
+                            <constraint firstItem="ErE-J9-jQl" firstAttribute="trailing" secondItem="bhY-O9-bI6" secondAttribute="trailing" id="djg-Q3-K8Q"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="continueButton" destination="rMj-hc-xMI" id="vtQ-Ht-GyR"/>
+                        <outlet property="gameNameLabel" destination="Who-o5-82j" id="l8h-Sd-O9P"/>
+                        <outlet property="nameTextField" destination="ZsJ-Gf-FJ8" id="R8u-5q-BLE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rra-1J-pSf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4947" y="2625"/>
+        </scene>
         <!--Game Type Selection View Controller-->
         <scene sceneID="Ss3-V5-Dbl">
             <objects>
@@ -1556,7 +1625,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vhv-co-SeB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4888" y="2625"/>
+            <point key="canvasLocation" x="5644" y="2625"/>
         </scene>
         <!--Game End Type Selection View Controller-->
         <scene sceneID="aAK-ru-zGo">
@@ -1570,13 +1639,16 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game End" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="23" translatesAutoresizingMaskIntoConstraints="NO" id="46V-Wl-Xjw">
-                                        <rect key="frame" x="10" y="0.0" width="373" height="45"/>
+                                        <rect key="frame" x="10" y="0.0" width="373" height="47"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="47" id="ZTT-Ag-VNh"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="45"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xy1-CC-4aT">
-                                        <rect key="frame" x="10" y="80" width="373" height="59"/>
+                                        <rect key="frame" x="10" y="82" width="373" height="59"/>
                                         <color key="tintColor" name="TextColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="None You will manually end the game when you are finished">
@@ -1587,7 +1659,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNE-eS-kka">
-                                        <rect key="frame" x="10" y="174" width="373" height="59"/>
+                                        <rect key="frame" x="10" y="176" width="373" height="59"/>
                                         <color key="tintColor" name="TextColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Round The game ends after a certain number of rounds">
@@ -1598,7 +1670,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFe-C3-Jfe">
-                                        <rect key="frame" x="10" y="268" width="373" height="59"/>
+                                        <rect key="frame" x="10" y="270" width="373" height="59"/>
                                         <color key="tintColor" name="TextColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Score The game ends once a player reaches the end score">
@@ -1609,7 +1681,7 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="745" translatesAutoresizingMaskIntoConstraints="NO" id="WoL-qA-8EJ">
-                                        <rect key="frame" x="10" y="362" width="373" height="397"/>
+                                        <rect key="frame" x="10" y="364" width="373" height="395"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -1634,121 +1706,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t7y-xC-Rnz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5645" y="2625"/>
-        </scene>
-        <!--Game End Quantity Selection View Controller-->
-        <scene sceneID="LGj-wN-GSW">
-            <objects>
-                <viewController storyboardIdentifier="GameEndQuantitySelectionViewController" id="16d-5Y-dYJ" customClass="GameEndQuantitySelectionViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="eAJ-xm-ojB">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game End Quantity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gd-Zv-bXf">
-                                <rect key="frame" x="122" y="140" width="148" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rounds or Points" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Ay-Ee-UxM">
-                                <rect key="frame" x="109" y="336" width="174" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kZQ-lY-2C2">
-                                <rect key="frame" x="174" y="242" width="46" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Go"/>
-                                <connections>
-                                    <action selector="goButtonTapped:" destination="16d-5Y-dYJ" eventType="touchUpInside" id="4V4-0L-ngs"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="80G-J3-grL"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <connections>
-                        <outlet property="gameEndQuantityTextField" destination="2Ay-Ee-UxM" id="Zrw-WT-xaf"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7Je-Om-sKR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6352" y="2625"/>
-        </scene>
-        <!--Game Name View Controller-->
-        <scene sceneID="10S-kl-3Jn">
-            <objects>
-                <viewController storyboardIdentifier="GameNameViewController" id="0El-rw-Aq9" customClass="GameNameViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qYY-A5-TS7">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="67s-RP-ixZ">
-                                <rect key="frame" x="122" y="140" width="94" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bLP-Dj-Ak0">
-                                <rect key="frame" x="109" y="336" width="174" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ay-Bt-uF9">
-                                <rect key="frame" x="174" y="242" width="46" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Go"/>
-                                <connections>
-                                    <action selector="goButtonTapped:" destination="0El-rw-Aq9" eventType="touchUpInside" id="NsU-uY-aqb"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="ErE-J9-jQl"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <connections>
-                        <outlet property="nameTextField" destination="bLP-Dj-Ak0" id="vbX-rG-4oh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Rra-1J-pSf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7123" y="2625"/>
-        </scene>
-        <!--My Games View Controller-->
-        <scene sceneID="VRv-ix-q62">
-            <objects>
-                <viewController storyboardIdentifier="MyGamesViewController" id="6aL-aR-1sM" customClass="MyGamesViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="atT-Vr-1RY">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0XU-bf-bau">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="FWW-yr-nay"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="0XU-bf-bau" firstAttribute="leading" secondItem="FWW-yr-nay" secondAttribute="leading" id="LZr-tG-mmZ"/>
-                            <constraint firstItem="FWW-yr-nay" firstAttribute="bottom" secondItem="0XU-bf-bau" secondAttribute="bottom" id="hRF-G9-up4"/>
-                            <constraint firstItem="0XU-bf-bau" firstAttribute="top" secondItem="FWW-yr-nay" secondAttribute="top" id="jNC-RW-foE"/>
-                            <constraint firstItem="FWW-yr-nay" firstAttribute="trailing" secondItem="0XU-bf-bau" secondAttribute="trailing" id="xDy-7L-6Fu"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="tableView" destination="0XU-bf-bau" id="ylw-m6-NPq"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="I0b-z1-z2R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1126" y="2181"/>
+            <point key="canvasLocation" x="6340" y="2625"/>
         </scene>
         <!--Game End Quantity Selection Popover View Controller-->
         <scene sceneID="5OE-0e-bK8">
@@ -1768,17 +1726,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Winning Score" textAlignment="center" clearsOnBeginEditing="YES" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="FD8-lC-51h">
-                                        <rect key="frame" x="38.666666666666657" y="42" width="222.99999999999997" height="40"/>
+                                        <rect key="frame" x="10" y="42" width="280" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="F8k-rP-eqS"/>
                                             <constraint firstAttribute="height" constant="40" id="mBB-pJ-LuZ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jCS-El-J1V">
-                                        <rect key="frame" x="25" y="92" width="250" height="10"/>
+                                        <rect key="frame" x="100" y="92" width="100" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="10" id="ANC-ba-ZlT"/>
                                         </constraints>
@@ -1799,6 +1756,12 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="FD8-lC-51h" secondAttribute="trailing" constant="10" id="6vW-dM-Cl4"/>
+                                    <constraint firstItem="FD8-lC-51h" firstAttribute="leading" secondItem="7iy-0X-cfR" secondAttribute="leading" constant="10" id="BQn-I7-WCt"/>
+                                    <constraint firstAttribute="trailing" secondItem="FD8-lC-51h" secondAttribute="trailing" constant="10" id="L4K-Fy-PUr"/>
+                                    <constraint firstItem="FD8-lC-51h" firstAttribute="leading" secondItem="7iy-0X-cfR" secondAttribute="leading" constant="10" id="Vhp-ek-UN0"/>
+                                </constraints>
                                 <edgeInsets key="layoutMargins" top="10" left="10" bottom="5" right="10"/>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c2S-fH-iWl">
@@ -1838,7 +1801,37 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MVp-Sx-hBF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5642.7480916030536" y="3034.8591549295775"/>
+            <point key="canvasLocation" x="6339" y="3033"/>
+        </scene>
+        <!--My Games View Controller-->
+        <scene sceneID="VRv-ix-q62">
+            <objects>
+                <viewController storyboardIdentifier="MyGamesViewController" id="6aL-aR-1sM" customClass="MyGamesViewController" customModule="Whats_The_Score" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="atT-Vr-1RY">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0XU-bf-bau">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="FWW-yr-nay"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0XU-bf-bau" firstAttribute="leading" secondItem="FWW-yr-nay" secondAttribute="leading" id="LZr-tG-mmZ"/>
+                            <constraint firstItem="FWW-yr-nay" firstAttribute="bottom" secondItem="0XU-bf-bau" secondAttribute="bottom" id="hRF-G9-up4"/>
+                            <constraint firstItem="0XU-bf-bau" firstAttribute="top" secondItem="FWW-yr-nay" secondAttribute="top" id="jNC-RW-foE"/>
+                            <constraint firstItem="FWW-yr-nay" firstAttribute="trailing" secondItem="0XU-bf-bau" secondAttribute="trailing" id="xDy-7L-6Fu"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="0XU-bf-bau" id="ylw-m6-NPq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I0b-z1-z2R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1126" y="2181"/>
         </scene>
     </scenes>
     <resources>

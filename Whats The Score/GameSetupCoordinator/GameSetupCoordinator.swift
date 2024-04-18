@@ -28,14 +28,23 @@ class GameSetupCoordinator: Coordinator {
     var gameType: GameType = .basic
     var gameEndType: GameEndType = .none
     var gameEndQuantity: Int = 0
+    var gameName: String = ""
     
     
     // MARK: - Functions
     
     func start() {
+        let gameNameVC = GameNameViewController.instantiate()
+        gameNameVC.coordinator = self
+        navigationController.viewControllers = [gameNameVC]
+    }
+    
+    func gameNameSet(_ name: String) {
+        gameName = name
+        
         let gameTypeSelectionVC = GameTypeSelectionViewController.instantiate()
         gameTypeSelectionVC.coordinator = self
-        navigationController.viewControllers = [gameTypeSelectionVC]
+        navigationController.pushViewController(gameTypeSelectionVC, animated: true)
     }
     
     func gameTypeSelected(_ gameType: GameType) {
@@ -79,26 +88,6 @@ class GameSetupCoordinator: Coordinator {
         defaultPopoverPresenter.setupPopoverCentered(onView: topViewController.view, withPopover: gameEndQuantitySelectionPopoverVC, withWidth: 300, andHeight: 151, tapToExit: true)
         
         navigationController.topViewController?.present(gameEndQuantitySelectionPopoverVC, animated: true)
-        
-        
-//        switch gameEndType {
-//        case .none:
-//            let playerSetupVC = PlayerSetupViewController.instantiate()
-//            let viewModel = PlayerSetupViewModel()
-//            viewModel.coordinator = self
-//            playerSetupVC.viewModel = viewModel
-//            navigationController.pushViewController(playerSetupVC, animated: true)
-//        case .round:
-//            break
-////            let gameEndQuantityVC = GameEndQuantitySelectionViewController.instantiate()
-////            gameEndQuantityVC.coordinator = self
-////            navigationController.pushViewController(gameEndQuantityVC, animated: true)
-//        case .score:
-//            break
-////            let gameEndQuantityVC = GameEndQuantitySelectionViewController.instantiate()
-////            gameEndQuantityVC.coordinator = self
-////            navigationController.pushViewController(gameEndQuantityVC, animated: true)
-//        }
     }
     
     func gameEndQuantitySelected(_ gameEndQuantity: Int) {
@@ -112,16 +101,10 @@ class GameSetupCoordinator: Coordinator {
     }
     
     func playersSetup(_ players: [PlayerProtocol]) {
-        let gameNameVC = GameNameViewController.instantiate()
-        gameNameVC.coordinator = self
-        navigationController.pushViewController(gameNameVC, animated: true)
+        coordinator?.gameSetupComplete(withGameType: gameType,
+                                       gameEndType: gameEndType,
+                                       gameEndQuantity: gameEndQuantity,
+                                       players: [],
+                                       andName: gameName)
     }
-    
-    func gameNameSet(_ name: String) {
-                coordinator?.gameSetupComplete(withGameType: gameType,
-                                               gameEndType: gameEndType,
-                                               gameEndQuantity: gameEndQuantity,
-                                               players: [],
-                                               andName: name)
-    }
- }
+}

@@ -12,7 +12,7 @@ final class GameSetupCoordinatorTests: XCTestCase {
 
     // MARK: - Start
     
-    func test_GameSetupCoordinator_WhenStartCalled_ShouldSetNavigationControllerViewControllerAsGameTypeSelectionViewController() {
+    func test_GameSetupCoordinator_WhenStartCalled_ShouldSetNavigationControllerViewControllerAsGameNameViewController() {
         // given
         let navigationController = RootNavigationController()
         let sut = GameSetupCoordinator(navigationController: navigationController)
@@ -21,10 +21,10 @@ final class GameSetupCoordinatorTests: XCTestCase {
         sut.start()
         
         // then
-        XCTAssertTrue(navigationController.viewControllers.first is GameTypeSelectionViewController)
+        XCTAssertTrue(navigationController.viewControllers.first is GameNameViewController)
     }
     
-    func test_GameSetupCoordinator_WhenStartCalled_ShouldSetGameTypeSelectionViewControllerCoordinatorAsSelf() {
+    func test_GameSetupCoordinator_WhenStartCalled_ShouldSetGameNameSelectionViewControllerCoordinatorAsSelf() {
         // given
         let navigationController = RootNavigationController()
         let sut = GameSetupCoordinator(navigationController: navigationController)
@@ -33,8 +33,49 @@ final class GameSetupCoordinatorTests: XCTestCase {
         sut.start()
         
         // then
-        let gameTypeSelectionVC = navigationController.viewControllers.first as? GameTypeSelectionViewController
-        XCTAssertTrue(gameTypeSelectionVC?.coordinator === sut)
+        let gameNameVC = navigationController.viewControllers.first as? GameNameViewController
+        XCTAssertTrue(gameNameVC?.coordinator === sut)
+    }
+    
+    
+    // MARK: - GameNameSet
+    
+    func test_GameSetupCoordinator_WhenGameNameSetCalled_ShouldSetNameAsOwnNameProperty() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        let name = UUID().uuidString
+        
+        // when
+        sut.gameNameSet(name)
+        
+        // then
+        XCTAssertEqual(sut.gameName, name)
+    }
+    
+    func test_GameSetupCoordinator_WhenGameNameSetCalled_ShouldCallPushViewControllerOnNavigationControllerWithGameTypeSelectionViewController() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = GameSetupCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.gameNameSet("")
+        
+        // then
+        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
+        XCTAssertTrue(navigationController.pushedViewController is GameTypeSelectionViewController)
+    }
+    
+    func test_GameSetupCoordinator_WhenGameNameSetCalled_ShouldSetSelfAsCoordinatorForPushedGameTypeSelectionVC() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = GameSetupCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.gameNameSet("")
+        
+        // then
+        let gameTypeVC = navigationController.pushedViewController as? GameTypeSelectionViewController
+        XCTAssertIdentical(gameTypeVC?.coordinator, sut)
     }
 
     
@@ -264,35 +305,7 @@ final class GameSetupCoordinatorTests: XCTestCase {
     
     // MARK: - PlayersSetup
     
-//    func test_GameSetupCoordinator_WhenPlayersSetupCalled_ShouldSetPlayerSettingsToPlayerSettingsVariable() {
-//        // given
-//        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
-////        let playerSettings = [PlayerSettings(name: UUID().uuidString)]
-//        
-//        // when
-//        sut.playersSetup([])
-//        
-//        // then
-//        <#then#>
-//    }
-    
-    func test_GameSetupCoordinator_WhenPlayersSetupCalled_ShouldPushGameNameViewControllerWithCoordinatorAsSelf() {
-        // given
-        let navigationController = RootNavigationControllerPushMock()
-        let sut = GameSetupCoordinator(navigationController: navigationController)
-        
-        // when
-        sut.playersSetup([])
-        
-        // then
-        let gameNameVC = navigationController.pushedViewController as? GameNameViewController
-        XCTAssertIdentical(gameNameVC?.coordinator, sut)
-    }
-    
-    
-    // MARK: - GameNameSet
-    
-    func test_GameSetupCoordinator_WhenGameNameCalled_ShouldCallGameTabCoordinatorGameSetupCompleteWithCorrectArguments() {
+    func test_GameSetupCoordinator_WhenPlayersSetupCalled_ShouldCallGameTabCoordinatorGameSetupCompleteWithCorrectArguments() {
         // given
         let sut = GameSetupCoordinator(navigationController: RootNavigationController())
 
@@ -308,9 +321,10 @@ final class GameSetupCoordinatorTests: XCTestCase {
         sut.gameType = gameType
         sut.gameEndType = gameEndType
         sut.gameEndQuantity = gameEndQuantity
+        sut.gameName = gameName
         
         // when
-        sut.gameNameSet(gameName)
+        sut.playersSetup([])
         
         // then
         XCTAssertEqual(coordinator.gameSetupCompleteGameType, gameType)
