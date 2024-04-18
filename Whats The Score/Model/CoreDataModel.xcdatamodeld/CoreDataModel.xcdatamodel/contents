@@ -21,6 +21,7 @@
         <relationship name="scoreChanges_" toMany="YES" deletionRule="Cascade" destinationEntity="ScoreChange" inverseName="game" inverseEntity="ScoreChange"/>
     </entity>
     <entity name="Player" representedClassName=".Player" syncable="YES">
+        <attribute name="icon_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="position_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>

@@ -333,4 +333,64 @@ final class GameSetupCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.gameSetupCompleteName, gameName)
 //        XCTAssertEqual(coordinator.gameSetupCompletePlayers as? [PlayerMock], players)
     }
+    
+    // MARK: - ShowAddPlayerPopover
+    
+    func test_GameSetupCoordinator_WhenShowAddPlayerPopoverWithPlayerSettingsCalled_ShouldCallPresentEditPlayerPopoverViewControllerOnViewControllerOnTopViewController() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+        
+        // when
+        sut.showAddPlayerPopover(withPlayerSettings: PlayerSettings.getStub(), andDelegate: EditPlayerPopoverDelegateProtocolMock())
+        
+        // then
+        XCTAssertEqual(viewController.presentCalledCount, 1)
+        XCTAssertTrue(viewController.presentViewController is EditPlayerPopoverViewController)
+    }
+    
+    func test_GameSetupCoordinator_WhenShowAddPlayerPopoverCalled_ShouldSetEditPlayerPopoverVCsDelegateAndPlayerSettings() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+        
+        let delegate = EditPlayerPopoverDelegateProtocolMock()
+        let playerSettings = PlayerSettings.getStub()
+        
+        // when
+        sut.showAddPlayerPopover(withPlayerSettings: playerSettings, andDelegate: delegate)
+        
+        // then
+        let editPlayerPopoverVC = viewController.presentViewController as? EditPlayerPopoverViewController
+        XCTAssertTrue(editPlayerPopoverVC?.delegate as? EditPlayerPopoverDelegateProtocolMock === delegate)
+        XCTAssertEqual(editPlayerPopoverVC?.player, playerSettings)
+    }
+    
+    func test_GameSetupCoordinator_WhenShowAddPlayerPopoverCalled_ShouldCallDefaultPopoverPresenterSetupPopoverCenteredWithCorrectArguments() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+
+        let view = UIView()
+        viewController.view = view
+
+        let defaultPopoverPresenterMock = DefaultPopoverPresenterMock()
+        sut.defaultPopoverPresenter = defaultPopoverPresenterMock
+        
+        // when
+        sut.showAddPlayerPopover(withPlayerSettings: PlayerSettings.getStub(), andDelegate: EditPlayerPopoverDelegateProtocolMock())
+        
+        // then
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 165)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EditPlayerPopoverViewController)
+        XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
+    }
+
+    
 }

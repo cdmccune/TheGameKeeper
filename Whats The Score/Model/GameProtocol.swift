@@ -22,7 +22,7 @@ protocol GameProtocol: AnyObject {
     var name: String { get set }
     var id: UUID { get }
     
-    func changeName(of player: PlayerProtocol, to name: String)
+    func editPlayer(_ newPlayerSettings: PlayerSettings)
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
     func addPlayer(withName: String)
     func randomizePlayers()

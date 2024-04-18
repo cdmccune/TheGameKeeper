@@ -53,6 +53,7 @@ final class GameEndQuantitySelectionPopoverViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
         XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Save")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
     }
     
     func test_GameEndQuantitySelectionPopoverViewController_WhenViewDidLoadCalled_ShouldCallBecomeFirstResponderOnQuantityTextField() {

@@ -338,7 +338,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         XCTAssertTrue(viewController.presentViewController is EditPlayerPopoverViewController)
     }
     
-    func test_ScoreboardCoordinator_WhenShowEditPlayerPopoverCalled_ShouldSetEditPlayerPopoverVCsDelegateAndPlayer() {
+    func test_ScoreboardCoordinator_WhenShowEditPlayerPopoverCalled_ShouldSetEditPlayerPopoverVCsDelegateAndPlayerSettings() {
         // given
         let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
@@ -350,7 +350,8 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         
         // then
         let editPlayerPopoverVC = viewController.presentViewController as? EditPlayerPopoverViewController
-        XCTAssertEqual(editPlayerPopoverVC?.player as? PlayerMock, player)
+        XCTAssertEqual(editPlayerPopoverVC?.player?.id, player.id)
+        XCTAssertEqual(editPlayerPopoverVC?.player?.name, player.name)
         XCTAssertTrue(editPlayerPopoverVC?.delegate as? EditPlayerPopoverDelegateProtocolMock === delegate)
     }
     
@@ -370,7 +371,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 100)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 165)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EditPlayerPopoverViewController)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)

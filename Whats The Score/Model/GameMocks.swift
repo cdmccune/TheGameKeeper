@@ -107,13 +107,20 @@ class GameMock: GameProtocol {
     var endRounds: [EndRoundProtocol] = []
     var scoreChanges: [ScoreChangeProtocol] = []
     
-    var changeNamePlayer: PlayerProtocol?
-    var changeNameName: String?
-    var changeNameCalledCount: Int = 0
-    func changeName(of player: PlayerProtocol, to name: String) {
-        changeNameCalledCount += 1
-        changeNamePlayer = player
-        changeNameName = name
+//    var changeNamePlayer: PlayerProtocol?
+//    var changeNameName: String?
+//    var changeNameCalledCount: Int = 0
+//    func changeName(of player: PlayerProtocol, to name: String) {
+//        changeNameCalledCount += 1
+//        changeNamePlayer = player
+//        changeNameName = name
+//    }
+    
+    var editPlayerPlayerSettings: PlayerSettings?
+    var editPlayerCalledCount = 0
+    func editPlayer(_ newPlayerSettings: PlayerSettings) {
+        editPlayerCalledCount += 1
+        editPlayerPlayerSettings = newPlayerSettings
     }
     
     var movePlayerAtCalledCount = 0

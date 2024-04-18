@@ -33,7 +33,7 @@ final class EndGamePlayerCollectionViewDelegateTests: XCTestCase {
         var players = [Player]()
         for _ in 0..<playerCount {
             let game = Game(context: context)
-            players.append(Player(game: game, name: "", position: 0, context: context))
+            players.append(Player(game: game, name: "", position: 0, icon: .alien, context: context))
         }
         
         let viewModelMock = EndGameViewModelMock()

@@ -20,11 +20,11 @@ class GameSetupCoordinatorMock: GameSetupCoordinator {
         startCalledCount += 1
     }
     
-    var playersSetupCalledCount = 0
-    var playersSetupPlayers: [PlayerProtocol]?
-    override func playersSetup(_ players: [PlayerProtocol]) {
-        playersSetupCalledCount += 1
-        playersSetupPlayers = players
+    var gameNameSetCalledCount = 0
+    var gameNameSetName: String?
+    override func gameNameSet(_ name: String) {
+        gameNameSetCalledCount += 1
+        gameNameSetName = name
     }
     
     var gameTypeSelectedCalledCount = 0
@@ -45,10 +45,19 @@ class GameSetupCoordinatorMock: GameSetupCoordinator {
         self.gameEndQuantity = gameEndQuantity
     }
     
-    var gameNameSetCalledCount = 0
-    var gameNameSetName: String?
-    override func gameNameSet(_ name: String) {
-        gameNameSetCalledCount += 1
-        gameNameSetName = name
+    var showAddPlayerPopoverPlayerSettings: PlayerSettings?
+    var showAddPlayerPopoverDelegate: EditPlayerPopoverDelegateProtocol?
+    var showAddPlayerPopoverCalledCount = 0
+    override func showAddPlayerPopover(withPlayerSettings playerSettings: PlayerSettings, andDelegate delegate: EditPlayerPopoverDelegateProtocol) {
+        self.showAddPlayerPopoverPlayerSettings = playerSettings
+        self.showAddPlayerPopoverDelegate = delegate
+        self.showAddPlayerPopoverCalledCount += 1
+    }
+    
+    var playersSetupCalledCount = 0
+    var playersSetupPlayers: [PlayerSettings]?
+    override func playersSetup(_ players: [PlayerSettings]) {
+        playersSetupCalledCount += 1
+        playersSetupPlayers = players
     }
 }

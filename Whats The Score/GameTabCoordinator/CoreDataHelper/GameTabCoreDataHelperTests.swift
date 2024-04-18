@@ -180,7 +180,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
         
         let playerCount = Int.random(in: 2...10)
-        let playerSettings = Array(repeating: PlayerSettings(name: ""), count: playerCount)
+        let playerSettings = Array(repeating: PlayerSettings.getStub(), count: playerCount)
         
         // when
         _ = sut.initializeGame(with: .round,
@@ -205,7 +205,7 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
         
         let playerCount = Int.random(in: 2...10)
-        let playerSettings = Array(repeating: PlayerSettings(name: ""), count: playerCount)
+        let playerSettings = Array(repeating: PlayerSettings.getStub(), count: playerCount)
         
         // when
         _ = sut.initializeGame(with: .round,

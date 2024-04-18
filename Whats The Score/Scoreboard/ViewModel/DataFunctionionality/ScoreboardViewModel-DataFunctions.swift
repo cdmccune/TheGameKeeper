@@ -32,8 +32,8 @@ extension ScoreboardViewModel {
 
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
     
-    func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {
-        game.changeName(of: player, to: name)
+    func finishedEditing(_ player: PlayerSettings) {
+        game.editPlayer(player)
         coreDataStore.saveContext()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }

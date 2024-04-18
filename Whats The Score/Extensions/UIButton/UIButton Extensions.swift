@@ -51,8 +51,8 @@ extension UIButton {
         self.setAttributedTitle(attributedSelectedString, for: .disabled)
     }
     
-    @objc func underlineButtonForButtonStates(title: String) {
-        let titleFont = UIFont.pressPlay2PRegular(withSize: 22)
+    @objc func underlineButtonForButtonStates(title: String, withTextSize textSize: CGFloat) {
+        let titleFont = UIFont.pressPlay2PRegular(withSize: textSize)
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.paragraphSpacing = 5

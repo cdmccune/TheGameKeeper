@@ -100,11 +100,25 @@ class GameSetupCoordinator: Coordinator {
         navigationController.pushViewController(playerSetupVC, animated: true)
     }
     
-    func playersSetup(_ players: [PlayerProtocol]) {
+    // MARK: - Player Setup Functions
+    
+    func playersSetup(_ players: [PlayerSettings]) {
         coordinator?.gameSetupComplete(withGameType: gameType,
                                        gameEndType: gameEndType,
                                        gameEndQuantity: gameEndQuantity,
                                        players: [],
                                        andName: gameName)
+    }
+    
+    func showAddPlayerPopover(withPlayerSettings playerSettings: PlayerSettings, andDelegate delegate: EditPlayerPopoverDelegateProtocol) {
+        guard let viewController = navigationController.topViewController else { return }
+        let editPlayerPopoverViewController = EditPlayerPopoverViewController.instantiate()
+        
+        editPlayerPopoverViewController.delegate = delegate
+        editPlayerPopoverViewController.player = playerSettings
+        
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerPopoverViewController, withWidth: 300, andHeight: 165, tapToExit: true)
+        
+        viewController.present(editPlayerPopoverViewController, animated: true)
     }
 }

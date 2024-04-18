@@ -153,28 +153,23 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
     
     // MARK: - FinishedEditingPlayer
     
-    func test_ScoreboardViewModel_WhenFinishedEditingCalled_ShouldCallGameChangeNameWithPlayerAndName() {
-        
+    func test_ScoreboardViewModel_WhenFinishedEditingPlayerCalled_ShouldCallGameEditPlayerWithPlayerSettings() {
         // given
-        let player = PlayerMock()
-        let gameMock = GameMock()
-        let sut = ScoreboardViewModel(game: gameMock)
-        
-        let newPlayerName = UUID().uuidString
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        let playerSettings = PlayerSettings.getStub()
         
         // when
-        sut.finishedEditing(player, toNewName: newPlayerName)
+        sut.finishedEditing(playerSettings)
         
         // then
-        XCTAssertEqual(gameMock.changeNameName, newPlayerName)
-        XCTAssertEqual(gameMock.changeNamePlayer?.id, player.id)
-        XCTAssertEqual(gameMock.changeNameCalledCount, 1)
+        XCTAssertEqual(game.editPlayerPlayerSettings, playerSettings)
+        XCTAssertEqual(game.editPlayerCalledCount, 1)
     }
     
-    func test_ScoreboardViewModel_WhenFinishedEditingCalledPlayerInGame_ShouldCallBindViewToViewModel() {
+    func test_ScoreboardViewModel_WhenFinishedEditingCalled_ShouldCallBindViewToViewModel() {
         // given
-        let player = PlayerMock()
-        let sut = ScoreboardViewModel(game: GameMock(players: [player]))
+        let sut = getViewModelWithBasicGame()
 
         let viewModelViewDelegate = ScoreboardViewModelViewProtocolMock()
         sut.delegate = viewModelViewDelegate
@@ -182,7 +177,7 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         let previousBindCount = viewModelViewDelegate.bindViewToViewModelCalledCount
         
         // when
-        sut.finishedEditing(player, toNewName: "")
+        sut.finishedEditing(PlayerSettings.getStub())
         
         // then
         XCTAssertEqual(viewModelViewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
@@ -195,7 +190,7 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         sut.coreDataStore = coreDataStore
         
         // when
-        sut.finishedEditing(PlayerMock(), toNewName: "")
+        sut.finishedEditing(PlayerSettings.getStub())
         
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)

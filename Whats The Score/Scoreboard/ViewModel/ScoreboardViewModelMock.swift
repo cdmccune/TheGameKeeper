@@ -98,7 +98,7 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
         showEndRoundPopoverCalledCount += 1
     }
     
-    func finishedEditing(_ player: PlayerProtocol, toNewName name: String) {}
+    func finishedEditing(_ player: PlayerSettings) {}
     func endRound(_ endRound: EndRoundSettings) {}
     func goToEndGameScreen() {}
     func keepPlayingSelected() {}

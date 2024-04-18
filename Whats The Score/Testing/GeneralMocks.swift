@@ -191,6 +191,14 @@ extension EndRoundSettings {
     }
 }
 
+// MARK: - PlayerSettings
+
+extension PlayerSettings {
+    static func getStub(name: String = "", icon: PlayerIcon = .alien, id: UUID = UUID()) -> PlayerSettings {
+        return PlayerSettings(name: name, icon: icon, id: id)
+    }
+}
+
 
 // MARK: - UIButton
 
@@ -209,9 +217,11 @@ class UIButtonSetAttributedUnderlinedTitleWithSubtextMock: UIButton {
 class UIButtonUnderlineButtonForButtonStatesMock: UIButton {
     
     var underlineButtonForButtonStatesTitle: String?
+    var underlineButtonForButtonStatesTextSize: CGFloat?
     var underlineButtonForButtonStatesCalledCount = 0
-    override func underlineButtonForButtonStates(title: String) {
+    override func underlineButtonForButtonStates(title: String, withTextSize textSize: CGFloat) {
         underlineButtonForButtonStatesTitle = title
+        underlineButtonForButtonStatesTextSize = textSize
         underlineButtonForButtonStatesCalledCount += 1
     }
 }

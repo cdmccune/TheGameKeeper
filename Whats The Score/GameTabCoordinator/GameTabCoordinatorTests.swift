@@ -210,8 +210,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         let gameType = GameType.allCases.randomElement()!
         let gameEndType = GameEndType.allCases.randomElement()!
         let gameEndQuantity = Int.random(in: 3...10)
-        let playerName = UUID().uuidString
-        let playerSettings = [PlayerSettings(name: playerName)]
+        let playerSettings = [PlayerSettings.getStub()]
         let gameName = UUID().uuidString
         
         // when

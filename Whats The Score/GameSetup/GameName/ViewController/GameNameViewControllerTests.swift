@@ -72,6 +72,7 @@ final class GameNameViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
         XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Continue")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
     }
     
     func test_GameNameViewController_WhenViewDidLoadCalled_ShouldSetGameNameLabelWithCorrectStrokeWidthAndColor() {
@@ -89,7 +90,7 @@ final class GameNameViewControllerTests: XCTestCase {
         XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, .black)
     }
     
-    func test_GameNameViewController_WhenViewDidLoadCalled_ShouldSetTextFieldDelegateEqualToTextFieldDelegate() {
+    func test_GameNameViewController_WhenViewDidLoadCalled_ShouldSetTextFieldDelegateEqualToTextFieldDelegateOnNameTextField() {
         // given
         let sut = viewController!
         sut.loadView()

@@ -34,11 +34,13 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
         _ = Player(game: game,
                    name: "Player 1",
                    position: 0,
+                   icon: .alien,
                    context: coreDataStore.persistentContainer.viewContext)
         
         _ = Player(game: game,
                    name: "Player 2",
                    position: 1,
+                   icon: .alien,
                    context: coreDataStore.persistentContainer.viewContext)
         
         coreDataStore.saveContext()
@@ -66,7 +68,7 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
         }
         
         for (index, playerSetting) in playerSettings.enumerated() {
-            _ = Player(game: game, name: playerSetting.name, position: index - 1, context: coreDataStore.persistentContainer.viewContext)
+            _ = Player(game: game, name: playerSetting.name, position: index - 1, icon: .alien, context: coreDataStore.persistentContainer.viewContext)
         }
         
         coreDataStore.saveContext()

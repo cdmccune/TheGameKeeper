@@ -1,0 +1,268 @@
+//
+//  EditPlayerPopoverViewControllerTests.swift
+//  Whats The Score Tests
+//
+//  Created by Curt McCune on 2/8/24.
+//
+
+import XCTest
+@testable import Whats_The_Score
+
+final class EditPlayerPopoverViewControllerTests: XCTestCase {
+
+    // MARK: - Setup
+    
+    var viewController: EditPlayerPopoverViewController?
+    
+    override func setUp() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "EditPlayerPopoverViewController") as? EditPlayerPopoverViewController
+        
+        self.viewController = viewController
+    }
+    
+    override func tearDown() {
+        viewController = nil
+    }
+    
+    
+    // MARK: - Setup Tests
+    
+    func test_EditPlayerPopoverViewController_WhenViewLoaded_ShouldHaveNonNilOutlets() {
+        // given
+        let sut = viewController!
+        
+        // when
+        sut.loadView()
+        
+        // then
+        XCTAssertNotNil(sut.playerNameTextField)
+        XCTAssertNotNil(sut.saveButton)
+    }
+    
+    
+    // MARK: - ViewDidLoad
+    
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalledWithPlayer_ShouldSetPlayerNameTextFieldTextToPlayerName() {
+        // given
+        let sut = viewController!
+        let playerName = UUID().uuidString
+        let player = PlayerSettings.getStub(name: playerName)
+        sut.player = player
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.playerNameTextField.text, playerName)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldSetVisualPropertiesOnPlayerIconButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.playerIconButton.imageView?.contentMode, .scaleAspectFit)
+        XCTAssertEqual(sut.playerIconButton.imageView?.layer.cornerRadius, 25)
+        XCTAssertTrue(sut.playerIconButton.imageView?.clipsToBounds ?? false)
+        XCTAssertEqual(sut.playerIconButton.imageView?.layer.borderWidth, 2)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldSetPlayerIconButtonImageToPlayerIconImageAndBorderColorToColor() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerIcon = PlayerIcon.allCases.randomElement()!
+        let playerSettings = PlayerSettings(name: "", icon: playerIcon)
+        sut.player = playerSettings
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.playerIconButton.image(for: .normal), playerIcon.image)
+        XCTAssertTrue(sut.playerIconButton.imageView?.layer.borderColor?.same(as: playerIcon.color.cgColor) ?? false)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesWithStringAndSizeOnPlayerIconButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.playerIconButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 10)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Change")
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesWithStringAndSizeOnSaveButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.saveButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Save")
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldSetTextFieldDelegateEqualToTextFieldDelegateOnPlayerNameTextField() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertIdentical(sut.playerNameTextField.delegate, sut.textFieldDelegate)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldAddTargetToNameTextFieldForEditingDidChange() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let targets = sut.playerNameTextField.allTargets
+        XCTAssertTrue(targets.contains(sut))
+    }
+    
+    
+    // MARK: - TextFieldDidChange
+    
+    func test_EditPlayerPopoverViewController_WhenPlayerNameTextFieldValueBlankEditingChanged_ShouldMakeSaveButtonDisabled() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        sut.saveButton.isEnabled = true
+        sut.playerNameTextField.text = ""
+        
+        // when
+        sut.playerNameTextField.sendActions(for: .editingChanged)
+        
+        // then
+        XCTAssertFalse(sut.saveButton.isEnabled)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenPlayerNameTextFieldValueNotBlankEditingChanged_ShouldMakeSaveButtonEnabled() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        sut.saveButton.isEnabled = false
+        sut.playerNameTextField.text = "d"
+        
+        // when
+        sut.playerNameTextField.sendActions(for: .editingChanged)
+        
+        // then
+        XCTAssertTrue(sut.saveButton.isEnabled)
+    }
+    
+    
+    // MARK: - SaveButtonTapped
+    
+    func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldCallDelegateFinishedEditingWithNewPlayerAndTextAsName() {
+        // given
+        let sut = viewController!
+        let player = PlayerSettings.getStub(name: UUID().uuidString)
+        sut.player = player
+        
+        let delegateMock = EditPlayerPopoverDelegateMock()
+        sut.delegate = delegateMock
+        
+        let textfield = UITextField()
+        let name = UUID().uuidString
+        textfield.text = name
+        sut.playerNameTextField = textfield
+        
+        // when
+        sut.saveButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(delegateMock.finishedEditingCalledCount, 1)
+        XCTAssertEqual(delegateMock.finishedEditingPlayer?.id, player.id)
+        XCTAssertEqual(delegateMock.finishedEditingPlayer?.name, name)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldDismissView() {
+        
+        class EditPlayerPopoverViewControllerDismissMock: EditPlayerPopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = EditPlayerPopoverViewControllerDismissMock()
+        sut.player = PlayerSettings.getStub(name: UUID().uuidString)
+        let textField = UITextField()
+        sut.playerNameTextField = textField
+        
+        // when
+        sut.saveButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
+    
+    
+    // MARK: - ExitButtonTapped
+    
+    func test_EditPlayerPopoverViewController_WhenExitButtonTappedCalled_ShouldDismissView() {
+        
+        class EditPlayerPopoverViewControllerDismissMock: EditPlayerPopoverViewController {
+            var dismissedCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissedCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = EditPlayerPopoverViewControllerDismissMock()
+        
+        // when
+        sut.exitButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.dismissedCalledCount, 1)
+    }
+    
+    
+    // MARK: - Classes
+    
+    class EditPlayerPopoverDelegateMock: EditPlayerPopoverDelegateProtocol {
+        var finishedEditingCalledCount = 0
+        var finishedEditingPlayer: PlayerSettings?
+        func finishedEditing(_ player: PlayerSettings) {
+            finishedEditingCalledCount += 1
+            finishedEditingPlayer = player
+        }
+    }
+}

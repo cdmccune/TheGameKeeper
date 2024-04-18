@@ -67,10 +67,12 @@ class ScoreboardCoordinator: Coordinator {
         guard let viewController = navigationController.topViewController else { return }
         let editPlayerPopoverVC = EditPlayerPopoverViewController.instantiate()
         
-        editPlayerPopoverVC.player = player
+        let playerSettings = PlayerSettings(name: player.name, icon: .alien, id: player.id)
+        
+        editPlayerPopoverVC.player = playerSettings
         editPlayerPopoverVC.delegate = delegate
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerPopoverVC, withWidth: 300, andHeight: 100, tapToExit: true)
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerPopoverVC, withWidth: 300, andHeight: 165, tapToExit: true)
         
         viewController.present(editPlayerPopoverVC, animated: true)
     }

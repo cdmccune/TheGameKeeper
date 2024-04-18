@@ -12,10 +12,16 @@ extension Game {
     
     // MARK: - Functions
     
-    func changeName(of player: PlayerProtocol, to name: String) {
-        guard var playerToUpdateName = players.first(where: { $0.id == player.id }) else { return }
+//    func changeName(of player: PlayerProtocol, to name: String) {
+//        guard var playerToUpdateName = players.first(where: { $0.id == player.id }) else { return }
+//        
+//        playerToUpdateName.name = name
+//    }
+    
+    func editPlayer(_ newPlayerSettings: PlayerSettings) {
+        guard var player = players.first(where: { $0.id == newPlayerSettings.id }) else { return }
         
-        playerToUpdateName.name = name
+        player.name = newPlayerSettings.name
     }
     
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
@@ -30,7 +36,7 @@ extension Game {
     
     func addPlayer(withName name: String) {
         guard let managedObjectContext else { return }
-        _ = Player(game: self, name: name, position: players.count, context: managedObjectContext)
+        _ = Player(game: self, name: name, position: players.count, icon: .alien, context: managedObjectContext)
     }
 //    
     func randomizePlayers() {

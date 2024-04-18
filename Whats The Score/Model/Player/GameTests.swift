@@ -85,18 +85,18 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(0, sut.lastModified.timeIntervalSince1970)
     }
     
+    // MARK: - EditPlayer
     
-    // MARK: - changeNameOfPlayer
-    
-    func test_Game_WhenChangeNameCalled_ShouldChangePlayerNameToNewName() {
+    func test_Game_WhenWhenEditPlayerCalled_ShouldChangePlayerNameToNewName() {
         // given
         let sut = Game(basicGameWithContext: context)
+        let player = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         
-        let player = Player(game: sut, name: "", position: 0, context: context)
         let playerName = UUID().uuidString
+        let playerSettings = PlayerSettings.getStub(name: playerName, id: player.id)
         
         // when
-        sut.changeName(of: player, to: playerName)
+        sut.editPlayer(playerSettings)
         
         // then
         XCTAssertEqual(player.name, playerName)
@@ -179,7 +179,7 @@ final class GameTests: XCTestCase {
         let count = Int.random(in: 3...5)
         
         for _ in 0..<count {
-            _ = Player(game: sut, name: "", position: 0, context: context)
+            _ = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         }
         
         let playerName = UUID().uuidString
@@ -236,7 +236,7 @@ final class GameTests: XCTestCase {
         let sut = GameRemoveFromPlayersMock()
         let gameStub = Game(basicGameWithContext: context)
         
-        let player = Player(game: gameStub, name: "", position: 0, context: context)
+        let player = Player(game: gameStub, name: "", position: 0, icon: .alien, context: context)
         
         // when
         sut.deletePlayer(player)
@@ -272,7 +272,7 @@ final class GameTests: XCTestCase {
         
         let playerCount = Int.random(in: 3...8)
         for i in 0..<playerCount {
-            _ = Player(game: sut, name: "", position: i, context: context)
+            _ = Player(game: sut, name: "", position: i, icon: .alien, context: context)
         }
         
         let playerToRemove = sut.players.randomElement()!
@@ -372,7 +372,7 @@ final class GameTests: XCTestCase {
         // given
         let sut = Game(basicGameWithContext: context)
             
-        let player1 = Player(game: sut, name: "", position: 0, context: context)
+        let player1 = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         
         sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [ScoreChangeSettings(player: player1)], roundNumber: 1))
         sut.endRound(with: EndRoundSettings(scoreChangeSettingsArray: [ScoreChangeSettings(player: player1)], roundNumber: 2))
@@ -439,7 +439,7 @@ final class GameTests: XCTestCase {
         
         let scoreChangeCount = Int.random(in: 3...8)
         for i in 0..<scoreChangeCount {
-            _ = ScoreChange(player: Player(game: sut, name: "", position: 0, context: context),
+            _ = ScoreChange(player: Player(game: sut, name: "", position: 0, icon: .alien, context: context),
                             scoreChange: 0,
                             position: i,
                             game: sut,
@@ -558,7 +558,7 @@ final class GameTests: XCTestCase {
         // given
         let sut = Game(basicGameWithContext: context)
         
-        let player = Player(game: sut, name: "", position: 0, context: context)
+        let player = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         let scoreChangeInt = Int.random(in: 1...10)
         let scoreChangeSettings = ScoreChangeSettings(player: player, scoreChange: scoreChangeInt)
         
@@ -581,7 +581,7 @@ final class GameTests: XCTestCase {
     func test_Game_WhenChangeScoreCalled_ShouldAddScoreChangeToPlayerAndGame() {
         // given
         let sut = Game(basicGameWithContext: context)
-        let player = Player(game: sut, name: "", position: 0, context: context)
+        let player = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         
         let scoreChangeSettings = ScoreChangeSettings(player: player, scoreChange: 0)
         
@@ -596,7 +596,7 @@ final class GameTests: XCTestCase {
     func test_Game_WhenChangeScoreCalled_ShouldSetScoreChangePosition() {
         // given
         let sut = Game(basicGameWithContext: context)
-        let player = Player(game: sut, name: "", position: 0, context: context)
+        let player = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         
         let scoreChangeSettings = ScoreChangeSettings(player: player, scoreChange: 0)
         
@@ -655,8 +655,8 @@ final class GameTests: XCTestCase {
         // given
         let sut = Game(basicGameWithContext: context)
         
-        let player1 = Player(game: sut, name: "", position: 0, context: context)
-        let player2 = Player(game: sut, name: "", position: 0, context: context)
+        let player1 = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
+        let player2 = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         
         let scoreChangeSetting1 = ScoreChangeSettings(player: player1)
         let scoreChangeSetting2 = ScoreChangeSettings(player: player2)
@@ -681,7 +681,7 @@ final class GameTests: XCTestCase {
         
         let scoreChangeInt = Int.random(in: 2...100)
         
-        let player1 = Player(game: sut, name: "", position: 0, context: context)
+        let player1 = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         let scoreChangeSetting1 = ScoreChangeSettings(player: player1, scoreChange: scoreChangeInt)
         let endRoundSettings = EndRoundSettings(scoreChangeSettingsArray: [scoreChangeSetting1], roundNumber: 0)
         
@@ -701,8 +701,8 @@ final class GameTests: XCTestCase {
         // given
         let sut = Game(basicGameWithContext: context)
         
-        let player1 = Player(game: sut, name: "", position: 0, context: context)
-        let player2 = Player(game: sut, name: "", position: 1, context: context)
+        let player1 = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
+        let player2 = Player(game: sut, name: "", position: 1, icon: .alien, context: context)
         let scoreChangeSettings1 = ScoreChangeSettings(player: player1)
         let scoreChangeSettings2 = ScoreChangeSettings(player: player2)
         
@@ -721,8 +721,8 @@ final class GameTests: XCTestCase {
         // given
         let sut = Game(basicGameWithContext: context)
         
-        let player1 = Player(game: sut, name: "", position: 0, context: context)
-        let player2 = Player(game: sut, name: "", position: 1, context: context)
+        let player1 = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
+        let player2 = Player(game: sut, name: "", position: 1, icon: .alien, context: context)
         let scoreChangeSettingsArray = [
             ScoreChangeSettings(player: player1),
             ScoreChangeSettings(player: player2)
@@ -907,7 +907,7 @@ final class GameTests: XCTestCase {
     func test_Game_WhenEditScoreChangeCalledPlayerHasScoreChange_ShouldChangeScoreChangesScoreChangeValue() {
         // given
         let sut = Game(basicGameWithContext: context)
-        let player = Player(game: sut, name: "", position: 0, context: context)
+        let player = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         let scoreChange = ScoreChange(player: player, scoreChange: 0, position: 0, game: sut, context: context)
         let newScoreChangeInt = Int.random(in: 1...10)
         
@@ -928,8 +928,8 @@ final class GameTests: XCTestCase {
         let sut = Game(basicGameWithContext: context)
         let endRound = EndRound(game: sut, roundNumber: 0, scoreChanges: [], context: context)
         
-        let player1 = Player(game: sut, name: "", position: 0, context: context)
-        let player2 = Player(game: sut, name: "", position: 0, context: context)
+        let player1 = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
+        let player2 = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
         let scoreChange1 = ScoreChange(player: player1, scoreChange: 0, position: 0, endRound: endRound, context: context)
         let scoreChange2 = ScoreChange(player: player2, scoreChange: 0, position: 0, endRound: endRound, context: context)
         

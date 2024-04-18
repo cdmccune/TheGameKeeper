@@ -36,7 +36,7 @@ class GameEndQuantitySelectionPopoverViewController: UIViewController, Storyboar
     // MARK: - Private Functions
     
     private func setupViews() {
-        saveButton.underlineButtonForButtonStates(title: "Save")
+        saveButton.underlineButtonForButtonStates(title: "Save", withTextSize: 22)
         quantityTextField.becomeFirstResponder()
         
         guard let gameEndType else { return }
