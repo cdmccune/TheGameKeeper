@@ -43,6 +43,7 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
     
     private func setupViews() {
         self.playerNameTextField.text = player?.name
+        self.saveButton.isEnabled = (player?.name != "")
         
         playerIconButton.imageView?.contentMode = .scaleAspectFit
         playerIconButton.imageView?.layer.cornerRadius = 25

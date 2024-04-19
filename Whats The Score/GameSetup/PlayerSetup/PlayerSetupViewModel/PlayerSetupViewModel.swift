@@ -56,6 +56,11 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
         }
     }
     
+    func editPlayerAt(row: Int) {
+        guard players.indices.contains(row) else { return }
+        coordinator?.showAddPlayerPopover(withPlayerSettings: players[row], andDelegate: self)
+    }
+    
     func randomizePlayers() {
         players.shuffle()
         delegate?.bindViewToViewModel()
@@ -74,7 +79,12 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
 
 extension PlayerSetupViewModel: EditPlayerPopoverDelegateProtocol {
     func finishedEditing(_ player: PlayerSettings) {
-        players.append(player)
+        
+        if let playerIndex = players.firstIndex(of: player) {
+            players[playerIndex] = player
+        } else {
+            players.append(player)
+        }
         delegate?.bindViewToViewModel()
     }
 }

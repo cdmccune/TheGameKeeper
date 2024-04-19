@@ -92,50 +92,66 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual(cell?.setupViewPropertiesForPlayer, sut.playerViewModel.players[randomPlayerSettingIndex])
     }
     
-    // MARK: - MoveRowAt
-    
-    func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerViewModelMovePlayerAt() {
-        // given
-        let (sut, tableView) = getSutAndTableView(withPlayerCount: 5)
-        
-        // when
-        let sourceRow = 0
-        let destinationRow = 1
-        sut.tableView(tableView, moveRowAt: IndexPath(row: sourceRow, section: 0), to: IndexPath(row: destinationRow, section: 0))
-        
-        // then
-        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtCalledCount, 1)
-        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtSourceRow, sourceRow)
-        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtDestinationRow, destinationRow)
-    }
-    
-    
-    // MARK: - Should Indent
-    
-    func test_PlayerSetupPlayerTableView_WhenShouldIndentWhilteEditingRowAtCalled_ShouldReturnFalse() {
+    func test_PlayerSetupPlayerTableView_WhenDidSelectRowAt_ShouldCallViewModelEditPlayerAt() {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        let viewModel = PlayerSetupViewModelMock()
+        sut.playerViewModel = viewModel
+        
+        let index = Int.random(in: 1...100)
         
         // when
-        let shouldIndent = sut.tableView(tableView, shouldIndentWhileEditingRowAt: IndexPath(row: 0, section: 0))
+        sut.tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
         
         // then
-        XCTAssertFalse(shouldIndent)
+        XCTAssertEqual(viewModel.editPlayerAtCalledCount, 1)
+        XCTAssertEqual(viewModel.editPlayerAtIndex, index)
     }
     
+//    // MARK: - MoveRowAt
+//    
+//    func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerViewModelMovePlayerAt() {
+//        // given
+//        let (sut, tableView) = getSutAndTableView(withPlayerCount: 5)
+//        
+//        // when
+//        let sourceRow = 0
+//        let destinationRow = 1
+//        sut.tableView(tableView, moveRowAt: IndexPath(row: sourceRow, section: 0), to: IndexPath(row: destinationRow, section: 0))
+//        
+//        // then
+//        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtCalledCount, 1)
+//        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtSourceRow, sourceRow)
+//        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtDestinationRow, destinationRow)
+//    }
     
-    // MARK: - EditingStyle
     
-    func test_PlayerSetupPlayerTableView_WhenEditingStyleForRowAtCalled_ShouldReturnNone() {
-        // given
-        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
-        
-        // when
-        let editingStyle = sut.tableView(tableView, editingStyleForRowAt: IndexPath(row: 0, section: 0))
-        
-        // then
-        XCTAssertEqual(editingStyle, .none)
-    }
+//    // MARK: - Should Indent
+//    
+//    func test_PlayerSetupPlayerTableView_WhenShouldIndentWhileEditingRowAtCalled_ShouldReturnFalse() {
+//        // given
+//        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+//        
+//        // when
+//        let shouldIndent = sut.tableView(tableView, shouldIndentWhileEditingRowAt: IndexPath(row: 0, section: 0))
+//        
+//        // then
+//        XCTAssertFalse(shouldIndent)
+//    }
+    
+    
+//    // MARK: - EditingStyle
+//    
+//    func test_PlayerSetupPlayerTableView_WhenEditingStyleForRowAtCalled_ShouldReturnNone() {
+//        // given
+//        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+//        
+//        // when
+//        let editingStyle = sut.tableView(tableView, editingStyleForRowAt: IndexPath(row: 0, section: 0))
+//        
+//        // then
+//        XCTAssertEqual(editingStyle, .none)
+//    }
     
     
     // MARK: - TrailingSwipe

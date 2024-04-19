@@ -15,6 +15,7 @@ protocol PlayerSetupViewModelProtocol {
     func playerNameChanged(withIndex index: Int, toName name: String)
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
     func addPlayer()
+    func editPlayerAt(row: Int)
     func randomizePlayers()
     func deletePlayerAt(_ index: Int)
     func playersSetup()

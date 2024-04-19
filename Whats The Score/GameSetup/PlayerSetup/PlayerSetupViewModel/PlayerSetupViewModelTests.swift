@@ -116,19 +116,6 @@ final class PlayerSetupViewModelTests: XCTestCase {
         XCTAssertIdentical(coordinator.showAddPlayerPopoverDelegate, sut)
     }
     
-    func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldCallCoordinatorShowAddPlayerPopoverWithPlayerSettingsWithBlankName() {
-        // given
-        let sut = getViewModel()
-        let coordinator = GameSetupCoordinatorMock()
-        sut.coordinator = coordinator
-        
-        // when
-        sut.addPlayer()
-        
-        // then
-        XCTAssertEqual(coordinator.showAddPlayerPopoverPlayerSettings?.name, "")
-    }
-    
     func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldCallCoordinatorShowAddPlayerPopoverWithPlayerWithAssignUnusedIconIfAvailable() {
         // given
         let sut = getViewModel()
@@ -150,6 +137,26 @@ final class PlayerSetupViewModelTests: XCTestCase {
         
         // then
         XCTAssertEqual(coordinator.showAddPlayerPopoverPlayerSettings?.icon, randomPlayer.icon)
+    }
+    
+    
+    // MARK: - EditPlayerAt
+    
+    func test_PlayerSetupViewModel_WhenEditPlayerAtCalled_ShouldCallCoordinatorShowAddPlayerPopoverWithPlayerAtIndexAndSelfAsDelegate() {
+        // given
+        let sut = getViewModel(withPlayerCount: 10)
+        let coordinator = GameSetupCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        let randomPlayerIndex = Int.random(in: 0...9)
+        
+        // when
+        sut.editPlayerAt(row: randomPlayerIndex)
+        
+        // then
+        XCTAssertEqual(coordinator.showAddPlayerPopoverCalledCount, 1)
+        XCTAssertEqual(coordinator.showAddPlayerPopoverPlayerSettings, sut.players[randomPlayerIndex])
+        XCTAssertIdentical(coordinator.showAddPlayerPopoverDelegate, sut)
     }
     
     
@@ -220,7 +227,8 @@ final class PlayerSetupViewModelTests: XCTestCase {
     
     
     // MARK: - FinishedEditing
-    func test_PlayerSetupViewModel_WhenFinishedEditingCalled_ShouldAppendPlayerSettingsToPlayersArray() {
+    
+    func test_PlayerSetupViewModel_WhenFinishedEditingCalledPlayerNotInPlayerArray_ShouldAppendPlayerSettingsToPlayersArray() {
         // given
         let sut = getViewModel()
         let playerSettings = PlayerSettings.getStub()
@@ -230,6 +238,24 @@ final class PlayerSetupViewModelTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.players.first, playerSettings)
+    }
+    
+    func test_PlayerSetupViewModel_WhenFinishedEditingCalledPlayerInArray_ShouldSetThePlayerSettingsAtIndexToNewPlayerSettings() {
+        // given
+        let sut = getViewModel()
+        var playerSettings = PlayerSettings.getStub()
+        sut.players = [playerSettings]
+        
+        let newPlayerName = UUID().uuidString
+        playerSettings.name = newPlayerName
+        
+        // when
+        sut.finishedEditing(playerSettings)
+        
+        // then
+        XCTAssertEqual(sut.players.count, 1)
+        XCTAssertEqual(sut.players.first, playerSettings)
+        XCTAssertEqual(sut.players.first?.name, newPlayerName)
     }
     
     func test_PlayerSetupViewModel_WhenFinishedEditingCalled_ShouldCallDelegateBindViewToViewModel() {

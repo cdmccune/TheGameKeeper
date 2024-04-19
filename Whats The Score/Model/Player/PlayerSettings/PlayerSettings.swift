@@ -10,14 +10,10 @@ import Foundation
 struct PlayerSettings {
     var name: String
     var icon: PlayerIcon
-    var id: UUID?
+    var id: UUID = UUID()
 }
 
 extension PlayerSettings: Equatable {}
 func == (lhs: PlayerSettings, rhs: PlayerSettings) -> Bool {
-    if let lhsID = lhs.id, let rhsID = rhs.id {
-        return lhsID == rhsID
-    } else {
-        return lhs.name == rhs.name
-    }
+    return lhs.id == rhs.id
 }

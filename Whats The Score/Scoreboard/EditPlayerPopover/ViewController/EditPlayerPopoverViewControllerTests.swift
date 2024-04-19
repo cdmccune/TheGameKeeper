@@ -58,6 +58,34 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.playerNameTextField.text, playerName)
     }
     
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalledPlayerNameBlank_ShouldDisableSaveButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.player = PlayerSettings.getStub()
+        sut.saveButton.isEnabled = true
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertFalse(sut.saveButton.isEnabled)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalledPlayerNameNotBlank_ShouldEnableSaveButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.player = PlayerSettings.getStub(name: "asdf")
+        sut.saveButton.isEnabled = false
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(sut.saveButton.isEnabled )
+    }
+    
     func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldSetVisualPropertiesOnPlayerIconButton() {
         // given
         let sut = viewController!

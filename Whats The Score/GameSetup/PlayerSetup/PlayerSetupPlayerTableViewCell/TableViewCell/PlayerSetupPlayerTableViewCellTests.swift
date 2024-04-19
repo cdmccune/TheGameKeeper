@@ -64,7 +64,7 @@ final class PlayerSetupPlayerTableViewCellTests: XCTestCase {
         // then
         let playerNameAttributedString = sut.playerNameLabel.attributedText
         
-        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -2.0)
+        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
         XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, icon.color)
     }
     

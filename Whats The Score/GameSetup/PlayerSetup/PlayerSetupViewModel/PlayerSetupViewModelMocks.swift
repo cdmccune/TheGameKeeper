@@ -23,6 +23,13 @@ class PlayerSetupViewModelMock: PlayerSetupViewModelProtocol {
         addPlayerCalledCount += 1
     }
     
+    var editPlayerAtCalledCount = 0
+    var editPlayerAtIndex: Int?
+    func editPlayerAt(row: Int) {
+        editPlayerAtIndex = row
+        editPlayerAtCalledCount += 1
+    }
+    
     var playerNameChangedIndex: Int?
     var playerNameChangedName: String?
     func playerNameChanged(withIndex index: Int, toName name: String) {
