@@ -26,8 +26,9 @@ class PlayerIconSelectionViewController: UIViewController, Storyboarded {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         collectionView.delegate = collectionViewDelegate
         collectionView.dataSource = collectionViewDelegate
-        collectionView.register(PlayerIconSelectionCollectionViewCell.self, forCellWithReuseIdentifier: "PlayerIconSelectionCollectionViewCell")
+        collectionView.register(UINib(nibName: "PlayerIconSelectionCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PlayerIconSelectionCollectionViewCell")
     }
 }

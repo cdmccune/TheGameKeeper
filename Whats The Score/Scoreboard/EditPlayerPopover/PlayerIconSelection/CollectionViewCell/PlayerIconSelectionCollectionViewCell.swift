@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class PlayerIconSelectionCollectionViewCell: UICollectionViewCell {
+    
     @IBOutlet weak var iconImageView: UIImageView!
     
     func setupCellForIcon(_ icon: PlayerIcon) {

@@ -21,7 +21,9 @@ class PlayerIconSelectionCollectionViewDelegateDatasource: NSObject, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerIconSelectionCollectionViewCell", for: indexPath) as! PlayerIconSelectionCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerIconSelectionCollectionViewCell", for: indexPath) as? PlayerIconSelectionCollectionViewCell else {
+            fatalError("PlayerIconSelectionCollectionViewCell not found")
+        }
         
         guard viewModel?.icons.indices.contains(indexPath.row) ?? false,
               let icon = viewModel?.icons[indexPath.row] else {

@@ -51,5 +51,19 @@ final class PlayerIconSelectionViewControllerTests: XCTestCase {
         XCTAssertIdentical(sut.collectionView.delegate, sut.collectionViewDelegate)
         XCTAssertIdentical(sut.collectionView.dataSource, sut.collectionViewDelegate)
     }
+    
+    func test_PlayerIconSelectionViewController_WhenViewDidLoadCalled_ShouldRegisterEndGamePlayerIconSelectionCollectionViewCellInCollectionView() {
+        // given
+        let sut = viewController!
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        let cell = sut.collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerIconSelectionCollectionViewCell", for: IndexPath(row: 0, section: 0))
+        
+        XCTAssertTrue(cell is PlayerIconSelectionCollectionViewCell)
+    }
 
 }

@@ -25,6 +25,7 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
     
     var player: PlayerSettings?
     var delegate: EditPlayerPopoverDelegateProtocol?
+    var playerIconSelectionCustomDetentHelper: PlayerIconSelectionCustomDetentHelperProtocol = PlayerIconSelectionCustomDetentHelper()
     lazy var textFieldDelegate = DismissingTextFieldDelegate()
     
     
@@ -84,8 +85,18 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
     }
     
     @IBAction func playerIconButtonTapped(_ sender: Any) {
-        let editPlayerPopoverVC = EditPlayerPopoverViewController.instantiate()
-        present(editPlayerPopoverVC, animated: true)
+        let playerIconSelectionVC = PlayerIconSelectionViewController.instantiate()
+        let viewModel = PlayerIconSelectionViewModel()
+        playerIconSelectionVC.viewModel = viewModel
+        
+        playerIconSelectionCustomDetentHelper.viewModel = viewModel
+        
+        let detent = playerIconSelectionCustomDetentHelper.getCustomDetentFor(forScreenSize: UIScreen.main.bounds.size)
+        
+        if let sheetPresentationController = playerIconSelectionVC.sheetPresentationController {
+            sheetPresentationController.detents = [detent]
+        }
+ 
+        present(playerIconSelectionVC, animated: true)
     }
-    
 }

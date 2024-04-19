@@ -255,6 +255,73 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - PlayerIconButtonTapped
+    
+    class EditPlayerPopoverViewControllerPresentMock: EditPlayerPopoverViewController {
+        var presentCalledCount = 0
+        var presentViewController: UIViewController?
+        override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+            self.presentViewController = viewControllerToPresent
+            self.presentCalledCount += 1
+        }
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenPlayerIconButtonTappedCalled_ShouldPresentPlayerIconSelectionViewController() {
+        // given
+        let sut = EditPlayerPopoverViewControllerPresentMock()
+        
+        // when
+        sut.playerIconButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertTrue(sut.presentViewController is PlayerIconSelectionViewController)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenPlayerIconButtonTappedCalled_ShouldSetPresentedVCViewModelAndPlayerIconSelectionCustomDetentHelperViewModelAsSame() {
+        // given
+        let sut = EditPlayerPopoverViewControllerPresentMock()
+        
+        // when
+        sut.playerIconButtonTapped(0)
+        
+        // then
+        let playerIconSelectionVC = sut.presentViewController as? PlayerIconSelectionViewController
+        XCTAssertIdentical(sut.playerIconSelectionCustomDetentHelper.viewModel, playerIconSelectionVC?.viewModel)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenPlayerIconButtonTappedCalled_ShouldCallPlayerIconSelectionDetentHelperGetCustomDetent() {
+        // given
+        let sut = viewController!
+        
+        let detentHelperMock = PlayerIconSelectionCustomDetentHelperMock()
+        sut.playerIconSelectionCustomDetentHelper = detentHelperMock
+        
+        // when
+        sut.playerIconButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(detentHelperMock.getCustomDetentForCalledCount, 1)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenPlayerIconButtonTappedCalled_ShouldSetPlayerIconSelectionVCSheetPresentationControllerDetentToDetentReturnedFromHelper() {
+        // given
+        let sut = EditPlayerPopoverViewControllerPresentMock()
+        
+        let detentHelper = PlayerIconSelectionCustomDetentHelperMock()
+        let detentToReturn: UISheetPresentationController.Detent = Bool.random() ? .medium() : .large()
+        detentHelper.detentToReturn = detentToReturn
+        sut.playerIconSelectionCustomDetentHelper = detentHelper
+
+        // when
+        sut.playerIconButtonTapped(0)
+        
+        // then
+        let playerIconSelectionVC = sut.presentViewController as? PlayerIconSelectionViewController
+        XCTAssertEqual(detentToReturn, playerIconSelectionVC?.sheetPresentationController?.detents[0])
+    }
+    
+    
     // MARK: - Classes
     
     class EditPlayerPopoverDelegateMock: EditPlayerPopoverDelegateProtocol {
