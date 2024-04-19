@@ -65,5 +65,61 @@ final class PlayerIconSelectionViewControllerTests: XCTestCase {
         
         XCTAssertTrue(cell is PlayerIconSelectionCollectionViewCell)
     }
+    
+    func test_PlayerIconSelectionViewController_WhenViewDidLoadCalled_ShouldSetClosureOfViewModelsShouldChangeValueChangedToNotDismissIfShouldChangeIsFalse() {
+        
+        class PlayerIconSelectionViewControllerDismissMock: PlayerIconSelectionViewController {
+            var dismissCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = PlayerIconSelectionViewControllerDismissMock()
+        
+        let viewModel = PlayerIconSelectionViewModelMock()
+        sut.viewModel = viewModel
+        
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout())
+        let label = UILabel()
+        sut.collectionView = collectionView
+        sut.titleLabel = label
+        
+        // when
+        sut.viewDidLoad()
+        sut.viewModel?.shouldDismiss.value = false
+        
+        // then
+        XCTAssertEqual(sut.dismissCalledCount, 0)
+    }
+    
+    func test_PlayerIconSelectionViewController_WhenViewDidLoadCalled_ShouldSetClosureOfViewModelsShouldChangeValueChangedToDismissIfShouldChangeIsTrue() {
+        
+        class PlayerIconSelectionViewControllerDismissMock: PlayerIconSelectionViewController {
+            var dismissCalledCount = 0
+            override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+                dismissCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = PlayerIconSelectionViewControllerDismissMock()
+        
+        let viewModel = PlayerIconSelectionViewModelMock()
+        sut.viewModel = viewModel
+        
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout())
+        let label = UILabel()
+        sut.collectionView = collectionView
+        sut.titleLabel = label
+        
+        // when
+        sut.viewDidLoad()
+        sut.viewModel?.shouldDismiss.value = true
+        
+        // then
+        XCTAssertEqual(sut.dismissCalledCount, 1)
+    }
 
 }

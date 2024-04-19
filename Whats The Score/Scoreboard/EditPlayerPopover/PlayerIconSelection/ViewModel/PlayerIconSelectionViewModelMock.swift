@@ -10,6 +10,8 @@ import Foundation
 
 class PlayerIconSelectionViewModelMock: PlayerIconSelectionViewModelProtocol {
     var icons: [Whats_The_Score.PlayerIcon] = []
+    var delegate: PlayerIconSelectionDelegate?
+    var shouldDismiss: Observable<Bool> = Observable(nil)
     
     var iconSelectedAtRow: Int?
     var iconSelectedAtCalledCount = 0

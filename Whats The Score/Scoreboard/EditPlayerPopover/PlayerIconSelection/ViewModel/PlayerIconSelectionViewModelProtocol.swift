@@ -9,5 +9,9 @@ import Foundation
 
 protocol PlayerIconSelectionViewModelProtocol: AnyObject {
     var icons: [PlayerIcon] { get }
+    var delegate: PlayerIconSelectionDelegate? { get set }
+    var shouldDismiss: Observable<Bool> {get}
+    
+    
     func iconSelectAt(row: Int)
 }

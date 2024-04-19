@@ -53,8 +53,7 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
         saveButton.underlineButtonForButtonStates(title: "Save", withTextSize: 22)
         
         if let player {
-            playerIconButton.imageView?.layer.borderColor = player.icon.color.cgColor
-            playerIconButton.setImage(player.icon.image, for: .normal)
+            setupPlayerIconButtonFor(icon: player.icon)
         }
     }
     
@@ -65,6 +64,14 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         saveButton.isEnabled = textField.text != ""
+    }
+    
+    
+    // MARK: - Functions
+    
+    func setupPlayerIconButtonFor(icon: PlayerIcon) {
+        playerIconButton.imageView?.layer.borderColor = icon.color.cgColor
+        playerIconButton.setImage(icon.image, for: .normal)
     }
     
     
@@ -87,6 +94,7 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
     @IBAction func playerIconButtonTapped(_ sender: Any) {
         let playerIconSelectionVC = PlayerIconSelectionViewController.instantiate()
         let viewModel = PlayerIconSelectionViewModel()
+        viewModel.delegate = self
         playerIconSelectionVC.viewModel = viewModel
         
         playerIconSelectionCustomDetentHelper.viewModel = viewModel
@@ -98,5 +106,12 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
         }
  
         present(playerIconSelectionVC, animated: true)
+    }
+}
+
+extension EditPlayerPopoverViewController: PlayerIconSelectionDelegate {
+    func newIconSelected(icon: PlayerIcon) {
+        player?.icon = icon
+        setupPlayerIconButtonFor(icon: icon)
     }
 }

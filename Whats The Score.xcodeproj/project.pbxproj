@@ -92,6 +92,8 @@
 		247A517E2BD2D57100C4D48D /* PlayerIconSelectionCustomDetentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247A517D2BD2D57100C4D48D /* PlayerIconSelectionCustomDetentHelper.swift */; };
 		247A51802BD2D66C00C4D48D /* PlayerIconSelectionCustomDetentHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247A517F2BD2D66C00C4D48D /* PlayerIconSelectionCustomDetentHelperTests.swift */; };
 		247A51822BD2DEFB00C4D48D /* PlayerIconSelectionCustomDetentHelperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247A51812BD2DEFB00C4D48D /* PlayerIconSelectionCustomDetentHelperMock.swift */; };
+		247A51842BD2EA6B00C4D48D /* PlayerIconSelectionViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247A51832BD2EA6B00C4D48D /* PlayerIconSelectionViewModelTests.swift */; };
+		247A51862BD2EACC00C4D48D /* PlayerIconSelectionDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247A51852BD2EACC00C4D48D /* PlayerIconSelectionDelegateMock.swift */; };
 		247D0EC82BC5FB5700137C98 /* ScoreboardViewModel-NonDataFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247D0EC72BC5FB5700137C98 /* ScoreboardViewModel-NonDataFunctions.swift */; };
 		247D0ECA2BC5FBA900137C98 /* ScoreboardViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247D0EC92BC5FBA900137C98 /* ScoreboardViewModelProtocols.swift */; };
 		247D0ECC2BC5FBCF00137C98 /* ScoreboardViewModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247D0ECB2BC5FBCF00137C98 /* ScoreboardViewModelMock.swift */; };
@@ -318,6 +320,8 @@
 		247A517D2BD2D57100C4D48D /* PlayerIconSelectionCustomDetentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIconSelectionCustomDetentHelper.swift; sourceTree = "<group>"; };
 		247A517F2BD2D66C00C4D48D /* PlayerIconSelectionCustomDetentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIconSelectionCustomDetentHelperTests.swift; sourceTree = "<group>"; };
 		247A51812BD2DEFB00C4D48D /* PlayerIconSelectionCustomDetentHelperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIconSelectionCustomDetentHelperMock.swift; sourceTree = "<group>"; };
+		247A51832BD2EA6B00C4D48D /* PlayerIconSelectionViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIconSelectionViewModelTests.swift; sourceTree = "<group>"; };
+		247A51852BD2EACC00C4D48D /* PlayerIconSelectionDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIconSelectionDelegateMock.swift; sourceTree = "<group>"; };
 		247D0EC52BC5FA5000137C98 /* ScoreboardViewModel-DataFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScoreboardViewModel-DataFunctions.swift"; sourceTree = "<group>"; };
 		247D0EC72BC5FB5700137C98 /* ScoreboardViewModel-NonDataFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScoreboardViewModel-NonDataFunctions.swift"; sourceTree = "<group>"; };
 		247D0EC92BC5FBA900137C98 /* ScoreboardViewModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModelProtocols.swift; sourceTree = "<group>"; };
@@ -1252,6 +1256,7 @@
 			isa = PBXGroup;
 			children = (
 				24C5D0B12BD1CF5900E5DBA6 /* PlayerIconSelectionDelegate.swift */,
+				247A51852BD2EACC00C4D48D /* PlayerIconSelectionDelegateMock.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -1272,6 +1277,7 @@
 				24C5D0B62BD1CF8E00E5DBA6 /* PlayerIconSelectionViewModel.swift */,
 				24C5D0B82BD1CFA300E5DBA6 /* PlayerIconSelectionViewModelProtocol.swift */,
 				24C5D0C72BD1D40500E5DBA6 /* PlayerIconSelectionViewModelMock.swift */,
+				247A51832BD2EA6B00C4D48D /* PlayerIconSelectionViewModelTests.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2002,8 +2008,10 @@
 				247A51802BD2D66C00C4D48D /* PlayerIconSelectionCustomDetentHelperTests.swift in Sources */,
 				24C7C42F2B9BC63A0043F159 /* EndGamePlayerCollectionViewCellTests.swift in Sources */,
 				24C5D0A32BD1812700E5DBA6 /* GameNameTextFieldDelegateTests.swift in Sources */,
+				247A51862BD2EACC00C4D48D /* PlayerIconSelectionDelegateMock.swift in Sources */,
 				243206C62B8411C1000CCE75 /* StackViewTextFieldDelegateTests.swift in Sources */,
 				2457FA322B7FDE6700CF7F40 /* EndRoundPopoverHeightHelperTests.swift in Sources */,
+				247A51842BD2EA6B00C4D48D /* PlayerIconSelectionViewModelTests.swift in Sources */,
 				249BFEF72BC47FB50085F21E /* GameMocks.swift in Sources */,
 				24EC1D7E2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift in Sources */,
 				24ADCAC42BAE070E007A9FA7 /* EndGamePopoverDelegateMock.swift in Sources */,

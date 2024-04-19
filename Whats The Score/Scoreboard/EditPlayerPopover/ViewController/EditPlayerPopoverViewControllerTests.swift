@@ -73,21 +73,34 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.playerIconButton.imageView?.layer.borderWidth, 2)
     }
     
-    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldSetPlayerIconButtonImageToPlayerIconImageAndBorderColorToColor() {
-        // given
-        let sut = viewController!
-        sut.loadView()
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldCallSetupPlayerButtonViewsForWithPlayerIcon() {
+        class EditPlayerPopoverViewControllerSetupPlayerIconButtonForMock: EditPlayerPopoverViewController {
+            var setupPlayerIconButtonForCalledCount = 0
+            var setupPlayerIconButtonForIcon: PlayerIcon?
+            override func setupPlayerIconButtonFor(icon: PlayerIcon) {
+                setupPlayerIconButtonForCalledCount += 1
+                setupPlayerIconButtonForIcon = icon
+            }
+        }
         
-        let playerIcon = PlayerIcon.allCases.randomElement()!
-        let playerSettings = PlayerSettings(name: "", icon: playerIcon)
+        // given
+        let sut = EditPlayerPopoverViewControllerSetupPlayerIconButtonForMock()
+        let textField = UITextField()
+        sut.playerNameTextField = textField
+        let button = UIButton()
+        sut.saveButton = button
+        sut.playerIconButton = button
+        
+        let icon = PlayerIcon.allCases.randomElement()!
+        let playerSettings = PlayerSettings.getStub(icon: icon)
         sut.player = playerSettings
         
         // when
         sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(sut.playerIconButton.image(for: .normal), playerIcon.image)
-        XCTAssertTrue(sut.playerIconButton.imageView?.layer.borderColor?.same(as: playerIcon.color.cgColor) ?? false)
+        XCTAssertEqual(sut.setupPlayerIconButtonForCalledCount, 1)
+        XCTAssertEqual(sut.setupPlayerIconButtonForIcon, icon)
     }
     
     func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesWithStringAndSizeOnPlayerIconButton() {
@@ -185,6 +198,24 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     }
     
     
+    // MARK: - SetupPlayerIconButtonFor
+    
+    func test_EditPlayerPopoverViewController_WhenSetupPlayerIconButtonForCalled_ShouldSetPlayerIconButtonImageToIconImageAndBorderColorToColor() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let playerIcon = PlayerIcon.allCases.randomElement()!
+        
+        // when
+        sut.setupPlayerIconButtonFor(icon: playerIcon)
+        
+        // then
+        XCTAssertEqual(sut.playerIconButton.image(for: .normal), playerIcon.image)
+        XCTAssertTrue(sut.playerIconButton.imageView?.layer.borderColor?.same(as: playerIcon.color.cgColor) ?? false)
+    }
+    
+    
     // MARK: - SaveButtonTapped
     
     func test_EditPlayerPopoverViewController_WhenSaveButtonTapped_ShouldCallDelegateFinishedEditingWithNewPlayerAndTextAsName() {
@@ -278,6 +309,18 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.presentViewController is PlayerIconSelectionViewController)
     }
     
+    func test_EditPlayerPopoverViewController_WhenPlayerIconButtonTappedCalled_ShouldSetSelfAsViewModelDelegate() {
+        // given
+        let sut = EditPlayerPopoverViewControllerPresentMock()
+        
+        // when
+        sut.playerIconButtonTapped(0)
+        
+        // then
+        let playerIconSelectionVC = sut.presentViewController as? PlayerIconSelectionViewController
+        XCTAssertIdentical(playerIconSelectionVC?.viewModel?.delegate, sut)
+    }
+    
     func test_EditPlayerPopoverViewController_WhenPlayerIconButtonTappedCalled_ShouldSetPresentedVCViewModelAndPlayerIconSelectionCustomDetentHelperViewModelAsSame() {
         // given
         let sut = EditPlayerPopoverViewControllerPresentMock()
@@ -319,6 +362,48 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         // then
         let playerIconSelectionVC = sut.presentViewController as? PlayerIconSelectionViewController
         XCTAssertEqual(detentToReturn, playerIconSelectionVC?.sheetPresentationController?.detents[0])
+    }
+    
+    
+    // MARK: - NewIconSelected
+    
+    func test_EditPlayerPopoverViewController_WhenNewIconSelected_ShouldSetPlayerSettingsIconEqualToIconSent() {
+        // given
+        let sut = viewController!
+        
+        let originalIcon = PlayerIcon(rawValue: 0)!
+        let playerSettings = PlayerSettings.getStub(icon: originalIcon)
+        sut.player = playerSettings
+        
+        let randomNewIcon = PlayerIcon(rawValue: Int.random(in: 1..<PlayerIcon.allCases.count))!
+        
+        // when
+        sut.newIconSelected(icon: randomNewIcon)
+        
+        // then
+        XCTAssertEqual(sut.player?.icon, randomNewIcon)
+    }
+    
+    func test_EditPlayerPopoverViewController_WhenNewIconSelectedCalled_ShouldCallSetupPlayerIconButtonForWithPlayerIcon() {
+        class EditPlayerPopoverViewControllerSetupPlayerIconButtonForMock: EditPlayerPopoverViewController {
+            var setupPlayerIconButtonForCalledCount = 0
+            var setupPlayerIconButtonForIcon: PlayerIcon?
+            override func setupPlayerIconButtonFor(icon: PlayerIcon) {
+                setupPlayerIconButtonForCalledCount += 1
+                setupPlayerIconButtonForIcon = icon
+            }
+        }
+        
+        // given
+        let sut = EditPlayerPopoverViewControllerSetupPlayerIconButtonForMock()
+        let icon = PlayerIcon.allCases.randomElement()!
+        
+        // whenName
+        sut.newIconSelected(icon: icon)
+        
+        // then
+        XCTAssertEqual(sut.setupPlayerIconButtonForCalledCount, 1)
+        XCTAssertEqual(sut.setupPlayerIconButtonForIcon, icon)
     }
     
     

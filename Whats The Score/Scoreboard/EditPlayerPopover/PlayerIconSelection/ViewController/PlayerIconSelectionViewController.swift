@@ -30,5 +30,10 @@ class PlayerIconSelectionViewController: UIViewController, Storyboarded {
         collectionView.delegate = collectionViewDelegate
         collectionView.dataSource = collectionViewDelegate
         collectionView.register(UINib(nibName: "PlayerIconSelectionCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PlayerIconSelectionCollectionViewCell")
+        
+        viewModel?.shouldDismiss.valueChanged = { [weak self] shouldChange in
+            guard shouldChange ?? false else { return }
+            self?.dismiss(animated: true)
+        }
     }
 }
