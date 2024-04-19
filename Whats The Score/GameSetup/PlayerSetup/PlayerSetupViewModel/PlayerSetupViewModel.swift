@@ -37,7 +37,23 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     }
     
     func addPlayer() {
-        coordinator?.showAddPlayerPopover(withPlayerSettings: PlayerSettings(name: "", icon: .alien), andDelegate: self)
+        coordinator?.showAddPlayerPopover(withPlayerSettings: PlayerSettings(name: "", icon: getRandomIcon()), andDelegate: self)
+    }
+    
+    private func getRandomIcon() -> PlayerIcon {
+        let filteredIcons = PlayerIcon.allCases.filter { icon in
+            !players.contains { player in
+                player.icon == icon
+            }
+        }
+        
+        if let filteredRandomIcon = filteredIcons.randomElement() {
+            return filteredRandomIcon
+        } else if let randomIcon = PlayerIcon.allCases.randomElement() {
+            return randomIcon
+        } else {
+            fatalError("No Icons")
+        }
     }
     
     func randomizePlayers() {

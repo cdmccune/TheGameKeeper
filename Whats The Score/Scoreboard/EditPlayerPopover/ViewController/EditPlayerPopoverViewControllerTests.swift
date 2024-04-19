@@ -370,6 +370,7 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     func test_EditPlayerPopoverViewController_WhenNewIconSelected_ShouldSetPlayerSettingsIconEqualToIconSent() {
         // given
         let sut = viewController!
+        sut.loadView()
         
         let originalIcon = PlayerIcon(rawValue: 0)!
         let playerSettings = PlayerSettings.getStub(icon: originalIcon)

@@ -26,13 +26,12 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
         }
             
         guard playerViewModel.players.indices.contains(indexPath.row) else {
-            cell.playerNameLabel.text = "Error"
+            cell.setupErrorCell()
             return cell
         }
         
         let player = playerViewModel.players[indexPath.row]
-    
-        cell.playerNameLabel.text = player.name
+        cell.setupViewPropertiesFor(player: player)
         
         return cell
     }

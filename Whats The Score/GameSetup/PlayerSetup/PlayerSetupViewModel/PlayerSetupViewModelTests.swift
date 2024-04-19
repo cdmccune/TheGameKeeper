@@ -129,6 +129,29 @@ final class PlayerSetupViewModelTests: XCTestCase {
         XCTAssertEqual(coordinator.showAddPlayerPopoverPlayerSettings?.name, "")
     }
     
+    func test_PlayerSetupViewModel_WhenAddPlayerCalled_ShouldCallCoordinatorShowAddPlayerPopoverWithPlayerWithAssignUnusedIconIfAvailable() {
+        // given
+        let sut = getViewModel()
+        let coordinator = GameSetupCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        var players = [PlayerSettings]()
+        for icon in PlayerIcon.allCases {
+            players.append(PlayerSettings.getStub(icon: icon))
+        }
+        
+        let randomPlayer = players.randomElement()!
+        players.removeAll { $0.icon == randomPlayer.icon }
+        
+        sut.players = players
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(coordinator.showAddPlayerPopoverPlayerSettings?.icon, randomPlayer.icon)
+    }
+    
     
     // MARK: - RandomizePlayers
     

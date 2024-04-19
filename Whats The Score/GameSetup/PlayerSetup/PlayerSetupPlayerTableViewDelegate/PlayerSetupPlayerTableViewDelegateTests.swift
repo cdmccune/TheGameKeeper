@@ -16,7 +16,7 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
     
     override func setUp() {
         tableViewMock = UITableView()
-        tableViewMock?.register(UINib(nibName: "PlayerSetupPlayerTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPlayerTableViewCell")
+        tableViewMock?.register(PlayerSetupPlayerTableViewCellMock.self, forCellReuseIdentifier: "PlayerSetupPlayerTableViewCell")
     }
     
     override func tearDown() {
@@ -39,7 +39,8 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         return (sut, tableView)
     }
     
-    // MARK: - Tests
+    
+    // MARK: - NumberOfRowsInSection
 
     func test_PlayerSetupPlayerTableView_WhenNumberOfRowsCalled_ShouldReturnTheNumberOfRowsInThePlayerViewModel() {
         // given
@@ -53,27 +54,45 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual(playerCount, playerCellCount)
     }
     
-    func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldReturnPlayerSetupPlayerTableViewCellWithCorrectPlayerName() {
+    
+    // MARK: - CellForRowAt
+    
+    func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldReturnPlayerSetupPlayerTableViewCell() {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
         
-        let playerCount = Int.random(in: 2...5)
-        var players = [PlayerSettings]()
-        for _ in 0..<playerCount {
-            players.append(PlayerSettings.getStub())
-        }
-        
-        sut.playerViewModel.players = players
-        
-        let randomPlayer = Int.random(in: 0...playerCount-1)
-        
         // when
-        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: randomPlayer, section: 0))
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0))
         
         // then
         XCTAssertTrue(cell is PlayerSetupPlayerTableViewCell)
-        XCTAssertEqual((cell as? PlayerSetupPlayerTableViewCell)?.playerNameLabel.text, players[randomPlayer].name)
     }
+    
+    func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldCallCellsSetupErrorCell() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PlayerSetupPlayerTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupErrorCellCalledCount, 1)
+    }
+    
+    func test_PlayerSetupPlayerTableView_WhenCellForRowAtCalled_ShouldCallSetupViewPropertiesForWithCorrectPlayer() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 5)
+        let randomPlayerSettingIndex = Int.random(in: 0..<5)
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: randomPlayerSettingIndex, section: 0)) as? PlayerSetupPlayerTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell?.setupViewPropertiesForCalledCount, 1)
+        XCTAssertEqual(cell?.setupViewPropertiesForPlayer, sut.playerViewModel.players[randomPlayerSettingIndex])
+    }
+    
+    // MARK: - MoveRowAt
     
     func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerViewModelMovePlayerAt() {
         // given
@@ -90,6 +109,9 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtDestinationRow, destinationRow)
     }
     
+    
+    // MARK: - Should Indent
+    
     func test_PlayerSetupPlayerTableView_WhenShouldIndentWhilteEditingRowAtCalled_ShouldReturnFalse() {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
@@ -101,6 +123,9 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertFalse(shouldIndent)
     }
     
+    
+    // MARK: - EditingStyle
+    
     func test_PlayerSetupPlayerTableView_WhenEditingStyleForRowAtCalled_ShouldReturnNone() {
         // given
         let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
@@ -111,6 +136,9 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         // then
         XCTAssertEqual(editingStyle, .none)
     }
+    
+    
+    // MARK: - TrailingSwipe
     
     func test_PlayerSetupPlayerTableView_WhenTrailingSwipeActionsConfiguartionForRowAt_ShouldReturnOneActionWithDeleteTitle() {
         // given
@@ -142,5 +170,19 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewModelMock.deletePlayerAtCalledCount, 1)
+    }
+    
+    class PlayerSetupPlayerTableViewCellMock: PlayerSetupPlayerTableViewCell {
+        var setupViewPropertiesForCalledCount = 0
+        var setupViewPropertiesForPlayer: PlayerSettings?
+        override func setupViewPropertiesFor(player: PlayerSettings) {
+            setupViewPropertiesForCalledCount += 1
+            setupViewPropertiesForPlayer = player
+        }
+        
+        var setupErrorCellCalledCount = 0
+        override func setupErrorCell() {
+            setupErrorCellCalledCount += 1
+        }
     }
 }
