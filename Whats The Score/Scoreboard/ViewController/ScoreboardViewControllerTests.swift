@@ -116,7 +116,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let barButton = sut.historyBarButton
         
         // then
-        XCTAssertEqual(barButton.image, UIImage(systemName: "clock.arrow.2.circlepath")!)
+        XCTAssertEqual(barButton.image, UIImage(named: "clockIcon")!)
         XCTAssertEqual(barButton.target as? ScoreboardViewController, sut)
         XCTAssertEqual(barButton.tintColor, .textColor)
 

@@ -28,7 +28,7 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
     var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     lazy var historyBarButton: UIBarButtonItem = {
-        let barButton = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(historyButtonTapped))
+        let barButton = UIBarButtonItem(image: UIImage(named: "clockIcon"), style: .plain, target: self, action: #selector(historyButtonTapped))
         barButton.tintColor = .textColor
         return barButton
     }()
