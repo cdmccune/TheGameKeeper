@@ -446,7 +446,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="260" translatesAutoresizingMaskIntoConstraints="NO" id="YHY-Fn-YN4">
                                                 <rect key="frame" x="20" y="76" width="353" height="120"/>
                                                 <subviews>
-                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="260" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SGM-1Z-kx4">
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="260" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SGM-1Z-kx4">
                                                         <rect key="frame" x="0.0" y="0.0" width="353" height="120"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableView>
@@ -502,6 +502,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="Start Game">
                                             <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="startButtonTapped:" destination="pg7-xh-hcT" eventType="touchUpInside" id="uG8-2S-dzp"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -523,6 +526,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="instructionLabel" destination="w30-6U-zQs" id="eYE-Mt-toL"/>
                         <outlet property="playerTableView" destination="SGM-1Z-kx4" id="3as-uW-Pog"/>
                         <outlet property="randomizeButton" destination="jzZ-i4-LUU" id="q3P-in-Eh9"/>
                         <outlet property="startGameButton" destination="QeF-lM-Unc" id="6U6-hd-qoF"/>
@@ -602,11 +606,11 @@
                                         <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="8"/>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cCi-B3-Ky9">
-                                        <rect key="frame" x="0.0" y="171" width="393" height="466"/>
+                                        <rect key="frame" x="0.0" y="171.00000000000003" width="393" height="450.66666666666674"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3o-tW-ZLn">
-                                        <rect key="frame" x="10" y="642" width="373" height="35"/>
+                                        <rect key="frame" x="10" y="626.66666666666663" width="373" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="b32-3X-kP5"/>
                                         </constraints>
@@ -620,7 +624,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="txo-KT-kJR">
-                                        <rect key="frame" x="85.666666666666686" y="682" width="222" height="36"/>
+                                        <rect key="frame" x="85.666666666666686" y="666.66666666666663" width="222" height="51.333333333333371"/>
                                         <color key="tintColor" name="TextColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="End Round">
@@ -715,11 +719,11 @@
                                         <cells/>
                                     </collectionView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0Xc-SH-Pn6">
-                                        <rect key="frame" x="0.0" y="180" width="393" height="461"/>
+                                        <rect key="frame" x="0.0" y="180" width="393" height="454"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZYD-qq-eI3">
-                                        <rect key="frame" x="111" y="646" width="171" height="34.333333333333371"/>
+                                        <rect key="frame" x="111" y="639" width="171" height="41.333333333333371"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Keep Playing Game"/>
                                         <connections>
@@ -790,7 +794,7 @@
                                                 <rect key="frame" x="89" y="0.0" width="102" height="95.333333333333329"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="0" textAlignment="right" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="he4-Ns-wXb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="95.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="95.333333333333343"/>
                                                         <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="72"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
@@ -1894,7 +1898,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MuG-3q-6p1">
-                                        <rect key="frame" x="10" y="30" width="373" height="260"/>
+                                        <rect key="frame" x="10" y="29.999999999999996" width="373" height="260"/>
                                         <color key="backgroundColor" name="BackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fZH-iJ-lCe">
                                             <size key="itemSize" width="50" height="50"/>
@@ -1920,6 +1924,7 @@
                                 <edgeInsets key="layoutMargins" top="10" left="10" bottom="10" right="10"/>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ebq-Sn-U4L"/>
                         <color key="backgroundColor" name="BackgroundColor"/>
                         <constraints>
                             <constraint firstItem="hCD-HY-jMr" firstAttribute="top" secondItem="zch-aC-qto" secondAttribute="top" id="123-Az-esb"/>

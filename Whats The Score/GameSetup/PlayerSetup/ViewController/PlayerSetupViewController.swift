@@ -12,13 +12,12 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
     // MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var randomizeButton: UIButton!
     @IBOutlet weak var playerTableView: UITableView!
     @IBOutlet weak var tapToAddPlayerButton: UIButton!
     @IBOutlet weak var tableViewStackViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var startGameButton: UIButton!
-    
-    lazy var startBarButton = UIBarButtonItem(title: "Start", style: .done, target: self, action: #selector(startBarButtonTapped))
     
     
     // MARK: - Properties
@@ -32,7 +31,6 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
         super.viewDidLoad()
         self.setDelegates()
         self.registerNibs()
-        self.setProgrammaticViewProperties()
     }
     
     private func setDelegates() {
@@ -44,17 +42,14 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
         playerTableView.delegate = playerTableViewDelegate
         playerTableView.dataSource = playerTableViewDelegate
         
-        playerTableView.isEditing = true
+        playerTableView.dragDelegate = playerTableView
+        playerTableView.dropDelegate = playerTableView
     }
     
     private func registerNibs() {
         playerTableView.register(UINib(nibName: "PlayerSetupPlayerTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPlayerTableViewCell")
     }
-
     
-    private func setProgrammaticViewProperties() {
-        self.navigationItem.rightBarButtonItem = startBarButton
-    }
     
     // MARK: - IBActions
     
@@ -66,7 +61,7 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
         viewModel?.randomizePlayers()
     }
     
-    @objc func startBarButtonTapped() {
+    @IBAction func startButtonTapped(_ sender: Any) {
         viewModel?.playersSetup()
     }
 }
@@ -78,8 +73,21 @@ extension PlayerSetupViewController: PlayerSetupViewModelViewProtocol {
         }
     }
     
-    func bindViewToViewModel() {
-        DispatchQueue.main.async {
+    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol) {
+        dispatchQueue.async {
+            
+            switch self.viewModel?.players.count ?? 0 {
+            case ..<2:
+                self.instructionLabel.text = "You must add at least 2 players!"
+                self.startGameButton.isEnabled = false
+                self.randomizeButton.isHidden = true
+            default:
+                self.instructionLabel.text = "Tap, hold then drag players to reorder!"
+                self.startGameButton.isEnabled = true
+                self.randomizeButton.isHidden = false
+            }
+            
+            
             self.playerTableView.reloadData()
             self.view.layoutIfNeeded()
             self.tableViewStackViewHeightConstraint.constant = self.playerTableView.contentSize.height

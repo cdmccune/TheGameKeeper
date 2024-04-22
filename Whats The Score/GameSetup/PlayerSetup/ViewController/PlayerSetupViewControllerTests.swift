@@ -25,7 +25,7 @@ final class PlayerSetupViewControllerTests: XCTestCase {
     }
     
     
-    // MARK: - Initialization
+    // MARK: - ViewDidLoad
     
     func getBasicViewModel() -> PlayerSetupViewModel {
         return PlayerSetupViewModel()
@@ -86,17 +86,19 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertTrue(cell is PlayerSetupPlayerTableViewCell)
     }
     
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetStartTabBarButtonAsRightNavBarItem() {
-        // given
-        let sut = viewController!
-        
-        // when
-        sut.loadView()
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(sut.navigationItem.rightBarButtonItem, sut.startBarButton)
-    }
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewAsItsOwnDragDropDelegate() {
+            // given
+            let sut = viewController!
+            sut.viewModel = PlayerSetupViewModelMock()
+            
+            // when
+            sut.loadView()
+            sut.viewDidLoad()
+            
+            // then
+            XCTAssertTrue(sut.playerTableView.dragDelegate === sut.playerTableView)
+            XCTAssertTrue(sut.playerTableView.dropDelegate === sut.playerTableView)
+        }
     
     
     // MARK: - Add Player
@@ -131,29 +133,7 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertEqual(viewModelMock.randomizePlayersCalledCount, 1)
     }
     
-    // MARK: - StartButtonTappedCalled
-    
-    func test_PlayerSetupViewController_WhenStartBarButtonActionTriggered_ShouldCallStartBarButtonTapped() {
-        class PlayerSetupViewControllerStartBarButtonTappedMock: PlayerSetupViewController {
-            var startBarButtonTappedCalledCount = 0
-            override func startBarButtonTapped() {
-                startBarButtonTappedCalledCount += 1
-            }
-        }
-        
-        // given
-        let sut = PlayerSetupViewControllerStartBarButtonTappedMock()
-        
-        // when
-        guard let action = sut.startBarButton.action else {
-            XCTFail("This button should have an action")
-            return
-        }
-        UIApplication.shared.sendAction(action, to: sut.startBarButton.target, from: sut, for: nil)
-        
-        // then
-        XCTAssertEqual(sut.startBarButtonTappedCalledCount, 1)
-    }
+    // MARK: - StartButtonTapped
     
     func test_PlayerSetupViewController_WhenStartBarButtonTappedCalled_ShouldCallViewModelPlayersSetup() {
         // given
@@ -163,9 +143,89 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         sut.viewModel = viewModel
         
         // when
-        sut.startBarButtonTapped()
+        sut.startButtonTapped(0)
         
         // then
         XCTAssertEqual(viewModel.playersSetupCalledCount, 1)
     }
+    
+    
+    // MARK: - BindViewToViewModel
+    
+    func test_PlayerSetupViewContrller_WhenBindViewToViewModelCalled1Player_ShouldSetInstructionLabelTextToYouMustAddAtLeast2Players() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        let viewModel = PlayerSetupViewModelMock()
+        viewModel.players = [PlayerSettings.getStub()]
+        sut.viewModel = viewModel
+        viewModel.delegate = sut
+        
+        sut.instructionLabel.text = ""
+        
+        // when
+        viewModel.delegate?.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.instructionLabel.text, "You must add at least 2 players!")
+    }
+    
+    func test_PlayerSetupViewContrller_WhenBindViewToViewModelCalled1Player_ShouldHideRandomizeButtonAndDisableStartButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        let viewModel = PlayerSetupViewModelMock()
+        viewModel.players = [PlayerSettings.getStub()]
+        sut.viewModel = viewModel
+        viewModel.delegate = sut
+        
+        sut.randomizeButton.isHidden = false
+        sut.startGameButton.isEnabled = true
+        
+        // when
+        viewModel.delegate?.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertTrue(sut.randomizeButton.isHidden)
+        XCTAssertFalse(sut.startGameButton.isEnabled)
+    }
+    
+    func test_PlayerSetupViewcontroller_WhenBindViewToViewModelCalled2Players_ShouldSetInstructionLabelToTapHoldAndDragPlayersToReorder() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        let viewModel = PlayerSetupViewModelMock()
+        viewModel.players = [PlayerSettings.getStub(), PlayerSettings.getStub()]
+        sut.viewModel = viewModel
+        viewModel.delegate = sut
+        
+        sut.instructionLabel.text = ""
+        
+        // when
+        viewModel.delegate?.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertEqual(sut.instructionLabel.text, "Tap, hold then drag players to reorder!")
+    }
+    
+    func test_PlayerSetupViewContrller_WhenBindViewToViewModelCalled2Players_ShouldShowRandomizeButtonAndEnableStartButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        let viewModel = PlayerSetupViewModelMock()
+        viewModel.players = [PlayerSettings.getStub(), PlayerSettings.getStub()]
+        sut.viewModel = viewModel
+        viewModel.delegate = sut
+        
+        sut.randomizeButton.isHidden = true
+        sut.startGameButton.isEnabled = false
+        
+        // when
+        viewModel.delegate?.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertFalse(sut.randomizeButton.isHidden)
+        XCTAssertTrue(sut.startGameButton.isEnabled)
+    }
+    
 }

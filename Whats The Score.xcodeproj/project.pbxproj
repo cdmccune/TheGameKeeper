@@ -613,12 +613,12 @@
 			path = TextField;
 			sourceTree = "<group>";
 		};
-		243228D02B4DB48F00C42C62 /* PlayerSetupPlayerTableViewCell */ = {
+		243228D02B4DB48F00C42C62 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
 				24D68E152B505F8C00AD35AC /* TableViewCell */,
 			);
-			path = PlayerSetupPlayerTableViewCell;
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 		243228D52B4DBCDB00C42C62 /* Player */ = {
@@ -1099,7 +1099,7 @@
 			path = EndRoundSettings;
 			sourceTree = "<group>";
 		};
-		24A4233A2B45B8320047CCD3 /* PlayerSetupViewModel */ = {
+		24A4233A2B45B8320047CCD3 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				24A4233B2B45B8420047CCD3 /* PlayerSetupViewModel.swift */,
@@ -1107,16 +1107,16 @@
 				24A4233D2B45B84B0047CCD3 /* PlayerSetupViewModelTests.swift */,
 				24C5D0A62BD1872900E5DBA6 /* PlayerSetupViewModelMocks.swift */,
 			);
-			path = PlayerSetupViewModel;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		24A4233F2B45BDDB0047CCD3 /* PlayerSetupPlayerTableViewDelegate */ = {
+		24A4233F2B45BDDB0047CCD3 /* TableViewDelegate */ = {
 			isa = PBXGroup;
 			children = (
 				24A423402B45BDFB0047CCD3 /* PlayerSetupPlayerTableViewDelegate.swift */,
 				24A423422B45BE050047CCD3 /* PlayerSetupPlayerTableViewDelegateTests.swift */,
 			);
-			path = PlayerSetupPlayerTableViewDelegate;
+			path = TableViewDelegate;
 			sourceTree = "<group>";
 		};
 		24ACF3322BC729C90053CD0A /* CoreDataHelper */ = {
@@ -1588,21 +1588,21 @@
 		24EC1D792B44CAA40060D27D /* PlayerSetup */ = {
 			isa = PBXGroup;
 			children = (
-				24A4233A2B45B8320047CCD3 /* PlayerSetupViewModel */,
-				24EC1D7A2B44CC280060D27D /* PlayerSetupViewController */,
-				24A4233F2B45BDDB0047CCD3 /* PlayerSetupPlayerTableViewDelegate */,
-				243228D02B4DB48F00C42C62 /* PlayerSetupPlayerTableViewCell */,
+				24A4233A2B45B8320047CCD3 /* ViewModel */,
+				24EC1D7A2B44CC280060D27D /* ViewController */,
+				24A4233F2B45BDDB0047CCD3 /* TableViewDelegate */,
+				243228D02B4DB48F00C42C62 /* TableViewCell */,
 			);
 			path = PlayerSetup;
 			sourceTree = "<group>";
 		};
-		24EC1D7A2B44CC280060D27D /* PlayerSetupViewController */ = {
+		24EC1D7A2B44CC280060D27D /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				24EC1D7B2B44CC600060D27D /* PlayerSetupViewController.swift */,
 				24EC1D7D2B44CC6F0060D27D /* PlayerSetupViewControllerTests.swift */,
 			);
-			path = PlayerSetupViewController;
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		24F0892A2BCF126D00333A49 /* NSMutableAttributedString */ = {

@@ -21,6 +21,6 @@ protocol PlayerSetupViewModelProtocol {
 }
 
 protocol PlayerSetupViewModelViewProtocol: NSObject {
-    func bindViewToViewModel()
+    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol)
     func reloadTableViewCell(index: Int)
 }

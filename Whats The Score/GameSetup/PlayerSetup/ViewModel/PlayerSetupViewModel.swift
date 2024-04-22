@@ -10,10 +10,11 @@ import Foundation
 class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     
     var players: [PlayerSettings] = []
+    var dispatchQueue: DispatchQueueProtocol = DispatchQueue.main
     weak var coordinator: GameSetupCoordinator?
     weak var delegate: PlayerSetupViewModelViewProtocol? {
         didSet {
-            delegate?.bindViewToViewModel()
+            delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
         }
     }
     
@@ -27,7 +28,7 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
         
         let player = players.remove(at: sourceRowIndex)
         players.insert(player, at: destinationRowIndex)
-        delegate?.bindViewToViewModel()
+        delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
     
     func addPlayer() {
@@ -57,13 +58,13 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     
     func randomizePlayers() {
         players.shuffle()
-        delegate?.bindViewToViewModel()
+        delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
     
     func deletePlayerAt(_ index: Int) {
         guard players.indices.contains(index) else { return }
         players.remove(at: index)
-        delegate?.bindViewToViewModel()
+        delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
     
     func playersSetup() {
@@ -79,6 +80,6 @@ extension PlayerSetupViewModel: EditPlayerPopoverDelegateProtocol {
         } else {
             players.append(player)
         }
-        delegate?.bindViewToViewModel()
+        delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
 }

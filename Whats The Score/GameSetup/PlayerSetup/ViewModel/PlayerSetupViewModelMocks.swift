@@ -53,7 +53,7 @@ class PlayerSetupViewModelMock: PlayerSetupViewModelProtocol {
 class PlayerSetupViewModelViewProtocolMock: NSObject, PlayerSetupViewModelViewProtocol {
     
     var bindViewToViewModelCallCount = 0
-    func bindViewToViewModel() {
+    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol) {
         bindViewToViewModelCallCount += 1
     }
     
