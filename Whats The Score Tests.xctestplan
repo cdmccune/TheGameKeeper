@@ -4,7 +4,12 @@
       "id" : "FE18F0D1-B73E-4072-97FF-E06CF65BBA5A",
       "name" : "Configuration 1",
       "options" : {
-
+        "environmentVariableEntries" : [
+          {
+            "key" : "IS_TESTING",
+            "value" : "1"
+          }
+        ]
       }
     }
   ],

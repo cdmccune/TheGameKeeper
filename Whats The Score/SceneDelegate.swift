@@ -17,8 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard (scene as? UIWindowScene) != nil else { return }
         
-        guard let isTesting = ProcessInfo.processInfo.environment["IS_TESTING"],
-           isTesting == "0" else {
+        if let isTesting = ProcessInfo.processInfo.environment["IS_TESTING"],
+           isTesting == "1" {
             return
         }
         
