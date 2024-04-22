@@ -106,7 +106,7 @@ class GameSetupCoordinator: Coordinator {
         coordinator?.gameSetupComplete(withGameType: gameType,
                                        gameEndType: gameEndType,
                                        gameEndQuantity: gameEndQuantity,
-                                       players: [],
+                                       players: players,
                                        andName: gameName)
     }
     

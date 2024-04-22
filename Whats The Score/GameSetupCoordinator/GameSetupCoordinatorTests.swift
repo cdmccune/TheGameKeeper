@@ -316,7 +316,7 @@ final class GameSetupCoordinatorTests: XCTestCase {
         let gameEndType = GameEndType.allCases.randomElement()!
         let gameEndQuantity = Int.random(in: 1...1000)
         let gameName = UUID().uuidString
-//        let players = [PlayerMock()]
+        let players = [PlayerSettings.getStub()]
         
         sut.gameType = gameType
         sut.gameEndType = gameEndType
@@ -324,14 +324,14 @@ final class GameSetupCoordinatorTests: XCTestCase {
         sut.gameName = gameName
         
         // when
-        sut.playersSetup([])
+        sut.playersSetup(players)
         
         // then
         XCTAssertEqual(coordinator.gameSetupCompleteGameType, gameType)
         XCTAssertEqual(coordinator.gameSetupCompleteGameEndType, gameEndType)
         XCTAssertEqual(coordinator.gameSetupCompleteGameEndQuantity, gameEndQuantity)
         XCTAssertEqual(coordinator.gameSetupCompleteName, gameName)
-//        XCTAssertEqual(coordinator.gameSetupCompletePlayers as? [PlayerMock], players)
+        XCTAssertEqual(coordinator.gameSetupCompletePlayers, players)
     }
     
     // MARK: - ShowAddPlayerPopover

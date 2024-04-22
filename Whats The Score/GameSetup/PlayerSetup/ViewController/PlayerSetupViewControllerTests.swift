@@ -43,7 +43,7 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertNotNil(sut.instructionLabel)
         XCTAssertNotNil(sut.randomizeButton)
         XCTAssertNotNil(sut.playerTableView)
-        XCTAssertNotNil(sut.tapToAddPlayerButton)
+        XCTAssertNotNil(sut.addPlayerButton)
         XCTAssertNotNil(sut.startGameButton)
     }
     
@@ -149,6 +149,23 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesCalledCount, 1)
         XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesTitle, "Randomize Order")
         XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesTextSize, 15)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnAddPlayerButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let addPlayerButton = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.addPlayerButton = addPlayerButton
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesTitle, "Add Player")
+        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesTextSize, 15)
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCall() {

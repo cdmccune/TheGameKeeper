@@ -191,9 +191,9 @@ final class PlayerSetupViewModelTests: XCTestCase {
         
         // then
         XCTAssertEqual(coordinatorMock.playersSetupCalledCount, 1)
-        XCTAssertEqual(coordinatorMock.playersSetupPlayers as? [PlayerMock], sut.players as? [PlayerMock])
+        XCTAssertEqual(coordinatorMock.playersSetupPlayers, sut.players)
     }
-    
+
     
     // MARK: - FinishedEditing
     
