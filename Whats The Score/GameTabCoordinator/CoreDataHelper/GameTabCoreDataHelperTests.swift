@@ -226,6 +226,30 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         }
     }
     
+    func test_GameTabCoordinator_WhenInitializeGameCalled_ShouldSetPlayerIcon() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        let playerIcon = PlayerIcon.allCases.randomElement()!
+        
+        // when
+        _ = sut.initializeGame(with: .round,
+                               .score,
+                               gameEndQuantity: 0,
+                               [PlayerSettings.getStub(icon: playerIcon)],
+                               andName: "")
+        
+        // then
+        do {
+            let games = try coreDataStore.persistentContainer.viewContext.fetch(Game.fetchRequest())  as? [Game]
+            XCTAssertEqual(games?.first?.players.first?.icon, playerIcon)
+            
+        } catch {
+            XCTFail("games couldn't be loaded from view context \(error)")
+        }
+    }
+    
     func test_GameTabCoreDataHelper_WhenInitializeGameCalled_ShouldCallSaveContextOnCoreDataStore() {
         // given
         let coreDataStore = CoreDataStoreMock()

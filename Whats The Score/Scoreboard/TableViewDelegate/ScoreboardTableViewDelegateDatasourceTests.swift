@@ -83,7 +83,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     
     // MARK: - HeightForRowAt
     
-    func test_ScoreboardTableviewDelegateDatasource_WhenHeightForRowAtCalled_ShouldReturn48() {
+    func test_ScoreboardTableviewDelegateDatasource_WhenHeightForRowAtCalled_ShouldReturn60() {
         // given
         let (sut, _) = getSutAndTableView(withPlayerCount: 0)
 
@@ -91,7 +91,7 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         let height = sut.tableView(UITableView(), heightForRowAt: IndexPath(row: 0, section: 0))
 
         // then
-        XCTAssertEqual(height, 48)
+        XCTAssertEqual(height, 60)
     }
     
     // MARK: - DidSelectRowAt

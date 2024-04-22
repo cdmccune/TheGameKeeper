@@ -25,7 +25,7 @@ final class ScoreboardTableViewCellTests: XCTestCase {
     
     // MARK: - LoadedFromNib
 
-    func test_ScoreboardTableViewCell_WhenLoadedFromNibCalled_ShouldHaveNonNilOutlets() {
+    func test_ScoreboardTableViewCell_WhenLoadedFromNib_ShouldHaveNonNilOutlets() {
         // given
         // when
         let sut = tableViewCell!
@@ -33,6 +33,21 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         // then
         XCTAssertNotNil(sut.playerNameLabel)
         XCTAssertNotNil(sut.playerScoreLabel)
+    }
+    
+    
+    // MARK: - AwakeFromNib
+    
+    func test_ScoreboardTableViewCell_WhenAwakeFromNibCalled_ShouldSetPlayerIconImageViewCornerRadiusTo25AndBorderWidthTo2() {
+        // given
+        let sut = tableViewCell!
+        
+        // when
+        sut.awakeFromNib()
+        
+        // then
+        XCTAssertEqual(sut.playerIconImageView.layer.cornerRadius, 25, "The playerIconImageView should have a corner radius of 25.")
+        XCTAssertEqual(sut.playerIconImageView.layer.borderWidth, 2, "The playerIconImageView should have a border width of 2.")
     }
     
     
@@ -55,13 +70,55 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         // given
         let sut = tableViewCell!
         let playerScore = Int.random(in: 0...1000)
-        let player = PlayerMock(name: "", position: 0, score: playerScore)
+        let player = PlayerMock(score: playerScore)
         
         // when
         sut.setupCellWith(player)
         
         // then
         XCTAssertEqual(sut.playerScoreLabel.text, String(playerScore))
+    }
+    
+    func test_ScoreboardTableViewCell_WhenSetupCellWithCalled_ShouldSetPlayerStrokeEqualToPlayerIconColor() {
+        // given
+        let sut = tableViewCell!
+        
+        let icon = PlayerIcon.allCases.randomElement()!
+        
+        // when
+        sut.setupCellWith(PlayerMock(name: " ", icon: icon))
+        
+        // then
+        let playerNameAttributedString = sut.playerNameLabel.attributedText
+        
+        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, icon.color)
+    }
+    
+    func test_ScoreboardTableViewCell_WhenSetupCellWithPlayerCalled_ShouldSetPlayerIconImageViewImageToPlayerIconImage() {
+        // given
+        let sut = tableViewCell!
+
+        let icon = PlayerIcon.allCases.randomElement()!
+
+        // when
+        sut.setupCellWith(PlayerMock(icon: icon))
+
+        // then
+        XCTAssertEqual(sut.playerIconImageView.image, icon.image, "Player icon image should match the icon's image.")
+    }
+    
+    func test_ScoreboardTableViewCell_WhenSetupCellWithPlayerCalled_ShouldSetPlayerStrokeEqualToPlayerIconColor() {
+        // given
+        let sut = tableViewCell!
+
+        let icon = PlayerIcon.allCases.randomElement()!
+
+        // when
+        sut.setupCellWith( PlayerMock(icon: icon))
+
+        // then
+        XCTAssertTrue(sut.playerIconImageView.layer.borderColor?.same(as: icon.color.cgColor) ?? false, "The playerIconImageView border color should match the player's icon color.")
     }
     
     

@@ -68,7 +68,7 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
         }
         
         for (index, playerSetting) in playerSettings.enumerated() {
-            _ = Player(game: game, name: playerSetting.name, position: index - 1, icon: .alien, context: coreDataStore.persistentContainer.viewContext)
+            _ = Player(game: game, name: playerSetting.name, position: index - 1, icon: playerSetting.icon, context: coreDataStore.persistentContainer.viewContext)
         }
         
         coreDataStore.saveContext()
