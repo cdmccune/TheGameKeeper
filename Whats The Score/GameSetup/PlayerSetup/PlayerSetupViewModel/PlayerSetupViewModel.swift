@@ -20,12 +20,6 @@ class PlayerSetupViewModel: PlayerSetupViewModelProtocol {
     
     // MARK: - Functions
     
-    func playerNameChanged(withIndex index: Int, toName name: String) {
-        guard players.indices.contains(index) else { return }
-        players[index].name = name
-        delegate?.reloadTableViewCell(index: index)
-    }
-    
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
         guard players.indices.contains(sourceRowIndex),
               players.indices.contains(destinationRowIndex) else { return }

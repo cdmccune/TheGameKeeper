@@ -98,20 +98,6 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.navigationItem.rightBarButtonItem, sut.startBarButton)
     }
     
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewAsItsOwnDragDropDelegate() {
-        // given
-        let sut = viewController!
-        sut.viewModel = PlayerSetupViewModelMock()
-        
-        // when
-        sut.loadView()
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertTrue(sut.playerTableView.dragDelegate === sut.playerTableView)
-        XCTAssertTrue(sut.playerTableView.dropDelegate === sut.playerTableView)
-    }
-    
     
     // MARK: - Add Player
     

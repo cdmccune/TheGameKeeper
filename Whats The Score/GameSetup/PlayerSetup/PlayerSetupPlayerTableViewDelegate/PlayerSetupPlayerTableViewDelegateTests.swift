@@ -108,50 +108,37 @@ final class PlayerSetupPlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual(viewModel.editPlayerAtIndex, index)
     }
     
-//    // MARK: - MoveRowAt
-//    
-//    func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerViewModelMovePlayerAt() {
-//        // given
-//        let (sut, tableView) = getSutAndTableView(withPlayerCount: 5)
-//        
-//        // when
-//        let sourceRow = 0
-//        let destinationRow = 1
-//        sut.tableView(tableView, moveRowAt: IndexPath(row: sourceRow, section: 0), to: IndexPath(row: destinationRow, section: 0))
-//        
-//        // then
-//        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtCalledCount, 1)
-//        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtSourceRow, sourceRow)
-//        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtDestinationRow, destinationRow)
-//    }
     
+    // MARK: - MoveRowAt
     
-//    // MARK: - Should Indent
-//    
-//    func test_PlayerSetupPlayerTableView_WhenShouldIndentWhileEditingRowAtCalled_ShouldReturnFalse() {
-//        // given
-//        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
-//        
-//        // when
-//        let shouldIndent = sut.tableView(tableView, shouldIndentWhileEditingRowAt: IndexPath(row: 0, section: 0))
-//        
-//        // then
-//        XCTAssertFalse(shouldIndent)
-//    }
+    func test_PlayerSetupPlayerTableView_WhenMoveRowAtCalled_ShouldCallPlayerViewModelMovePlayerAt() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 5)
+        
+        // when
+        let sourceRow = 0
+        let destinationRow = 1
+        sut.tableView(tableView, moveRowAt: IndexPath(row: sourceRow, section: 0), to: IndexPath(row: destinationRow, section: 0))
+        
+        // then
+        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtCalledCount, 1)
+        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtSourceRow, sourceRow)
+        XCTAssertEqual((sut.playerViewModel as? PlayerSetupViewModelMock)?.movePlayerAtDestinationRow, destinationRow)
+    }
+
     
+    // MARK: - EditingStyle
     
-//    // MARK: - EditingStyle
-//    
-//    func test_PlayerSetupPlayerTableView_WhenEditingStyleForRowAtCalled_ShouldReturnNone() {
-//        // given
-//        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
-//        
-//        // when
-//        let editingStyle = sut.tableView(tableView, editingStyleForRowAt: IndexPath(row: 0, section: 0))
-//        
-//        // then
-//        XCTAssertEqual(editingStyle, .none)
-//    }
+    func test_PlayerSetupPlayerTableView_WhenEditingStyleForRowAtCalled_ShouldReturnNone() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        // when
+        let editingStyle = sut.tableView(tableView, editingStyleForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertEqual(editingStyle, .none)
+    }
     
     
     // MARK: - TrailingSwipe

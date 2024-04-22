@@ -402,7 +402,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fIO-e0-aKK">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="707"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-II-8cD">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="1338.6666666666667"/>
@@ -492,19 +492,40 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="gGa-DU-H6c"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="noT-Jb-4EB"/>
                             </scrollView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KTp-SP-dbL">
+                                <rect key="frame" x="0.0" y="766" width="393" height="52"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="242" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeF-lM-Unc">
+                                        <rect key="frame" x="20" y="0.0" width="353" height="52"/>
+                                        <color key="tintColor" name="TextColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Start Game">
+                                            <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="phI-a5-z5n"/>
+                                </constraints>
+                                <edgeInsets key="layoutMargins" top="0.0" left="20" bottom="0.0" right="20"/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="m92-El-EVe"/>
                         <color key="backgroundColor" name="BackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="m92-El-EVe" firstAttribute="bottom" secondItem="KTp-SP-dbL" secondAttribute="bottom" id="1Pn-BR-eWr"/>
                             <constraint firstItem="m92-El-EVe" firstAttribute="top" secondItem="fIO-e0-aKK" secondAttribute="top" id="1z2-Nz-cms"/>
+                            <constraint firstItem="m92-El-EVe" firstAttribute="trailing" secondItem="KTp-SP-dbL" secondAttribute="trailing" id="2RN-gU-lZ9"/>
                             <constraint firstItem="m92-El-EVe" firstAttribute="leading" secondItem="fIO-e0-aKK" secondAttribute="leading" id="JJ3-7F-3Q3"/>
-                            <constraint firstItem="fIO-e0-aKK" firstAttribute="bottom" secondItem="m92-El-EVe" secondAttribute="bottom" id="gut-1G-Ea5"/>
                             <constraint firstItem="m92-El-EVe" firstAttribute="trailing" secondItem="fIO-e0-aKK" secondAttribute="trailing" id="kCs-ak-U0L"/>
+                            <constraint firstItem="KTp-SP-dbL" firstAttribute="top" secondItem="fIO-e0-aKK" secondAttribute="bottom" id="uqQ-dr-d9r"/>
+                            <constraint firstItem="KTp-SP-dbL" firstAttribute="leading" secondItem="m92-El-EVe" secondAttribute="leading" id="wsB-8y-dMZ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="playerTableView" destination="SGM-1Z-kx4" id="3as-uW-Pog"/>
                         <outlet property="randomizeButton" destination="jzZ-i4-LUU" id="q3P-in-Eh9"/>
+                        <outlet property="startGameButton" destination="QeF-lM-Unc" id="6U6-hd-qoF"/>
                         <outlet property="tableViewStackViewHeightConstraint" destination="ov5-gg-hIr" id="YZc-pE-o9P"/>
                         <outlet property="tapToAddPlayerButton" destination="WUF-Q6-cTp" id="cpA-Pu-O0Q"/>
                         <outlet property="titleLabel" destination="pwM-t4-sSq" id="e2p-Yx-FSY"/>
@@ -512,7 +533,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hN3-bP-s1N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7076" y="2625"/>
+            <point key="canvasLocation" x="7075.5725190839694" y="2624.6478873239439"/>
         </scene>
         <!--Scoreboard View Controller-->
         <scene sceneID="fwn-XZ-g40">

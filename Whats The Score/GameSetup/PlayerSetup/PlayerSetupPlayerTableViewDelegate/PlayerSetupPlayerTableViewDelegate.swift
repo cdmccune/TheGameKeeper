@@ -40,18 +40,13 @@ class PlayerSetupPlayerTableViewDelegate: NSObject, UITableViewDelegate, UITable
         playerViewModel.editPlayerAt(row: indexPath.row)
     }
     
-//    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        playerViewModel.movePlayerAt(sourceIndexPath.row, to: destinationIndexPath.row)
-//    }
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        playerViewModel.movePlayerAt(sourceIndexPath.row, to: destinationIndexPath.row)
+    }
     
-//    // To remove the red delete button and indent
-//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-//        false
-//    }
-    
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-//        .none
-//    }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none
+    }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in

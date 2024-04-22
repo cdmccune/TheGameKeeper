@@ -16,6 +16,7 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
     @IBOutlet weak var playerTableView: UITableView!
     @IBOutlet weak var tapToAddPlayerButton: UIButton!
     @IBOutlet weak var tableViewStackViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var startGameButton: UIButton!
     
     lazy var startBarButton = UIBarButtonItem(title: "Start", style: .done, target: self, action: #selector(startBarButtonTapped))
     
@@ -43,8 +44,7 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
         playerTableView.delegate = playerTableViewDelegate
         playerTableView.dataSource = playerTableViewDelegate
         
-        playerTableView.dragDelegate = playerTableView
-        playerTableView.dropDelegate = playerTableView
+        playerTableView.isEditing = true
     }
     
     private func registerNibs() {

@@ -12,7 +12,6 @@ protocol PlayerSetupViewModelProtocol {
     var delegate: PlayerSetupViewModelViewProtocol? {get set}
     var players: [PlayerSettings] { get set }
     
-    func playerNameChanged(withIndex index: Int, toName name: String)
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
     func addPlayer()
     func editPlayerAt(row: Int)

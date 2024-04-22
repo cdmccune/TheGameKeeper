@@ -30,13 +30,6 @@ class PlayerSetupViewModelMock: PlayerSetupViewModelProtocol {
         editPlayerAtCalledCount += 1
     }
     
-    var playerNameChangedIndex: Int?
-    var playerNameChangedName: String?
-    func playerNameChanged(withIndex index: Int, toName name: String) {
-        self.playerNameChangedIndex = index
-        self.playerNameChangedName = name
-    }
-    
     var movePlayerAtSourceRow: Int?
     var movePlayerAtDestinationRow: Int?
     var movePlayerAtCalledCount: Int = 0

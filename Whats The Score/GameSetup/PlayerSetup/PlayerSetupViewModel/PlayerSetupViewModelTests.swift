@@ -35,37 +35,6 @@ final class PlayerSetupViewModelTests: XCTestCase {
     }
     
     
-    // MARK: - Player Name Changed
-    
-    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalled_ShouldChangePlayersNameAtIndex() {
-        // given
-        let sut = getViewModel(withPlayerCount: 6)
-        let index = Int.random(in: 0...5)
-        let newName = UUID().uuidString
-        
-        // when
-        sut.playerNameChanged(withIndex: index, toName: newName)
-        
-        // then
-        XCTAssertEqual(sut.players[index].name, newName)
-    }
-    
-    func test_PlayerSetupViewModel_WhenPlayerNameChangedCalledInRange_ShouldCallReloadTableViewCellWithIndex() {
-        // given
-        let sut = getViewModel(withPlayerCount: 1)
-        
-        let viewDelegate = PlayerSetupViewModelViewProtocolMock()
-        sut.delegate = viewDelegate
-        
-        // when
-        sut.playerNameChanged(withIndex: 0, toName: "")
-        
-        // then
-        XCTAssertEqual(viewDelegate.reloadTableViewCellIndex, 0)
-        XCTAssertEqual(viewDelegate.reloadTableViewCellCalledCount, 1)
-    }
-    
-    
     // MARK: - Move Player At
     
     func test_PlayerSetupViewModel_WhenMovePlayerAtCalled_ShouldMovePlayerToNewIndex() {
