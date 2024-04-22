@@ -33,8 +33,14 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
             return cell
         }
         
+        
         let player = viewModel.sortedPlayers[indexPath.row]
-        cell.setupCellWith(player)
+        
+        let playersSortedByScore = viewModel.sortedPlayers.sorted { $0.score > $1.score }
+        let playerPlace = (playersSortedByScore.firstIndex { $0.score == player.score } ?? 0) + 1
+        let isTied = (playersSortedByScore.filter { $0.score == player.score }).count > 1
+        
+        cell.setupCellWith(player, inPlace: playerPlace, isTied: isTied)
         
         return cell
     }

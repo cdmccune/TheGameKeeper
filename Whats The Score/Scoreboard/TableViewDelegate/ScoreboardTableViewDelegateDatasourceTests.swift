@@ -25,7 +25,11 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     }
     
     func getSutAndTableView(withPlayerCount playerCount: Int) -> (ScoreboardTableViewDelegateDatasource, UITableView) {
-        let players = Array(repeating: PlayerMock(), count: playerCount)
+        var players = [PlayerMock]()
+        for _ in 0..<playerCount {
+            players.append(PlayerMock())
+        }
+        
         let viewModelMock = ScoreboardViewModelMock()
         viewModelMock.sortedPlayers = players
         
@@ -78,6 +82,65 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
         // then
         XCTAssertEqual(cell?.setupCellWithCalledCount, 1)
         XCTAssertEqual(cell?.setupCellWithPlayer?.id, player.id)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalled_ShouldCallCellsSetupCellWithPlayersScorePlacement() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        let players = [
+            PlayerMock(score: 1),
+            PlayerMock(score: 2),
+            PlayerMock(score: 3),
+            PlayerMock(score: 4),
+            PlayerMock(score: 5),
+            PlayerMock(score: 6)
+        ]
+        (sut.viewModel as? ScoreboardViewModelMock)?.sortedPlayers = players
+        
+        let playerIndex = Int.random(in: 0..<6)
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: playerIndex, section: 0)) as? ScoreboardTableViewCellMock
+        
+        // then
+        let place = (players.sorted { $0.score > $1.score }).firstIndex(of: players[playerIndex])! + 1
+        XCTAssertEqual(cell?.setupCellWithPlace, place)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledPlayersTied_ShouldSend1ForAllPlaces() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 2)
+        
+        // when
+        let cell1 = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? ScoreboardTableViewCellMock
+        let cell2 = sut.tableView(tableView, cellForRowAt: IndexPath(row: 1, section: 0)) as? ScoreboardTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell1?.setupCellWithPlace, 1)
+        XCTAssertEqual(cell2?.setupCellWithPlace, 1)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledPlayersTied_ShouldSendTrueForIsTied() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 2)
+        
+        // when
+        let cell1 = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? ScoreboardTableViewCellMock
+        
+        // then
+        XCTAssertTrue(cell1?.setupCellWithIsTied ?? false)
+    }
+    
+    func test_ScoreboardTableViewDelegateDatasource_WhenCellForRowAtCalledPlayersNot_ShouldSendFalseForIsTied() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 1)
+        
+        // when
+        let cell1 = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? ScoreboardTableViewCellMock
+        
+        // then
+        XCTAssertFalse(cell1?.setupCellWithIsTied ?? true)
     }
     
     
@@ -219,9 +282,13 @@ final class ScoreboardTableViewDelegateDatasourceTests: XCTestCase {
     class ScoreboardTableViewCellMock: ScoreboardTableViewCell {
         var setupCellWithCalledCount = 0
         var setupCellWithPlayer: PlayerProtocol?
-        override func setupCellWith(_ player: PlayerProtocol) {
+        var setupCellWithPlace: Int?
+        var setupCellWithIsTied: Bool?
+        override func setupCellWith(_ player: PlayerProtocol, inPlace place: Int, isTied: Bool) {
             setupCellWithPlayer = player
+            setupCellWithPlace = place
             setupCellWithCalledCount += 1
+            setupCellWithIsTied = isTied
         }
         
         var setupCellForErrorCalledCount = 0

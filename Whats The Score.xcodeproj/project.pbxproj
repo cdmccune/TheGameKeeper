@@ -164,6 +164,7 @@
 		24C5D0C62BD1D27300E5DBA6 /* PlayerIconSelectionCollectionViewDelegateDatasourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C5D0C52BD1D27300E5DBA6 /* PlayerIconSelectionCollectionViewDelegateDatasourceTests.swift */; };
 		24C5D0C82BD1D40500E5DBA6 /* PlayerIconSelectionViewModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C5D0C72BD1D40500E5DBA6 /* PlayerIconSelectionViewModelMock.swift */; };
 		24C5D0C92BD1D5DD00E5DBA6 /* EditPlayerPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2496A0722B753B94006AC047 /* EditPlayerPopoverViewController.swift */; };
+		24C62D0F2BD6E7BF0078C0BA /* Int Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C62D0E2BD6E7BF0078C0BA /* Int Extensions.swift */; };
 		24C7C4272B9BB8180043F159 /* EndGamePlayerCollectionViewDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C7C4262B9BB8180043F159 /* EndGamePlayerCollectionViewDelegateTests.swift */; };
 		24C7C42C2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C7C42A2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.swift */; };
 		24C7C42D2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24C7C42B2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.xib */; };
@@ -393,6 +394,7 @@
 		24C5D0C32BD1D07C00E5DBA6 /* PlayerIconSelectionViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIconSelectionViewControllerTests.swift; sourceTree = "<group>"; };
 		24C5D0C52BD1D27300E5DBA6 /* PlayerIconSelectionCollectionViewDelegateDatasourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIconSelectionCollectionViewDelegateDatasourceTests.swift; sourceTree = "<group>"; };
 		24C5D0C72BD1D40500E5DBA6 /* PlayerIconSelectionViewModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIconSelectionViewModelMock.swift; sourceTree = "<group>"; };
+		24C62D0E2BD6E7BF0078C0BA /* Int Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int Extensions.swift"; sourceTree = "<group>"; };
 		24C7C4262B9BB8180043F159 /* EndGamePlayerCollectionViewDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGamePlayerCollectionViewDelegateTests.swift; sourceTree = "<group>"; };
 		24C7C42A2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGamePlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 		24C7C42B2B9BB8960043F159 /* EndGamePlayerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EndGamePlayerCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 		2410F7182B5596BB00860BA4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				24C62D0D2BD6E7B40078C0BA /* Int */,
 				24C5D0AC2BD1BDBB00E5DBA6 /* CGColor */,
 				24DB4E582BD0227900DA595B /* UIFont */,
 				24DB4E552BD0220C00DA595B /* UIButton */,
@@ -1310,6 +1313,14 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		24C62D0D2BD6E7B40078C0BA /* Int */ = {
+			isa = PBXGroup;
+			children = (
+				24C62D0E2BD6E7BF0078C0BA /* Int Extensions.swift */,
+			);
+			path = Int;
+			sourceTree = "<group>";
+		};
 		24C7C4282B9BB8740043F159 /* PlayerCollectionViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1893,6 +1904,7 @@
 				247D0ED22BC5FFF600137C98 /* ScoreboardViewModel-DataFunctions.swift in Sources */,
 				24C5D0B92BD1CFA300E5DBA6 /* PlayerIconSelectionViewModelProtocol.swift in Sources */,
 				24CF37432BBF150600CE08FB /* CoreDataModel.xcdatamodeld in Sources */,
+				24C62D0F2BD6E7BF0078C0BA /* Int Extensions.swift in Sources */,
 				245D78F92BACE2420072FBAB /* ScoreboardCoordinator.swift in Sources */,
 				24836D1B2B72DC890038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegate.swift in Sources */,
 				24C5D0AB2BD1B74E00E5DBA6 /* PlayerIcon.swift in Sources */,

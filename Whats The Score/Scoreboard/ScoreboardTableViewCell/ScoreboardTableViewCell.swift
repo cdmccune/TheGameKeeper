@@ -22,10 +22,12 @@ class ScoreboardTableViewCell: UITableViewCell {
     }
     
     
-    func setupCellWith(_ player: PlayerProtocol) {
+    func setupCellWith(_ player: PlayerProtocol, inPlace place: Int, isTied: Bool = false) {
         let playerNameAttributedString = NSMutableAttributedString(string: player.name)
         playerNameAttributedString.addStrokeAttribute(strokeColor: player.icon.color, strokeWidth: 4)
         playerNameLabel.attributedText = playerNameAttributedString
+        
+        positionLabel.text = (isTied ? "T-" : "") + place.ordinal
         
         self.playerScoreLabel.text = String(player.score)
         self.playerIconImageView.image = player.icon.image

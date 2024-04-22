@@ -441,10 +441,10 @@
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="260" translatesAutoresizingMaskIntoConstraints="NO" id="YHY-Fn-YN4">
-                                                <rect key="frame" x="20" y="120" width="353" height="120"/>
+                                                <rect key="frame" x="5" y="120" width="383" height="120"/>
                                                 <subviews>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="260" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SGM-1Z-kx4">
-                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="120"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="383" height="120"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableView>
                                                 </subviews>
@@ -470,8 +470,8 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="vfj-am-mks" secondAttribute="trailing" id="626-OQ-XBa"/>
                                             <constraint firstItem="vfj-am-mks" firstAttribute="leading" secondItem="qjP-II-8cD" secondAttribute="leading" id="97H-h3-f5c"/>
-                                            <constraint firstItem="YHY-Fn-YN4" firstAttribute="leading" secondItem="qjP-II-8cD" secondAttribute="leading" constant="20" id="O9a-mb-qZ1"/>
-                                            <constraint firstAttribute="trailing" secondItem="YHY-Fn-YN4" secondAttribute="trailing" constant="20" id="nLR-ST-2qc"/>
+                                            <constraint firstItem="YHY-Fn-YN4" firstAttribute="leading" secondItem="qjP-II-8cD" secondAttribute="leading" constant="5" id="O9a-mb-qZ1"/>
+                                            <constraint firstAttribute="trailing" secondItem="YHY-Fn-YN4" secondAttribute="trailing" constant="5" id="nLR-ST-2qc"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>

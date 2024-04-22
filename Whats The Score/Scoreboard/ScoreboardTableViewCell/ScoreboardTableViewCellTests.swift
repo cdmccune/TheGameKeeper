@@ -60,7 +60,7 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         let player = PlayerMock(name: playerName)
         
         // when
-        sut.setupCellWith(player)
+        sut.setupCellWith(player, inPlace: 0)
         
         // then
         XCTAssertEqual(sut.playerNameLabel.text, playerName)
@@ -73,10 +73,34 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         let player = PlayerMock(score: playerScore)
         
         // when
-        sut.setupCellWith(player)
+        sut.setupCellWith(player, inPlace: 0)
         
         // then
         XCTAssertEqual(sut.playerScoreLabel.text, String(playerScore))
+    }
+    
+    func test_ScoreboardTableViewCell_WhenSetupCellWithCalledNotTied_ShouldSetPlayerPositionLabelToBeOrdinalOfPlaceSent() {
+        // given
+        let sut = tableViewCell!
+        let place = Int.random(in: 0...100)
+        
+        // when
+        sut.setupCellWith(PlayerMock(), inPlace: place, isTied: false)
+        
+        // then
+        XCTAssertEqual(sut.positionLabel.text, place.ordinal)
+    }
+    
+    func test_ScoreboardTableViewCell_WhenSetupCellWithCalledTied_ShouldSetPlayerPositionLabelToBeTDashOrdinalOfPlaceSent() {
+        // given
+        let sut = tableViewCell!
+        let place = Int.random(in: 0...100)
+        
+        // when
+        sut.setupCellWith(PlayerMock(), inPlace: place, isTied: true)
+        
+        // then
+        XCTAssertEqual(sut.positionLabel.text, "T-\(place.ordinal)")
     }
     
     func test_ScoreboardTableViewCell_WhenSetupCellWithCalled_ShouldSetPlayerStrokeEqualToPlayerIconColor() {
@@ -86,7 +110,7 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         let icon = PlayerIcon.allCases.randomElement()!
         
         // when
-        sut.setupCellWith(PlayerMock(name: " ", icon: icon))
+        sut.setupCellWith(PlayerMock(name: " ", icon: icon), inPlace: 0)
         
         // then
         let playerNameAttributedString = sut.playerNameLabel.attributedText
@@ -102,7 +126,7 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         let icon = PlayerIcon.allCases.randomElement()!
 
         // when
-        sut.setupCellWith(PlayerMock(icon: icon))
+        sut.setupCellWith(PlayerMock(icon: icon), inPlace: 0)
 
         // then
         XCTAssertEqual(sut.playerIconImageView.image, icon.image, "Player icon image should match the icon's image.")
@@ -115,7 +139,7 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         let icon = PlayerIcon.allCases.randomElement()!
 
         // when
-        sut.setupCellWith( PlayerMock(icon: icon))
+        sut.setupCellWith( PlayerMock(icon: icon), inPlace: 0)
 
         // then
         XCTAssertTrue(sut.playerIconImageView.layer.borderColor?.same(as: icon.color.cgColor) ?? false, "The playerIconImageView border color should match the player's icon color.")
