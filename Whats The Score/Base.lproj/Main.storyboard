@@ -1327,21 +1327,21 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xZM-vN-zwI">
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="dC3-vu-EKm">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="64"/>
-                                        <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="49"/>
-                                        <nil key="textColor"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="History" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="dC3-vu-EKm">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="49"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="HC3-QD-eMy">
-                                        <rect key="frame" x="0.0" y="64" width="393" height="695"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <rect key="frame" x="0.0" y="49" width="393" height="710"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="lOc-1R-rPK"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="BackgroundColor"/>
                         <constraints>
                             <constraint firstItem="xZM-vN-zwI" firstAttribute="top" secondItem="lOc-1R-rPK" secondAttribute="top" id="1ep-sR-PBx"/>
                             <constraint firstItem="xZM-vN-zwI" firstAttribute="leading" secondItem="lOc-1R-rPK" secondAttribute="leading" id="255-Zs-jDG"/>
@@ -1351,6 +1351,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="HC3-QD-eMy" id="ENJ-IA-PA4"/>
+                        <outlet property="titleLabel" destination="dC3-vu-EKm" id="F4v-Bp-SIH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sjv-Kj-KZn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1493,7 +1494,7 @@
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9aH-6A-Y7N">
                                                 <rect key="frame" x="15" y="150" width="363" height="40"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" name="TextColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Reset Game" cornerStyle="capsule">
                                                     <backgroundConfiguration key="background"/>
@@ -1511,7 +1512,7 @@
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCv-8J-I6V">
                                         <rect key="frame" x="52.666666666666657" y="723" width="288" height="36"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" name="TextColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Delete Game?" cornerStyle="capsule">
                                             <backgroundConfiguration key="background"/>
@@ -1542,6 +1543,7 @@
                         <outlet property="numberOfRoundTextField" destination="d6C-Cj-S9b" id="qWs-KG-5ix"/>
                         <outlet property="numberOfRoundsStackView" destination="lKg-F9-Wwq" id="1UC-cY-Kya"/>
                         <outlet property="resetButton" destination="9aH-6A-Y7N" id="K5P-2p-ppM"/>
+                        <outlet property="titleLabel" destination="g1i-5o-VNQ" id="Nf3-3y-J1L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JcY-l2-YHs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

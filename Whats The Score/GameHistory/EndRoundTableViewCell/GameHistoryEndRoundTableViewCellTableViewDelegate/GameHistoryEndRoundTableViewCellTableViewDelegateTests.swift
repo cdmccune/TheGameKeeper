@@ -78,7 +78,7 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         XCTAssertTrue(cell is GameHistoryScoreChangeTableViewCell)
     }
     
-    func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCellWithScoreChangeAndIsInRoundEndTrueAndPlayers() {
+    func test_GameHistoryEndRoundTableViewCellTableViewDelegate_WhenCellForRowAtInIndex_ShouldCallSetupPropertiesForOnScoreChangeCellWithScoreChangeAndPlayers() {
         // given
         let (sut, tableView) = getSutAndTableView()
         let player = PlayerMock()
@@ -94,7 +94,6 @@ final class GameHistoryEndRoundTableViewCellTableViewDelegateTests: XCTestCase {
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player.id, player.id)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.scoreChange, scoreChangeInt)
-        XCTAssertTrue(cell?.setupPropertiesForIsInRoundEndBool ?? false)
     }
     
     // MARK: - HeightForRowAt

@@ -93,6 +93,57 @@ final class GameSettingsViewControllerTests: XCTestCase {
         XCTAssertEqual(selectedAttributes?[NSAttributedString.Key.foregroundColor] as? UIColor, UIColor.textColor)
     }
     
+    func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldSetCorrectStrokeOnTitleLabel() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let attributedString = sut.titleLabel.attributedText
+        XCTAssertEqual(attributedString?.string, "Settings")
+        XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, .black)
+    }
+    
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnResetButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let resetButton = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.resetButton = resetButton
+        
+        // when
+        sut.viewDidLoad()
+        
+//         then
+        XCTAssertEqual(resetButton.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(resetButton.underlineButtonForButtonStatesTitle, "Reset")
+        XCTAssertEqual(resetButton.underlineButtonForButtonStatesTextSize, 15)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnDeleteButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let deleteButton = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.deleteGameButton = deleteButton
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(deleteButton.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(deleteButton.underlineButtonForButtonStatesTitle, "Delete")
+        XCTAssertEqual(deleteButton.underlineButtonForButtonStatesTextSize, 22)
+    }
+    
+    
     func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldCallSetInitialValues() {
         // given
         let sut = viewController!

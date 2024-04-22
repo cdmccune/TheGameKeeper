@@ -174,6 +174,22 @@ final class GameHistoryViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.setBindingsCalledCount, 1)
     }
     
+    func test_GameHistoryViewController_WhenViewDidLoadCalled_ShouldSetCorrectStrokeOnTitleLabel() {
+        // given
+        let sut = viewController!
+        sut.viewModel = GameHistoryViewModelMock()
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let attributedString = sut.titleLabel.attributedText
+        XCTAssertEqual(attributedString?.string, "History")
+        XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, .black)
+    }
+    
     
     // MARK: - ViewWillDisappear
     

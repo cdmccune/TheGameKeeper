@@ -117,7 +117,7 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         XCTAssertTrue(cell is GameHistoryScoreChangeTableViewCell)
     }
     
-    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsScoreChange_ShouldCallSetupPropertiesForWithCorrectScoreChangeAndIsInRoundEndFalseAndPlayer() {
+    func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsScoreChange_ShouldCallSetupPropertiesForWithCorrectScoreChangeAndPlayer() {
         // given
         let (sut, tableView) = getSutAndTableView()
         sut.viewModel.game = getGameWithType(.basic, andNumberOfObjects: 1)
@@ -129,7 +129,6 @@ final class GameHistoryTableViewDelegateTests: XCTestCase {
         // then
         XCTAssertEqual(cell?.setupPropertiesForCalledCount, 1)
         XCTAssertEqual(cell?.setupPropertiesForScoreChange?.player.id, player.id)
-        XCTAssertFalse(cell?.setupPropertiesForIsInRoundEndBool ?? true)
     }
     
     func test_GameHistoryTableViewDelegate_WhenCellForRowAtCalledIndexIsEndRound_ShouldReturnEndRoundCell() {

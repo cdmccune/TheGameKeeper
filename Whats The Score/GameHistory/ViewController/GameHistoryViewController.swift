@@ -12,7 +12,7 @@ class GameHistoryViewController: UIViewController, Storyboarded {
     // MARK: - Outlets
     
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var titleLabel: UILabel!
     
     // MARK: - Properties
     
@@ -31,6 +31,7 @@ class GameHistoryViewController: UIViewController, Storyboarded {
         setDelegates()
         registerNibs()
         setBindings()
+        setupViews()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -68,6 +69,16 @@ class GameHistoryViewController: UIViewController, Storyboarded {
         alert.addAction(deleteAction)
         
         self.present(alert, animated: true)
+    }
+    
+    private func setupViews() {
+        let historyAttributedString = NSMutableAttributedString(string: "History")
+        historyAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
+        titleLabel.attributedText = historyAttributedString
+        
+//        startGameButton.underlineButtonForButtonStates(title: "Start Game", withTextSize: 22)
+//        randomizeButton.underlineButtonForButtonStates(title: "Randomize Order", withTextSize: 15)
+//        addPlayerButton.underlineButtonForButtonStates(title: "Add Player", withTextSize: 15)
     }
     
     

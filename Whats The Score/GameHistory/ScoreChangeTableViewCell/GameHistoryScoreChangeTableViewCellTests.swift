@@ -129,43 +129,15 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.scoreChangeLabel.text, String(scoreChangeInt))
         XCTAssertEqual(sut.scoreChangeLabel.textColor, .red)
     }
-    
-    func test_GameHistoryScoreChangeTableViewCell_WhenSetupViewPropertiesForCalledIsInRoundEndFalse_ShouldSetContentViewBackgroundColorToNil() {
-        // given
-        let sut = tableViewCell!
-        sut.contentView.backgroundColor = UIColor.black
-        
-        // when
-        sut.setupViewProperties(for: ScoreChangeMock(player: PlayerMock()),
-                                isInRoundEnd: false)
-        
-        // then
-        XCTAssertNil(sut.contentView.backgroundColor)
-    }
-    
-    func test_GameHistoryScoreChangeTableViewCell_WhenSetupViewPropertiesForCalledIsInRoundEndTrue_ShouldSetContentViewBackgroundColorToBlueWithAlphaPoint3() {
-        // given
-        let sut = tableViewCell!
-        
-        // when
-        sut.setupViewProperties(for: ScoreChangeMock(player: PlayerMock()),
-                                isInRoundEnd: true)
-        
-        // then
-        let color = UIColor.systemBlue.withAlphaComponent(0.3)
-        XCTAssertEqual(sut.contentView.backgroundColor, color)
-    }
 }
 
 class GameHistoryScoreChangeTableViewCellMock: GameHistoryScoreChangeTableViewCell {
     var setupPropertiesForCalledCount = 0
     var setupPropertiesForScoreChange: ScoreChangeProtocol?
-    var setupPropertiesForIsInRoundEndBool: Bool?
     
-    override func setupViewProperties(for scoreChange: ScoreChangeProtocol, isInRoundEnd: Bool = false) {
+    override func setupViewProperties(for scoreChange: ScoreChangeProtocol) {
         self.setupPropertiesForCalledCount += 1
         self.setupPropertiesForScoreChange = scoreChange
-        self.setupPropertiesForIsInRoundEndBool = isInRoundEnd
     }
     
 }

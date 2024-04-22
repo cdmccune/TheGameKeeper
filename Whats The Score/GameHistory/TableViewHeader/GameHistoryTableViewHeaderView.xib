@@ -4,12 +4,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Notable-Regular.ttf">
-            <string>Notable-Regular</string>
+        <array key="PressStart2P-Regular.ttf">
+            <string>PressStart2P-Regular</string>
         </array>
     </customFonts>
     <objects>
@@ -28,18 +29,18 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="8fo-0P-UYU">
                                     <rect key="frame" x="0.0" y="0.0" width="74" height="43"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Round" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="5MZ-06-PVQ">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Rnd" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="5MZ-06-PVQ">
                                             <rect key="frame" x="0.0" y="0.0" width="68" height="43"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="68" id="kp5-bm-2Wn"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="16"/>
-                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                            <color key="textColor" name="TextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4kj-OE-FJj">
                                             <rect key="frame" x="73" y="0.0" width="1" height="43"/>
-                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="backgroundColor" name="TextColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="1" id="qR9-HI-PLu"/>
                                             </constraints>
@@ -48,13 +49,13 @@
                                 </stackView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="wAO-wF-k4c">
                                     <rect key="frame" x="79" y="0.0" width="89" height="43"/>
-                                    <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="16"/>
-                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                    <color key="textColor" name="TextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PbL-P3-8VZ">
                                     <rect key="frame" x="173" y="0.0" width="1" height="43"/>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="TextColor"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="1" id="Abt-z8-NMA"/>
                                     </constraints>
@@ -64,31 +65,32 @@
                                     <constraints>
                                         <constraint firstAttribute="width" constant="60" id="AQ4-gJ-8EX"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="14"/>
+                                    <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
+                                    <color key="textColor" name="TextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="213-I6-ImD">
                                     <rect key="frame" x="244" y="0.0" width="1" height="43"/>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="TextColor"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="1" id="D1b-OA-lC0"/>
                                     </constraints>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKT-vy-tqS">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKT-vy-tqS">
                                     <rect key="frame" x="250" y="0.0" width="60" height="43"/>
                                     <color key="tintColor" systemColor="labelColor"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="60" id="kyE-ZU-O5L"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="14"/>
-                                    <color key="textColor" systemColor="tintColor"/>
+                                    <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
+                                    <color key="textColor" name="TextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L7t-4b-ZQM">
                             <rect key="frame" x="0.0" y="43" width="320" height="1"/>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" name="TextColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="ghD-DZ-imK"/>
                             </constraints>
@@ -102,7 +104,7 @@
                     </constraints>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="Q4I-zq-WSV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IEA-aA-lpD"/>
                 <constraint firstItem="Q4I-zq-WSV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Pks-43-KgQ"/>
@@ -117,14 +119,11 @@
         </view>
     </objects>
     <resources>
+        <namedColor name="TextColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

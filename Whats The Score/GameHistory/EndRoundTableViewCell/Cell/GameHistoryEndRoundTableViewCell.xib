@@ -4,13 +4,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Notable-Regular.ttf">
-            <string>Notable-Regular</string>
+        <array key="PressStart2P-Regular.ttf">
+            <string>PressStart2P-Regular</string>
         </array>
     </customFonts>
     <objects>
@@ -34,8 +35,8 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="68" id="7kB-90-Kth"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Notable-Regular" family="Notable" pointSize="30"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                        <color key="textColor" name="TextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R2h-zK-bQy">
@@ -43,14 +44,15 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJ7-oT-SO8">
                                                 <rect key="frame" x="0.0" y="0.0" width="1" height="132"/>
-                                                <color key="backgroundColor" systemColor="labelColor"/>
+                                                <color key="backgroundColor" name="TextColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="1" id="rWB-Cc-1le"/>
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nhM-rb-xNS">
                                                 <rect key="frame" x="1" y="0.0" width="241" height="132"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableView>
                                         </subviews>
                                     </stackView>
@@ -67,6 +69,7 @@
                         </subviews>
                     </stackView>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="r7n-8X-CgN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="bEq-d1-Kse"/>
                     <constraint firstItem="r7n-8X-CgN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="blj-hO-IOt"/>
@@ -75,6 +78,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="A7V-ml-afz"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="roundNumberLabel" destination="Eq8-eO-tUj" id="A4h-cT-eBa"/>
                 <outlet property="tableView" destination="nhM-rb-xNS" id="i4i-cR-Bqn"/>
@@ -83,11 +87,11 @@
         </tableViewCell>
     </objects>
     <resources>
+        <namedColor name="TextColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
