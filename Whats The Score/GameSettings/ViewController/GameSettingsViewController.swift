@@ -19,6 +19,9 @@ class GameSettingsViewController: UIViewController, Storyboarded {
     @IBOutlet weak var endingScoreStackView: UIStackView!
     @IBOutlet weak var endingScoreTextField: UITextField!
     
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var deleteGameButton: UIButton!
+    
     
     // MARK: - Properties
     
@@ -41,6 +44,15 @@ class GameSettingsViewController: UIViewController, Storyboarded {
     // MARK: - Private Functions
     
     private func setupViews() {
+
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.pressPlay2PRegular(withSize: 10),
+            .foregroundColor: UIColor.textColor  // Optional: Set text color
+        ]
+        
+        gameEndTypeSegmentedControl.setTitleTextAttributes(textAttributes, for: .normal)
+        gameEndTypeSegmentedControl.setTitleTextAttributes(textAttributes, for: .selected)
+        
         guard let viewModel else { return }
         endingScoreTextField.text = String(viewModel.endingScore)
         numberOfRoundTextField.text = String(viewModel.numberOfRounds)
@@ -92,6 +104,21 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         
         viewModel?.gameEndType.value = endGameType
     }
+    
+    @IBAction func resetButtonTapped(_ sender: Any) {
+        let alert = UIAlertController(title: "Are you sure you want to reset?", message: "This will erase all of the game data and player scores", preferredStyle: .alert)
+        
+        let cancelAction = TestableUIAlertAction.createWith(title: "Cancel", style: .cancel) { _ in }
+        let resetAction = TestableUIAlertAction.createWith(title: "Reset", style: .destructive) { _ in
+            self.viewModel?.resetGame()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(resetAction)
+        
+        self.present(alert, animated: true)
+    }
+    
     
     @IBAction func deleteGameButtonTapped(_ sender: Any) {
         let alertController = UIAlertController(title: "Delete Game", message: "Are you sure? This will delete all data associated with this game.", preferredStyle: .alert)

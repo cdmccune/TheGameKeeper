@@ -139,9 +139,11 @@ class ScoreboardCoordinator: Coordinator {
         })
     }
     
+    func gameWasReset() {
+        navigationController.popViewController(animated: true)
+    }
+    
     func deleteGame() {
         coordinator?.deleteGame()
     }
-    
-    
 }

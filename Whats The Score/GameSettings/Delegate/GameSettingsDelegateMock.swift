@@ -21,6 +21,11 @@ class GameSettingsDelegateMock: GameSettingsDelegate {
         updateGameSettingsEndingScore = endingScore
     }
     
+    var resetGameCalledCount = 0
+    func resetGame() {
+        resetGameCalledCount += 1
+    }
+    
     var deleteGameCalledCount = 0
     func deleteGame() {
         deleteGameCalledCount += 1

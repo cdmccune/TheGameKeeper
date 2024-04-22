@@ -27,7 +27,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     var viewModel: ScoreboardViewModelProtocol?
     private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
     var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
-    lazy var resetBarButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetButtonTapped))
     lazy var historyBarButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(historyButtonTapped))
         barButton.tintColor = .textColor
@@ -85,7 +84,7 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     }
     
     private func setupViews() {
-        navigationItem.rightBarButtonItems = [settingsBarButton, resetBarButton, historyBarButton]
+        navigationItem.rightBarButtonItems = [settingsBarButton, historyBarButton]
         
         self.scoreSortButton.alpha = 1
         self.turnOrderSortButton.alpha = 0.5
@@ -135,20 +134,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
         viewModel?.sortPreference.value = .position
     }
     
-    @objc func resetButtonTapped() {
-        let alert = UIAlertController(title: "Are you sure you want to reset?", message: "This will erase all of the game data and player scores", preferredStyle: .alert)
-        
-        let cancelAction = TestableUIAlertAction.createWith(title: "Cancel", style: .cancel) { _ in }
-        let resetAction = TestableUIAlertAction.createWith(title: "Reset", style: .destructive) { _ in
-            self.viewModel?.resetGame()
-        }
-        
-        alert.addAction(cancelAction)
-        alert.addAction(resetAction)
-        
-        self.present(alert, animated: true)
-    }
-    
     @objc func historyButtonTapped() {
         viewModel?.showGameHistory()
     }
@@ -170,7 +155,6 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             self.endRoundButton.isHidden = game.gameType != .round
             
             let attributedNameString = NSMutableAttributedString(string: game.name)
-            attributedNameString.addUnderlineAttribute(underlineColor: .textColor)
             attributedNameString.addStrokeAttribute(strokeColor: .black, strokeWidth: -4.0)
             attributedNameString.addTextColorAttribute(textColor: .white)
             self.gameNameLabel.attributedText = attributedNameString

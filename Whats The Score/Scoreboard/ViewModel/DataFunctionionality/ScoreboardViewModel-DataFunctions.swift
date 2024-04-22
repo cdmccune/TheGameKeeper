@@ -22,12 +22,6 @@ extension ScoreboardViewModel {
         coreDataStore.saveContext()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
-    
-    func resetGame() {
-        game.resetGame()
-        coreDataStore.saveContext()
-        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
-    }
 }
 
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
@@ -73,6 +67,13 @@ extension ScoreboardViewModel: GameSettingsDelegate {
         self.game.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numberOfRounds)
         self.coreDataStore.saveContext()
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
+    }
+    
+    func resetGame() {
+        game.resetGame()
+        coreDataStore.saveContext()
+        coordinator?.gameWasReset()
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }
     
     func deleteGame() {

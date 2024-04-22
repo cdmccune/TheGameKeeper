@@ -92,6 +92,11 @@ class ScoreboardCoordinatorMock: ScoreboardCoordinator {
         showEndGameScreenCalledCount += 1
     }
     
+    var gameWasResetCalledCount: Int = 0
+    override func gameWasReset() {
+        gameWasResetCalledCount += 1
+    }
+    
     var deleteGameCalledCount = 0
     override func deleteGame() {
         deleteGameCalledCount += 1

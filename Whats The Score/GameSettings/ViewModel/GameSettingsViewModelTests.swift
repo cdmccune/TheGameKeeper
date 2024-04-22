@@ -84,6 +84,22 @@ final class GameSettingsViewModelTests: XCTestCase {
     }
     
     
+    // MARK: - resetGame
+    
+    func test_GameSettingsViewModel_WhenResetGameCalled_ShouldCallDelegateResetGame() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        let delegate = GameSettingsDelegateMock()
+        sut.delegate = delegate
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertEqual(delegate.resetGameCalledCount, 1)
+    }
+    
+    
     // MARK: - deleteGame
     
     func test_GameSettingsViewModel_WhenDeleteGameCalled_ShouldCallDelegateDeleteGame() {
@@ -122,5 +138,10 @@ class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
     var deleteGameCalledCount = 0
     func deleteGame() {
         deleteGameCalledCount += 1
+    }
+    
+    var resetGameCalledCount = 0
+    func resetGame() {
+        resetGameCalledCount += 1
     }
 }

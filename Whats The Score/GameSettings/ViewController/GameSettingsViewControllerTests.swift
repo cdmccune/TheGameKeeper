@@ -76,6 +76,23 @@ final class GameSettingsViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
+    func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldSetTextAttributesForSegmentedControl() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let normalAttributes = sut.gameEndTypeSegmentedControl.titleTextAttributes(for: .normal)
+        let selectedAttributes = sut.gameEndTypeSegmentedControl.titleTextAttributes(for: .selected)
+        XCTAssertEqual(normalAttributes?[NSAttributedString.Key.font] as? UIFont, UIFont.pressPlay2PRegular(withSize: 10))
+        XCTAssertEqual(selectedAttributes?[NSAttributedString.Key.font] as? UIFont, UIFont.pressPlay2PRegular(withSize: 10))
+        XCTAssertEqual(normalAttributes?[NSAttributedString.Key.foregroundColor] as? UIColor, UIColor.textColor)
+        XCTAssertEqual(selectedAttributes?[NSAttributedString.Key.foregroundColor] as? UIColor, UIColor.textColor)
+    }
+    
     func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldCallSetInitialValues() {
         // given
         let sut = viewController!
@@ -314,16 +331,90 @@ final class GameSettingsViewControllerTests: XCTestCase {
     }
     
     
-    // MARK: - DeleteGameButtonTapped
+    // MARK: - ResetGameTapped
     
-    class GameSettingsViewControllerPresentMock: GameSettingsViewController {
-        var presentCalledCount = 0
-        var viewControllerPresented: UIViewController?
-        override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-            presentCalledCount += 1
-            self.viewControllerPresented = viewControllerToPresent
-        }
+    func test_GameSettingsViewController_WhenResetGameButtonTapped_ShouldPresentAlertWithCorrectTitle() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.title, "Are you sure you want to reset?")
     }
+    
+    func test_GameSettingsViewController_WhenResetGameButtonTapped_ShouldPresentAlertWithCorrectMessage() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "This will erase all of the game data and player scores")
+    }
+    
+    func test_GameSettingsViewController_WhenResetButtonTapped_ShouldPresentAlertWithFirstActionCancel() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped(0)
+        
+        // then
+        let cancelAction = (sut.viewControllerPresented as? UIAlertController)?.actions.first
+        XCTAssertNotNil(cancelAction)
+        XCTAssertEqual(cancelAction?.title, "Cancel")
+        XCTAssertEqual(cancelAction?.style, .cancel)
+    }
+    
+    func test_GameSettingsViewController_WhenResetButtonTapped_ShouldPresentAlertWithTwoActions() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped(0)
+        
+        // then
+        let actions = (sut.viewControllerPresented as? UIAlertController)?.actions
+        XCTAssertEqual(actions?.count, 2)
+    }
+    
+    func test_GameSettingsViewController_WhenResetButtonTapped_ShouldPresentAlertWithFirstActionReset() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        
+        // when
+        sut.resetButtonTapped(0)
+        
+        // then
+        let resetAction = (sut.viewControllerPresented as? UIAlertController)?.actions.last
+        XCTAssertNotNil(resetAction)
+        XCTAssertEqual(resetAction?.title, "Reset")
+        XCTAssertEqual(resetAction?.style, .destructive)
+    }
+    
+    func test_GameSettingsViewController_WhenResetButtonTapped_ShouldSetResetActionHandlerToBeResetHandler() {
+        // given
+        let sut = GameSettingsViewControllerPresentMock()
+        let viewModelMock = GameSettingsViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.resetButtonTapped(0)
+        let resetAction = (sut.viewControllerPresented as? UIAlertController)?.actions.last as? TestableUIAlertAction
+      
+        resetAction?.handler!(UIAlertAction(title: "", style: .destructive))
+        
+        // then
+        XCTAssertEqual(viewModelMock.resetGameCalledCount, 1)
+    }
+    
+    
+    // MARK: - DeleteGameButtonTapped
     
     func test_GameSettingsViewController_WhenDeleteGameButtonTappedCalled_ShouldPresentAlert() {
         // given
@@ -413,5 +504,15 @@ final class GameSettingsViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(navigationController.popViewControllerCount, 1)
+    }
+    
+    
+    class GameSettingsViewControllerPresentMock: GameSettingsViewController {
+        var presentCalledCount = 0
+        var viewControllerPresented: UIViewController?
+        override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+            presentCalledCount += 1
+            self.viewControllerPresented = viewControllerToPresent
+        }
     }
 }

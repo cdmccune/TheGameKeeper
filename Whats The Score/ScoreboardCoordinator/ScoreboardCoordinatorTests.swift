@@ -647,6 +647,29 @@ final class ScoreboardCoordinatorTests: XCTestCase {
     }
     
     
+    // MARK: - GameWasReset
+    
+    func test_ScoreboardCoordinator_WhenResetGameCalled_ShouldCallPopViewControllerOnNavigationController() {
+        class RootNavigationControllerPopMock: RootNavigationController {
+            var popViewControllerCalledCount = 0
+            override func popViewController(animated: Bool) -> UIViewController? {
+                popViewControllerCalledCount += 1
+                return nil
+            }
+        }
+        
+        // given
+        let navigationController = RootNavigationControllerPopMock()
+        let sut = ScoreboardCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.gameWasReset()
+        
+        // then
+        XCTAssertEqual(navigationController.popViewControllerCalledCount, 1)
+    }
+    
+    
     // MARK: - DeleteGame
     
     func test_ScoreboardCoordinator_WhenDeleteGameCalled_ShouldCallGameTabCoordinatorDeleteGame() {

@@ -108,48 +108,6 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
     
-    // MARK: - ResetGame
-    
-    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldCallGameResetGame() {
-        // given
-        let game = GameMock()
-        let sut = ScoreboardViewModel(game: game)
-        
-        // when
-        sut.resetGame()
-        
-        // then
-        XCTAssertEqual(game.resetGameCalledCount, 1)
-    }
-    
-    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldCallBindViewToViewModel() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let viewDelegate = ScoreboardViewModelViewProtocolMock()
-        sut.delegate = viewDelegate
-        
-        let bindViewToViewModelCalledCountBefore = viewDelegate.bindViewToViewModelCalledCount
-        
-        // when
-        sut.resetGame()
-        
-        // then
-        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCountBefore + 1)
-    }
-    
-    func test_ScoreboardViewModel_WhenResetCalled_ShouldCallCoreDataStoreSaveChanges() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let coreDataStore = CoreDataStoreMock()
-        sut.coreDataStore = coreDataStore
-        
-        // when
-        sut.resetGame()
-        
-        // then
-        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
-    }
-    
     
     // MARK: - FinishedEditingPlayer
     
@@ -449,6 +407,62 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
+    
+    // MARK: - ResetGame
+    
+    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldCallGameResetGame() {
+        // given
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertEqual(game.resetGameCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenResetGameCalled_ShouldCallBindViewToViewModel() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let bindViewToViewModelCalledCountBefore = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCountBefore + 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenResetCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenResetCalled_ShouldCallCoordinatorGameWasReset() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.resetGame()
+        
+        // then
+        XCTAssertEqual(coordinator.gameWasResetCalledCount, 1)
     }
     
     
