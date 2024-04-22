@@ -15,7 +15,7 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var randomizeButton: UIButton!
     @IBOutlet weak var playerTableView: UITableView!
-    @IBOutlet weak var tapToAddPlayerButton: UIButton!
+    @IBOutlet weak var addPlayerButton: UIButton!
     @IBOutlet weak var tableViewStackViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var startGameButton: UIButton!
     
@@ -31,6 +31,7 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
         super.viewDidLoad()
         self.setDelegates()
         self.registerNibs()
+        self.setupViews()
     }
     
     private func setDelegates() {
@@ -48,6 +49,16 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
     
     private func registerNibs() {
         playerTableView.register(UINib(nibName: "PlayerSetupPlayerTableViewCell", bundle: nil), forCellReuseIdentifier: "PlayerSetupPlayerTableViewCell")
+    }
+    
+    private func setupViews() {
+        let playersAttributedString = NSMutableAttributedString(string: "Players")
+        playersAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
+        titleLabel.attributedText = playersAttributedString
+        
+        startGameButton.underlineButtonForButtonStates(title: "Start Game", withTextSize: 22)
+        randomizeButton.underlineButtonForButtonStates(title: "Randomize Order", withTextSize: 15)
+        addPlayerButton.underlineButtonForButtonStates(title: "Add Player", withTextSize: 15)
     }
     
     

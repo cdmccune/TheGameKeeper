@@ -40,9 +40,11 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         
         // then
         XCTAssertNotNil(sut.titleLabel)
+        XCTAssertNotNil(sut.instructionLabel)
         XCTAssertNotNil(sut.randomizeButton)
         XCTAssertNotNil(sut.playerTableView)
         XCTAssertNotNil(sut.tapToAddPlayerButton)
+        XCTAssertNotNil(sut.startGameButton)
     }
     
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetPlayerTableViewDelegateAndDataSource() {
@@ -99,6 +101,70 @@ final class PlayerSetupViewControllerTests: XCTestCase {
             XCTAssertTrue(sut.playerTableView.dragDelegate === sut.playerTableView)
             XCTAssertTrue(sut.playerTableView.dropDelegate === sut.playerTableView)
         }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldSetCorrectStrokeOnTitleLabel() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let attributedString = sut.titleLabel.attributedText
+        XCTAssertEqual(attributedString?.string, "Players")
+        XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, .black)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnStartButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let startButton = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.startGameButton = startButton
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(startButton.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(startButton.underlineButtonForButtonStatesTitle, "Start Game")
+        XCTAssertEqual(startButton.underlineButtonForButtonStatesTextSize, 22)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnRandomizeButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let randomizeButton = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.randomizeButton = randomizeButton
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesTitle, "Randomize Order")
+        XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesTextSize, 15)
+    }
+    
+    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCall() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let attributedString = sut.titleLabel.attributedText
+        XCTAssertEqual(attributedString?.string, "Players")
+        XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, .black)
+    }
     
     
     // MARK: - Add Player

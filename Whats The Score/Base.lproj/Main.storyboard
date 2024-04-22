@@ -405,7 +405,7 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="707"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-II-8cD">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1338.6666666666667"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1376.6666666666667"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="vfj-am-mks">
                                                 <rect key="frame" x="0.0" y="0.0" width="393" height="61"/>
@@ -428,23 +428,20 @@
                                                 </subviews>
                                                 <edgeInsets key="layoutMargins" top="0.0" left="10" bottom="0.0" right="10"/>
                                             </stackView>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzZ-i4-LUU">
-                                                <rect key="frame" x="85.666666666666686" y="68.666666666666671" width="222" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="LnF-QW-R4a"/>
-                                                </constraints>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzZ-i4-LUU">
+                                                <rect key="frame" x="117" y="76" width="159" height="29"/>
                                                 <edgeInsets key="layoutMargins" top="0.0" left="15" bottom="0.0" right="15"/>
                                                 <color key="tintColor" name="TextColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Randomize">
-                                                    <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                                    <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
                                                 </buttonConfiguration>
                                                 <connections>
                                                     <action selector="randomizeButtonTapped:" destination="pg7-xh-hcT" eventType="touchUpInside" id="Tne-U1-jLF"/>
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="260" translatesAutoresizingMaskIntoConstraints="NO" id="YHY-Fn-YN4">
-                                                <rect key="frame" x="20" y="76" width="353" height="120"/>
+                                                <rect key="frame" x="20" y="120" width="353" height="120"/>
                                                 <subviews>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="260" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SGM-1Z-kx4">
                                                         <rect key="frame" x="0.0" y="0.0" width="353" height="120"/>
@@ -456,21 +453,18 @@
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WUF-Q6-cTp">
-                                                <rect key="frame" x="74.666666666666686" y="211" width="244" height="35"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="35" id="P1c-6Z-ioP"/>
-                                                </constraints>
+                                                <rect key="frame" x="109.66666666666669" y="255" width="174" height="29"/>
                                                 <color key="tintColor" name="TextColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Add Player">
-                                                    <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                                    <fontDescription key="titleFontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
                                                 </buttonConfiguration>
                                                 <connections>
-                                                    <action selector="tapToAddPlayerButtonTapped:" destination="pg7-xh-hcT" eventType="touchUpInside" id="gDm-H0-Gbb"/>
+                                                    <action selector="tapToAddPlayerButtonTapped:" destination="pg7-xh-hcT" eventType="touchUpInside" id="GPq-cP-lYL"/>
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="240" verticalCompressionResistancePriority="746" translatesAutoresizingMaskIntoConstraints="NO" id="eDU-Jq-tko">
-                                                <rect key="frame" x="76.666666666666686" y="261" width="240" height="1077.6666666666667"/>
+                                                <rect key="frame" x="76.666666666666686" y="299" width="240" height="1077.6666666666667"/>
                                             </view>
                                         </subviews>
                                         <constraints>
@@ -526,12 +520,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addPlayerButton" destination="WUF-Q6-cTp" id="al5-NZ-eb6"/>
                         <outlet property="instructionLabel" destination="w30-6U-zQs" id="eYE-Mt-toL"/>
                         <outlet property="playerTableView" destination="SGM-1Z-kx4" id="3as-uW-Pog"/>
                         <outlet property="randomizeButton" destination="jzZ-i4-LUU" id="q3P-in-Eh9"/>
                         <outlet property="startGameButton" destination="QeF-lM-Unc" id="6U6-hd-qoF"/>
                         <outlet property="tableViewStackViewHeightConstraint" destination="ov5-gg-hIr" id="YZc-pE-o9P"/>
-                        <outlet property="tapToAddPlayerButton" destination="WUF-Q6-cTp" id="cpA-Pu-O0Q"/>
                         <outlet property="titleLabel" destination="pwM-t4-sSq" id="e2p-Yx-FSY"/>
                     </connections>
                 </viewController>
