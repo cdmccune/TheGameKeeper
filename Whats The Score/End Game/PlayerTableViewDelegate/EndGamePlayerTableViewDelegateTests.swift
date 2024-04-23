@@ -116,6 +116,77 @@ final class EndGamePlayerTableViewDelegateTests: XCTestCase {
         XCTAssertEqual(cell?.setupViewForCalledCount, 1)
         XCTAssertEqual(cell?.setupViewForPlayer?.id, sut.viewModel.losingPlayers[playerIndex].id)
     }
+    
+    func test_EndGamePlayerTableViewDelegate_WhenCellForRowAtCalled_ShouldCallCellsSetupCellWithPlayersScorePlacement() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 0)
+        
+        let game = GameMock()
+        
+        let winningPlayerCount = Int.random(in: 1...10)
+        let losingPlayerCount = 5
+        
+        var winningPlayers = [PlayerMock]()
+        var losingPlayers = [PlayerMock]()
+        
+        for i in 0..<winningPlayerCount {
+            winningPlayers.append(PlayerMock())
+        }
+        
+        for i in 0..<losingPlayerCount {
+            losingPlayers.append(PlayerMock(score: losingPlayerCount - i))
+        }
+        game.winningPlayers = winningPlayers
+        sut.viewModel.game = game
+        
+        (sut.viewModel as? EndGameViewModelMock)?.losingPlayers = losingPlayers
+        
+        let playerIndex = Int.random(in: 0..<losingPlayerCount)
+        
+        // when
+        let cell = sut.tableView(tableView, cellForRowAt: IndexPath(row: playerIndex, section: 0)) as? EndGamePlayerTableViewCellMock
+        
+        // then
+        let losingPlayersSortedByScore = losingPlayers.sorted { $0.score > $1.score }
+        let playerLosersPlace =  (losingPlayersSortedByScore.firstIndex { $0.score == losingPlayers[playerIndex].score } ?? 0) + 1
+        let place = winningPlayerCount + playerLosersPlace
+        XCTAssertEqual(cell?.setupViewForPlace, place)
+    }
+    
+    func test_EndGamePlayerTableViewDelegate_WhenCellForRowAtCalledPlayersTied_ShouldSend1ForAllPlaces() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 2)
+        
+        // when
+        let cell1 = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? EndGamePlayerTableViewCellMock
+        let cell2 = sut.tableView(tableView, cellForRowAt: IndexPath(row: 1, section: 0)) as? EndGamePlayerTableViewCellMock
+        
+        // then
+        XCTAssertEqual(cell1?.setupViewForPlace, 1)
+        XCTAssertEqual(cell2?.setupViewForPlace, 1)
+    }
+    
+    func test_EndGamePlayerTableViewDelegate_WhenCellForRowAtCalledPlayersTied_ShouldSendTrueForIsTied() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 2)
+        
+        // when
+        let cell1 = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? EndGamePlayerTableViewCellMock
+        
+        // then
+        XCTAssertTrue(cell1?.setupViewForIsTied ?? false)
+    }
+    
+    func test_EndGamePlayerTableViewDelegate_WhenCellForRowAtCalledPlayersNot_ShouldSendFalseForIsTied() {
+        // given
+        let (sut, tableView) = getSutAndTableView(withPlayerCount: 1)
+        
+        // when
+        let cell1 = sut.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? EndGamePlayerTableViewCellMock
+        
+        // then
+        XCTAssertFalse(cell1?.setupViewForIsTied ?? true)
+    }
 
 }
 
@@ -132,8 +203,12 @@ class EndGamePlayerTableViewCellMock: EndGamePlayerTableViewCell {
     
     var setupViewForCalledCount = 0
     var setupViewForPlayer: PlayerProtocol?
-    override func setupViewFor(_ player: PlayerProtocol) {
+    var setupViewForPlace: Int?
+    var setupViewForIsTied: Bool?
+    override func setupViewFor(_ player: PlayerProtocol, inPlace place: Int, isTied: Bool) {
         setupViewForCalledCount += 1
         setupViewForPlayer = player
+        setupViewForPlace = place
+        setupViewForIsTied = isTied
     }
 }

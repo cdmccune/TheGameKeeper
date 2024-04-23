@@ -9,33 +9,53 @@ import UIKit
 
 class EndGamePlayerTableViewCell: UITableViewCell {
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var positionLabel: UILabel!
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var playerScoreLabel: UILabel!
-
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
-//
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Configure the view for the selected state
-//    }
+    @IBOutlet weak var playerIconImageView: UIImageView!
+    
+    
+    
+    
+    // MARK: - Lifecycles
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.playerIconImageView.layer.cornerRadius = 25
+        self.playerIconImageView.layer.borderWidth = 2
+    }
+    
+    
+    // MARK: - Functions
     
     func setupNoLosingPlayers() {
-        playerNameLabel.text = "There are no losers!"
-        playerScoreLabel.text = ""
+        playerScoreLabel.text = "There are no losers!"
+        playerNameLabel.isHidden = true
+        playerIconImageView.isHidden = true
+        
     }
     
     func setupErrorCell() {
-        playerNameLabel.text = "There has been an error"
-        playerScoreLabel.text = "???"
+        playerScoreLabel.text = "There has been an error"
+        playerNameLabel.isHidden = true
+        playerIconImageView.isHidden = true
     }
     
-    func setupViewFor(_ player: PlayerProtocol) {
-        playerNameLabel.text = player.name
+    func setupViewFor(_ player: PlayerProtocol, inPlace place: Int, isTied: Bool = false) {
+        playerNameLabel.isHidden = false
+        playerIconImageView.isHidden = false
+        
         playerScoreLabel.text = String(player.score)
+        positionLabel.text = (isTied ? "T-" : "") + place.ordinal
+        
+        let playerNameAttributedString = NSMutableAttributedString(string: player.name)
+        playerNameAttributedString.addStrokeAttribute(strokeColor: player.icon.color, strokeWidth: 4)
+        playerNameLabel.attributedText = playerNameAttributedString
+        
+        self.playerIconImageView.image = player.icon.image
+        self.playerIconImageView.layer.borderColor = player.icon.color.cgColor
     }
     
     

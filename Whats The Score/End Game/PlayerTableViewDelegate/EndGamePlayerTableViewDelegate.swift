@@ -35,7 +35,16 @@ class EndGamePlayerTableViewDelegate: NSObject, UITableViewDelegate, UITableView
         }
         
         let player = viewModel.losingPlayers[indexPath.row]
-        cell.setupViewFor(player)
+        
+        let winningPlayerCount = viewModel.game.winningPlayers.count
+        let losingPlayersSortedByScore = viewModel.losingPlayers.sorted { $0.score > $1.score }
+        let playerLoserPlace = (losingPlayersSortedByScore.firstIndex { $0.score == player.score } ?? 0) + 1
+        let place = winningPlayerCount + playerLoserPlace
+        
+        let isTied = (losingPlayersSortedByScore.filter { $0.score == player.score }).count > 1
+        
+        
+        cell.setupViewFor(player, inPlace: place, isTied: isTied)
 
         return cell
     }

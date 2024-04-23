@@ -11,10 +11,14 @@ class EndGameViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     
+    @IBOutlet weak var titleLabel: UILabel!
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var keepPlayingButton: UIButton!
+    @IBOutlet weak var playAgainButton: UIButton!
     
     // MARK: - Properties
     
@@ -51,8 +55,18 @@ class EndGameViewController: UIViewController, Storyboarded {
     }
     
     private func setupViews() {
+        let reportAttributedString = NSMutableAttributedString(string: "Report")
+        reportAttributedString.addUnderlineAttribute(underlineColor: .white)
+        reportAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
+        reportAttributedString.addTextColorAttribute(textColor: .white)
+        titleLabel.attributedText = reportAttributedString
+        
+        keepPlayingButton.underlineButtonForButtonStates(title: "Keep Playing", withTextSize: 22)
+        playAgainButton.underlineButtonForButtonStates(title: "Play Again", withTextSize: 22)
+        
+        
         let numberOfWinningPlayersCGFloat = CGFloat(viewModel.game.winningPlayers.count)
-        let widthOfCollectionViewContent = (128 * numberOfWinningPlayersCGFloat) + (25 * (numberOfWinningPlayersCGFloat - 1))
+        let widthOfCollectionViewContent = (150 * numberOfWinningPlayersCGFloat) + (25 * (numberOfWinningPlayersCGFloat - 1))
         
         if widthOfCollectionViewContent > screenWidth {
             self.collectionViewWidth.constant = screenWidth
@@ -64,9 +78,10 @@ class EndGameViewController: UIViewController, Storyboarded {
     
     // MARK: - IBActions
     
-    @IBAction func newGameButtonTapped(_ sender: Any) {
-        coordinator?.start()
+    @IBAction func playAgainButtonTapped(_ sender: Any) {
+        
     }
+    
     
     @IBAction func keepPlayingGameButtonTapped(_ sender: Any) {
         coordinator?.goToScoreboard(forGame: viewModel.game)

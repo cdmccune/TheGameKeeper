@@ -26,7 +26,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     @IBOutlet weak var endGameButton: UIButton!
     
     
-    
     // MARK: - Properties
     
     var viewModel: ScoreboardViewModelProtocol?

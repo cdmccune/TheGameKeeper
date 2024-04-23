@@ -37,6 +37,21 @@ final class EndGamePlayerCollectionViewCellTests: XCTestCase {
     }
     
     
+    // MARK: - AwakeFromNib
+    
+    func test_EndGameplayerCollectionViewCell_WhenAwakeFromNibCalled_ShouldSetImageViewsCornerRadiusTo25AndBorderWidthTo2() {
+        // given
+        let sut = collectionViewCell!
+        
+        // when
+        sut.awakeFromNib()
+        
+        // then
+        XCTAssertEqual(sut.playerIconImageView.layer.cornerRadius, 25)
+        XCTAssertEqual(sut.playerIconImageView.layer.borderWidth, 2)
+    }
+    
+    
     // MARK: - SetupErrorCell
     
     func test_EndGamePlayerCollectionViewCell_WhenSetupErrorCellCalled_ShouldSetPlayerNameToErrorAndScoreToTripleQuestionMarks() {
@@ -68,6 +83,50 @@ final class EndGamePlayerCollectionViewCellTests: XCTestCase {
         // then
         XCTAssertEqual(sut.playerNameLabel.text, playerName)
         XCTAssertEqual(sut.playerScoreLabel.text, String(playerScore))
+    }
+    
+    func test_EndGamePlayerCollectionViewCell_WhenSetupViewForCalled_ShouldSetPlayerIconImageViewToPlayersIconImage() {
+        // given
+        let sut = collectionViewCell!
+        
+        let icon = PlayerIcon.allCases.randomElement()!
+        let player = PlayerMock(icon: icon)
+        
+        // when
+        sut.setupViewFor(player)
+        
+        // then
+        XCTAssertEqual(sut.playerIconImageView.image, icon.image)
+    }
+    
+    func test_EndGamePlayerCollectionViewCell_WhenSetupViewForCalled_ShouldSetBorderOfPlayerIconImageViewToPlayersIconColor() {
+        // given
+        let sut = collectionViewCell!
+        
+        let icon = PlayerIcon.allCases.randomElement()!
+        let player = PlayerMock(icon: icon)
+        
+        // when
+        sut.setupViewFor(player)
+        
+        // then
+        XCTAssertTrue(sut.playerIconImageView.layer.borderColor?.same(as: icon.color.cgColor) ?? false)
+    }
+    
+    func test_EndGamePlayerCollectionViewCell_WhenSetupViewForCalled_ShouldSetBorderOfPlayerNameLabelToIconColorAndWidthToFour() {
+        // given
+        let sut = collectionViewCell!
+        
+        let icon = PlayerIcon.allCases.randomElement()!
+        let player = PlayerMock(name: " ", icon: icon)
+        
+        // when
+        sut.setupViewFor(player)
+        
+        // then
+        let attributes = sut.playerNameLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
+        XCTAssertEqual(attributes?[NSAttributedString.Key.strokeColor] as? UIColor, icon.color)
+        XCTAssertEqual(attributes?[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
     }
 
 }

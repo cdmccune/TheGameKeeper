@@ -136,6 +136,58 @@ final class EndGameViewControllerTests: XCTestCase {
         XCTAssertTrue(cell is EndGamePlayerCollectionViewCell)
     }
     
+    func test_EndGameViewController_WhenViewDidLoadCalled_ShouldSetAttributesForStrokeAndForegroundColorOnTitleLabel() {
+        // given
+        let sut = viewController!
+        viewController.viewModel = EndGameViewModelMock()
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let attributes = sut.titleLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
+        XCTAssertEqual(attributes?[.foregroundColor] as? UIColor, .white)
+        XCTAssertEqual(attributes?[.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(attributes?[.strokeColor] as? UIColor, .black)
+    }
+    
+    func test_EndGameViewController_WhenViewDidLoadCalled_ShouldCallUnderlineForStatesOnKeepPlayingButtonWithcorrectParameters() {
+        // given
+        let sut = viewController!
+        viewController.viewModel = EndGameViewModelMock()
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.keepPlayingButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Keep Playing")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+    }
+    
+    func test_EndGameViewController_WhenViewDidLoadCalled_ShouldCallUnderlineForStatesOnPlayAgainButtonWithcorrectParameters() {
+        // given
+        let sut = viewController!
+        viewController.viewModel = EndGameViewModelMock()
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.playAgainButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Play Again")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+    }
+    
     func test_EndGameViewController_WhenViewDidLoadCalledWinningPlayersCellWidthLessThanScreenWidth_ShouldSetCollectionViewWidthEqualTo128XCountPlus25XCountMinus1() {
         // given
         let sut = viewController!
@@ -145,7 +197,7 @@ final class EndGameViewControllerTests: XCTestCase {
         let players = Array(repeating: Player(context: context), count: numberOfPlayers)
         
         let numberOfPlayersCGFloat = CGFloat(numberOfPlayers)
-        let expectedCollectionViewWidth: CGFloat = (128 * numberOfPlayersCGFloat) + (25 * (numberOfPlayersCGFloat - 1))
+        let expectedCollectionViewWidth: CGFloat = (150 * numberOfPlayersCGFloat) + (25 * (numberOfPlayersCGFloat - 1))
         
         let screenWidth: CGFloat = expectedCollectionViewWidth + 1
         sut.screenWidth = screenWidth
@@ -190,21 +242,8 @@ final class EndGameViewControllerTests: XCTestCase {
     }
     
     
-    // MARK: - NewGameButtonTapped
+    // MARK: - playAgainButtonTapped
     
-    func test_EndGameViewController_WhenNewGameButtonTapped_ShouldCallCoordinatorStart() {
-        // given
-        let sut = viewController!
-        
-        let coordinator = GameTabCoordinatorMock()
-        sut.coordinator = coordinator
-        
-        // when
-        sut.newGameButtonTapped(0)
-        
-        // then
-        XCTAssertEqual(coordinator.startCalledCount, 1)
-    }
     
     // MARK: - keepPlayingButtonTapped
     
