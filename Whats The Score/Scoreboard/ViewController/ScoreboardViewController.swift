@@ -13,13 +13,18 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     
     @IBOutlet weak var gameNameLabel: UILabel!
     @IBOutlet weak var roundLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var filterButtonStackView: UIStackView!
-    
     @IBOutlet weak var turnOrderSortButton: UIButton!
     @IBOutlet weak var scoreSortButton: UIButton!
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var addPlayerButton: UIButton!
+    
     @IBOutlet weak var endRoundButton: UIButton!
-    @IBOutlet weak var progressLabel: UILabel!
+    @IBOutlet weak var endGameButton: UIButton!
+    
     
     
     // MARK: - Properties
@@ -88,6 +93,10 @@ class ScoreboardViewController: UIViewController, Storyboarded {
         
         self.scoreSortButton.alpha = 1
         self.turnOrderSortButton.alpha = 0.5
+        
+        addPlayerButton.underlineButtonForButtonStates(title: "Add Player", withTextSize: 15)
+        endRoundButton.underlineButtonForButtonStates(title: "End Round", withTextSize: 22)
+        endGameButton.underlineButtonForButtonStates(title: "End Game", withTextSize: 22)
     }
     
     private func isEndOfGameCheck() {
