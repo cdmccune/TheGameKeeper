@@ -43,10 +43,10 @@ class ScoreboardCoordinatorMock: ScoreboardCoordinator {
         showEndRoundPopoverCalledCount += 1
     }
     
-    var showEditPlayerPopoverPlayer: PlayerProtocol?
+    var showEditPlayerPopoverPlayer: PlayerSettings?
     var showEditPlayerPopoverDelegate: EditPlayerPopoverDelegateProtocol?
     var showEditPlayerPopoverCalledCount = 0
-    override func showEditPlayerPopover(withPlayer player: PlayerProtocol, andDelegate delegate: EditPlayerPopoverDelegateProtocol) {
+    override func showEditPlayerPopover(withPlayer player: PlayerSettings, andDelegate delegate: EditPlayerPopoverDelegateProtocol) {
         showEditPlayerPopoverPlayer = player
         showEditPlayerPopoverDelegate = delegate
         showEditPlayerPopoverCalledCount += 1

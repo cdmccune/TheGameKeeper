@@ -9,6 +9,29 @@ import Foundation
 
 extension ScoreboardViewModel {
     
+    func addPlayer() {
+        let playerToAdd = PlayerSettings(name: "", icon: getRandomIcon())
+        coordinator?.showEditPlayerPopover(withPlayer: playerToAdd, andDelegate: self)
+        coreDataStore.saveContext()
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+    }
+    
+    private func getRandomIcon() -> PlayerIcon {
+        let filteredIcons = PlayerIcon.allCases.filter { icon in
+            !game.players.contains { player in
+                player.icon == icon
+            }
+        }
+        
+        if let filteredRandomIcon = filteredIcons.randomElement() {
+            return filteredRandomIcon
+        } else if let randomIcon = PlayerIcon.allCases.randomElement() {
+            return randomIcon
+        } else {
+            fatalError("No Icons")
+        }
+    }
+    
     func startEditingPlayerScoreAt(_ index: Int) {
         guard sortedPlayers.indices.contains(index) else { return }
         
@@ -18,8 +41,9 @@ extension ScoreboardViewModel {
     
     func startEditingPlayerAt(_ index: Int) {
         guard sortedPlayers.indices.contains(index) else { return }
-        
-        coordinator?.showEditPlayerPopover(withPlayer: sortedPlayers[index], andDelegate: self)
+        let player = sortedPlayers[index]
+        let playerSettings = PlayerSettings(name: player.name, icon: player.icon, id: player.id)
+        coordinator?.showEditPlayerPopover(withPlayer: playerSettings, andDelegate: self)
         
     }
     

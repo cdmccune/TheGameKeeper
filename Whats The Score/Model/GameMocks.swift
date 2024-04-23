@@ -133,7 +133,10 @@ class GameMock: GameProtocol {
     }
     
     var addPlayerCalledCount = 0
-    func addPlayer(withName name: String) {
+    var addPlayerSettings: PlayerSettings?
+    var addPlayerName: String?
+    func addPlayer(withSettings player: PlayerSettings) {
+        addPlayerSettings = player
         addPlayerCalledCount += 1
     }
     

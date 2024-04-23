@@ -63,13 +63,13 @@ class ScoreboardCoordinator: Coordinator {
     }
     
     
-    func showEditPlayerPopover(withPlayer player: PlayerProtocol, andDelegate delegate: EditPlayerPopoverDelegateProtocol) {
+    func showEditPlayerPopover(withPlayer player: PlayerSettings, andDelegate delegate: EditPlayerPopoverDelegateProtocol) {
         guard let viewController = navigationController.topViewController else { return }
         let editPlayerPopoverVC = EditPlayerPopoverViewController.instantiate()
         
-        let playerSettings = PlayerSettings(name: player.name, icon: .alien, id: player.id)
+//        let playerSettings = PlayerSettings(name: player.name, icon: .alien, id: player.id)
         
-        editPlayerPopoverVC.player = playerSettings
+        editPlayerPopoverVC.player = player
         editPlayerPopoverVC.delegate = delegate
         
         defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerPopoverVC, withWidth: 300, andHeight: 165, tapToExit: true)

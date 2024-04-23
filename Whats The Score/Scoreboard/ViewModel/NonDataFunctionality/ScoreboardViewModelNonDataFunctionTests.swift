@@ -74,6 +74,77 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
     }
     
     
+    // MARK: - AddPlayer
+    
+    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallCoordinatorShowEditPlayerPopoverWithSelfAsDelegate() {
+        let sut = getViewModelWithBasicGame()
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(coordinator.showEditPlayerPopoverCalledCount, 1)
+        XCTAssertIdentical(coordinator.showEditPlayerPopoverDelegate, sut)
+    }
+    
+    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallCoordinatorShowEditPlayerPopoverWithPlayerWithUnusedIcon() {
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        let coordinator = ScoreboardCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        let icons = PlayerIcon.allCases
+        var playerArray = [PlayerMock]()
+        for icon in icons {
+            playerArray.append(PlayerMock(icon: icon))
+        }
+        
+        let randomPlayer = playerArray.randomElement()
+        playerArray.removeAll { $0 == randomPlayer }
+        game.players = playerArray
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(coordinator.showEditPlayerPopoverPlayer?.icon, randomPlayer?.icon)
+    }
+    
+    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallBindViewModelToView() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let gameMock = GameMock()
+        sut.game = gameMock
+        
+        let bindViewToViewModelCalledCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCount + 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.addPlayer()
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
+    
     // MARK: - StartEditingPlayerScoreAt
     
     func test_ScoreboardViewModel_WhenStartEditingPlayerScoreAtCalledOutOfRange_ShouldNotCallCoordinatorShowEditPlayerScorePopover() {
@@ -86,7 +157,7 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
         sut.startEditingPlayerScoreAt(0)
         
         // then
-        XCTAssertEqual(coordinator.showEditPlayerPopoverCalledCount, 0)
+        XCTAssertEqual(coordinator.showEditPlayerScorePopoverCalledCount, 0)
     }
     
     
@@ -132,13 +203,13 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
         XCTAssertEqual(coordinator.showEditPlayerPopoverCalledCount, 0)
     }
     
-    func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledInRangeSortPreferenceScore_ShouldCallCoordinatorShowEditPlayerPopoverWithPlayerAtIndexOfSortedPlayersAndDelegate() {
+    func test_ScoreboardViewModel_WhenStartEditingPlayerAtCalledInRangeSortPreferenceScore_ShouldCallCoordinatorShowEditPlayerPopoverWithPlayerAtIndexOfSortedPlayersWithNameIconAndIDAndDelegate() {
         // given
         
         let players = [
-            PlayerMock(score: 1),
-            PlayerMock(score: 3),
-            PlayerMock(score: 2)
+            PlayerMock(name: UUID().uuidString, score: 1, icon: PlayerIcon.allCases.randomElement()!),
+            PlayerMock(name: UUID().uuidString, score: 3, icon: PlayerIcon.allCases.randomElement()!),
+            PlayerMock(name: UUID().uuidString, score: 2, icon: PlayerIcon.allCases.randomElement()!)
         ]
         
         let sut = ScoreboardViewModel(game: GameMock(players: players))
@@ -155,6 +226,8 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
         // then
         XCTAssertEqual(coordinator.showEditPlayerPopoverCalledCount, 1)
         XCTAssertEqual(coordinator.showEditPlayerPopoverPlayer?.id, sut.sortedPlayers[index].id)
+        XCTAssertEqual(coordinator.showEditPlayerPopoverPlayer?.name, sut.sortedPlayers[index].name)
+        XCTAssertEqual(coordinator.showEditPlayerPopoverPlayer?.icon, sut.sortedPlayers[index].icon)
         XCTAssertTrue(coordinator.showEditPlayerPopoverDelegate as? ScoreboardViewModel === sut)
     }
     

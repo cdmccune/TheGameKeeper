@@ -15,54 +15,6 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
     }
     
     
-    // MARK: - AddPlayer
-    
-    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallAddPlayerOnGame() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let gameMock = GameMock()
-        sut.game = gameMock
-        
-        // when
-        sut.addPlayer()
-        
-        // then
-        XCTAssertEqual(gameMock.addPlayerCalledCount, 1)
-    }
-    
-    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallBindViewModelToView() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        
-        let viewDelegate = ScoreboardViewModelViewProtocolMock()
-        sut.delegate = viewDelegate
-        
-        let gameMock = GameMock()
-        sut.game = gameMock
-        
-        let bindViewToViewModelCalledCount = viewDelegate.bindViewToViewModelCalledCount
-        
-        // when
-        sut.addPlayer()
-        
-        // then
-        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindViewToViewModelCalledCount + 1)
-    }
-    
-    func test_ScoreboardViewModel_WhenAddPlayerCalled_ShouldCallCoreDataStoreSaveChanges() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let coreDataStore = CoreDataStoreMock()
-        sut.coreDataStore = coreDataStore
-        
-        // when
-        sut.addPlayer()
-        
-        // then
-        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
-    }
-    
-    
     // MARK: - DeletePlayer
     
     func test_ScoreboardViewModel_WhenDeletePlayerCalled_ShouldCallGamesDeletePlayer() {
@@ -111,11 +63,26 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
     
     // MARK: - FinishedEditingPlayer
     
-    func test_ScoreboardViewModel_WhenFinishedEditingPlayerCalled_ShouldCallGameEditPlayerWithPlayerSettings() {
+    func test_ScoreboardViewModel_WhenFinishedEditingPlayerCalledPlayerNotInGame_ShouldCallGameAddPlayerWithPlayerSettings() {
         // given
         let game = GameMock()
         let sut = ScoreboardViewModel(game: game)
         let playerSettings = PlayerSettings.getStub()
+        
+        // when
+        sut.finishedEditing(playerSettings)
+        
+        // then
+        XCTAssertEqual(game.addPlayerCalledCount, 1)
+        XCTAssertEqual(game.addPlayerSettings, playerSettings)
+    }
+    
+    func test_ScoreboardViewModel_WhenFinishedEditingPlayerCalledPlayerInGame_ShouldCallGameEditPlayerWithPlayerSettings() {
+        // given
+        let playerMock = PlayerMock()
+        let game = GameMock(players: [playerMock])
+        let sut = ScoreboardViewModel(game: game)
+        let playerSettings = PlayerSettings.getStub(id: playerMock.id)
         
         // when
         sut.finishedEditing(playerSettings)

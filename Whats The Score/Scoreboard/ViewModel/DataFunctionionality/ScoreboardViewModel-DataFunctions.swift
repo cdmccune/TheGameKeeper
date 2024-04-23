@@ -10,13 +10,6 @@ import CoreData
 
 
 extension ScoreboardViewModel {
-    
-    func addPlayer() {
-        game.addPlayer(withName: "")
-        coreDataStore.saveContext()
-        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
-    }
-    
     func deletePlayer(_ player: PlayerProtocol) {
         game.deletePlayer(player)
         coreDataStore.saveContext()
@@ -27,7 +20,13 @@ extension ScoreboardViewModel {
 extension ScoreboardViewModel: EditPlayerPopoverDelegateProtocol {
     
     func finishedEditing(_ player: PlayerSettings) {
-        game.editPlayer(player)
+        if sortedPlayers.contains(where: { $0.id == player.id }) {
+            game.editPlayer(player)
+        } else {
+            game.addPlayer(withSettings: player)
+        }
+        
+        
         coreDataStore.saveContext()
         delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
     }

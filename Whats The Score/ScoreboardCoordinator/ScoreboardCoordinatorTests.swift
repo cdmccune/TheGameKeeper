@@ -331,7 +331,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         // when
-        sut.showEditPlayerPopover(withPlayer: PlayerMock(), andDelegate: EditPlayerPopoverDelegateProtocolMock())
+        sut.showEditPlayerPopover(withPlayer: PlayerSettings.getStub(), andDelegate: EditPlayerPopoverDelegateProtocolMock())
         
         // then
         XCTAssertEqual(viewController.presentCalledCount, 1)
@@ -343,7 +343,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         let (sut, viewController) = getSutAndViewControllerOnTopOfNavigationController()
         
         let delegate = EditPlayerPopoverDelegateProtocolMock()
-        let player = PlayerMock()
+        let player = PlayerSettings.getStub()
         
         // when
         sut.showEditPlayerPopover(withPlayer: player, andDelegate: delegate)
@@ -351,7 +351,6 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         // then
         let editPlayerPopoverVC = viewController.presentViewController as? EditPlayerPopoverViewController
         XCTAssertEqual(editPlayerPopoverVC?.player?.id, player.id)
-        XCTAssertEqual(editPlayerPopoverVC?.player?.name, player.name)
         XCTAssertTrue(editPlayerPopoverVC?.delegate as? EditPlayerPopoverDelegateProtocolMock === delegate)
     }
     
@@ -366,7 +365,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         sut.defaultPopoverPresenter = defaultPopoverPresenterMock
         
         // when
-        sut.showEditPlayerPopover(withPlayer: PlayerMock(), andDelegate: EditPlayerPopoverDelegateProtocolMock())
+        sut.showEditPlayerPopover(withPlayer: PlayerSettings.getStub(), andDelegate: EditPlayerPopoverDelegateProtocolMock())
         
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)

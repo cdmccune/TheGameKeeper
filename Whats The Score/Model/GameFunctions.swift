@@ -22,6 +22,7 @@ extension Game {
         guard var player = players.first(where: { $0.id == newPlayerSettings.id }) else { return }
         
         player.name = newPlayerSettings.name
+        player.icon = newPlayerSettings.icon
     }
     
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
@@ -34,9 +35,9 @@ extension Game {
 //        players.setPositions()
     }
     
-    func addPlayer(withName name: String) {
+    func addPlayer(withSettings player: PlayerSettings) {
         guard let managedObjectContext else { return }
-        _ = Player(game: self, name: name, position: players.count, icon: .alien, context: managedObjectContext)
+        _ = Player(game: self, name: player.name, position: players.count, icon: player.icon, context: managedObjectContext)
     }
 //    
     func randomizePlayers() {

@@ -101,6 +101,24 @@ final class GameTests: XCTestCase {
         // then
         XCTAssertEqual(player.name, playerName)
     }
+    
+    func test_Game_WhenWhenEditPlayerCalled_ShouldChangePlayerIconToIconName() {
+        // given
+        let sut = Game(basicGameWithContext: context)
+        let player = Player(game: sut, name: "", position: 0, icon: .alien, context: context)
+        
+        var playerIcon = PlayerIcon.allCases.randomElement()!
+        while playerIcon == .alien { playerIcon = PlayerIcon.allCases.randomElement()! }
+        
+        
+        let playerSettings = PlayerSettings.getStub(icon: playerIcon, id: player.id)
+        
+        // when
+        sut.editPlayer(playerSettings)
+        
+        // then
+        XCTAssertEqual(player.icon, playerIcon)
+    }
 
 
 //    // MARK: - MovePlayerAt
@@ -167,7 +185,7 @@ final class GameTests: XCTestCase {
         let sut = Game(basicGameWithContext: context)
         
         // when
-        sut.addPlayer(withName: "")
+        sut.addPlayer(withSettings: PlayerSettings.getStub())
         
         // then
         XCTAssertEqual(sut.players.count, 1)
@@ -184,12 +202,23 @@ final class GameTests: XCTestCase {
         
         let playerName = UUID().uuidString
         // when
-        sut.addPlayer(withName: playerName)
+        sut.addPlayer(withSettings: PlayerSettings.getStub(name: playerName))
         
         // then
         XCTAssertEqual(sut.players.count, count + 1)
         XCTAssertEqual(sut.players.last?.position, count)
         XCTAssertEqual(sut.players.last?.name, playerName)
+    }
+    
+    func test_Game_WhenAddPlayerCalled_ShouldSetPlayerIcon() {
+        let sut = Game(basicGameWithContext: context)
+        let icon = PlayerIcon.allCases.randomElement()!
+        
+        // when
+        sut.addPlayer(withSettings: PlayerSettings.getStub(icon: icon))
+        
+        // then
+        XCTAssertEqual(sut.players.first?.icon, icon)
     }
     
 

@@ -166,6 +166,8 @@ final class GameHistoryViewControllerTests: XCTestCase {
         sut.viewModel = GameHistoryViewModelMock()
         let tableView = UITableView()
         sut.tableView = tableView
+        let label = UILabel()
+        sut.titleLabel = label
         
         // when
         sut.viewDidLoad()

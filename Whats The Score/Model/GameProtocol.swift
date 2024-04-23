@@ -24,7 +24,7 @@ protocol GameProtocol: AnyObject {
     
     func editPlayer(_ newPlayerSettings: PlayerSettings)
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int)
-    func addPlayer(withName: String)
+    func addPlayer(withSettings player: PlayerSettings)
     func randomizePlayers()
     func deletePlayer(_ player: PlayerProtocol)
     func deleteEndRound(_ endRound: EndRoundProtocol)
