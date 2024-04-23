@@ -51,10 +51,6 @@ final class EndRoundPopoverTextFieldTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.borderStyle, .roundedRect)
-        XCTAssertEqual(sut.layer.borderColor, UIColor.lightGray.cgColor)
-        XCTAssertEqual(sut.layer.borderWidth, 2.0)
-        XCTAssertEqual(sut.layer.cornerRadius, 5)
-        
     }
     
     func test_EndRoundPopoverTextField_WhenInitialized_ShouldSetAttibutedPlaceholderColorToLightGrey() {

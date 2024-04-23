@@ -757,6 +757,24 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.progressLabel.isHidden)
     }
     
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledIsEndofGame_ShouldShowProgressLabelWithEmptyText() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        let game = GameIsEndOfGameMock(gameType: .round, gameEndType: .round)
+        game.isEndOfGameBool = true
+        sut.viewModel?.game = game
+        
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertFalse(sut.progressLabel.isHidden)
+        XCTAssertEqual(sut.progressLabel.text, "")
+    }
+    
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameNotNone_ShouldMakeProgressLabelNotHidden() {
         // given
         let sut = viewController!
@@ -772,7 +790,6 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         XCTAssertFalse(sut.progressLabel.isHidden)
     }
-    
     
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameRoundMultipleRoundsLeft_ShouldSetProgressLabelTextToHowManyRoundsAreLeftMultiple() {
         // given

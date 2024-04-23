@@ -43,6 +43,40 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
+    func test_EndGamePopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonOnKeepPlayingButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.keepPlayingButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 15)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Keep Playing")
+    }
+    
+    func test_EndGamePopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonOnFinishGameButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.finishGameButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 15)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Finish Game")
+    }
+    
     func test_EndGamePopoverViewController_WhenViewDidLoadCalledBasicGame_ShouldSetDescriptionLabelTextToBlank() {
         // given
         let sut = viewController!

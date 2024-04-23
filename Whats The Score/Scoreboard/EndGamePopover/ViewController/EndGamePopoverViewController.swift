@@ -17,6 +17,8 @@ class EndGamePopoverViewController: UIViewController, Storyboarded {
     // MARK: - Outlets
     
     @IBOutlet weak var gameOverDescriptionLabel: UILabel!
+    @IBOutlet weak var keepPlayingButton: UIButton!
+    @IBOutlet weak var finishGameButton: UIButton!
     
     // MARK: - Properties
     
@@ -36,6 +38,9 @@ class EndGamePopoverViewController: UIViewController, Storyboarded {
     // MARK: - Functions
     
     private func setupViews() {
+        keepPlayingButton.underlineButtonForButtonStates(title: "Keep Playing", withTextSize: 15)
+        finishGameButton.underlineButtonForButtonStates(title: "Finish Game", withTextSize: 15)
+        
         guard let game = game else { return }
         
         guard game.gameType != .basic else {

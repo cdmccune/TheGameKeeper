@@ -110,7 +110,7 @@ class ScoreboardCoordinator: Coordinator {
         endGamePopoverVC.game = game
         endGamePopoverVC.delegate = delegate
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 138, tapToExit: !game.isEndOfGame())
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 140, tapToExit: !game.isEndOfGame())
         
         dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
             viewController.present(endGamePopoverVC, animated: true)

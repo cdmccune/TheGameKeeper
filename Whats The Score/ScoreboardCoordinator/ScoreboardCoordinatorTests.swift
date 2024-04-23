@@ -499,7 +499,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 138)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 140)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EndGamePopoverViewController)
     }

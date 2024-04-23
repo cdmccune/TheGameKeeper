@@ -43,6 +43,20 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
+    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldCallBecomeFirstResponderOnPlayerNameTextField() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        let textField = UITextFieldBecomeFirstResponderMock()
+        sut.playerNameTextField = textField
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(textField.becomeFirstResponderCalledCount, 1)
+    }
+    
     func test_EditPlayerPopoverViewController_WhenViewDidLoadCalledWithPlayer_ShouldSetPlayerNameTextFieldTextToPlayerName() {
         // given
         let sut = viewController!

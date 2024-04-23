@@ -82,13 +82,7 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
             fatalError("Forgot to set the game")
         }
         
-        
-        guard let text = textField.text,
-            let newInput = Int(text) else {
-            saveChangesButton.isEnabled = false
-            return
-        }
-        
+        let newInput = Int(textField.text ?? "") ?? 0
         
         if game.gameEndType == .round,
            game.currentRound > newInput {

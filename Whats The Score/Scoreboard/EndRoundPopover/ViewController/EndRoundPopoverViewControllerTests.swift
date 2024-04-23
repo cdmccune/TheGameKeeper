@@ -49,6 +49,23 @@ final class EndRoundPopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
+    func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineForStatesOnEndRoundButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.endRoundButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "End Round")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+    }
+    
     func test_EndRoundPopoverViewController_WhenViewDidLoadCalled_ShouldSetRoundTextToEndRoundRoundNumber() {
         // given
         let sut = viewController!

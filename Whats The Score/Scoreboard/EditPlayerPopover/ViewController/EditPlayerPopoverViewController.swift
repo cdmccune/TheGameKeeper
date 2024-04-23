@@ -42,6 +42,8 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
     // MARK: - Private Functions
     
     private func setupViews() {
+        self.playerNameTextField.becomeFirstResponder()
+        
         self.playerNameTextField.text = player?.name
         self.saveButton.isEnabled = (player?.name != "")
         

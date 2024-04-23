@@ -25,9 +25,9 @@ class EndRoundPopoverTextField: StackViewTextField {
     private func setupViews() {
         self.backgroundColor = .clear
         self.borderStyle = .roundedRect
-        self.layer.borderColor = UIColor.lightGray.cgColor
-        self.layer.cornerRadius = 5
-        self.layer.borderWidth = 2.0
+//        self.layer.borderColor = UIColor.lightGray.cgColor
+//        self.layer.cornerRadius = 5
+//        self.layer.borderWidth = 2.0
         self.textColor = .textColor
         self.font =  UIFont(name: "Press Start 2P Regular", size: 15)
         
