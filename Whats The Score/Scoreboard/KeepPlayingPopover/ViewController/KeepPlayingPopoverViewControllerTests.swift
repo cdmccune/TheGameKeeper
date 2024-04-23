@@ -55,6 +55,60 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
+    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesOnSaveChangesButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.game = GameMock()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.saveChangesButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Save")
+    }
+    
+    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesOnNoEndButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.game = GameMock()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.noEndButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 14)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "No End")
+    }
+    
+    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesOnEndGameButtonWithCorrectParameters() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.game = GameMock()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.endGameButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 14)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "End Game")
+    }
+    
     func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldAddTargetToInputTextFieldForEditingDidChange() {
         // given
         let sut = getKeepPlayingPopoverVCWithGameMock()
@@ -229,7 +283,7 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.saveChangesButton.isEnabled)
     }
     
-    func test_KeepPlayingPopoverViewController_WhenGameEndTypeRoundAndInputTextFieldTextIntLessThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetInstructionTextColorToRedAndTextToNumberOfRoundsMustBeHigherThanCurrentRound() {
+    func test_KeepPlayingPopoverViewController_WhenGameEndTypeRoundAndInputTextFieldTextIntLessThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetTextToNumberOfRoundsMustBeHigherThanCurrentRound() {
         // given
         let sut = viewController!
         
@@ -251,7 +305,6 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         sut.inputTextField.sendActions(for: .editingChanged)
         
         // then
-        XCTAssertEqual(sut.instructionLabel.textColor, .red)
         XCTAssertEqual(sut.instructionLabel.text, "Rounds must be higher than \(currentRound - 1)")
     }
     
@@ -281,7 +334,7 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.saveChangesButton.isEnabled)
     }
     
-    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntLessThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetInstructionTextColorToRedAndTextToYouMustInputANumberHigherThanHighestPlayersScore() {
+    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntLessThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetTextToYouMustInputANumberHigherThanHighestPlayersScore() {
         // given
         let sut = viewController!
         
@@ -304,11 +357,10 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         sut.inputTextField.sendActions(for: .editingChanged)
         
         // then
-        XCTAssertEqual(sut.instructionLabel.textColor, .red)
         XCTAssertEqual(sut.instructionLabel.text, "Score must be higher than \(highScore)")
     }
     
-    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntMoreThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetInstructionTextColorToBlueAndTextToTapSaveChangesToPlayOnAndEnableSaveChangesButton() {
+    func test_KeepPlayingPopoverViewController_WhenGameEndTypeScoreAndInputTextFieldTextIntMoreThanGameCurrentRoundAndSendActionForEditingChanged_ShouldSetTextToTapSaveChangesToPlayOnAndEnableSaveChangesButton() {
         // given
         let sut = viewController!
         
@@ -332,7 +384,6 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         sut.inputTextField.sendActions(for: .editingChanged)
         
         // then
-        XCTAssertEqual(sut.instructionLabel.textColor, .systemBlue)
         XCTAssertEqual(sut.instructionLabel.text, "Tap save changes to play on!")
         XCTAssertTrue(sut.saveChangesButton.isEnabled)
     }

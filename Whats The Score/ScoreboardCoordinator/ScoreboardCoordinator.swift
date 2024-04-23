@@ -67,8 +67,6 @@ class ScoreboardCoordinator: Coordinator {
         guard let viewController = navigationController.topViewController else { return }
         let editPlayerPopoverVC = EditPlayerPopoverViewController.instantiate()
         
-//        let playerSettings = PlayerSettings(name: player.name, icon: .alien, id: player.id)
-        
         editPlayerPopoverVC.player = player
         editPlayerPopoverVC.delegate = delegate
         
@@ -84,7 +82,7 @@ class ScoreboardCoordinator: Coordinator {
         editPlayerScorePopoverVC.scoreChangeSettings = scoreChange
         editPlayerScorePopoverVC.delegate = delegate
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerScorePopoverVC, withWidth: 300, andHeight: 200, tapToExit: true)
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerScorePopoverVC, withWidth: 300, andHeight: 157, tapToExit: true)
         
         viewController.present(editPlayerScorePopoverVC, animated: true)
     }
@@ -112,7 +110,7 @@ class ScoreboardCoordinator: Coordinator {
         endGamePopoverVC.game = game
         endGamePopoverVC.delegate = delegate
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 165, tapToExit: !game.isEndOfGame())
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: endGamePopoverVC, withWidth: 300, andHeight: 138, tapToExit: !game.isEndOfGame())
         
         dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
             viewController.present(endGamePopoverVC, animated: true)
@@ -126,7 +124,7 @@ class ScoreboardCoordinator: Coordinator {
         keepPlayingPopoverVC.game = game
         keepPlayingPopoverVC.delegate = delegate
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 217, tapToExit: false)
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 207, tapToExit: false)
         
         dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
             viewController.present(keepPlayingPopoverVC, animated: true)

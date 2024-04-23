@@ -423,7 +423,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 200)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 157)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is ScoreboardPlayerEditScorePopoverViewController)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
@@ -499,7 +499,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 165)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 138)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EndGamePopoverViewController)
     }
@@ -570,7 +570,7 @@ final class ScoreboardCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 217)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 207)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is KeepPlayingPopoverViewController)
     }

@@ -23,7 +23,8 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
     @IBOutlet weak var inputTextField: UITextField!
     @IBOutlet weak var inputDescriptionLabel: UILabel!
     @IBOutlet weak var saveChangesButton: UIButton!
-    
+    @IBOutlet weak var noEndButton: UIButton!
+    @IBOutlet weak var endGameButton: UIButton!
     
     // MARK: - Properties
     
@@ -47,6 +48,10 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
     // MARK: - Private Funcs
     
     private func setupViews() {
+        saveChangesButton.underlineButtonForButtonStates(title: "Save", withTextSize: 22)
+        noEndButton.underlineButtonForButtonStates(title: "No End", withTextSize: 14)
+        endGameButton.underlineButtonForButtonStates(title: "End Game", withTextSize: 14)
+        
         guard let game = game else {
             fatalError("Forgot to set the game")
         }
@@ -88,15 +93,12 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
         if game.gameEndType == .round,
            game.currentRound > newInput {
             saveChangesButton.isEnabled = false
-            instructionLabel.textColor = .red
             instructionLabel.text = "Rounds must be higher than \(game.currentRound - 1)"
         } else if game.gameEndType == .score,
                   game.winningPlayers.first?.score ?? 0 >= newInput {
             saveChangesButton.isEnabled = false
-            instructionLabel.textColor = .red
             instructionLabel.text = "Score must be higher than \(game.winningPlayers.first?.score ?? 0)"
         } else {
-            instructionLabel.textColor = .systemBlue
             instructionLabel.text = "Tap save changes to play on!"
             saveChangesButton.isEnabled = true
         }
