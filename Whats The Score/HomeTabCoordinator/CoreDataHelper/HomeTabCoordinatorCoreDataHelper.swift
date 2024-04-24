@@ -12,6 +12,7 @@ protocol HomeTabCoordinatorCoreDataHelperProtocol {
     
     func getAllGames() throws -> [GameProtocol]
     func pauseGame(game: GameProtocol)
+    func makeGameActive(game: GameProtocol)
 }
 
 class HomeTabCoordinatorCoreDataHelper: HomeTabCoordinatorCoreDataHelperProtocol {
@@ -31,6 +32,11 @@ class HomeTabCoordinatorCoreDataHelper: HomeTabCoordinatorCoreDataHelperProtocol
     
     func pauseGame(game: GameProtocol) {
         game.gameStatus = .paused
+        coreDataStore.saveContext()
+    }
+    
+    func makeGameActive(game: GameProtocol) {
+        game.gameStatus = .active
         coreDataStore.saveContext()
     }
 }

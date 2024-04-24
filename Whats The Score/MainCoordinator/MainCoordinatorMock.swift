@@ -36,4 +36,11 @@ class MainCoordinatorMock: MainCoordinator {
     override func gameTabActiveGameCompleted() {
         gameTabActiveGameCompletedCalledCount += 1
     }
+    
+    var homeTabGameMadeActiveCalledCount = 0
+    var homeTabGameMadeActiveGame: GameProtocol?
+    override func homeTabGameMadeActive(_ game: GameProtocol) {
+        homeTabGameMadeActiveCalledCount += 1
+        homeTabGameMadeActiveGame = game
+    }
 }

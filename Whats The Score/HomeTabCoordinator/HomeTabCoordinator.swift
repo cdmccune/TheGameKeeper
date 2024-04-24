@@ -72,17 +72,23 @@ class HomeTabCoordinator: Coordinator {
             fatalError("Unhandled error \(error.localizedDescription)")
         }
         
+        viewModel.coordinator = self
         myGamesVC.viewModel = viewModel
         
         navigationController.pushViewController(myGamesVC, animated: true)
     }
     
     
-    func pauseCurrentGame() {
-        guard let activeGame else { return }
+    func pauseCurrentGame(andOpenGame newGame: GameProtocol? = nil) {
+        if let activeGame {
+            coreDataHelper.pauseGame(game: activeGame)
+        }
         
-        coreDataHelper.pauseGame(game: activeGame)
-        self.activeGame = nil
+        if let newGame {
+            coreDataHelper.makeGameActive(game: newGame)
+        }
+        
+        self.activeGame = newGame
         start()
     }
     
@@ -98,7 +104,8 @@ class HomeTabCoordinator: Coordinator {
     }
     
     func reopenPausedGame(_ game: GameProtocol) {
-        
+        pauseCurrentGame(andOpenGame: game)
+        coordinator?.homeTabGameMadeActive(game)
     }
     
     func showGameReportFor(game: GameProtocol) {

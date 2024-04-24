@@ -85,6 +85,33 @@ final class HomeTabCoordinatorCoreDataHelperTests: XCTestCase {
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
+    
+    
+    // MARK: - Make Game Active
+    
+    func test_HomeTabCoordinatorCoreDataHelper_WhenMakeGameActiveCalled_ShouldSetGameStatusToActive() {
+        // given
+        let sut = HomeTabCoordinatorCoreDataHelper(coreDataStore: CoreDataStoreMock())
+        let game = GameMock(gameStatus: .completed)
+        
+        // when
+        sut.makeGameActive(game: game)
+        
+        // then
+        XCTAssertEqual(game.gameStatus, .active)
+    }
+    
+    func test_HomeTabCoordinatorCoreDataHelper_WhenMakeGameActiveCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = HomeTabCoordinatorCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        sut.makeGameActive(game: GameMock())
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
 
 }
 
@@ -108,5 +135,12 @@ class HomeTabCoordinatorCoreDataHelperMock: HomeTabCoordinatorCoreDataHelperProt
     func pauseGame(game: GameProtocol) {
         pauseGameCalledCount += 1
         pauseGameGame = game
+    }
+    
+    var makeGameActiveCalledCount = 0
+    var makeGameActiveGame: GameProtocol?
+    func makeGameActive(game: GameProtocol) {
+        makeGameActiveCalledCount += 1
+        makeGameActiveGame = game
     }
 }
