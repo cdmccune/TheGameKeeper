@@ -116,4 +116,22 @@ final class MyGamesViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(tableView.registerHeaderFooterIdentifier, "MyGamesTableViewHeaderView")
     }
+    
+    func test_MyGameViewController_WhenViewDidLoad_ShouldSetValueChangedOfViewModelsShouldRefreshTableViewToRefreshTableViewIfTrue() {
+        // given
+        let sut = viewController!
+        let viewModel = MyGamesViewModelMock()
+        sut.viewModel = viewModel
+        sut.loadView()
+        
+        let tableView = UITableViewReloadDataMock()
+        sut.tableView = tableView
+        
+        // when
+        sut.viewDidLoad()
+        viewModel.shouldRefreshTableView.value = true
+        
+        // then
+        XCTAssertEqual(tableView.reloadDataCalledCount, 1)
+    }
 }

@@ -147,6 +147,7 @@ final class EndGameViewControllerTests: XCTestCase {
         
         // then
         let attributes = sut.titleLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
+        XCTAssertEqual(sut.titleLabel.text, "Report")
         XCTAssertEqual(attributes?[.foregroundColor] as? UIColor, .white)
         XCTAssertEqual(attributes?[.strokeWidth] as? CGFloat, -4.0)
         XCTAssertEqual(attributes?[.strokeColor] as? UIColor, .black)
@@ -251,7 +252,7 @@ final class EndGameViewControllerTests: XCTestCase {
         // given
         let sut = viewController!
         
-        let coordinator = GameTabCoordinatorMock()
+        let coordinator = EndGameCoordinatorProtocolMock()
         sut.coordinator = coordinator
         
         let game = GameMock()
@@ -261,7 +262,7 @@ final class EndGameViewControllerTests: XCTestCase {
         sut.keepPlayingGameButtonTapped(0)
         
         // then
-        XCTAssertEqual(coordinator.goToScoreboardCalledCount, 1)
-        XCTAssertTrue(coordinator.goToScoreboardGame?.isEqualTo(game: game) ?? false)
+        XCTAssertEqual(coordinator.reopenCompletedGameCalledCount, 1)
+        XCTAssertTrue(coordinator.reopenCompletedGameGame?.isEqualTo(game: game) ?? false)
     }
 }

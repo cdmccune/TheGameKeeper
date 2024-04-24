@@ -43,4 +43,9 @@ class MainCoordinatorMock: MainCoordinator {
         homeTabGameMadeActiveCalledCount += 1
         homeTabGameMadeActiveGame = game
     }
+    
+    var homeTabActiveGameDeletedCalledCount = 0
+    override func homeTabActiveGameDeleted() {
+        homeTabActiveGameDeletedCalledCount += 1
+    }
 }

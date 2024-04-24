@@ -61,7 +61,6 @@ class GameTabCoordinator: Coordinator {
         
         scoreboardCoordinator?.game = game
         scoreboardCoordinator?.start()
-        
     }
     
     func showEndGameScreen(forGame game: GameProtocol) {
@@ -75,16 +74,6 @@ class GameTabCoordinator: Coordinator {
         navigationController.viewControllers = [endGameVC]
     }
     
-    func goToScoreboard(forGame game: GameProtocol) {
-        coreDataHelper.makeGameActive(game)
-        coordinator?.gameTabGameMadeActive(game)
-        
-        let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
-        
-        scoreboardCoordinator?.game = game
-        scoreboardCoordinator?.start()
-    }
-    
     func deleteGame() {
         guard let activeGame else { return }
         coreDataHelper.deleteGame(activeGame)
@@ -94,5 +83,16 @@ class GameTabCoordinator: Coordinator {
         self.activeGame = nil
         self.start()
     }
-    
+}
+
+extension GameTabCoordinator: EndGameCoordinatorProtocol {
+    func reopenNonActiveGame(_ game: GameProtocol) {
+        coreDataHelper.makeGameActive(game)
+        coordinator?.gameTabGameMadeActive(game)
+        
+        let scoreboardCoordinator = childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
+        
+        scoreboardCoordinator?.game = game
+        scoreboardCoordinator?.start()
+    }
 }

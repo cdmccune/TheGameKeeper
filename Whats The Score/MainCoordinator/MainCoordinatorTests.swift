@@ -425,4 +425,28 @@ final class MainCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(sut.tabbarController.selectedIndex, 1)
     }
+    
+    
+    // MARK: - HomeTabActiveGameDeleted
+    
+    func test_MainCoordinator_WhenHomeTabActiveGameDeletedCalled_ShouldSetGameTabCoordinatorActiveGameToNilBeforeCallingStart() {
+        class GameTabCoordinatorStartMock: GameTabCoordinatorMock {
+            var startActiveGame: GameProtocol? = GameMock()
+            override func start() {
+                startActiveGame = activeGame
+                startCalledCount += 1
+            }
+        }
+        // given
+        let sut = MainCoordinator()
+        let gameTabCoordinator = GameTabCoordinatorStartMock(navigationController: RootNavigationController())
+        sut.childCoordinators = [gameTabCoordinator]
+        
+        // when
+        sut.homeTabActiveGameDeleted()
+        
+        // then
+        XCTAssertEqual(gameTabCoordinator.startCalledCount, 1)
+        XCTAssertNil(gameTabCoordinator.startActiveGame)
+    }
 }

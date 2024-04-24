@@ -89,5 +89,6 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
     func deleteGame(_ game: GameProtocol) {
         guard let game = game as? Game else { return }
         coreDataStore.deleteObject(game)
+        coreDataStore.saveContext()
     }
 }

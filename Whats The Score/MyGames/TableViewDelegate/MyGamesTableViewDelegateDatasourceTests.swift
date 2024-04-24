@@ -295,6 +295,82 @@ final class MyGamesTableViewDelegateDatasourceTests: XCTestCase {
         XCTAssertEqual(viewModel.didSelectRowAtCalledCount, 1)
     }
     
+    
+    // MARK: - TrailingSwipe
+    
+    func test_MyGamesTableViewDelegateDatasource_WhenTrailingSwipeActionsConfiguartionForRowAtSection0OutOfRange_ShouldReturnNil() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertNil(swipeActionsConfig)
+    }
+    
+    func test_MyGamesTableViewDelegateDatasource_WhenTrailingSwipeActionsConfiguartionForRowAtSection1OutOfRange_ShouldReturnNil() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 1))
+        
+        // then
+        XCTAssertNil(swipeActionsConfig)
+    }
+    
+    func test_MyGamesTableViewDelegateDatasource_WhenTrailingSwipeActionsConfiguartionForRowAtSection2OutOfRange_ShouldReturnNil() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 2))
+        
+        // then
+        XCTAssertNil(swipeActionsConfig)
+    }
+    
+    func test_MyGamesTableViewDelegateDatasource_WhenTrailingSwipeActionsConfiguartionForRowAtInRange_ShouldReturnOneActionWithDeleteTitle() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let viewModel = MyGamesViewModelMock()
+        viewModel.activeGames = [GameMock(gameStatus: .active)]
+        sut.viewModel = viewModel
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertNotNil(swipeActionsConfig?.actions.first)
+        XCTAssertEqual(swipeActionsConfig?.actions.first?.title, "Delete")
+        XCTAssertEqual(swipeActionsConfig?.actions.first?.style, .destructive)
+    }
+    
+    func test_MyGamesTableViewDelegateDatasource_WhenDeleteSwipeActionCalledInRange_ShouldCallViewModelDeletePlayerAt() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let viewModelMock = MyGamesViewModelMock()
+        viewModelMock.activeGames = Array(repeating: GameMock(gameStatus: .active), count: 11)
+        sut.viewModel = viewModelMock
+        
+        let indexPath = IndexPath(row: Int.random(in: 1...10), section: 0)
+        
+        // when
+        let swipeActionsConfig = sut.tableView(tableView, trailingSwipeActionsConfigurationForRowAt: indexPath)
+        guard let action = swipeActionsConfig?.actions.first else {
+            XCTFail("This should have a delete action")
+            return
+        }
+        
+        action.handler(action, UIView(), {_ in})
+        
+        // then
+        XCTAssertEqual(viewModelMock.deleteGameAtCalledCount, 1)
+        XCTAssertEqual(viewModelMock.deleteGameAtIndexPath, indexPath)
+    }
+    
+    
     // MARK: - HeaderInSection
     
     func test_MyGamesTableViewDelegateDatasource_WhenHeaderInSectionCalledSection0_ShouldReturnActiveGameHeader() {

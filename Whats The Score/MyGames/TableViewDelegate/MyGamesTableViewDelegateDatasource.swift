@@ -75,6 +75,23 @@ class MyGamesTableViewDelegateDatasource: NSObject, UITableViewDataSource, UITab
         viewModel.didSelectRowAt(indexPath)
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        switch indexPath.section {
+        case 0:
+            guard viewModel.activeGames.indices.contains(indexPath.row) else { return nil }
+        case 1:
+            guard viewModel.pausedGames.indices.contains(indexPath.row) else { return nil }
+        case 2:
+            guard viewModel.completedGames.indices.contains(indexPath.row) else { return nil }
+        default:
+            fatalError("Invalid section")
+        }
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            self.viewModel.deleteGameAt(indexPath)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MyGamesTableViewHeaderView") as? MyGamesTableViewHeaderView else {
             fatalError("MyGamesTableViewHeaderView not found")

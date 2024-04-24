@@ -342,6 +342,6 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         sut.deleteGame(Game())
         
         // then
-        XCTAssertEqual(coreDataStore.deleteObjectCalledCount, 1)
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
 }

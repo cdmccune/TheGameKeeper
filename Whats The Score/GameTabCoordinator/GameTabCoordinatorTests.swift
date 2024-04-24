@@ -387,9 +387,9 @@ final class GameTabCoordinatorTests: XCTestCase {
     }
     
     
-    // MARK: - GoToScoreboard
+    // MARK: - reopenCompletedGame
     
-    func test_GameTabCoordinator_WhenGoToScoreboardCalled_ShouldCallMainCoordinatorGameTabGameMadeActiveWithGame() {
+    func test_GameTabCoordinator_WhenReopenCompletedGameCalled_ShouldCallMainCoordinatorGameTabGameMadeActiveWithGame() {
         // given
         let sut = GameTabCoordinator(navigationController: RootNavigationController())
         let mainCoordinator = MainCoordinatorMock()
@@ -398,7 +398,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         let game = GameMock()
         
         // when
-        sut.goToScoreboard(forGame: game)
+        sut.reopenNonActiveGame(game)
         
         // then
         XCTAssertEqual(mainCoordinator.gameTabGameMadeActiveCalledCount, 1)
@@ -414,7 +414,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         let game = GameMock()
         
         // when
-        sut.goToScoreboard(forGame: game)
+        sut.reopenNonActiveGame(game)
         
         // then
         XCTAssertEqual(coreDataHelper.makeGameActiveCalledCount, 1)
@@ -427,7 +427,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         let game = GameMock()
         
         // when
-        sut.goToScoreboard(forGame: game)
+        sut.reopenNonActiveGame(game)
         
         // then
         let scoreboardCoordinator = sut.childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinator
@@ -443,7 +443,7 @@ final class GameTabCoordinatorTests: XCTestCase {
         sut.childCoordinators = [scoreboardCoordinatorMock]
         
         // when
-        sut.goToScoreboard(forGame: GameMock())
+        sut.reopenNonActiveGame(GameMock())
         
         // then
         let scoreboardCoordinator = sut.childCoordinators.first { $0 is ScoreboardCoordinator } as? ScoreboardCoordinatorMock

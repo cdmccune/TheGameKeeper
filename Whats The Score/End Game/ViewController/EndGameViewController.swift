@@ -26,7 +26,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     private lazy var collectionViewDelegate = EndGamePlayerCollectionViewDelegate(viewModel: viewModel)
     lazy var screenWidth: CGFloat = view.frame.width
     var viewModel: EndGameViewModelProtocol!
-    weak var coordinator: GameTabCoordinator?
+    weak var coordinator: EndGameCoordinatorProtocol?
     
     
     // MARK: - Lifecycle
@@ -55,7 +55,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     }
     
     private func setupViews() {
-        let reportAttributedString = NSMutableAttributedString(string: "My Games")
+        let reportAttributedString = NSMutableAttributedString(string: "Report")
         reportAttributedString.addUnderlineAttribute(underlineColor: .white)
         reportAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
         reportAttributedString.addTextColorAttribute(textColor: .white)
@@ -84,6 +84,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     
     
     @IBAction func keepPlayingGameButtonTapped(_ sender: Any) {
-        coordinator?.goToScoreboard(forGame: viewModel.game)
+        coordinator?.reopenNonActiveGame(viewModel.game)
     }
 }
+

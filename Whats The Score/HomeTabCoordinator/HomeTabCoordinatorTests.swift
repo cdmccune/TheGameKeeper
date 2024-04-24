@@ -415,22 +415,22 @@ final class HomeTabCoordinatorTests: XCTestCase {
     }
     
     
-    // MARK: - reopenPausedGame
+    // MARK: - reopenNonActiveGame
     
-    func test_HomeTabCoordinator_WhenReopenPausedGameCalled_ShouldCallPauseCurrentGameWithNewGameToOpen() {
+    func test_HomeTabCoordinator_WhenReopenNonActiveGameCalled_ShouldCallPauseCurrentGameWithNewGameToOpen() {
         // given
         let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
         let newGame = GameMock()
         
         // when
-        sut.reopenPausedGame(newGame)
+        sut.reopenNonActiveGame(newGame)
         
         // then
         XCTAssertEqual(sut.pauseCurrentGameCalledCount, 1)
         XCTAssertIdentical(sut.pauseCurrentGameNewGame, newGame)
     }
     
-    func test_HomeTabCoordinator_WhenReopenPausedGameCalled_ShouldCallCoordinatorHomeTabGameMadeActive() {
+    func test_HomeTabCoordinator_WhenReopenNonActiveGameCalled_ShouldCallCoordinatorHomeTabGameMadeActive() {
         // given
         let sut = HomeTabCoordinator(navigationController: RootNavigationController())
         let coordinator = MainCoordinatorMock()
@@ -439,7 +439,7 @@ final class HomeTabCoordinatorTests: XCTestCase {
         let game = GameMock()
         
         // when
-        sut.reopenPausedGame(game)
+        sut.reopenNonActiveGame(game)
         
         // then
         XCTAssertEqual(coordinator.homeTabGameMadeActiveCalledCount, 1)
@@ -447,7 +447,127 @@ final class HomeTabCoordinatorTests: XCTestCase {
     }
     
     
+    // MARK: - HomeTabCoordinator
+    
+    func test_HomeTabCoordinator_WhenShowGameReportFor_ShouldPushEndGameViewControllerOnNavigationController() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = HomeTabCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.showGameReportFor(game: GameMock())
+        
+        // then
+        XCTAssertEqual(navigationController.pushViewControllerCount, 1)
+        XCTAssertTrue(navigationController.pushedViewController is EndGameViewController)
+    }
+    
+    
     // MARK: - showGameReportFor
+    
+    func test_HomeTabCoordinator_WhenShowGameReportFor_ShouldSetEndGameVCsCoordinatorAsSelf() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = HomeTabCoordinator(navigationController: navigationController)
+        
+        // when
+        sut.showGameReportFor(game: GameMock())
+        
+        // then
+        let endGameVC = navigationController.pushedViewController as? EndGameViewController
+        XCTAssertIdentical(endGameVC?.coordinator, sut)
+    }    
+    
+    func test_HomeTabCoordinator_WhenShowGameReportFor_ShouldSetEndGameVCsViewModelWithGame() {
+        // given
+        let navigationController = RootNavigationControllerPushMock()
+        let sut = HomeTabCoordinator(navigationController: navigationController)
+        let game = GameMock()
+        
+        // when
+        sut.showGameReportFor(game: game)
+        
+        // then
+        let endGameVC = navigationController.pushedViewController as? EndGameViewController
+        XCTAssertNotNil(endGameVC?.viewModel)
+        XCTAssertIdentical(endGameVC?.viewModel.game, game)
+    }
+    
+    
+    // MARK: - DeleteActiveGame
+    
+    func test_HomeTabCoordinator_WhenDeleteActiveGame_ShouldCallCoreDataDeleteGameWithActiveGame() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        let game = GameMock()
+        sut.activeGame = game
+        
+        // when
+        sut.deleteActiveGame()
+        
+        // then
+        XCTAssertEqual(coreDataHelper.deleteGameCalledCount, 1)
+        XCTAssertIdentical(coreDataHelper.deleteGameGame, game)
+    }
+    
+    func test_HomeTabCoordinator_WhenDeleteActiveGameCalled_ShouldSetActiveGameOfRootViewControllerIfIsHomeViewControllerToNilAndThenCallViewDidLoad() {
+        class HomeViewControllerViewDidLoadMock: HomeViewController {
+            var viewDidLoadCalledCount = 0
+            var viewDidLoadActiveGame: GameProtocol? = GameMock()
+            override func viewDidLoad() {
+                viewDidLoadCalledCount += 1
+                viewDidLoadActiveGame = activeGame
+            }
+        }
+        
+        
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let homeVC = HomeViewControllerViewDidLoadMock()
+        homeVC.activeGame = GameMock()
+        sut.navigationController.viewControllers = [homeVC]
+        
+        // when
+        sut.deleteActiveGame()
+        
+        // then
+        XCTAssertNil(homeVC.viewDidLoadActiveGame)
+        XCTAssertEqual(homeVC.viewDidLoadCalledCount, 1)
+    }
+    
+    func test_HomeTabCoordinator_WhenDeleteActiveGameCalled_ShouldCallCoordinatorActiveGameDeleted() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        // when
+        sut.deleteActiveGame()
+        
+        // then
+        XCTAssertEqual(coordinator.homeTabActiveGameDeletedCalledCount, 1)
+    }
+    
+    
+    // MARK: - DeleteNonActiveGame
+    
+    func test_HomeTabCoordinator_WhenDeleteNonActiveGameCalled_ShouldCallCoreDataHelperDeleteGameWithGame() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        let game = GameMock()
+        
+        // when
+        sut.deleteNonActiveGame(game)
+        
+        // then
+        XCTAssertEqual(coreDataHelper.deleteGameCalledCount, 1)
+        XCTAssertIdentical(coreDataHelper.deleteGameGame, game)
+    }
+    
     
     class HomeTabCoordinatorPauseCurrentGameMock: HomeTabCoordinator {
         var pauseCurrentGameCalledCount = 0
@@ -475,11 +595,11 @@ class HomeTabCoordinatorMock: HomeTabCoordinator {
         playActiveGameCalledCount += 1
     }
     
-    var reopenPausedGameCalledCount = 0
-    var reopenPausedGameGame: GameProtocol?
-    override func reopenPausedGame(_ game: GameProtocol) {
-        self.reopenPausedGameCalledCount += 1
-        self.reopenPausedGameGame = game
+    var reopenNonActiveGameCalledCount = 0
+    var reopenNonActiveGameGame: GameProtocol?
+    override func reopenNonActiveGame(_ game: GameProtocol) {
+        self.reopenNonActiveGameCalledCount += 1
+        self.reopenNonActiveGameGame = game
     }
     
     var showMyGamesCalledCount = 0
@@ -492,5 +612,17 @@ class HomeTabCoordinatorMock: HomeTabCoordinator {
     override func showGameReportFor(game: GameProtocol) {
         showGameReportForCalledCount += 1
         showGameReportForGame = game
+    }
+    
+    var deleteActiveGameCalledCount = 0
+    override func deleteActiveGame() {
+        deleteActiveGameCalledCount += 1
+    }
+    
+    var deleteNonActiveGameCalledCount = 0
+    var deleteNonActiveGameGame: GameProtocol?
+    override func deleteNonActiveGame(_ game: GameProtocol) {
+        deleteNonActiveGameCalledCount += 1
+        deleteNonActiveGameGame = game
     }
 }

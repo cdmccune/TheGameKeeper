@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HomeTabCoordinator: Coordinator {
+class HomeTabCoordinator: Coordinator, EndGameCoordinatorProtocol {
     
     // MARK: - Init
     
@@ -103,12 +103,32 @@ class HomeTabCoordinator: Coordinator {
         })
     }
     
-    func reopenPausedGame(_ game: GameProtocol) {
+    func reopenNonActiveGame(_ game: GameProtocol) {
         pauseCurrentGame(andOpenGame: game)
         coordinator?.homeTabGameMadeActive(game)
     }
     
     func showGameReportFor(game: GameProtocol) {
+        let endGameVC = EndGameViewController.instantiate()
+        endGameVC.coordinator = self
+        endGameVC.viewModel = EndGameViewModel(game: game)
+        navigationController.pushViewController(endGameVC, animated: true)
+    }
+    
+    func deleteActiveGame() {
+        if let activeGame {
+            coreDataHelper.deleteGame(activeGame)
+        }
         
+        if let homeViewController = navigationController.viewControllers.first as? HomeViewController {
+            homeViewController.activeGame = nil
+            homeViewController.viewDidLoad()
+        }
+        
+        coordinator?.homeTabActiveGameDeleted()
+    }
+    
+    func deleteNonActiveGame(_ game: GameProtocol) {
+        coreDataHelper.deleteGame(game)
     }
 }

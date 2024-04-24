@@ -29,6 +29,7 @@ class MyGamesViewController: UIViewController, Storyboarded {
         setupViews()
         setDelegates()
         registerNibs()
+        setBindings()
     }
     
     
@@ -51,15 +52,10 @@ class MyGamesViewController: UIViewController, Storyboarded {
         self.tableView.register(UINib(nibName: "MyGamesTableViewHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "MyGamesTableViewHeaderView")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setBindings() {
+        viewModel.shouldRefreshTableView.valueChanged = { [weak self] shouldReload in
+            guard shouldReload ?? false else { return }
+            self?.tableView.reloadData()
+        }
     }
-    */
-
 }

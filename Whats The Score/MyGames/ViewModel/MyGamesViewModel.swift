@@ -14,11 +14,16 @@ protocol MyGamesViewModelProtocol {
     var pausedGames: [GameProtocol] { get}
     var completedGames: [GameProtocol] { get}
     
+    var shouldRefreshTableView: Observable<Bool> { get set }
+    
     func didSelectRowAt(_ indexPath: IndexPath)
+    func deleteGameAt(_ indexPath: IndexPath)
 }
 
 class MyGamesViewModel: MyGamesViewModelProtocol {
     weak var coordinator: HomeTabCoordinator?
+    
+    var shouldRefreshTableView: Observable<Bool> = Observable(nil)
     
     var games: [GameProtocol] = []
     var activeGames: [GameProtocol] {
@@ -37,12 +42,34 @@ class MyGamesViewModel: MyGamesViewModelProtocol {
             coordinator?.playActiveGame()
         case 1:
             guard pausedGames.indices.contains(indexPath.row) else { return }
-            coordinator?.reopenPausedGame(pausedGames[indexPath.row])
+            coordinator?.reopenNonActiveGame(pausedGames[indexPath.row])
         case 2:
             guard completedGames.indices.contains(indexPath.row) else { return }
             coordinator?.showGameReportFor(game: completedGames[indexPath.row])
         default:
             fatalError("Invalid Section")
         }
+    }
+    
+    func deleteGameAt(_ indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            games.removeAll { $0.gameStatus == .active }
+            coordinator?.deleteActiveGame()
+        case 1:
+            guard pausedGames.indices.contains(indexPath.row) else { return }
+            let game = pausedGames[indexPath.row]
+            games.removeAll { $0 === game }
+            coordinator?.deleteNonActiveGame(game)
+        case 2:
+            guard completedGames.indices.contains(indexPath.row) else { return }
+            let game = completedGames[indexPath.row]
+            games.removeAll { $0 === game }
+            coordinator?.deleteNonActiveGame(game)
+        default:
+            fatalError("Invalid Section")
+        }
+        
+        shouldRefreshTableView.value = true
     }
 }

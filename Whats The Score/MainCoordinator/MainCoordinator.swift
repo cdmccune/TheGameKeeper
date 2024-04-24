@@ -92,4 +92,9 @@ class MainCoordinator {
         tabbarController.selectedIndex = 1
     }
     
+    func homeTabActiveGameDeleted() {
+        let gameTabCoordinator = childCoordinators.first { $0 is GameTabCoordinator } as? GameTabCoordinator
+        gameTabCoordinator?.activeGame = nil
+        gameTabCoordinator?.start()
+    }
 }

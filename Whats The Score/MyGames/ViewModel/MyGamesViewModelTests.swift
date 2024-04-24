@@ -134,7 +134,7 @@ final class MyGamesViewModelTests: XCTestCase {
         XCTAssertEqual(coordinator.playActiveGameCalledCount, 1)
     }
     
-    func test_MyGamesViewModel_WhenDidSelectRowAtCalledSection1GameInRange_ShouldCallCoordinatorReopenPausedGame() {
+    func test_MyGamesViewModel_WhenDidSelectRowAtCalledSection1GameInRange_ShouldCallCoordinatorReopenNonActiveGame() {
         // given
         let sut = MyGamesViewModel()
         let game = GameMock(gameStatus: .paused)
@@ -146,8 +146,8 @@ final class MyGamesViewModelTests: XCTestCase {
         sut.didSelectRowAt(IndexPath(row: 0, section: 1))
         
         // then
-        XCTAssertEqual(coordinator.reopenPausedGameCalledCount, 1)
-        XCTAssertIdentical(coordinator.reopenPausedGameGame, game)
+        XCTAssertEqual(coordinator.reopenNonActiveGameCalledCount, 1)
+        XCTAssertIdentical(coordinator.reopenNonActiveGameGame, game)
     }
     
     func test_MyGamesViewModel_WhenDidSelectRowAtCalledSection2GameInRange_ShouldCallCoordinatorShowGameReportForWithGame() {
@@ -166,9 +166,81 @@ final class MyGamesViewModelTests: XCTestCase {
         XCTAssertIdentical(coordinator.showGameReportForGame, game)
     }
     
+    
+    // MARK: - DeleteGameAt
+    
+    func test_MyGamesViewModel_WhenDeleteGameAtCalledSection0_ShouldCallCoordinatorDeleteActiveGameAndRemoveGameFromGames() {
+        // given
+        let sut = MyGamesViewModel()
+        sut.games = [GameMock(gameStatus: .active)]
+        let coordinator = HomeTabCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.deleteGameAt(IndexPath(row: 0, section: 0))
+        
+        // then
+        XCTAssertEqual(coordinator.deleteActiveGameCalledCount, 1)
+        XCTAssertTrue(sut.games.isEmpty)
+    }
+    
+    func test_MyGamesViewModel_WhenDeleteGameAtCalledSection1_ShouldCallCoordinatorDeleteNonActiveGameWithPausedGameAndRemoveGameFromGames() {
+        // given
+        let sut = MyGamesViewModel()
+        let game = GameMock(gameStatus: .paused)
+        sut.games = [game]
+        let coordinator = HomeTabCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.deleteGameAt(IndexPath(row: 0, section: 1))
+        
+        // then
+        XCTAssertEqual(coordinator.deleteNonActiveGameCalledCount, 1)
+        XCTAssertIdentical(coordinator.deleteNonActiveGameGame, game)
+        XCTAssertTrue(sut.games.isEmpty)
+    }
+    
+    func test_MyGamesViewModel_WhenDeleteGameAtCalledSection2_ShouldCallCoordinatorDeleteNonActiveGameWithCompletedGameAndRemoveGameFromGames() {
+        // given
+        let sut = MyGamesViewModel()
+        let game = GameMock(gameStatus: .completed)
+        sut.games = [game]
+        let coordinator = HomeTabCoordinatorMock(navigationController: RootNavigationController())
+        sut.coordinator = coordinator
+        
+        // when
+        sut.deleteGameAt(IndexPath(row: 0, section: 2))
+        
+        // then
+        XCTAssertEqual(coordinator.deleteNonActiveGameCalledCount, 1)
+        XCTAssertIdentical(coordinator.deleteNonActiveGameGame, game)
+        XCTAssertTrue(sut.games.isEmpty)
+    }
+    
+    func test_MyGamesViewModel_WhenDeleteGameAtCalled_ShouldSetShouldRefreshTableViewToTrue() {
+        // given
+        let sut = MyGamesViewModel()
+        sut.games = [GameMock(gameStatus: .active)]
+        
+        let expectation = XCTestExpectation(description: "ShouldRefreshTableView should be set")
+        
+        sut.shouldRefreshTableView.valueChanged = { shouldChange in
+            expectation.fulfill()
+            XCTAssertTrue(shouldChange ?? false)
+        }
+        
+        // when
+        sut.deleteGameAt(IndexPath(row: 0, section: 0))
+        
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
 }
 
 class MyGamesViewModelMock: MyGamesViewModelProtocol {
+    var shouldRefreshTableView: Whats_The_Score.Observable<Bool> = Observable(nil)
+    
     var coordinator: HomeTabCoordinator?
     var games: [Whats_The_Score.GameProtocol] = []
     var activeGames: [Whats_The_Score.GameProtocol] = []
@@ -180,5 +252,12 @@ class MyGamesViewModelMock: MyGamesViewModelProtocol {
     func didSelectRowAt(_ indexPath: IndexPath) {
         didSelectRowAtIndexPath = indexPath
         didSelectRowAtCalledCount += 1
+    }
+    
+    var deleteGameAtIndexPath: IndexPath?
+    var deleteGameAtCalledCount = 0
+    func deleteGameAt(_ indexPath: IndexPath) {
+        deleteGameAtIndexPath = indexPath
+        deleteGameAtCalledCount += 1
     }
 }

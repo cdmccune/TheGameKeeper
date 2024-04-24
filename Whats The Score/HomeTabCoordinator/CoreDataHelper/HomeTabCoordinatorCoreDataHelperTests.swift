@@ -112,6 +112,35 @@ final class HomeTabCoordinatorCoreDataHelperTests: XCTestCase {
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
+    
+    
+    // MARK: - DeleteGame
+    
+    func test_HomeTabCoordinatorCoreDataHelper_WhenDeleteGameCalled_ShouldCallDeleteObjectOnCoreDataStoreWithGame() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = HomeTabCoordinatorCoreDataHelper(coreDataStore: coreDataStore)
+        
+        let game = Game()
+        
+        // when
+        sut.deleteGame(game)
+        
+        // then
+        XCTAssertIdentical(game, coreDataStore.deleteObjectObject)
+    }
+    
+    func test_HomeTabCoordinatorCoreDataHelper_WhenDeleteGameCalled_ShouldCallSaveContextOnCoreDataStore() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = HomeTabCoordinatorCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        sut.deleteGame(Game())
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
 
 }
 
@@ -142,5 +171,12 @@ class HomeTabCoordinatorCoreDataHelperMock: HomeTabCoordinatorCoreDataHelperProt
     func makeGameActive(game: GameProtocol) {
         makeGameActiveCalledCount += 1
         makeGameActiveGame = game
+    }
+    
+    var deleteGameCalledCount = 0
+    var deleteGameGame: GameProtocol?
+    func deleteGame(_ game: GameProtocol) {
+        deleteGameCalledCount += 1
+        deleteGameGame = game
     }
 }
