@@ -55,7 +55,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     }
     
     private func setupViews() {
-        let reportAttributedString = NSMutableAttributedString(string: "Report")
+        let reportAttributedString = NSMutableAttributedString(string: "My Games")
         reportAttributedString.addUnderlineAttribute(underlineColor: .white)
         reportAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
         reportAttributedString.addTextColorAttribute(textColor: .white)

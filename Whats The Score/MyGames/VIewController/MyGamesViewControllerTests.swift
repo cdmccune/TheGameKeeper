@@ -55,6 +55,22 @@ final class MyGamesViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldSetAttributesForStrokeAndForegroundColorOnTitleLabel() {
+        // given
+        let sut = viewController!
+        sut.viewModel = MyGamesViewModelMock()
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let attributes = sut.titleLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
+        XCTAssertEqual(attributes?[.foregroundColor] as? UIColor, .white)
+        XCTAssertEqual(attributes?[.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(attributes?[.strokeColor] as? UIColor, .black)
+    }
+    
     func test_MyGameViewController_WhenViewDidLoadCalled_ShouldSetTableViewDelegateToMyGamesTableViewDelegate() {
         // given
         let sut = viewController!

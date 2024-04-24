@@ -32,6 +32,7 @@ class EndGamePlayerTableViewCell: UITableViewCell {
     
     func setupNoLosingPlayers() {
         playerScoreLabel.text = "There are no losers!"
+        positionLabel.isHidden = true
         playerNameLabel.isHidden = true
         playerIconImageView.isHidden = true
         
@@ -39,6 +40,7 @@ class EndGamePlayerTableViewCell: UITableViewCell {
     
     func setupErrorCell() {
         playerScoreLabel.text = "There has been an error"
+        positionLabel.isHidden = true
         playerNameLabel.isHidden = true
         playerIconImageView.isHidden = true
     }
@@ -46,6 +48,7 @@ class EndGamePlayerTableViewCell: UITableViewCell {
     func setupViewFor(_ player: PlayerProtocol, inPlace place: Int, isTied: Bool = false) {
         playerNameLabel.isHidden = false
         playerIconImageView.isHidden = false
+        positionLabel.isHidden = false
         
         playerScoreLabel.text = String(player.score)
         positionLabel.text = (isTied ? "T-" : "") + place.ordinal

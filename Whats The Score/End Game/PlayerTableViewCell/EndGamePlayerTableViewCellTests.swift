@@ -72,11 +72,12 @@ final class EndGamePlayerTableViewCellTests: XCTestCase {
     
     // MARK: - SetupErrorCell
     
-    func test_EndGamePlayerTableViewCell_WhenSetupNoLosingPlayersCalled_ShouldSetPlayerScoreTextToThereWasAnErrorAndHideImageViewAndPlayerNameLabel() {
+    func test_EndGamePlayerTableViewCell_WhenSetupNoLosingPlayersCalled_ShouldSetPlayerScoreTextToThereWasAnErrorAndHideImageViewPositionLabelAndPlayerNameLabel() {
         // given
         let sut = tableViewCell!
         sut.playerNameLabel.isHidden = false
         sut.playerIconImageView.isHidden = false
+        sut.positionLabel.isHidden = false
         
         // when
         sut.setupErrorCell()
@@ -85,6 +86,7 @@ final class EndGamePlayerTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.playerScoreLabel.text, "There has been an error")
         XCTAssertTrue(sut.playerNameLabel.isHidden)
         XCTAssertTrue(sut.playerIconImageView.isHidden)
+        XCTAssertTrue(sut.positionLabel.isHidden)
     }
     
     
@@ -114,11 +116,12 @@ final class EndGamePlayerTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.positionLabel.text, "T-\(place.ordinal)")
     }
     
-    func test_EndGamePlayerTableViewCell_WhenSetupViewForCalled_ShouldShowPlayerNameLabelAndPlayerIconImageView() {
+    func test_EndGamePlayerTableViewCell_WhenSetupViewForCalled_ShouldShowPlayerNameLabelPositionLabelAndPlayerIconImageView() {
         // given
         let sut = tableViewCell!
         sut.playerNameLabel.isHidden = true
         sut.playerIconImageView.isHidden = true
+        sut.positionLabel.isHidden = true
         
         // when
         sut.setupViewFor(PlayerMock(), inPlace: 0)
@@ -126,6 +129,7 @@ final class EndGamePlayerTableViewCellTests: XCTestCase {
         // then
         XCTAssertFalse(sut.playerNameLabel.isHidden)
         XCTAssertFalse(sut.playerIconImageView.isHidden)
+        XCTAssertFalse(sut.positionLabel.isHidden)
     }
     
     func test_EndGamePlayerTableViewCell_WhenSetupViewForCalled_ShouldSetPlayerNameTextPlayerNamendScoreToScore() {

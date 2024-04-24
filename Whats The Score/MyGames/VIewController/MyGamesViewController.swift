@@ -11,6 +11,7 @@ class MyGamesViewController: UIViewController, Storyboarded {
     
     // MARK: - Outlets
     
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
     
@@ -25,6 +26,7 @@ class MyGamesViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupViews()
         setDelegates()
         registerNibs()
     }
@@ -32,12 +34,19 @@ class MyGamesViewController: UIViewController, Storyboarded {
     
     // MARK: - Private Functions
     
-    func setDelegates() {
+    private func setupViews() {
+        let myGamesAttributedString = NSMutableAttributedString(string: "My Games")
+        myGamesAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
+        myGamesAttributedString.addTextColorAttribute(textColor: .white)
+        titleLabel.attributedText = myGamesAttributedString
+    }
+    
+    private func setDelegates() {
         self.tableView.delegate = tableViewDelegate
         self.tableView.dataSource = tableViewDelegate
     }
     
-    func registerNibs() {
+    private func registerNibs() {
         self.tableView.register(UINib(nibName: "MyGamesTableViewCell", bundle: nil), forCellReuseIdentifier: "MyGamesTableViewCell")
         self.tableView.register(UINib(nibName: "MyGamesTableViewHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "MyGamesTableViewHeaderView")
     }

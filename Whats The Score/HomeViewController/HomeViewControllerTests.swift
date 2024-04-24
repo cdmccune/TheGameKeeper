@@ -34,6 +34,89 @@ final class HomeViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldSetAttributesForStrokeAndForegroundColorOnTitleLabel() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let attributes = sut.titleLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
+        XCTAssertEqual(attributes?[.foregroundColor] as? UIColor, .white)
+        XCTAssertEqual(attributes?[.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(attributes?[.strokeColor] as? UIColor, .black)
+    }
+    
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldCallSetUnderlineForStatesOnContinueButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.continueGameButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Continue")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+    }
+    
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldCallSetUnderlineForStatesOnQuickStartButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.quickStartButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Quick Start")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+    }
+    
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldCallSetUnderlineForStatesOnSetupGameButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.setupGameButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Setup Game")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+    }
+    
+    func test_MyGameViewController_WhenViewDidLoadCalled_ShouldCallSetUnderlineForStatesOnMyGamesButton() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        let button = UIButtonUnderlineButtonForButtonStatesMock()
+        sut.myGamesButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
+        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "My Games")
+        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
+    }
+    
     func test_HomeViewController_WhenViewDidLoadHasActiveGame_ShouldSetContinueGameIsHiddenFalse() {
         // given
         let sut = viewController!

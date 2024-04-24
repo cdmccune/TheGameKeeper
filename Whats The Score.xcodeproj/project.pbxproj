@@ -16,6 +16,7 @@
 		241DAE422BAA03B500D236E7 /* GameSettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DAE412BAA03B500D236E7 /* GameSettingsViewModelTests.swift */; };
 		241DAE452BAA310800D236E7 /* GameSettingsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DAE442BAA310800D236E7 /* GameSettingsDelegate.swift */; };
 		241DAE472BAA344E00D236E7 /* GameSettingsDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DAE462BAA344E00D236E7 /* GameSettingsDelegateMock.swift */; };
+		241EE9E12BD95C9A00BD8594 /* MyGamesTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241EE9E02BD95C9A00BD8594 /* MyGamesTableViewCellTests.swift */; };
 		2423E2FF2B62BAE300253356 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2423E2FE2B62BAE300253356 /* Observable.swift */; };
 		2423E3012B62BB5300253356 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2423E3002B62BB5300253356 /* ObservableTests.swift */; };
 		2426156A2B59C4500092B145 /* ScoreboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242615692B59C4500092B145 /* ScoreboardViewController.swift */; };
@@ -242,6 +243,7 @@
 		241DAE412BAA03B500D236E7 /* GameSettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsViewModelTests.swift; sourceTree = "<group>"; };
 		241DAE442BAA310800D236E7 /* GameSettingsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsDelegate.swift; sourceTree = "<group>"; };
 		241DAE462BAA344E00D236E7 /* GameSettingsDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsDelegateMock.swift; sourceTree = "<group>"; };
+		241EE9E02BD95C9A00BD8594 /* MyGamesTableViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGamesTableViewCellTests.swift; sourceTree = "<group>"; };
 		2423E2FE2B62BAE300253356 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		2423E3002B62BB5300253356 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
 		242615692B59C4500092B145 /* ScoreboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewController.swift; sourceTree = "<group>"; };
@@ -1184,6 +1186,7 @@
 		24BA09F82BC8917A00ABDB7B /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				241EE9E02BD95C9A00BD8594 /* MyGamesTableViewCellTests.swift */,
 				24BA09F92BC891A400ABDB7B /* MyGamesTableViewCell.swift */,
 				24BA09FA2BC891A400ABDB7B /* MyGamesTableViewCell.xib */,
 			);
@@ -1974,6 +1977,7 @@
 				24836D1D2B72DC980038D8D2 /* NoAdaptivePresentationStylePopoverPresentationDelegateTests.swift in Sources */,
 				24E36C612BAB935200334CD1 /* MainCoordinatorMock.swift in Sources */,
 				2496A0752B753BC8006AC047 /* EditPlayerPopoverViewControllerTests.swift in Sources */,
+				241EE9E12BD95C9A00BD8594 /* MyGamesTableViewCellTests.swift in Sources */,
 				243E98402B73F59E0097130A /* ScoreboardPlayerEditScorePopoverViewControllerTests.swift in Sources */,
 				24C5D0C42BD1D07C00E5DBA6 /* PlayerIconSelectionViewControllerTests.swift in Sources */,
 				247A51822BD2DEFB00C4D48D /* PlayerIconSelectionCustomDetentHelperMock.swift in Sources */,
