@@ -96,4 +96,12 @@ class HomeTabCoordinator: Coordinator {
             self.navigationController.topViewController?.present(alertController, animated: true)
         })
     }
+    
+    func reopenPausedGame(_ game: GameProtocol) {
+        
+    }
+    
+    func showGameReportFor(game: GameProtocol) {
+        
+    }
 }

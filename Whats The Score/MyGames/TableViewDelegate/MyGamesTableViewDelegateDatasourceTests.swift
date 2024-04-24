@@ -279,6 +279,21 @@ final class MyGamesTableViewDelegateDatasourceTests: XCTestCase {
         XCTAssertEqual(cell?.setupErrorCellCalledCount, 1)
     }
     
+    func test_MyGamesTableViewDelegateDatasource_WhenDidSelectRowAtCalled_ShouldCallViewModelDidSelectRowAtWithCorrectSectionAndRow() {
+        // given
+        let (sut, tableView) = getSutAndTableView()
+        let viewModel = MyGamesViewModelMock()
+        sut.viewModel = viewModel
+        
+        let indexPath = IndexPath(row: Int.random(in: 0...10), section: Int.random(in: 0...10))
+        
+        // when
+        sut.tableView(tableView, didSelectRowAt: indexPath)
+        
+        // then
+        XCTAssertEqual(viewModel.didSelectRowAtIndexPath, indexPath)
+        XCTAssertEqual(viewModel.didSelectRowAtCalledCount, 1)
+    }
     
     // MARK: - HeaderInSection
     

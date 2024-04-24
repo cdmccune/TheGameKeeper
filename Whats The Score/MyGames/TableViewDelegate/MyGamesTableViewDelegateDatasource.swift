@@ -71,6 +71,10 @@ class MyGamesTableViewDelegateDatasource: NSObject, UITableViewDataSource, UITab
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectRowAt(indexPath)
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MyGamesTableViewHeaderView") as? MyGamesTableViewHeaderView else {
             fatalError("MyGamesTableViewHeaderView not found")

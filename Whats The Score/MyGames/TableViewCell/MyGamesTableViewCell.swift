@@ -39,11 +39,25 @@ class MyGamesTableViewCell: UITableViewCell {
     }
     
     func setupNoGamesCell(for status: GameStatus) {
-        titleLabel.text = "No games"
+        winnerLabel.text = " "
+        winnerNameLabel.text = " "
+        dateLabel.text = " "
+        
+        switch status {
+        case .active:
+            titleLabel.text = "No active game"
+        case .paused:
+            titleLabel.text = "No paused games"
+        case .completed:
+            titleLabel.text = "No completed games"
+        }
     }
     
     func setupErrorCell() {
         titleLabel.text = "Error"
+        winnerLabel.text = " "
+        winnerNameLabel.text = " "
+        dateLabel.text = " "
     }
     
 }

@@ -137,4 +137,53 @@ final class MyGamesTableViewCellTests: XCTestCase {
         // then
         XCTAssertEqual(sut.winnerNameLabel.text, "Multiple")
     }
+    
+    
+    // MARK: - SetupNoGamesCellFor
+    
+    func test_MyGamesTableViewCell_WhenSetupNoGameCellForCalled_ShouldSetAllLabelsToBlankSpace() {
+        // given
+        let sut = tableViewCell!
+        
+        // when
+        sut.setupNoGamesCell(for: .active)
+        
+        // then
+        XCTAssertEqual(sut.dateLabel.text, " ")
+        XCTAssertEqual(sut.winnerLabel.text, " ")
+        XCTAssertEqual(sut.winnerNameLabel.text, " ")
+    }
+    
+    func test_MyGamesTableViewCell_WhenSetupNoGameCellForCalledActive_ShouldSetTitleLabelToNoActiveGame() {
+        // given
+        let sut = tableViewCell!
+        
+        // when
+        sut.setupNoGamesCell(for: .active)
+        
+        // then
+        XCTAssertEqual(sut.titleLabel.text, "No active game")
+    }
+    
+    func test_MyGamesTableViewCell_WhenSetupNoGameCellForCalledPaused_ShouldSetTitleLabelToNoPausedGames() {
+        // given
+        let sut = tableViewCell!
+        
+        // when
+        sut.setupNoGamesCell(for: .paused)
+        
+        // then
+        XCTAssertEqual(sut.titleLabel.text, "No paused games")
+    }
+    
+    func test_MyGamesTableViewCell_WhenSetupNoGameCellForCalledPaused_ShouldSetTitleLabelToNoCompletedGames() {
+        // given
+        let sut = tableViewCell!
+        
+        // when
+        sut.setupNoGamesCell(for: .completed)
+        
+        // then
+        XCTAssertEqual(sut.titleLabel.text, "No completed games")
+    }
 }

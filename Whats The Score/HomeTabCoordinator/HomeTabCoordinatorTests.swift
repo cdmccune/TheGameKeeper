@@ -408,8 +408,22 @@ class HomeTabCoordinatorMock: HomeTabCoordinator {
         playActiveGameCalledCount += 1
     }
     
+    var reopenPausedGameCalledCount = 0
+    var reopenPausedGameGame: GameProtocol?
+    override func reopenPausedGame(_ game: GameProtocol) {
+        self.reopenPausedGameCalledCount += 1
+        self.reopenPausedGameGame = game
+    }
+    
     var showMyGamesCalledCount = 0
     override func showMyGames() {
         showMyGamesCalledCount += 1
+    }
+    
+    var showGameReportForCalledCount = 0
+    var showGameReportForGame: GameProtocol?
+    override func showGameReportFor(game: GameProtocol) {
+        showGameReportForCalledCount += 1
+        showGameReportForGame = game
     }
 }
