@@ -153,42 +153,6 @@ final class EndGameViewControllerTests: XCTestCase {
         XCTAssertEqual(attributes?[.strokeColor] as? UIColor, .black)
     }
     
-    func test_EndGameViewController_WhenViewDidLoadCalled_ShouldCallUnderlineForStatesOnKeepPlayingButtonWithcorrectParameters() {
-        // given
-        let sut = viewController!
-        viewController.viewModel = EndGameViewModelMock()
-        sut.loadView()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.keepPlayingButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Keep Playing")
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-    }
-    
-    func test_EndGameViewController_WhenViewDidLoadCalled_ShouldCallUnderlineForStatesOnPlayAgainButtonWithcorrectParameters() {
-        // given
-        let sut = viewController!
-        viewController.viewModel = EndGameViewModelMock()
-        sut.loadView()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.playAgainButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Play Again")
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-    }
-    
     func test_EndGameViewController_WhenViewDidLoadCalledWinningPlayersCellWidthLessThanScreenWidth_ShouldSetCollectionViewWidthEqualTo128XCountPlus25XCountMinus1() {
         // given
         let sut = viewController!

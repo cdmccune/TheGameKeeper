@@ -55,24 +55,6 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
-    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesOnSaveChangesButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.game = GameMock()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.saveChangesButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Save")
-    }
-    
     func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesOnNoEndButtonWithCorrectParameters() {
         // given
         let sut = viewController!

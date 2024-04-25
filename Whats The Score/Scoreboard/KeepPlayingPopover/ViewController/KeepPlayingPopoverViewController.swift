@@ -48,7 +48,6 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
     // MARK: - Private Funcs
     
     private func setupViews() {
-        saveChangesButton.underlineButtonForButtonStates(title: "Save", withTextSize: 22)
         noEndButton.underlineButtonForButtonStates(title: "No End", withTextSize: 14)
         endGameButton.underlineButtonForButtonStates(title: "End Game", withTextSize: 14)
         

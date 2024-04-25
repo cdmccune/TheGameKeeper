@@ -52,9 +52,6 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
         playerIconButton.imageView?.clipsToBounds = true
         playerIconButton.imageView?.layer.borderWidth = 2
         
-        playerIconButton.underlineButtonForButtonStates(title: "Change", withTextSize: 10)
-        saveButton.underlineButtonForButtonStates(title: "Save", withTextSize: 22)
-        
         if let player {
             setupPlayerIconButtonFor(icon: player.icon)
         }

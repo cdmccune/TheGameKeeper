@@ -37,7 +37,6 @@ class GameNameViewController: UIViewController, Storyboarded {
         attributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
         gameNameLabel.attributedText = attributedString
         
-        continueButton.underlineButtonForButtonStates(title: "Continue", withTextSize: 22)
         nameTextField.becomeFirstResponder()
     }
     

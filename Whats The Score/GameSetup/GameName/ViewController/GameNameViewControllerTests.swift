@@ -58,23 +58,6 @@ final class GameNameViewControllerTests: XCTestCase {
         XCTAssertEqual(textField.becomeFirstResponderCalledCount, 1)
     }
     
-    func test_GameNameViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesOnContinueButton() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.continueButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Continue")
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
-    }
-    
     func test_GameNameViewController_WhenViewDidLoadCalled_ShouldSetGameNameLabelWithCorrectStrokeWidthAndColor() {
         // given
         let sut = viewController!

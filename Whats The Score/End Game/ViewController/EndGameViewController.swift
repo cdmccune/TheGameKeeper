@@ -61,10 +61,6 @@ class EndGameViewController: UIViewController, Storyboarded {
         reportAttributedString.addTextColorAttribute(textColor: .white)
         titleLabel.attributedText = reportAttributedString
         
-        keepPlayingButton.underlineButtonForButtonStates(title: "Keep Playing", withTextSize: 22)
-        playAgainButton.underlineButtonForButtonStates(title: "Play Again", withTextSize: 22)
-        
-        
         let numberOfWinningPlayersCGFloat = CGFloat(viewModel.game.winningPlayers.count)
         let widthOfCollectionViewContent = (150 * numberOfWinningPlayersCGFloat) + (25 * (numberOfWinningPlayersCGFloat - 1))
         

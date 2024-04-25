@@ -117,57 +117,6 @@ final class PlayerSetupViewControllerTests: XCTestCase {
         XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, .black)
     }
     
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnStartButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let startButton = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.startGameButton = startButton
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(startButton.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(startButton.underlineButtonForButtonStatesTitle, "Start Game")
-        XCTAssertEqual(startButton.underlineButtonForButtonStatesTextSize, 22)
-    }
-    
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnRandomizeButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let randomizeButton = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.randomizeButton = randomizeButton
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesTitle, "Randomize Order")
-        XCTAssertEqual(randomizeButton.underlineButtonForButtonStatesTextSize, 15)
-    }
-    
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnAddPlayerButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let addPlayerButton = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.addPlayerButton = addPlayerButton
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesTitle, "Add Player")
-        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesTextSize, 15)
-    }
-    
     func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCall() {
         // given
         let sut = viewController!

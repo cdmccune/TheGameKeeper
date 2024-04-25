@@ -46,7 +46,6 @@
 		2437F7072B40BB1B00BB75A1 /* HomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F6F82B40BABF00BB75A1 /* HomeViewControllerTests.swift */; };
 		2437F70B2B40BF2F00BB75A1 /* GeneralMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7092B40BF2F00BB75A1 /* GeneralMocks.swift */; };
 		2437F7242B40D32800BB75A1 /* GameFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F7232B40D32800BB75A1 /* GameFunctions.swift */; };
-		2439BDE92BD9C0D60052C8FF /* Test8BitView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2439BDE82BD9C0D60052C8FF /* Test8BitView.xib */; };
 		243A3DCE2B9B73DF00A84A51 /* EndGamePlayerTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243A3DCD2B9B73DF00A84A51 /* EndGamePlayerTableViewDelegate.swift */; };
 		243A3DD12B9B776700A84A51 /* EndGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243A3DD02B9B776700A84A51 /* EndGameViewModel.swift */; };
 		243A3DD32B9B7A3F00A84A51 /* EndGameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243A3DD22B9B7A3F00A84A51 /* EndGameViewModelTests.swift */; };
@@ -279,7 +278,6 @@
 		2437F6FE2B40BB1500BB75A1 /* Whats The Score Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Whats The Score Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2437F7092B40BF2F00BB75A1 /* GeneralMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralMocks.swift; sourceTree = "<group>"; };
 		2437F7232B40D32800BB75A1 /* GameFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFunctions.swift; sourceTree = "<group>"; };
-		2439BDE82BD9C0D60052C8FF /* Test8BitView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Test8BitView.xib; sourceTree = "<group>"; };
 		243A3DCD2B9B73DF00A84A51 /* EndGamePlayerTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGamePlayerTableViewDelegate.swift; sourceTree = "<group>"; };
 		243A3DD02B9B776700A84A51 /* EndGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewModel.swift; sourceTree = "<group>"; };
 		243A3DD22B9B7A3F00A84A51 /* EndGameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewModelTests.swift; sourceTree = "<group>"; };
@@ -726,7 +724,6 @@
 				2437F6EB2B40AAE100BB75A1 /* Assets.xcassets */,
 				2437F6ED2B40AAE100BB75A1 /* LaunchScreen.storyboard */,
 				2437F7122B40C3A800BB75A1 /* Fonts */,
-				2439BDE82BD9C0D60052C8FF /* Test8BitView.xib */,
 			);
 			path = "Whats The Score";
 			sourceTree = "<group>";
@@ -1776,7 +1773,6 @@
 				24495CF72B9FBB6500E0AB61 /* GameHistoryEndRoundTableViewCell.xib in Resources */,
 				24CD52732B616AA000C481A8 /* Notable-Regular.ttf in Resources */,
 				24CD526F2B6167A500C481A8 /* ScoreboardTableViewCell.xib in Resources */,
-				2439BDE92BD9C0D60052C8FF /* Test8BitView.xib in Resources */,
 				2437F6EC2B40AAE100BB75A1 /* Assets.xcassets in Resources */,
 				243228CF2B4DB48900C42C62 /* PlayerSetupPlayerTableViewCell.xib in Resources */,
 				24495CF02B9FBADA00E0AB61 /* GameHistoryScoreChangeTableViewCell.xib in Resources */,

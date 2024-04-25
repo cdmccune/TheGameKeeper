@@ -55,9 +55,6 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         gameEndTypeSegmentedControl.setTitleTextAttributes(textAttributes, for: .normal)
         gameEndTypeSegmentedControl.setTitleTextAttributes(textAttributes, for: .selected)
         
-        resetButton.underlineButtonForButtonStates(title: "Reset", withTextSize: 15)
-        deleteGameButton.underlineButtonForButtonStates(title: "Delete", withTextSize: 22)
-        
         let settingsAttributedString = NSMutableAttributedString(string: "Settings")
         settingsAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
         titleLabel.attributedText = settingsAttributedString

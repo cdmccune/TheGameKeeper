@@ -252,59 +252,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(viewModelMock.openingGameOverCheckCalledCount, 1)
     }
-    
-    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnAddPlayerButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let addPlayerButton = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.addPlayerButton = addPlayerButton
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesTitle, "Add Player")
-        XCTAssertEqual(addPlayerButton.underlineButtonForButtonStatesTextSize, 15)
-    }
-    
-    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnEndRoundButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let endRoundButton = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.endRoundButton = endRoundButton
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(endRoundButton.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(endRoundButton.underlineButtonForButtonStatesTitle, "End Round")
-        XCTAssertEqual(endRoundButton.underlineButtonForButtonStatesTextSize, 22)
-    }
-    
-    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnEndGameButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let endGameButton = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.endGameButton = endGameButton
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(endGameButton.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(endGameButton.underlineButtonForButtonStatesTitle, "End Game")
-        XCTAssertEqual(endGameButton.underlineButtonForButtonStatesTextSize, 22)
-    }
-    
-    
+  
     // MARK: - Binding PlayerToDelete
     
     func test_ScoreboardViewController_WhenBindingsSetAndPlayerToDeleteSetNil_ShouldNotPresentAnything() {

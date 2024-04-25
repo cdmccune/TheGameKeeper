@@ -55,10 +55,6 @@ class PlayerSetupViewController: UIViewController, Storyboarded {
         let playersAttributedString = NSMutableAttributedString(string: "Players")
         playersAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
         titleLabel.attributedText = playersAttributedString
-        
-        startGameButton.underlineButtonForButtonStates(title: "Start Game", withTextSize: 22)
-        randomizeButton.underlineButtonForButtonStates(title: "Randomize Order", withTextSize: 15)
-        addPlayerButton.underlineButtonForButtonStates(title: "Add Player", withTextSize: 15)
     }
     
     

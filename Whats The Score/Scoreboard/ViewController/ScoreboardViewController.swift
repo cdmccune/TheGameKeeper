@@ -92,10 +92,6 @@ class ScoreboardViewController: UIViewController, Storyboarded {
         
         self.scoreSortButton.alpha = 1
         self.turnOrderSortButton.alpha = 0.5
-        
-        addPlayerButton.underlineButtonForButtonStates(title: "Add Player", withTextSize: 15)
-        endRoundButton.underlineButtonForButtonStates(title: "End Round", withTextSize: 22)
-        endGameButton.underlineButtonForButtonStates(title: "End Game", withTextSize: 22)
     }
     
     private func isEndOfGameCheck() {

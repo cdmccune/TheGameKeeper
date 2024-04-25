@@ -145,40 +145,6 @@ final class EditPlayerPopoverViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.setupPlayerIconButtonForIcon, icon)
     }
     
-    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesWithStringAndSizeOnPlayerIconButton() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.playerIconButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 10)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Change")
-    }
-    
-    func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesWithStringAndSizeOnSaveButton() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.saveButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Save")
-    }
-    
     func test_EditPlayerPopoverViewController_WhenViewDidLoadCalled_ShouldSetTextFieldDelegateEqualToTextFieldDelegateOnPlayerNameTextField() {
         // given
         let sut = viewController!

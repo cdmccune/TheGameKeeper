@@ -108,42 +108,6 @@ final class GameSettingsViewControllerTests: XCTestCase {
         XCTAssertEqual(attributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, .black)
     }
     
-    
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnResetButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let resetButton = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.resetButton = resetButton
-        
-        // when
-        sut.viewDidLoad()
-        
-//         then
-        XCTAssertEqual(resetButton.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(resetButton.underlineButtonForButtonStatesTitle, "Reset")
-        XCTAssertEqual(resetButton.underlineButtonForButtonStatesTextSize, 15)
-    }
-    
-    func test_PlayerSetupViewController_WhenViewDidLoadCalled_ShouldCallSetAttributeUnderlinedTitleWithSubtextOnDeleteButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let deleteButton = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.deleteGameButton = deleteButton
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(deleteButton.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(deleteButton.underlineButtonForButtonStatesTitle, "Delete")
-        XCTAssertEqual(deleteButton.underlineButtonForButtonStatesTextSize, 22)
-    }
-    
-    
     func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldCallSetInitialValues() {
         // given
         let sut = viewController!

@@ -64,7 +64,6 @@ class EndRoundPopoverViewController: UIViewController, Storyboarded {
     }
     
     private func setupViews() {
-        endRoundButton.underlineButtonForButtonStates(title: "End Round", withTextSize: 22)
         
         if let round = endRound?.roundNumber {
             roundLabel.text = "Round \(round)"

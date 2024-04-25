@@ -39,23 +39,6 @@ final class GameEndQuantitySelectionPopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
-    func test_GameEndQuantitySelectionPopoverViewController_WhenViewDidLoadCalled_ShouldCallSetAttributedUnderlinedTitleWithSubtextOnSaveButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.saveButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "Save")
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 22)
-    }
-    
     func test_GameEndQuantitySelectionPopoverViewController_WhenViewDidLoadCalled_ShouldCallBecomeFirstResponderOnQuantityTextField() {
         // given
         let sut = viewController!

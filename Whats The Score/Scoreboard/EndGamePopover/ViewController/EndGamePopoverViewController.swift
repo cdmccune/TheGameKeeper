@@ -38,8 +38,6 @@ class EndGamePopoverViewController: UIViewController, Storyboarded {
     // MARK: - Functions
     
     private func setupViews() {
-        keepPlayingButton.underlineButtonForButtonStates(title: "Keep Playing", withTextSize: 15)
-        finishGameButton.underlineButtonForButtonStates(title: "Finish Game", withTextSize: 15)
         
         guard let game = game else { return }
         
