@@ -22,14 +22,12 @@ class PixellatedButton: UIButton {
     
     private func commonInit() {
         // Setup title color for normal state
-        setTitleColor(titleColor(for: .normal), for: .normal)
+        setTitleColor(borderColor, for: .normal)
         
         // Calculate disabled and highlighted colors based on the normal state color
-        if let normalTitleColor = titleColor(for: .normal) {
-            let disabledHighlightedColor = normalTitleColor.withAlphaComponent(0.5)
-            setTitleColor(disabledHighlightedColor, for: .disabled)
-            setTitleColor(disabledHighlightedColor, for: .highlighted)
-        }
+        let disabledHighlightedColor = borderColor.withAlphaComponent(0.5)
+        setTitleColor(disabledHighlightedColor, for: .disabled)
+        setTitleColor(disabledHighlightedColor, for: .highlighted)
     }
     
     override func draw(_ rect: CGRect) {

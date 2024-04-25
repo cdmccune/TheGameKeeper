@@ -31,16 +31,20 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
                         players: [],
                         context: coreDataStore.persistentContainer.viewContext)
         
+        var allIcons = PlayerIcon.allCases
+        let icon1 = allIcons.randomElement()
+        allIcons.removeAll { $0 == icon1 }
         _ = Player(game: game,
                    name: "Player 1",
                    position: 0,
-                   icon: .alien,
+                   icon: icon1 ?? .alien,
                    context: coreDataStore.persistentContainer.viewContext)
         
+        let icon2 = allIcons.randomElement()
         _ = Player(game: game,
                    name: "Player 2",
                    position: 1,
-                   icon: .alien,
+                   icon: icon2 ?? .alien,
                    context: coreDataStore.persistentContainer.viewContext)
         
         coreDataStore.saveContext()

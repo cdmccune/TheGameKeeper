@@ -24,8 +24,31 @@ final class MainCoordinatorTests: XCTestCase {
         XCTAssertTrue(coreDataHelper.coreDataStore as? CoreDataStoreMock === coreDataStore)
     }
     
-    
     // MARK: - Start
+    
+    func test_MainCoordinator_WhenStartCalled_ShouldCallSetupTabbarWithStaticTabbarAndTabbarItem() {
+        class MainCoordinatorSetupTabbarMock: MainCoordinator {
+            var setupTabbarTabbar: UITabBar?
+            var setupTabbarTabbarItem: UITabBarItem?
+            var setupTabbarCalledCount = 0
+            override func setupTabbar(with tabbar: UITabBar, and tabbarItem: UITabBarItem) {
+                self.setupTabbarTabbar = tabbar
+                self.setupTabbarTabbarItem = tabbarItem
+                setupTabbarCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = MainCoordinatorSetupTabbarMock()
+        
+        // when
+        sut.start()
+        
+        // then
+        XCTAssertEqual(sut.setupTabbarCalledCount, 1)
+        XCTAssertIdentical(sut.setupTabbarTabbar, UITabBar.appearance())
+        XCTAssertIdentical(sut.setupTabbarTabbarItem, UITabBarItem.appearance())
+    }
     
     func test_MainCoordinator_WhenStartCalled_ShouldCallCoreDataHelperGetActiveGame() {
         // given
@@ -126,7 +149,7 @@ final class MainCoordinatorTests: XCTestCase {
         
         // then
         let tabbarItem = sut.childCoordinators.first?.navigationController.tabBarItem
-        XCTAssertEqual(tabbarItem?.image, UIImage(systemName: "house"))
+        XCTAssertEqual(tabbarItem?.image, UIImage(named: "houseIcon"))
         XCTAssertEqual(tabbarItem?.title, "Home")
     }
     
@@ -248,6 +271,49 @@ final class MainCoordinatorTests: XCTestCase {
         XCTAssertEqual(gameTabCoordinatorMock?.startCalledCount, 1)
     }
     
+    
+    // MARK: - SetupTabbar
+    
+    func test_MainCoordinator_WhenSetupTabbarCalled_ShouldSetTintAndUnselectedTintColor() {
+        // given
+        let sut = MainCoordinator()
+        let tabbar = UITabBar()
+        
+        // when
+        sut.setupTabbar(with: tabbar, and: UITabBarItem())
+        
+        // then
+        XCTAssertEqual(tabbar.tintColor, UIColor.textColor)
+        XCTAssertEqual(tabbar.unselectedItemTintColor, UIColor.textColor.withAlphaComponent(0.5))
+    }
+    
+    func test_MainCoordinator_WhenSetupTabbarCalled_ShouldSetAttributesForSelectedState() {
+        // given
+        let sut = MainCoordinator()
+        let tabbarItem = UITabBarItem()
+        
+        // when
+        sut.setupTabbar(with: UITabBar(), and: tabbarItem)
+        
+        // then
+        let attributes = tabbarItem.titleTextAttributes(for: .selected)
+        XCTAssertEqual(attributes?[NSAttributedString.Key.font] as? UIFont, UIFont.pressPlay2PRegular(withSize: 10))
+        XCTAssertEqual(attributes?[NSAttributedString.Key.foregroundColor] as? UIColor, UIColor.textColor)
+    }
+    
+    func test_MainCoordinator_WhenSetupTabbarCalled_ShouldSetAttributesForNormalState() {
+        // given
+        let sut = MainCoordinator()
+        let tabbarItem = UITabBarItem()
+        
+        // when
+        sut.setupTabbar(with: UITabBar(), and: tabbarItem)
+        
+        // then
+        let attributes = tabbarItem.titleTextAttributes(for: .normal)
+        XCTAssertEqual(attributes?[NSAttributedString.Key.font] as? UIFont, UIFont.pressPlay2PRegular(withSize: 10))
+        XCTAssertEqual(attributes?[NSAttributedString.Key.foregroundColor] as? UIColor, UIColor.textColor.withAlphaComponent(0.5))
+    }
     
     // MARK: - SetupNewGame
     

@@ -22,10 +22,16 @@ class MainCoordinator {
     
     var homeTabbarCoordinatorType: HomeTabCoordinator.Type = HomeTabCoordinator.self
     var gameTabbarCoordinatorType: GameTabCoordinator.Type = GameTabCoordinator.self
+    var tabBarAppearance: UITabBar = UITabBar.appearance()
+    
+    
+    // MARK: - Starting Functions
     
     func start() {
         
-        let homeTabbarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+        self.setupTabbar(with: UITabBar.appearance(), and: UITabBarItem.appearance())
+        
+        let homeTabbarItem = UITabBarItem(title: "Home", image: UIImage(named: "houseIcon"), tag: 0)
         let homeNavigationController = RootNavigationController()
         homeNavigationController.tabBarItem = homeTabbarItem
         let homeTabCoordinator = homeTabbarCoordinatorType.init(navigationController: homeNavigationController, coreDataStore: coreDataStore)
@@ -55,6 +61,26 @@ class MainCoordinator {
         homeTabCoordinator.start()
         gameTabCoordinator.start()
     }
+    
+    func setupTabbar(with tabbar: UITabBar, and tabbarItem: UITabBarItem) {
+        tabbar.tintColor = UIColor.textColor
+        tabbar.unselectedItemTintColor = UIColor.textColor.withAlphaComponent(0.5)
+        
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.textColor,
+            .font: UIFont.pressPlay2PRegular(withSize: 15)
+        ]
+        tabbarItem.setTitleTextAttributes(selectedAttributes, for: .selected)
+        
+        let normalAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.textColor.withAlphaComponent(0.5),
+            .font: UIFont.pressPlay2PRegular(withSize: 10)
+        ]
+        tabbarItem.setTitleTextAttributes(normalAttributes, for: .normal)
+    }
+    
+    
+    // MARK: - Other Functions
     
     func setupNewGame() {
         let gameTabCoordinator = childCoordinators.first { $0 is GameTabCoordinator } as? GameTabCoordinator

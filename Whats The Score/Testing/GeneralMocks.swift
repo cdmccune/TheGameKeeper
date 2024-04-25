@@ -235,3 +235,10 @@ class UITextFieldBecomeFirstResponderMock: UITextField {
         return true
     }
 }
+
+
+// MARK: - UITabbar
+
+class UITabbarMock: UITabBar {
+    
+}
