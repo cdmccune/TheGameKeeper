@@ -41,10 +41,10 @@ class HomeViewController: UIViewController, Storyboarded {
         gameKeeperAttributedString.addTextColorAttribute(textColor: .white)
         titleLabel.attributedText = gameKeeperAttributedString
         
-        continueGameButton.underlineButtonForButtonStates(title: "Continue", withTextSize: 22)
-        quickStartButton.underlineButtonForButtonStates(title: "Quick Start", withTextSize: 22)
-        setupGameButton.underlineButtonForButtonStates(title: "Setup Game", withTextSize: 22)
-        myGamesButton.underlineButtonForButtonStates(title: "My Games", withTextSize: 22)
+//        continueGameButton.underlineButtonForButtonStates(title: "Continue", withTextSize: 22)
+//        quickStartButton.underlineButtonForButtonStates(title: "Quick Start", withTextSize: 22)
+//        setupGameButton.underlineButtonForButtonStates(title: "Setup Game", withTextSize: 22)
+//        myGamesButton.underlineButtonForButtonStates(title: "My Games", withTextSize: 22)
     }
     
     // MARK: - IBActions

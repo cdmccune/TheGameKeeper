@@ -85,7 +85,7 @@ class GameSetupCoordinator: Coordinator {
         gameEndQuantitySelectionPopoverVC.coordinator = self
         gameEndQuantitySelectionPopoverVC.gameEndType = gameEndType
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: topViewController.view, withPopover: gameEndQuantitySelectionPopoverVC, withWidth: 300, andHeight: 151, tapToExit: true)
+        defaultPopoverPresenter.setupPopoverCentered(onView: topViewController.view, withPopover: gameEndQuantitySelectionPopoverVC, withWidth: 300, andHeight: 164, tapToExit: true)
         
         navigationController.topViewController?.present(gameEndQuantitySelectionPopoverVC, animated: true)
     }
@@ -117,7 +117,7 @@ class GameSetupCoordinator: Coordinator {
         editPlayerPopoverViewController.delegate = delegate
         editPlayerPopoverViewController.player = playerSettings
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerPopoverViewController, withWidth: 300, andHeight: 165, tapToExit: true)
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerPopoverViewController, withWidth: 300, andHeight: 174, tapToExit: true)
         
         viewController.present(editPlayerPopoverViewController, animated: true)
     }

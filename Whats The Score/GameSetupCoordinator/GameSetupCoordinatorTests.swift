@@ -253,7 +253,7 @@ final class GameSetupCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 151)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 164)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is GameEndQuantitySelectionPopoverViewController)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
@@ -386,7 +386,7 @@ final class GameSetupCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 165)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 174)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EditPlayerPopoverViewController)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)
