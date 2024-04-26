@@ -129,15 +129,39 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.scoreChangeLabel.text, String(scoreChangeInt))
         XCTAssertEqual(sut.scoreChangeLabel.textColor, .red)
     }
+    
+    func test_GameHistoryScoreChangeTableViewCell_WhenSetupViewPropertiesForCalledIsInEndRound_ShouldHideDisclosureIndicatorStackView() {
+        // given
+        let sut = tableViewCell!
+        
+        // when
+        sut.setupViewProperties(for: ScoreChangeMock(), isInEndRound: true)
+        
+        // then
+        XCTAssertTrue(sut.disclosureIndicatorStackView.isHidden)
+    }
+    
+    func test_GameHistoryScoreChangeTableViewCell_WhenSetupViewPropertiesForCalledIsInEndRoundFalse_ShouldShowDisclosureIndicatorStackView() {
+        // given
+        let sut = tableViewCell!
+        
+        // when
+        sut.setupViewProperties(for: ScoreChangeMock(), isInEndRound: false)
+        
+        // then
+        XCTAssertFalse(sut.disclosureIndicatorStackView.isHidden)
+    }
 }
 
 class GameHistoryScoreChangeTableViewCellMock: GameHistoryScoreChangeTableViewCell {
     var setupPropertiesForCalledCount = 0
     var setupPropertiesForScoreChange: ScoreChangeProtocol?
+    var setupPropertiesForIsInEndRound: Bool?
     
-    override func setupViewProperties(for scoreChange: ScoreChangeProtocol) {
+    override func setupViewProperties(for scoreChange: ScoreChangeProtocol, isInEndRound: Bool = false) {
         self.setupPropertiesForCalledCount += 1
         self.setupPropertiesForScoreChange = scoreChange
+        self.setupPropertiesForIsInEndRound = isInEndRound
     }
     
 }

@@ -14,10 +14,11 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var scoreChangeLabel: UILabel!
     @IBOutlet weak var scoreTotalLabel: UILabel!
+    @IBOutlet weak var disclosureIndicatorStackView: UIStackView!
     
     // MARK: - Functions
     
-    func setupViewProperties(for scoreChange: ScoreChangeProtocol) {
+    func setupViewProperties(for scoreChange: ScoreChangeProtocol, isInEndRound: Bool = false) {
         playerNameLabel.text = scoreChange.player.name
         scoreChangeLabel.text = String(scoreChange.scoreChange)
         scoreTotalLabel.text = String(scoreChange.player.getScoreThrough(scoreChange))
@@ -30,5 +31,7 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
         default: // Greater than zero
             scoreChangeLabel.textColor = .systemBlue
         }
+        
+        disclosureIndicatorStackView.isHidden = isInEndRound
     }
 }

@@ -31,20 +31,20 @@
                                 <rect key="frame" x="5" y="0.0" width="310" height="43"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Player Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="J2F-9y-46P">
-                                        <rect key="frame" x="0.0" y="0.0" width="168" height="43"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="147" height="43"/>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cTD-N0-Ruq">
-                                        <rect key="frame" x="173" y="0.0" width="1" height="43"/>
+                                        <rect key="frame" x="152" y="0.0" width="1" height="43"/>
                                         <color key="backgroundColor" name="TextColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="1" id="Ji2-Cb-NbT"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="-100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="stA-Pb-OC9">
-                                        <rect key="frame" x="179" y="0.0" width="60" height="43"/>
+                                        <rect key="frame" x="158" y="0.0" width="60" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="MeK-LA-I42"/>
                                         </constraints>
@@ -53,14 +53,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yC5-7a-YbO">
-                                        <rect key="frame" x="244" y="0.0" width="1" height="43"/>
+                                        <rect key="frame" x="223" y="0.0" width="1" height="43"/>
                                         <color key="backgroundColor" name="TextColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="1" id="JmP-GH-m7f"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="-100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yFU-Qg-Mlt">
-                                        <rect key="frame" x="250" y="0.0" width="60" height="43"/>
+                                        <rect key="frame" x="229" y="0.0" width="60" height="43"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="54e-Rz-86s"/>
@@ -69,6 +69,28 @@
                                         <color key="textColor" systemColor="tintColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="YHZ-Iy-FJf">
+                                        <rect key="frame" x="294" y="0.0" width="16" height="43"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gTr-Wp-1uz">
+                                                <rect key="frame" x="0.0" y="0.0" width="1" height="43"/>
+                                                <color key="backgroundColor" name="TextColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="1" id="9Ef-pj-c2o"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="&lt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="urv-Yr-Xhl">
+                                                <rect key="frame" x="6" y="0.0" width="10" height="43"/>
+                                                <color key="tintColor" systemColor="labelColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="10" id="zTe-WC-EHj"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
+                                                <color key="textColor" systemColor="tintColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2fH-hP-PWp">
@@ -98,6 +120,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="disclosureIndicatorStackView" destination="YHZ-Iy-FJf" id="5q8-U9-wYH"/>
                 <outlet property="playerNameLabel" destination="J2F-9y-46P" id="Txs-RO-XqK"/>
                 <outlet property="scoreChangeLabel" destination="stA-Pb-OC9" id="Itf-Q1-Wje"/>
                 <outlet property="scoreTotalLabel" destination="yFU-Qg-Mlt" id="79S-au-c6K"/>

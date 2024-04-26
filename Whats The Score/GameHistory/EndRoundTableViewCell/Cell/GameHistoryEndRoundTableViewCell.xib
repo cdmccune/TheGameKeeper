@@ -39,21 +39,47 @@
                                         <color key="textColor" name="TextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R2h-zK-bQy">
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pnq-Xb-gNv">
                                         <rect key="frame" x="78" y="0.0" width="242" height="132"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJ7-oT-SO8">
-                                                <rect key="frame" x="0.0" y="0.0" width="1" height="132"/>
-                                                <color key="backgroundColor" name="TextColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="1" id="rWB-Cc-1le"/>
-                                                </constraints>
-                                            </view>
-                                            <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nhM-rb-xNS">
-                                                <rect key="frame" x="1" y="0.0" width="241" height="132"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </tableView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R2h-zK-bQy">
+                                                <rect key="frame" x="0.0" y="0.0" width="221" height="132"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJ7-oT-SO8">
+                                                        <rect key="frame" x="0.0" y="0.0" width="1" height="132"/>
+                                                        <color key="backgroundColor" name="TextColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="1" id="rWB-Cc-1le"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nhM-rb-xNS">
+                                                        <rect key="frame" x="1" y="0.0" width="220" height="132"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </tableView>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Qef-Ze-NWf">
+                                                <rect key="frame" x="221" y="0.0" width="21" height="132"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uAs-EE-Rp1">
+                                                        <rect key="frame" x="0.0" y="0.0" width="1" height="132"/>
+                                                        <color key="backgroundColor" name="TextColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="1" id="faG-7g-ycd"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLP-d3-IA5">
+                                                        <rect key="frame" x="6" y="0.0" width="15" height="132"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="15" id="Cor-QL-Kg3"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
+                                                        <color key="textColor" name="TextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
