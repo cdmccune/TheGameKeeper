@@ -151,6 +151,23 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         // then
         XCTAssertFalse(sut.disclosureIndicatorStackView.isHidden)
     }
+    
+    func test_GameHistoryScoreChangeTableViewCell_WhenSetupViewProperties_ShouldSetPlayerStrokeEqualToPlayerIconColor() {
+        // given
+        let sut = tableViewCell!
+        
+        let icon = PlayerIcon.allCases.randomElement()!
+        let player = PlayerMock(name: " ", icon: icon)
+        
+        // when
+        sut.setupViewProperties(for: ScoreChangeMock(player: player))
+        
+        // then
+        let playerNameAttributedString = sut.playerNameLabel.attributedText
+        
+        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, icon.color)
+    }
 }
 
 class GameHistoryScoreChangeTableViewCellMock: GameHistoryScoreChangeTableViewCell {

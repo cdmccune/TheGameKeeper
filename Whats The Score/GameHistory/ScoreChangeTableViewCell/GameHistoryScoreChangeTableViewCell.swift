@@ -19,7 +19,6 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
     // MARK: - Functions
     
     func setupViewProperties(for scoreChange: ScoreChangeProtocol, isInEndRound: Bool = false) {
-        playerNameLabel.text = scoreChange.player.name
         scoreChangeLabel.text = String(scoreChange.scoreChange)
         scoreTotalLabel.text = String(scoreChange.player.getScoreThrough(scoreChange))
         
@@ -33,5 +32,9 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
         }
         
         disclosureIndicatorStackView.isHidden = isInEndRound
+        
+        let playerNameAttributedString = NSMutableAttributedString(string: scoreChange.player.name)
+        playerNameAttributedString.addStrokeAttribute(strokeColor: scoreChange.player.icon.color, strokeWidth: 4)
+        playerNameLabel.attributedText = playerNameAttributedString
     }
 }
