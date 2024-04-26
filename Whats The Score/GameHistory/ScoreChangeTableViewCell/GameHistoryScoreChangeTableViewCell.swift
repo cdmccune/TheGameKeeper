@@ -33,8 +33,7 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
         
         disclosureIndicatorStackView.isHidden = isInEndRound
         
-        let playerNameAttributedString = NSMutableAttributedString(string: scoreChange.player.name)
-        playerNameAttributedString.addStrokeAttribute(strokeColor: scoreChange.player.icon.color, strokeWidth: 4)
-        playerNameLabel.attributedText = playerNameAttributedString
+        playerNameLabel.text = scoreChange.player.name
+        playerNameLabel.textColor = scoreChange.player.icon.color
     }
 }

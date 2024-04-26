@@ -103,7 +103,7 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.positionLabel.text, "T-\(place.ordinal)")
     }
     
-    func test_ScoreboardTableViewCell_WhenSetupCellWithCalled_ShouldSetPlayerStrokeEqualToPlayerIconColor() {
+    func test_ScoreboardTableViewCell_WhenSetupCellWithCalled_ShouldSetPlayerNameLabelTextColorToPlayerIconColor() {
         // given
         let sut = tableViewCell!
         
@@ -113,12 +113,9 @@ final class ScoreboardTableViewCellTests: XCTestCase {
         sut.setupCellWith(PlayerMock(name: " ", icon: icon), inPlace: 0)
         
         // then
-        let playerNameAttributedString = sut.playerNameLabel.attributedText
-        
-        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
-        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, icon.color)
+        XCTAssertEqual(sut.playerNameLabel.textColor, icon.color)
     }
-    
+
     func test_ScoreboardTableViewCell_WhenSetupCellWithPlayerCalled_ShouldSetPlayerIconImageViewImageToPlayerIconImage() {
         // given
         let sut = tableViewCell!

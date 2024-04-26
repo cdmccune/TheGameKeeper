@@ -51,7 +51,7 @@ final class PlayerSetupPlayerTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.playerNameLabel.text, playerName)
     }
     
-    func test_PlayerSetupPlayerTableViewCell_WhenSetupViewPropertiesForPlayerCalled_ShouldSetPlayerStrokeEqualToPlayerIconColor() {
+    func test_PlayerSetupPlayerTableViewCell_WhenSetupViewPropertiesForPlayerCalled_ShouldSetPlayerNameLabelTextColorToIconColor() {
         // given
         let sut = tableViewCell!
         
@@ -62,10 +62,7 @@ final class PlayerSetupPlayerTableViewCellTests: XCTestCase {
         sut.setupViewPropertiesFor(player: playerSettings)
         
         // then
-        let playerNameAttributedString = sut.playerNameLabel.attributedText
-        
-        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
-        XCTAssertEqual(playerNameAttributedString?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.strokeColor] as? UIColor, icon.color)
+        XCTAssertEqual(sut.playerNameLabel.textColor, icon.color)
     }
     
     func test_PlayerSetupPlayerTableViewCell_WhenSetupViewPropertiesForPlayerCalled_ShouldSetPlayerIconImageViewImageToPlayerIconImage() {

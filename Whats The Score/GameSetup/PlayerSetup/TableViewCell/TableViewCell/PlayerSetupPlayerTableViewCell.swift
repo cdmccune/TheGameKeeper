@@ -13,10 +13,8 @@ class PlayerSetupPlayerTableViewCell: UITableViewCell {
     @IBOutlet weak var playerIconImageView: UIImageView!
     
     func setupViewPropertiesFor(player: PlayerSettings) {
-        let playerNameAttributedString = NSMutableAttributedString(string: player.name)
-        playerNameAttributedString.addStrokeAttribute(strokeColor: player.icon.color, strokeWidth: 4)
-        
-        playerNameLabel.attributedText = playerNameAttributedString
+        playerNameLabel.text = player.name
+        playerNameLabel.textColor = player.icon.color
         
         playerIconImageView.image = player.icon.image
         playerIconImageView.layer.cornerRadius = 25
