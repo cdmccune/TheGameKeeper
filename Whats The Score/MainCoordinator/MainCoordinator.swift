@@ -68,7 +68,7 @@ class MainCoordinator {
         
         let selectedAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.textColor,
-            .font: UIFont.pressPlay2PRegular(withSize: 15)
+            .font: UIFont.pressPlay2PRegular(withSize: 10)
         ]
         tabbarItem.setTitleTextAttributes(selectedAttributes, for: .selected)
         

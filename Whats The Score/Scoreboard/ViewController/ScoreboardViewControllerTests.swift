@@ -675,21 +675,6 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(tableView.reloadDataCalledCount, 1)
     }
     
-    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndGameNone_ShouldMakeProgressLabelHidden() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.viewModel = ScoreboardViewModelMock()
-        sut.viewModel?.game.gameEndType = .none
-        sut.viewModel?.game.gameType = .round
-        
-        // when
-        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
-        
-        // then
-        XCTAssertTrue(sut.progressLabel.isHidden)
-    }
-    
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledGameTypeBasic_ShouldMakeProgressLabelHidden() {
         // given
         let sut = viewController!
@@ -703,6 +688,39 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertTrue(sut.progressLabel.isHidden)
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledGameTypeRoundEndGameNone_ShouldShowLabelSetTextToTapEndRoundToEnterScores() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        sut.viewModel?.game.gameEndType = .none
+        sut.viewModel?.game.gameType = .round
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertFalse(sut.progressLabel.isHidden)
+        XCTAssertEqual(sut.progressLabel.text, "Tap end round to enter scores!")
+    }
+    
+    func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndTypeNotNoneRound1_ShouldSetTextToTapEndRoundToEnterScores() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        sut.viewModel = ScoreboardViewModelMock()
+        sut.viewModel?.game.gameEndType = .round
+        sut.viewModel?.game.gameType = .round
+        sut.viewModel?.game.currentRound = 1
+        
+        // when
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertFalse(sut.progressLabel.isHidden)
+        XCTAssertEqual(sut.progressLabel.text, "Tap end round to enter scores!")
     }
     
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledIsEndofGame_ShouldShowProgressLabelWithEmptyText() {
@@ -751,7 +769,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let totalNumberOfRounds = Int.random(in: 6...10)
         sut.viewModel?.game.numberOfRounds = totalNumberOfRounds
         
-        let currentRound = Int.random(in: 1...5)
+        let currentRound = Int.random(in: 2...5)
         sut.viewModel?.game.currentRound = currentRound
         
         // when

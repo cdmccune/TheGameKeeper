@@ -173,13 +173,18 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             
             self.tableView.reloadData()
             
-            guard game.gameType == .round,
-                  game.gameEndType != .none else {
+            guard game.gameType == .round else {
                 self.progressLabel.isHidden = true
                 return
             }
             
             self.progressLabel.isHidden = false
+            
+            guard game.gameEndType != .none,
+                game.currentRound != 1 else {
+                self.progressLabel.text = "Tap end round to enter scores!"
+                return
+            }
             
             guard !game.isEndOfGame() else {
                 self.progressLabel.text = ""
