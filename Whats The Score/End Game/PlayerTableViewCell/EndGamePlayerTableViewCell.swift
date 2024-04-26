@@ -53,9 +53,8 @@ class EndGamePlayerTableViewCell: UITableViewCell {
         playerScoreLabel.text = String(player.score)
         positionLabel.text = (isTied ? "T-" : "") + place.ordinal
         
-        let playerNameAttributedString = NSMutableAttributedString(string: player.name)
-        playerNameAttributedString.addStrokeAttribute(strokeColor: player.icon.color, strokeWidth: 4)
-        playerNameLabel.attributedText = playerNameAttributedString
+        playerNameLabel.text = player.name
+        playerNameLabel.textColor = player.icon.color
         
         self.playerIconImageView.image = player.icon.image
         self.playerIconImageView.layer.borderColor = player.icon.color.cgColor

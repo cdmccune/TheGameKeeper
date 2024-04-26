@@ -147,7 +147,7 @@ final class EndGamePlayerTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.playerScoreLabel.text, String(playerScore))
     }
     
-    func test_EndGamePlayerTableViewCell_WhenSetupViewForCalled_ShouldSetBorderOfPlayerNameLabelToIconColorAndWidthToFour() {
+    func test_EndGamePlayerTableViewCell_WhenSetupViewForCalled_ShouldSetPlayerNameLabelTextColorToIconColor() {
         // given
         let sut = tableViewCell!
         
@@ -158,9 +158,7 @@ final class EndGamePlayerTableViewCellTests: XCTestCase {
         sut.setupViewFor(player, inPlace: 0)
         
         // then
-        let attributes = sut.playerNameLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
-        XCTAssertEqual(attributes?[NSAttributedString.Key.strokeColor] as? UIColor, icon.color)
-        XCTAssertEqual(attributes?[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertTrue(sut.playerNameLabel.textColor.cgColor.same(as: icon.color.cgColor))
     }
     
     func test_EndGamePlayerTableViewCell_WhenSetupViewForCalled_ShouldSetPlayerIconImageViewToPlayersIconImage() {

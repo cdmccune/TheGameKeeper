@@ -113,7 +113,7 @@ final class EndGamePlayerCollectionViewCellTests: XCTestCase {
         XCTAssertTrue(sut.playerIconImageView.layer.borderColor?.same(as: icon.color.cgColor) ?? false)
     }
     
-    func test_EndGamePlayerCollectionViewCell_WhenSetupViewForCalled_ShouldSetBorderOfPlayerNameLabelToIconColorAndWidthToFour() {
+    func test_EndGamePlayerCollectionViewCell_WhenSetupViewForCalled_ShouldSetPlayerNameLabelTextColorToIconColorAndWidthToFour() {
         // given
         let sut = collectionViewCell!
         
@@ -124,9 +124,8 @@ final class EndGamePlayerCollectionViewCellTests: XCTestCase {
         sut.setupViewFor(player)
         
         // then
-        let attributes = sut.playerNameLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
-        XCTAssertEqual(attributes?[NSAttributedString.Key.strokeColor] as? UIColor, icon.color)
-        XCTAssertEqual(attributes?[NSAttributedString.Key.strokeWidth] as? CGFloat, -4.0)
+        XCTAssertEqual(sut.playerNameLabel.textColor, icon.color)
+
     }
 
 }
