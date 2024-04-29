@@ -32,6 +32,11 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     lazy var historyBarButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem(title: "History", style: .plain, target: self, action: #selector(historyButtonTapped))
         barButton.tintColor = .textColor
+        let attributes = [
+            NSAttributedString.Key.font: UIFont.pressPlay2PRegular(withSize: 10)
+        ]
+        barButton.setTitleTextAttributes(attributes, for: .normal)
+        barButton.setTitleTextAttributes(attributes, for: .highlighted)
         return barButton
     }()
     

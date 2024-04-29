@@ -123,6 +123,23 @@ final class ScoreboardViewControllerTests: XCTestCase {
         XCTAssertEqual(barButton.tintColor, .textColor)
 
     }
+
+    func test_ScoreboardViewController_WhenHistoryBarButtonSet_ShouldBePressPlay2PRegularSize15() {
+        // given
+        let sut = viewController!
+        
+        // when
+        let barButton = sut.historyBarButton
+        
+        // then
+        let normalAttributes = barButton.titleTextAttributes(for: .normal)
+        let highlightedAttributes = barButton.titleTextAttributes(for: .highlighted)
+        
+        let expectedFont = UIFont.pressPlay2PRegular(withSize: 10)
+        
+        XCTAssertEqual(normalAttributes?[.font] as? UIFont, expectedFont)
+        XCTAssertEqual(highlightedAttributes?[.font] as? UIFont, expectedFont)
+    }
     
     func test_ScoreboardViewController_WhenHistoryBarButtonActionCalled_ShouldCallHistoryButtonTapped() {
         
