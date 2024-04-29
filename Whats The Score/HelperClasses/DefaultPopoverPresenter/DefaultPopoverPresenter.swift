@@ -31,6 +31,11 @@ class DefaultPopoverPresenter: DefaultPopoverPresenterProtocol {
         delegate = NoAdaptivePresentationStylePopoverPresentationDelegate(tapToExit: tapToExit)
         viewController.popoverPresentationController?.delegate = delegate
         
+        let maskView = UIView(frame: view.bounds)
+        maskView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.mask = maskView
+        delegate?.maskView = maskView
+        
         viewController.hideKeyboardWhenTappedAround()
     }
 }

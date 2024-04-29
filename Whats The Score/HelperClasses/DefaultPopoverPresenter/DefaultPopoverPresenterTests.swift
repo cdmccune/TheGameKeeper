@@ -155,7 +155,38 @@ final class DefaultPopoverPresenterTests: XCTestCase {
         // then
         XCTAssertEqual(popoverViewController.hideKeyboardWhenTappedAroundCalledCount, 1)
     }
+    func test_DefaultPopoverPresenter_WhenSetupPopoverCenteredCalled_ShouldAddMaskToParentViewWithAlpha() {
+        // given
+        let sut = DefaultPopoverPresenter()
+        let popoverViewController = UIViewController()
+        let parentView = UIView(frame: UIScreen.main.bounds) // Use the whole screen bounds
+        
+        // when
+        sut.setupPopoverCentered(onView: parentView, withPopover: popoverViewController, withWidth: 100, andHeight: 100)
+        
+        // then
+        guard let maskView = parentView.mask else {
+            XCTFail("No mask view with alpha found on parent view")
+            return
+        }
+        XCTAssertEqual(maskView.backgroundColor, UIColor.black.withAlphaComponent(0.5))
+        XCTAssertEqual(maskView.frame, UIScreen.main.bounds) // Check if the mask view covers the whole screen
+    }
 
+    func test_DefaultPopoverPresenter_WhenSetupPopoverCenteredCalled_ShouldSetDelegateMaskViewToCreatedMaskView() {
+        // given
+        let sut = DefaultPopoverPresenter()
+        let popoverViewController = UIViewController()
+        let parentView = UIView(frame: UIScreen.main.bounds) // Use the whole screen bounds
+        
+        // when
+        sut.setupPopoverCentered(onView: parentView, withPopover: popoverViewController, withWidth: 100, andHeight: 100)
+        
+        // then
+        XCTAssertNotNil(sut.delegate?.maskView, "Delegate's maskView should not be nil")
+        XCTAssertEqual(sut.delegate?.maskView, parentView.mask, "Delegate's maskView should be the same as the mask view added to the parent view")
+    }
+    
 }
 
 class DefaultPopoverPresenterMock: DefaultPopoverPresenterProtocol {

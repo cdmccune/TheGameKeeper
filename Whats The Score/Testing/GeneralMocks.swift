@@ -239,6 +239,10 @@ class UITextFieldBecomeFirstResponderMock: UITextField {
 
 // MARK: - UITabbar
 
-class UITabbarMock: UITabBar {
-    
+class UIViewRemoveFromSuperviewMock: UIView {
+    var removeFromSuperviewCalledCount = 0
+    override func removeFromSuperview() {
+        removeFromSuperviewCalledCount += 1
+    }
 }
+

@@ -43,4 +43,28 @@ final class NoAdaptivePresentationStylePopoverPresentationDelegateTests: XCTestC
         XCTAssertTrue(bool)
     }
 
+    func test_NoAdaptivePresentationStylePopoverPresentationDelegate_WhenPresentationControllerWillDismissCalled_ShouldSetMaskViewToNil() {
+        // given
+        let sut = NoAdaptivePresentationStylePopoverPresentationDelegate()
+        sut.maskView = UIView() // Initially set a mask view
+        
+        // when
+        sut.presentationControllerWillDismiss(UIPresentationController(presentedViewController: UIViewController(), presenting: nil))
+        
+        // then
+        XCTAssertNil(sut.maskView, "Mask view should be nil after presentationControllerWillDismiss is called")
+    }
+
+    func test_NoAdaptivePresentationStylePopoverPresentationDelegate_WhenPresentationControllerDidDismissCalled_ShouldRemoveMaskViewFromSuperview() {
+        // given
+        let sut = NoAdaptivePresentationStylePopoverPresentationDelegate()
+        let mask = UIViewRemoveFromSuperviewMock()
+        sut.maskView = mask // Initially set a mask view
+        
+        // when
+        sut.presentationControllerWillDismiss(UIPresentationController(presentedViewController: UIViewController(), presenting: nil))
+        
+        // then
+        XCTAssertEqual(mask.removeFromSuperviewCalledCount, 1, "Mask view should have been removed from superview once")
+    }
 }

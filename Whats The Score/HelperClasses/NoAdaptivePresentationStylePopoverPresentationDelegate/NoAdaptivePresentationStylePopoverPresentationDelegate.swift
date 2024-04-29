@@ -15,6 +15,7 @@ class NoAdaptivePresentationStylePopoverPresentationDelegate: NSObject, UIPopove
     }
     
     var tapToExit: Bool
+    var maskView: UIView?
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
@@ -22,5 +23,11 @@ class NoAdaptivePresentationStylePopoverPresentationDelegate: NSObject, UIPopove
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
         return tapToExit
+    }
+    
+    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        // Remove the mask when the popover will dismiss
+        self.maskView?.removeFromSuperview()
+        self.maskView = nil
     }
 }
