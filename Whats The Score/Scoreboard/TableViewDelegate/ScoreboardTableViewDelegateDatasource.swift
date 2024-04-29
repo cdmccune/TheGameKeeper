@@ -50,8 +50,12 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard viewModel.game.gameType != .round else { return }
-        viewModel.startEditingPlayerScoreAt(indexPath.row)
+        switch viewModel.game.gameType {
+        case .basic:
+            viewModel.startEditingPlayerScoreAt(indexPath.row)
+        case .round:
+            viewModel.startEditingPlayerAt(indexPath.row)
+        }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
