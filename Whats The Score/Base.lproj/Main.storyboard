@@ -538,6 +538,7 @@
                         <outlet property="playAgainButton" destination="yyx-Mr-0eF" id="95e-hM-WMj"/>
                         <outlet property="tableView" destination="0Xc-SH-Pn6" id="1HL-3U-t0X"/>
                         <outlet property="titleLabel" destination="sDE-Ug-NuI" id="3ho-Zn-xTK"/>
+                        <outlet property="winnerLabel" destination="byN-BP-clW" id="rZS-gu-SNJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9fC-Cy-CPT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1779,7 +1780,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MuG-3q-6p1">
-                                        <rect key="frame" x="10" y="29.999999999999996" width="373" height="260"/>
+                                        <rect key="frame" x="10" y="30" width="373" height="260"/>
                                         <color key="backgroundColor" name="BackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fZH-iJ-lCe">
                                             <size key="itemSize" width="50" height="50"/>
@@ -1839,7 +1840,7 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

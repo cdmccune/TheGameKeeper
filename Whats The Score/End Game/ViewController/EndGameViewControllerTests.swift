@@ -43,6 +43,40 @@ final class EndGameViewControllerTests: XCTestCase {
     
     
     // MARK: - ViewDidLoad
+
+    func test_EndGameViewController_WhenViewDidLoadCalledAndSingleWinner_ShouldDisplayWinnerInLabel() {
+        // given
+        let sut = viewController!
+        let gameMock = GameMock()
+        gameMock.winningPlayers = [PlayerMock()]
+        let viewModelMock = EndGameViewModelMock()
+        viewModelMock.game = gameMock
+        sut.viewModel = viewModelMock
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.winnerLabel.text, "Winner")
+    }
+    
+    func test_EndGameViewController_WhenViewDidLoadCalledAndMultipleWinners_ShouldDisplayWinnersInLabel() {
+        // given
+        let sut = viewController!
+        let gameMock = GameMock()
+        gameMock.winningPlayers = [PlayerMock(), PlayerMock()]
+        let viewModelMock = EndGameViewModelMock()
+        viewModelMock.game = gameMock
+        sut.viewModel = viewModelMock
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.winnerLabel.text, "Winners")
+    }
     
     func test_EndGameViewController_WhenViewDidLoadCalled_ShouldSetTableViewDelegateDatasourceToEndGamePlayerTableViewDelegate() {
         // given

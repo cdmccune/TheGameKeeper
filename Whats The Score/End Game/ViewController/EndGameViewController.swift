@@ -13,6 +13,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var winnerLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewWidth: NSLayoutConstraint!
@@ -55,6 +56,9 @@ class EndGameViewController: UIViewController, Storyboarded {
     }
     
     private func setupViews() {
+
+        winnerLabel.text = viewModel.game.winningPlayers.count == 1 ? "Winner" : "Winners"
+        
         let reportAttributedString = NSMutableAttributedString(string: "Report")
         reportAttributedString.addUnderlineAttribute(underlineColor: .white)
         reportAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
