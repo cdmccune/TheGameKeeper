@@ -372,7 +372,7 @@
                                         </view>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="txo-KT-kJR" customClass="PixellatedButton" customModule="Whats_The_Score" customModuleProvider="target">
-                                        <rect key="frame" x="82.666666666666686" y="673" width="228" height="39"/>
+                                        <rect key="frame" x="49.666666666666657" y="673" width="294" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="39" id="1hw-UC-Bdh"/>
                                         </constraints>
@@ -380,13 +380,13 @@
                                         <color key="tintColor" name="TextColor"/>
                                         <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="End Round"/>
+                                        <state key="normal" title="Enter Scores"/>
                                         <connections>
                                             <action selector="endRoundButtonTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="OW4-th-IDn"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnd-Cp-Pjb" customClass="PixellatedButton" customModule="Whats_The_Score" customModuleProvider="target">
-                                        <rect key="frame" x="82.666666666666686" y="720" width="228" height="39"/>
+                                        <rect key="frame" x="49.666666666666657" y="720" width="294" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="39" id="rqv-kv-gOv"/>
                                         </constraints>
