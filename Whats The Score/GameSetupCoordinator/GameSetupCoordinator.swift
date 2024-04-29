@@ -51,6 +51,8 @@ class GameSetupCoordinator: Coordinator {
         self.gameType = gameType
         switch gameType {
         case .basic:
+            self.gameEndType = .none
+            
             let playerSetupVC = PlayerSetupViewController.instantiate()
             let viewModel = PlayerSetupViewModel()
             viewModel.coordinator = self

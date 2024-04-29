@@ -121,6 +121,18 @@ final class GameSetupCoordinatorTests: XCTestCase {
          
     }
     
+    func test_GameSetupCoordinator_WhenGameTypeSelectedCalledBasic_ShouldSetGameEndTypeToNone() {
+        // given
+        let sut = GameSetupCoordinator(navigationController: RootNavigationController())
+        sut.gameEndType = .score
+        
+        // when
+        sut.gameTypeSelected(.basic)
+        
+        // then
+        XCTAssertEqual(sut.gameEndType, .none)
+    }
+    
     func test_GameSetupCoordinator_WhenGameTypeSelectedCalledBasic_ShouldPushPlayerSetupViewController() {
         // given
         let navigationController = RootNavigationControllerPushMock()
