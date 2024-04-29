@@ -170,7 +170,7 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(sut.inputDescriptionLabel.text, "Points")
+        XCTAssertEqual(sut.inputDescriptionLabel.text, "pts")
     }
     
     func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalledGameEndTypeRound_ShouldSetInstructionLabelTextToEnterTheNewWinningScore() {
@@ -204,7 +204,7 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(sut.inputDescriptionLabel.text, "Rounds")
+        XCTAssertEqual(sut.inputDescriptionLabel.text, "rnds")
     }
     
     func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldSetTextFieldDelegateAsDismissingTextFieldDelegate() {

@@ -82,7 +82,7 @@ class ScoreboardCoordinator: Coordinator {
         editPlayerScorePopoverVC.scoreChangeSettings = scoreChange
         editPlayerScorePopoverVC.delegate = delegate
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerScorePopoverVC, withWidth: 300, andHeight: 163, tapToExit: true)
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: editPlayerScorePopoverVC, withWidth: 300, andHeight: 148, tapToExit: true)
         
         viewController.present(editPlayerScorePopoverVC, animated: true)
     }
@@ -124,7 +124,7 @@ class ScoreboardCoordinator: Coordinator {
         keepPlayingPopoverVC.game = game
         keepPlayingPopoverVC.delegate = delegate
         
-        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 209, tapToExit: false)
+        defaultPopoverPresenter.setupPopoverCentered(onView: viewController.view, withPopover: keepPlayingPopoverVC, withWidth: 300, andHeight: 194, tapToExit: false)
         
         dispatchQueue?.asyncAfterWrapper(delay: delay, work: {
             viewController.present(keepPlayingPopoverVC, animated: true)

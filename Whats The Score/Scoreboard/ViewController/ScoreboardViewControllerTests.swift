@@ -135,7 +135,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let normalAttributes = barButton.titleTextAttributes(for: .normal)
         let highlightedAttributes = barButton.titleTextAttributes(for: .highlighted)
         
-        let expectedFont = UIFont.pressPlay2PRegular(withSize: 10)
+        let expectedFont = UIFont.pressPlay2PRegular(withSize: 1011)
         
         XCTAssertEqual(normalAttributes?[.font] as? UIFont, expectedFont)
         XCTAssertEqual(highlightedAttributes?[.font] as? UIFont, expectedFont)

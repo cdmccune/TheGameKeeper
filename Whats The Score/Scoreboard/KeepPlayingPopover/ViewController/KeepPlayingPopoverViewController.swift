@@ -61,10 +61,10 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded, Dismissi
             break
         case .round:
             instructionLabel.text = "Set the new number of rounds"
-            inputDescriptionLabel.text = "Rounds"
+            inputDescriptionLabel.text = "rnds"
         case .score:
             instructionLabel.text = "Set the new winning score"
-            inputDescriptionLabel.text = "Points"
+            inputDescriptionLabel.text = "pts"
         }
         
     }
