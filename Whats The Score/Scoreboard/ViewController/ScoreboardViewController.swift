@@ -8,7 +8,7 @@
 import UIKit
 
 class ScoreboardViewController: UIViewController, Storyboarded {
-
+    
     // MARK: - Outlets
     
     @IBOutlet weak var gameNameLabel: UILabel!
@@ -22,6 +22,8 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     @IBOutlet weak var addPlayerButton: UIButton!
     @IBOutlet weak var endRoundButton: UIButton!
     @IBOutlet weak var endGameButton: UIButton!
+    
+    @IBOutlet weak var undoButton: UIButton!
     
     
     // MARK: - Properties
@@ -45,13 +47,13 @@ class ScoreboardViewController: UIViewController, Storyboarded {
         barButton.tintColor = .textColor
         return barButton
     }()
-
+    
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setDelegates()
         registerNibs()
         setupViews()
@@ -103,8 +105,7 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     
     private func presentDeletePlayerAlert() {
         guard let player = viewModel?.playerToDelete.value else { return }
-                
-                
+        
         let alert = UIAlertController(title: "Delete Player", message: "Are you sure you want to remove \(player.name) from this game?", preferredStyle: .alert)
         
         let cancelAction = TestableUIAlertAction.createWith(title: "Cancel", style: .cancel) { _ in }
@@ -140,6 +141,25 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     @IBAction func turnOrderSortButtonTapped(_ sender: Any) {
         viewModel?.sortPreference.value = .position
     }
+    
+    @IBAction func undoButtonTapped(_ sender: Any) {
+        let message = viewModel?.game.gameType == .round ?
+        "Are you sure you want to undo the last round?" :
+        "Are you sure you want to undo the last scoring change?"
+        
+        let alert = UIAlertController(title: "Undo", message: message, preferredStyle: .alert)
+        
+        let cancelAction = TestableUIAlertAction.createWith(title: "Cancel", style: .cancel) { _ in }
+        let undoAction = TestableUIAlertAction.createWith(title: "Undo", style: .destructive) { [weak self] _ in
+            self?.viewModel?.undoLastAction()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(undoAction)
+        
+        self.present(alert, animated: true)
+    }
+    
     
     @objc func historyButtonTapped() {
         viewModel?.showGameHistory()
@@ -184,7 +204,7 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
             self.progressLabel.isHidden = false
             
             guard game.gameEndType != .none,
-                game.currentRound != 1 else {
+                  game.currentRound != 1 else {
                 self.progressLabel.text = "Tap end round to enter scores!"
                 return
             }
@@ -194,7 +214,7 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
                 return
             }
             
-
+            
             if game.gameEndType == .round {
                 self.progressLabel.text = "\(game.numberOfRounds)"
                 

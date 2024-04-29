@@ -33,6 +33,7 @@ protocol GameProtocol: AnyObject {
     func changeScore(with scoreChangeSettings: ScoreChangeSettings)
     func endRound(with endRoundSettings: EndRoundSettings)
     func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int)
+    func undoLastAction()
     func resetGame()
     func editScoreChange(_ newScoreChange: ScoreChangeSettings)
     func editEndRound(_ newEndRound: EndRoundSettings)

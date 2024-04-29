@@ -385,29 +385,48 @@
                                             <action selector="endRoundButtonTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="OW4-th-IDn"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnd-Cp-Pjb" customClass="PixellatedButton" customModule="Whats_The_Score" customModuleProvider="target">
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="csy-vK-6w8">
                                         <rect key="frame" x="49.666666666666657" y="720" width="294" height="39"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="39" id="rqv-kv-gOv"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
-                                        <color key="tintColor" name="TextColor"/>
-                                        <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="End Game"/>
-                                        <connections>
-                                            <action selector="endGameButtonTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="4g5-PY-Hab"/>
-                                        </connections>
-                                    </button>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uZi-EW-RWL" customClass="PixellatedButton" customModule="Whats_The_Score" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="39"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="39" id="8Co-FY-wzF"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                                <color key="tintColor" name="TextColor"/>
+                                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="arrow.uturn.backward" catalog="system"/>
+                                                <connections>
+                                                    <action selector="undoButtonTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="8WM-mH-U6d"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnd-Cp-Pjb" customClass="PixellatedButton" customModule="Whats_The_Score" customModuleProvider="target">
+                                                <rect key="frame" x="45" y="0.0" width="249" height="39"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="39" id="rqv-kv-gOv"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
+                                                <color key="tintColor" name="TextColor"/>
+                                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="End Game"/>
+                                                <connections>
+                                                    <action selector="endGameButtonTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="4g5-PY-Hab"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="A3E-hw-aQg" secondAttribute="trailing" constant="10" id="404-Ux-f4M"/>
+                                    <constraint firstItem="csy-vK-6w8" firstAttribute="width" secondItem="txo-KT-kJR" secondAttribute="width" id="AbG-aX-AEn"/>
                                     <constraint firstAttribute="trailing" secondItem="MqA-gq-D7o" secondAttribute="trailing" constant="10" id="S7c-t4-aFb"/>
                                     <constraint firstItem="MqA-gq-D7o" firstAttribute="leading" secondItem="Vf5-JK-ajl" secondAttribute="leading" constant="10" id="SZG-b0-qGz"/>
                                     <constraint firstAttribute="trailing" secondItem="cCi-B3-Ky9" secondAttribute="trailing" id="UOh-ab-qGI"/>
                                     <constraint firstItem="cCi-B3-Ky9" firstAttribute="leading" secondItem="Vf5-JK-ajl" secondAttribute="leading" id="WVh-JR-Isi"/>
                                     <constraint firstItem="A3E-hw-aQg" firstAttribute="leading" secondItem="Vf5-JK-ajl" secondAttribute="leading" constant="10" id="d1K-fH-E3N"/>
-                                    <constraint firstItem="txo-KT-kJR" firstAttribute="width" secondItem="cnd-Cp-Pjb" secondAttribute="width" id="udc-cI-zuL"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -431,6 +450,7 @@
                         <outlet property="scoreSortButton" destination="fhl-B8-pxI" id="pbg-VH-aiS"/>
                         <outlet property="tableView" destination="cCi-B3-Ky9" id="aci-wx-OQA"/>
                         <outlet property="turnOrderSortButton" destination="A2j-tM-tB9" id="y8u-Zn-unC"/>
+                        <outlet property="undoButton" destination="uZi-EW-RWL" id="8AT-A6-HmF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ez-W0-EYd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1833,6 +1853,7 @@
     </scenes>
     <resources>
         <image name="Alien" width="50" height="50"/>
+        <image name="arrow.uturn.backward" catalog="system" width="128" height="113"/>
         <image name="xIcon" width="15" height="15"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

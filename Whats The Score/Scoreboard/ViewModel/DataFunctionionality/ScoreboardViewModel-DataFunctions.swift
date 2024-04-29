@@ -10,6 +10,12 @@ import CoreData
 
 
 extension ScoreboardViewModel {
+    func undoLastAction() {
+        game.undoLastAction()
+        coreDataStore.saveContext()
+        delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
+    }
+    
     func deletePlayer(_ player: PlayerProtocol) {
         game.deletePlayer(player)
         coreDataStore.saveContext()

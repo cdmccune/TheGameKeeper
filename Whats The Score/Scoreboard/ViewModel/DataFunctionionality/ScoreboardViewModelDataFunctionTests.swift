@@ -377,6 +377,49 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
     }
     
     
+    // MARK: - UndoLastAction
+    
+    func test_ScoreboardViewModel_WhenUndoLastActionCalled_ShouldCallGameUndoLastActionCalled() {
+        // given
+        let game = GameMock()
+        let sut = ScoreboardViewModel(game: game)
+        
+        // when
+        sut.undoLastAction()
+        
+        // then
+        XCTAssertEqual(game.undoLastActionCalledCount, 1)
+    }
+
+    func test_ScoreboardViewModel_WhenUndoLastActionCalled_ShouldCallCoreDataStoreSaveChanges() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let coreDataStore = CoreDataStoreMock()
+        sut.coreDataStore = coreDataStore
+        
+        // when
+        sut.undoLastAction()
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewModel_WhenUndoLastActionCalled_ShouldCallBindViewModelToView() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        let viewDelegate = ScoreboardViewModelViewProtocolMock()
+        sut.delegate = viewDelegate
+        
+        let previousBindCount = viewDelegate.bindViewToViewModelCalledCount
+        
+        // when
+        sut.undoLastAction()
+        
+        // then
+        XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, previousBindCount + 1)
+    }
+    
+    
     // MARK: - ResetGame
     
     func test_ScoreboardViewModel_WhenResetGameCalled_ShouldCallGameResetGame() {

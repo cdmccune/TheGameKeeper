@@ -875,6 +875,68 @@ final class GameTests: XCTestCase {
     }
     
     
+    // MARK: - UndoLastAction
+
+    func test_Game_WhenUndoLastActionCalledGameTypeIsRoundAndEndRoundExists_ShouldCallRemoveFromEndRoundsAndDeleteEndRoundAndDecrementCurrentRound() {
+        // given
+        class GameEndRoundMock: GamePropertyMock {
+            var removeFromEndRoundsCalledCount = 0
+            var removedEndRound: EndRound?
+            override func removeFromEndRounds_(_ value: EndRound) {
+                removeFromEndRoundsCalledCount += 1
+                removedEndRound = value
+            }
+        }
+        
+        let contextDeleteMock = NSManagedObjectContextDeleteObjectMock()
+        let sut = GameEndRoundMock()
+        let gameMock = Game(context: contextDeleteMock)
+        sut.temporaryManagedObjectContext = contextDeleteMock
+        sut.gameType = .round
+        let endRound = EndRound(game: gameMock, roundNumber: 0, scoreChanges: [], context: contextDeleteMock)
+        sut.temporaryEndRoundsArray = [EndRoundMock(), endRound]
+        sut.currentRound = 5
+        
+        // when
+        sut.undoLastAction()
+        
+        // then
+        XCTAssertEqual(sut.removeFromEndRoundsCalledCount, 1)
+        XCTAssertEqual(sut.removedEndRound, endRound)
+        XCTAssertTrue(contextDeleteMock.deleteNSManagedObjects.contains(where: { $0 as? EndRound === endRound }))
+        XCTAssertEqual(sut.currentRound, 4)
+    }
+    
+    func test_Game_WhenUndoLastActionCalledGameTypeIsBasicAndLastScoreChangeExists_ShouldCallRemoveFromScoreChangesAndDeleteScoreChange() {
+        // given
+        class GameScoreChangeMock: GamePropertyMock {
+            var removeFromScoreChangesCalledCount = 0
+            var removedScoreChange: ScoreChange?
+            override func removeFromScoreChanges_(_ value: ScoreChange) {
+                removeFromScoreChangesCalledCount += 1
+                removedScoreChange = value
+            }
+        }
+        
+        let contextDeleteMock = NSManagedObjectContextDeleteObjectMock()
+        let sut = GameScoreChangeMock()
+        let gameMock = Game(context: contextDeleteMock)
+        let playerMock = Player(game: gameMock, name: "", position: 0, icon: .alien, context: contextDeleteMock)
+        sut.temporaryManagedObjectContext = contextDeleteMock
+        sut.gameType = .basic
+        let scoreChange = ScoreChange(player: playerMock, scoreChange: 0, position: 0, context: contextDeleteMock)
+        sut.temporaryScoreChangeArray = [ScoreChangeMock(), scoreChange] // Ensure it's the last one
+        
+        // when
+        sut.undoLastAction()
+        
+        // then
+        XCTAssertEqual(sut.removeFromScoreChangesCalledCount, 1)
+        XCTAssertEqual(sut.removedScoreChange, scoreChange)
+        XCTAssertTrue(contextDeleteMock.deleteNSManagedObjects.contains(where: { $0 as? ScoreChange === scoreChange }))
+    }
+    
+    
     // MARK: - ResetGame
     
     func test_Game_WhenResetGameCalled_ShouldCallDeleteOnGamesContextForEachScoreChange() {

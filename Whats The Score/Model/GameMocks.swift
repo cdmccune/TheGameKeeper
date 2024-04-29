@@ -194,6 +194,11 @@ class GameMock: GameProtocol {
         self.updateSettingsNumberOfRounds = numberOfRounds
     }
     
+    var undoLastActionCalledCount = 0
+    func undoLastAction() {
+        undoLastActionCalledCount += 1
+    }
+    
     var resetGameCalledCount = 0
     func resetGame() {
         resetGameCalledCount += 1

@@ -135,7 +135,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let normalAttributes = barButton.titleTextAttributes(for: .normal)
         let highlightedAttributes = barButton.titleTextAttributes(for: .highlighted)
         
-        let expectedFont = UIFont.pressPlay2PRegular(withSize: 1011)
+        let expectedFont = UIFont.pressPlay2PRegular(withSize: 10)
         
         XCTAssertEqual(normalAttributes?[.font] as? UIFont, expectedFont)
         XCTAssertEqual(highlightedAttributes?[.font] as? UIFont, expectedFont)
@@ -546,6 +546,114 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(viewModel.showGameSettingsCalledCount, 1)
+    }
+
+    // MARK: - UndoButtonTapped
+
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalled_ShouldPresentAlertWithCorrectTitle() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.undoButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.title, "Undo")
+    }
+    
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalledWithGameTypeRound_ShouldPresentAlertAskingToUndoLastRound() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let game = GameMock(gameType: .round)
+        let viewModelMock = ScoreboardViewModelMock(game: game)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.undoButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "Are you sure you want to undo the last round?")
+    }
+
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalledWithGameTypeBasic_ShouldPresentAlertAskingToUndoLastScoreChange() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let game = GameMock(gameType: .basic)
+        let viewModelMock = ScoreboardViewModelMock(game: game)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.undoButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "Are you sure you want to undo the last scoring change?")
+    }
+    
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalled_ShouldPresentAlertWithFirstActionCancel() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.undoButtonTapped(0)
+        
+        // then
+        let cancelAction = (sut.viewControllerPresented as? UIAlertController)?.actions.first
+        XCTAssertNotNil(cancelAction)
+        XCTAssertEqual(cancelAction?.title, "Cancel")
+        XCTAssertEqual(cancelAction?.style, .cancel)
+    }
+    
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalled_ShouldPresentAlertWithTwoActions() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.undoButtonTapped(0)
+        
+        // then
+        let actions = (sut.viewControllerPresented as? UIAlertController)?.actions
+        XCTAssertEqual(actions?.count, 2)
+    }
+    
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalled_ShouldPresentAlertWithLastActionOkay() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.undoButtonTapped(0)
+        
+        // then
+        let okayAction = (sut.viewControllerPresented as? UIAlertController)?.actions.last
+        XCTAssertNotNil(okayAction)
+        XCTAssertEqual(okayAction?.title, "Undo")
+        XCTAssertEqual(okayAction?.style, .destructive)
+    }
+    
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalled_ShouldSetOkayActionHandlerToBeViewModelUndoLastAction() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        let viewModelMock = ScoreboardViewModelMock()
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.undoButtonTapped(0)
+        let okayAction = (sut.viewControllerPresented as? UIAlertController)?.actions.last as? TestableUIAlertAction
+      
+        okayAction?.handler!(UIAlertAction(title: "", style: .default))
+        
+        // then
+        XCTAssertEqual(viewModelMock.undoLastActionCalledCount, 1)
     }
     
     

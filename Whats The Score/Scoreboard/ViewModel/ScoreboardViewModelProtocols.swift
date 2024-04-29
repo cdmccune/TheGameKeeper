@@ -26,6 +26,7 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
     
     func deletePlayer(_ player: PlayerProtocol)
     func addPlayer()
+    func undoLastAction()
     func endGame()
     func resetGame()
 }

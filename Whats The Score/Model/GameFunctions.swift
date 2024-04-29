@@ -12,11 +12,11 @@ extension Game {
     
     // MARK: - Functions
     
-//    func changeName(of player: PlayerProtocol, to name: String) {
-//        guard var playerToUpdateName = players.first(where: { $0.id == player.id }) else { return }
-//        
-//        playerToUpdateName.name = name
-//    }
+    //    func changeName(of player: PlayerProtocol, to name: String) {
+    //        guard var playerToUpdateName = players.first(where: { $0.id == player.id }) else { return }
+    //
+    //        playerToUpdateName.name = name
+    //    }
     
     func editPlayer(_ newPlayerSettings: PlayerSettings) {
         guard var player = players.first(where: { $0.id == newPlayerSettings.id }) else { return }
@@ -26,25 +26,25 @@ extension Game {
     }
     
     func movePlayerAt(_ sourceRowIndex: Int, to destinationRowIndex: Int) {
-//        guard players.indices.contains(sourceRowIndex),
-//              players.indices.contains(destinationRowIndex) else { return }
-//        
-//        let playerToMove = players[sourceRowIndex]
-//        players.remove(at: sourceRowIndex)
-//        players.insert(playerToMove, at: destinationRowIndex)
-//        players.setPositions()
+        //        guard players.indices.contains(sourceRowIndex),
+        //              players.indices.contains(destinationRowIndex) else { return }
+        //
+        //        let playerToMove = players[sourceRowIndex]
+        //        players.remove(at: sourceRowIndex)
+        //        players.insert(playerToMove, at: destinationRowIndex)
+        //        players.setPositions()
     }
     
     func addPlayer(withSettings player: PlayerSettings) {
         guard let managedObjectContext else { return }
         _ = Player(game: self, name: player.name, position: players.count, icon: player.icon, context: managedObjectContext)
     }
-//    
+    //
     func randomizePlayers() {
-//        players.shuffle()
-//        players.setPositions()
+        //        players.shuffle()
+        //        players.setPositions()
     }
-//    
+    //
     func deletePlayer(_ player: PlayerProtocol) {
         guard let playerObject = player as? Player else { return }
         removeFromPlayers_(playerObject)
@@ -119,6 +119,22 @@ extension Game {
         self.endingScore = endingScore
     }
     
+    func undoLastAction() {
+            switch gameType {
+            case .basic:
+                if let scoreChange = scoreChanges.last as? ScoreChange {
+                    removeFromScoreChanges_(scoreChange)
+                    managedObjectContext?.delete(scoreChange)
+                }
+            case .round:
+                if let endRound = endRounds.last as? EndRound {
+                    removeFromEndRounds_(endRound)
+                    managedObjectContext?.delete(endRound)
+                    currentRound -= 1
+                }
+            }
+    }
+    
     func resetGame() {
         
         if let scoreChanges = scoreChanges as? [ScoreChange] {
@@ -180,55 +196,55 @@ extension Game {
 
 // MARK: Generated accessors for players
 extension Game {
-
+    
     @objc(addPlayers_Object:)
     @NSManaged public func addToPlayers_(_ value: Player)
-
+    
     @objc(removePlayers_Object:)
     @NSManaged public func removeFromPlayers_(_ value: Player)
-
+    
     @objc(addPlayers_:)
     @NSManaged public func addToPlayers_(_ values: NSSet)
-
+    
     @objc(removePlayers_:)
     @NSManaged public func removeFromPlayers_(_ values: NSSet)
-
+    
 }
 
 // MARK: Generated accessors for endRounds
 extension Game {
-
+    
     @objc(addEndRounds_Object:)
     @NSManaged public func addToEndRounds_(_ value: EndRound)
-
+    
     @objc(removeEndRounds_Object:)
     @NSManaged public func removeFromEndRounds_(_ value: EndRound)
-
+    
     @objc(addEndRounds_:)
     @NSManaged public func addToEndRounds_(_ values: NSSet)
-
+    
     @objc(removeEndRounds_:)
     @NSManaged public func removeFromEndRounds_(_ values: NSSet)
-
+    
 }
 
 // MARK: Generated accessors for scoreChanges
 extension Game {
-
+    
     @objc(addScoreChanges_Object:)
     @NSManaged public func addToScoreChanges_(_ value: ScoreChange)
-
+    
     @objc(removeScoreChanges_Object:)
     @NSManaged public func removeFromScoreChanges_(_ value: ScoreChange)
-
+    
     @objc(addScoreChanges_:)
     @NSManaged public func addToScoreChanges_(_ values: NSSet)
-
+    
     @objc(removeScoreChanges_:)
     @NSManaged public func removeFromScoreChanges_(_ values: NSSet)
-
+    
 }
 
 extension Game: Identifiable {
-
+    
 }
