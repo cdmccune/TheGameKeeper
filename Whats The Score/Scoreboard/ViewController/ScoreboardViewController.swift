@@ -19,9 +19,7 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     @IBOutlet weak var scoreSortButton: UIButton!
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var addPlayerButton: UIButton!
-    
     @IBOutlet weak var endRoundButton: UIButton!
     @IBOutlet weak var endGameButton: UIButton!
     
@@ -32,7 +30,7 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     private var tableViewDelegate: ScoreboardTableViewDelegateDatasource?
     var defaultPopoverPresenter: DefaultPopoverPresenterProtocol = DefaultPopoverPresenter()
     lazy var historyBarButton: UIBarButtonItem = {
-        let barButton = UIBarButtonItem(image: UIImage(named: "clockIcon"), style: .plain, target: self, action: #selector(historyButtonTapped))
+        let barButton = UIBarButtonItem(title: "History", style: .plain, target: self, action: #selector(historyButtonTapped))
         barButton.tintColor = .textColor
         return barButton
     }()

@@ -110,7 +110,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
             XCTAssertEqual(sut.settingsBarButtonCalledCount, 1)
         }
     
-    func test_ScoreboardViewController_WhenHistoryBarButtonSet_ShouldHaveHistoryBarButtonCorrectImageTintAndTarget() {
+    func test_ScoreboardViewController_WhenHistoryBarButtonSet_ShouldHaveHistoryBarButtonCorrectTitleTintAndTarget() {
         // given
         let sut = viewController!
         
@@ -118,7 +118,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         let barButton = sut.historyBarButton
         
         // then
-        XCTAssertEqual(barButton.image, UIImage(named: "clockIcon")!)
+        XCTAssertEqual(barButton.title, "History")
         XCTAssertEqual(barButton.target as? ScoreboardViewController, sut)
         XCTAssertEqual(barButton.tintColor, .textColor)
 
