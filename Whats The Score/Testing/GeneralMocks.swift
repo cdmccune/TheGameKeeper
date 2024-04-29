@@ -237,7 +237,7 @@ class UITextFieldBecomeFirstResponderMock: UITextField {
 }
 
 
-// MARK: - UITabbar
+// MARK: - UIView
 
 class UIViewRemoveFromSuperviewMock: UIView {
     var removeFromSuperviewCalledCount = 0
@@ -246,3 +246,14 @@ class UIViewRemoveFromSuperviewMock: UIView {
     }
 }
 
+
+// Mark: - PopoverDismissingDelegate
+
+class PopoverDismissingDelegateMock: PopoverDimissingDelegate {
+    var maskView: UIView?
+    var popoverDismissedCalledCount = 0
+    
+    func popoverDismissed() {
+        popoverDismissedCalledCount += 1
+    }
+}

@@ -11,7 +11,7 @@ protocol EditPlayerPopoverDelegateProtocol: AnyObject {
     func finishedEditing(_ player: PlayerSettings)
 }
 
-class EditPlayerPopoverViewController: UIViewController, Storyboarded {
+class EditPlayerPopoverViewController: UIViewController, Storyboarded, DismissingPopoverViewController {
     
     // MARK: - Outlets
     
@@ -25,6 +25,7 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
     
     var player: PlayerSettings?
     var delegate: EditPlayerPopoverDelegateProtocol?
+    var dismissingDelegate: PopoverDimissingDelegate?
     var playerIconSelectionCustomDetentHelper: PlayerIconSelectionCustomDetentHelperProtocol = PlayerIconSelectionCustomDetentHelper()
     lazy var textFieldDelegate = DismissingTextFieldDelegate()
     
@@ -84,11 +85,11 @@ class EditPlayerPopoverViewController: UIViewController, Storyboarded {
         player.name = name
         
         delegate?.finishedEditing(player)
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func exitButtonTapped(_ sender: Any) {
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func playerIconButtonTapped(_ sender: Any) {

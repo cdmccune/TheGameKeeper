@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GameEndQuantitySelectionPopoverViewController: UIViewController, Storyboarded {
+class GameEndQuantitySelectionPopoverViewController: UIViewController, Storyboarded, DismissingPopoverViewController {
     
     // MARK: - Outlets
     
@@ -19,6 +19,7 @@ class GameEndQuantitySelectionPopoverViewController: UIViewController, Storyboar
     
     // MARK: - Properties
     
+    var dismissingDelegate: PopoverDimissingDelegate?
     weak var coordinator: GameSetupCoordinator?
     var gameEndType: GameEndType?
     
@@ -82,11 +83,11 @@ class GameEndQuantitySelectionPopoverViewController: UIViewController, Storyboar
         let gameEndQuantity = Int(quantityTextField.text ?? "") ?? 2
         coordinator?.gameEndQuantitySelected(gameEndQuantity)
         
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func exitButtonTapped(_ sender: Any) {
-        dismiss(animated: true)
+        dismissPopover()
     }
     
     

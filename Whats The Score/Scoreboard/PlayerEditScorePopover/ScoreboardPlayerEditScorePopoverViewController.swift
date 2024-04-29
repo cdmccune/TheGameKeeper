@@ -11,7 +11,7 @@ protocol ScoreboardPlayerEditScorePopoverDelegate: AnyObject {
     func editScore(_ scoreChange: ScoreChangeSettings)
 }
 
-class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboarded {
+class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboarded, DismissingPopoverViewController {
     
     // MARK: - Outlets
     
@@ -26,7 +26,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboa
     
     var scoreChangeSettings: ScoreChangeSettings?
     weak var delegate: ScoreboardPlayerEditScorePopoverDelegate?
-    
+    var dismissingDelegate: PopoverDimissingDelegate?
     
     // MARK: - Lifecycle
 
@@ -80,7 +80,7 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboa
         
         scoreChangeSettings.scoreChange = pointsInt
         delegate?.editScore(scoreChangeSettings)
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func subtractButtonTapped(_ sender: Any) {
@@ -91,10 +91,10 @@ class ScoreboardPlayerEditScorePopoverViewController: UIViewController, Storyboa
         
         scoreChangeSettings.scoreChange = -1 * pointsInt
         delegate?.editScore(scoreChangeSettings)
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func exitButtonTapped(_ sender: Any) {
-        self.dismiss(animated: true)
+        dismissPopover()
     }
 }

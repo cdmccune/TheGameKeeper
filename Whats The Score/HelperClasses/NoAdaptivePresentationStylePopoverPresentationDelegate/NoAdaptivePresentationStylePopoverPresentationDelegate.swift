@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class NoAdaptivePresentationStylePopoverPresentationDelegate: NSObject, UIPopoverPresentationControllerDelegate {
+class NoAdaptivePresentationStylePopoverPresentationDelegate: NSObject, UIPopoverPresentationControllerDelegate, PopoverDimissingDelegate {
     
     init(tapToExit: Bool = true) {
         self.tapToExit = tapToExit
@@ -27,6 +27,12 @@ class NoAdaptivePresentationStylePopoverPresentationDelegate: NSObject, UIPopove
     
     func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
         // Remove the mask when the popover will dismiss
+        self.maskView?.removeFromSuperview()
+        self.maskView = nil
+    }
+    
+    func popoverDismissed() {
+         // Remove the mask when the popover will dismiss
         self.maskView?.removeFromSuperview()
         self.maskView = nil
     }

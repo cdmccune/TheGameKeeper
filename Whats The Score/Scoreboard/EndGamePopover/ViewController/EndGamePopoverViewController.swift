@@ -12,7 +12,7 @@ protocol EndGamePopoverDelegate: AnyObject {
     func keepPlayingSelected()
 }
 
-class EndGamePopoverViewController: UIViewController, Storyboarded {
+class EndGamePopoverViewController: UIViewController, Storyboarded, DismissingPopoverViewController {
     
     // MARK: - Outlets
     
@@ -22,6 +22,7 @@ class EndGamePopoverViewController: UIViewController, Storyboarded {
     
     // MARK: - Properties
     
+    var dismissingDelegate: PopoverDimissingDelegate?
     var delegate: EndGamePopoverDelegate?
     var game: GameProtocol?
     
@@ -65,11 +66,11 @@ class EndGamePopoverViewController: UIViewController, Storyboarded {
     
     @IBAction func finishGameButtonTapped(_ sender: Any) {
         delegate?.goToEndGameScreen()
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func keepPlayingButtonTapped(_ sender: Any) {
         delegate?.keepPlayingSelected()
-        self.dismiss(animated: true)
+        dismissPopover()
     }
 }

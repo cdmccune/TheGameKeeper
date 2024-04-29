@@ -11,7 +11,7 @@ protocol EndRoundPopoverDelegateProtocol {
     func endRound(_ endRound: EndRoundSettings)
 }
 
-class EndRoundPopoverViewController: UIViewController, Storyboarded {
+class EndRoundPopoverViewController: UIViewController, Storyboarded, DismissingPopoverViewController {
     
     // MARK: - Outlets
     
@@ -23,6 +23,7 @@ class EndRoundPopoverViewController: UIViewController, Storyboarded {
     
     // MARK: - Properties
     
+    var dismissingDelegate: PopoverDimissingDelegate?
     var delegate: EndRoundPopoverDelegateProtocol?
     var endRound: EndRoundSettings?
     var playerViewHeight: Int?
@@ -94,11 +95,11 @@ class EndRoundPopoverViewController: UIViewController, Storyboarded {
         }
         
         delegate?.endRound(endRound)
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func exitButtonTapped(_ sender: Any) {
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
 }

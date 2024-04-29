@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol DefaultPopoverPresenterProtocol {
-    func setupPopoverCentered(onView view: UIView, withPopover viewController: UIViewController, withWidth width: CGFloat, andHeight height: CGFloat, tapToExit: Bool)
+    func setupPopoverCentered(onView view: UIView, withPopover viewController: DismissingPopoverViewController, withWidth width: CGFloat, andHeight height: CGFloat, tapToExit: Bool)
 }
 
 class DefaultPopoverPresenter: DefaultPopoverPresenterProtocol {
@@ -20,7 +20,7 @@ class DefaultPopoverPresenter: DefaultPopoverPresenterProtocol {
         return CGRect(x: view.bounds.width/2 - width/2, y: view.bounds.height/2 - height/2, width: width, height: height)
     }
     
-    func setupPopoverCentered(onView view: UIView, withPopover viewController: UIViewController, withWidth width: CGFloat, andHeight height: CGFloat, tapToExit: Bool = false) {
+    func setupPopoverCentered(onView view: UIView, withPopover viewController: DismissingPopoverViewController, withWidth width: CGFloat, andHeight height: CGFloat, tapToExit: Bool = false) {
         
         viewController.modalPresentationStyle = .popover
         viewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
@@ -30,6 +30,7 @@ class DefaultPopoverPresenter: DefaultPopoverPresenterProtocol {
         
         delegate = NoAdaptivePresentationStylePopoverPresentationDelegate(tapToExit: tapToExit)
         viewController.popoverPresentationController?.delegate = delegate
+        viewController.dismissingDelegate = delegate
         
         let maskView = UIView(frame: view.bounds)
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.5)

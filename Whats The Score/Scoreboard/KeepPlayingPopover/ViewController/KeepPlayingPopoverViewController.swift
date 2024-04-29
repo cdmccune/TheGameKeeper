@@ -15,7 +15,7 @@ protocol KeepPlayingPopoverDelegate: AnyObject {
     
 }
 
-class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
+class KeepPlayingPopoverViewController: UIViewController, Storyboarded, DismissingPopoverViewController {
 
     // MARK: - Outlets
     
@@ -28,6 +28,7 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
     
     // MARK: - Properties
     
+    var dismissingDelegate: PopoverDimissingDelegate?
     var game: GameProtocol?
     weak var delegate: KeepPlayingPopoverDelegate?
     lazy var textFieldDelegate = DismissingTextFieldDelegate()
@@ -115,17 +116,17 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded {
             delegate?.updateWinningScore(to: inputInt)
         }
         
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func setNoEndButtonTapped(_ sender: Any) {
         delegate?.setNoEnd()
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     @IBAction func endGameButtonTapped(_ sender: Any) {
         delegate?.goToEndGameScreen()
-        self.dismiss(animated: true)
+        dismissPopover()
     }
     
     
