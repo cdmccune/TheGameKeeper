@@ -197,7 +197,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="240" verticalCompressionResistancePriority="746" translatesAutoresizingMaskIntoConstraints="NO" id="eDU-Jq-tko">
-                                                <rect key="frame" x="76.666666666666686" y="305" width="240" height="1077.6666666666667"/>
+                                                <rect key="frame" x="76.666666666666686" y="305" width="240" height="1077.6666666666665"/>
                                             </view>
                                         </subviews>
                                         <constraints>
@@ -389,21 +389,22 @@
                                         <rect key="frame" x="49.666666666666657" y="720" width="294" height="39"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uZi-EW-RWL" customClass="PixellatedButton" customModule="Whats_The_Score" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="40" height="39"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="42" height="39"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="39" id="8Co-FY-wzF"/>
+                                                    <constraint firstAttribute="width" constant="42" id="hDr-Vn-quc"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="22"/>
                                                 <color key="tintColor" name="TextColor"/>
-                                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                                <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="5" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" image="arrow.uturn.backward" catalog="system"/>
+                                                <state key="normal" image="undoIcon"/>
                                                 <connections>
                                                     <action selector="undoButtonTapped:" destination="Spa-4X-bWI" eventType="touchUpInside" id="8WM-mH-U6d"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnd-Cp-Pjb" customClass="PixellatedButton" customModule="Whats_The_Score" customModuleProvider="target">
-                                                <rect key="frame" x="45" y="0.0" width="249" height="39"/>
+                                                <rect key="frame" x="47" y="0.0" width="247" height="39"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="39" id="rqv-kv-gOv"/>
                                                 </constraints>
@@ -1804,7 +1805,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MuG-3q-6p1">
-                                        <rect key="frame" x="10" y="30" width="373" height="260"/>
+                                        <rect key="frame" x="10" y="29.999999999999996" width="373" height="260"/>
                                         <color key="backgroundColor" name="BackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fZH-iJ-lCe">
                                             <size key="itemSize" width="50" height="50"/>
@@ -1853,7 +1854,7 @@
     </scenes>
     <resources>
         <image name="Alien" width="50" height="50"/>
-        <image name="arrow.uturn.backward" catalog="system" width="128" height="113"/>
+        <image name="undoIcon" width="30" height="30"/>
         <image name="xIcon" width="15" height="15"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1865,10 +1866,10 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

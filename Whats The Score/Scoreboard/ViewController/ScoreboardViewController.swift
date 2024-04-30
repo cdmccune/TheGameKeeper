@@ -143,9 +143,19 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     }
     
     @IBAction func undoButtonTapped(_ sender: Any) {
-        let message = viewModel?.game.gameType == .round ?
-        "Are you sure you want to undo the last round?" :
-        "Are you sure you want to undo the last scoring change?"
+        guard let viewModel else { return }
+        
+        var message = ""
+        switch viewModel.game.gameType {
+        case .basic:
+            let scoreChange = viewModel.game.scoreChanges.last
+            let scoreChangeInt = scoreChange?.scoreChange ?? 0
+            let playerName = scoreChange?.player.name ?? ""
+            let endOfMessage = scoreChangeInt < 0 ? "subtracting \(abs(scoreChangeInt)) from \(playerName)" : "adding \(scoreChangeInt) to \(playerName)"
+            message = "Are you sure you want to undo \(endOfMessage)?"
+        case .round:
+            message = "Are you sure you want to undo scores from last round?"
+        }
         
         let alert = UIAlertController(title: "Undo", message: message, preferredStyle: .alert)
         
@@ -177,6 +187,13 @@ extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
         dispatchQueue.async {
             guard let viewModel = self.viewModel else { return }
             let game = viewModel.game
+            
+            switch game.gameType {
+            case .basic:
+                self.undoButton.isEnabled = !game.scoreChanges.isEmpty
+            case .round:
+                self.undoButton.isEnabled = !game.endRounds.isEmpty
+            }
             
             self.roundLabel.isHidden = game.gameType != .round
             self.endRoundButton.isHidden = game.gameType != .round

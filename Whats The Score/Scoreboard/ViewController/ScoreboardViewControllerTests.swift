@@ -576,13 +576,21 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.presentCalledCount, 1)
-        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "Are you sure you want to undo the last round?")
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "Are you sure you want to undo scores from last round?")
     }
 
-    func test_ScoreboardViewController_WhenUndoButtonTappedCalledWithGameTypeBasic_ShouldPresentAlertAskingToUndoLastScoreChange() {
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalledWithGameTypeBasicScoreChangePositive_ShouldPresentAlertAskingToUndoLastScoreChangeAdding() {
         // given
         let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        
+        let scoreChange = ScoreChangeMock()
+        let playerName = UUID().uuidString
+        scoreChange.player.name = playerName
+        let scoreChangeInt = Int.random(in: 1...10)
+        scoreChange.scoreChange = scoreChangeInt
+        
         let game = GameMock(gameType: .basic)
+        game.scoreChanges = [scoreChange]
         let viewModelMock = ScoreboardViewModelMock(game: game)
         sut.viewModel = viewModelMock
         
@@ -591,7 +599,30 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.presentCalledCount, 1)
-        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "Are you sure you want to undo the last scoring change?")
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "Are you sure you want to undo adding \(scoreChangeInt) to \(playerName)?")
+    }
+    
+    func test_ScoreboardViewController_WhenUndoButtonTappedCalledWithGameTypeBasicScoreChangeNegative_ShouldPresentAlertAskingToUndoLastScoreChangeSubtracting() {
+        // given
+        let sut = getScoreboardViewControllerPresentMockWithNeccessaryViewsLoaded()
+        
+        let scoreChange = ScoreChangeMock()
+        let playerName = UUID().uuidString
+        scoreChange.player.name = playerName
+        let scoreChangeInt = Int.random(in: (-10)...(-1))
+        scoreChange.scoreChange = scoreChangeInt
+        
+        let game = GameMock(gameType: .basic)
+        game.scoreChanges = [scoreChange]
+        let viewModelMock = ScoreboardViewModelMock(game: game)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.undoButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(sut.presentCalledCount, 1)
+        XCTAssertEqual((sut.viewControllerPresented as? UIAlertController)?.message, "Are you sure you want to undo subtracting \(abs(scoreChangeInt)) from \(playerName)?")
     }
     
     func test_ScoreboardViewController_WhenUndoButtonTappedCalled_ShouldPresentAlertWithFirstActionCancel() {
@@ -675,6 +706,74 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(dispatchQueueMock.asyncCalledCount, 1)
+    }
+    
+    func test_ScoreboardViewController_WhenBindViewModelToViewCalled_GameTypeBasicAndScoreChangesEmpty_UndoButtonShouldBeDisabled() {
+        // given
+        let sut = viewController!
+        let gameMock = GameMock()
+        gameMock.gameType = .basic
+        gameMock.scoreChanges = []
+        let viewModelMock = ScoreboardViewModelMock(game: gameMock)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertFalse(sut.undoButton.isEnabled)
+    }
+    
+    func test_ScoreboardViewController_WhenBindViewModelToViewCalled_GameTypeBasicAndScoreChangesNotEmpty_UndoButtonShouldBeEnabled() {
+        // given
+        let sut = viewController!
+        let gameMock = GameMock()
+        gameMock.gameType = .basic
+        gameMock.scoreChanges = [ScoreChangeMock()]
+        let viewModelMock = ScoreboardViewModelMock(game: gameMock)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertTrue(sut.undoButton.isEnabled)
+    }
+    
+    func test_ScoreboardViewController_WhenBindViewModelToViewCalled_GameTypeRoundAndEndRoundsEmpty_UndoButtonShouldBeDisabled() {
+        // given
+        let sut = viewController!
+        let gameMock = GameMock()
+        gameMock.gameType = .round
+        gameMock.endRounds = []
+        let viewModelMock = ScoreboardViewModelMock(game: gameMock)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertFalse(sut.undoButton.isEnabled)
+    }
+    
+    func test_ScoreboardViewController_WhenBindViewModelToViewCalled_GameTypeRoundAndEndRoundsNotEmpty_UndoButtonShouldBeEnabled() {
+        // given
+        let sut = viewController!
+        let gameMock = GameMock()
+        gameMock.gameType = .round
+        gameMock.endRounds = [EndRoundMock()]
+        let viewModelMock = ScoreboardViewModelMock(game: gameMock)
+        sut.viewModel = viewModelMock
+        
+        // when
+        sut.loadView()
+        sut.bindViewToViewModel(dispatchQueue: DispatchQueueMainMock())
+        
+        // then
+        XCTAssertTrue(sut.undoButton.isEnabled)
     }
 
     func test_ScoreboardViewController_WhenViewModelGameHasRoundGameTypeAndBindViewModelToViewCalled_ShouldShowRoundLabelAndEndRoundButton() {
