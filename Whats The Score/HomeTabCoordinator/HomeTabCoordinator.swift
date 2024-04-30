@@ -45,13 +45,15 @@ class HomeTabCoordinator: Coordinator, EndGameCoordinatorProtocol {
     }
     
     func setupNewGame() {
-        pauseCurrentGame()
-        coordinator?.setupNewGame()
+        pauseCurrentGame {
+            self.coordinator?.setupNewGame()
+        }
     }
     
     func setupQuickGame() {
-        pauseCurrentGame()
-        coordinator?.setupQuickGame()
+        pauseCurrentGame {
+            self.coordinator?.setupQuickGame()
+        }
     }
     
     func playActiveGame() {
@@ -79,17 +81,35 @@ class HomeTabCoordinator: Coordinator, EndGameCoordinatorProtocol {
     }
     
     
-    func pauseCurrentGame(andOpenGame newGame: GameProtocol? = nil) {
+    func pauseCurrentGame(andOpenGame newGame: GameProtocol? = nil, completion: @escaping () -> Void = {}) {
+        
         if let activeGame {
-            coreDataHelper.pauseGame(game: activeGame)
+            let alertController = UIAlertController(title: "Pause Game", message: "Do you want to pause your current game: \(activeGame.name)?", preferredStyle: .alert)
+            
+            let noAction = TestableUIAlertAction.createWith(title: "No", style: .cancel)
+            let yesAction = TestableUIAlertAction.createWith(title: "Yes", style: .destructive) { _ in
+                self.coreDataHelper.pauseGame(game: activeGame)
+                if let newGame {
+                    self.coreDataHelper.makeGameActive(game: newGame)
+                }
+                self.activeGame = newGame
+                self.start()
+                
+                completion()
+            }
+
+            alertController.addAction(noAction)
+            alertController.addAction(yesAction)
+
+            navigationController.topViewController?.present(alertController, animated: true)
+        } else {
+            if let newGame {
+                self.coreDataHelper.makeGameActive(game: newGame)
+            }
+            self.activeGame = newGame
+            self.start()
+            completion()
         }
-        
-        if let newGame {
-            coreDataHelper.makeGameActive(game: newGame)
-        }
-        
-        self.activeGame = newGame
-        start()
     }
     
     func showError(_ error: CoreDataStoreError) {
@@ -104,8 +124,9 @@ class HomeTabCoordinator: Coordinator, EndGameCoordinatorProtocol {
     }
     
     func reopenNonActiveGame(_ game: GameProtocol) {
-        pauseCurrentGame(andOpenGame: game)
-        coordinator?.homeTabGameMadeActive(game)
+        pauseCurrentGame(andOpenGame: game) {
+            self.coordinator?.homeTabGameMadeActive(game)
+        }
     }
     
     func showGameReportFor(game: GameProtocol) {

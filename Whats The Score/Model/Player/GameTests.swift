@@ -890,10 +890,10 @@ final class GameTests: XCTestCase {
         
         let contextDeleteMock = NSManagedObjectContextDeleteObjectMock()
         let sut = GameEndRoundMock()
-        let gameMock = Game(context: contextDeleteMock)
+        let gameMock = Game(basicGameWithContext: context)
         sut.temporaryManagedObjectContext = contextDeleteMock
         sut.gameType = .round
-        let endRound = EndRound(game: gameMock, roundNumber: 0, scoreChanges: [], context: contextDeleteMock)
+        let endRound = EndRound(game: gameMock, roundNumber: 0, scoreChanges: [], context: context)
         sut.temporaryEndRoundsArray = [EndRoundMock(), endRound]
         sut.currentRound = 5
         
@@ -920,11 +920,11 @@ final class GameTests: XCTestCase {
         
         let contextDeleteMock = NSManagedObjectContextDeleteObjectMock()
         let sut = GameScoreChangeMock()
-        let gameMock = Game(context: contextDeleteMock)
-        let playerMock = Player(game: gameMock, name: "", position: 0, icon: .alien, context: contextDeleteMock)
+        let gameMock = Game(basicGameWithContext: context)
+        let playerMock = Player(game: gameMock, name: "", position: 0, icon: .alien, context: context)
         sut.temporaryManagedObjectContext = contextDeleteMock
         sut.gameType = .basic
-        let scoreChange = ScoreChange(player: playerMock, scoreChange: 0, position: 0, context: contextDeleteMock)
+        let scoreChange = ScoreChange(player: playerMock, scoreChange: 0, position: 0, context: context)
         sut.temporaryScoreChangeArray = [ScoreChangeMock(), scoreChange] // Ensure it's the last one
         
         // when

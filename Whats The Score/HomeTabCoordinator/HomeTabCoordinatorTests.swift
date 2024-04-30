@@ -95,19 +95,6 @@ final class HomeTabCoordinatorTests: XCTestCase {
     
     // MARK: - SetupNewGame
     
-    func test_HomeTabCoordinator_WhenSetupNewGameCalled_ShouldCallCoordinatorSetupNewGame() {
-        // given
-        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
-        let coordinator = MainCoordinatorMock()
-        sut.coordinator = coordinator
-        
-        // when
-        sut.setupNewGame()
-        
-        // then
-        XCTAssertEqual(coordinator.setupNewGameCalledCount, 1)
-    }
-    
     func test_HomeTabCoordinator_WhenSetupNewGameCalled_ShouldCallPauseCurrentGame() {
         // given
         let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
@@ -119,21 +106,36 @@ final class HomeTabCoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.pauseCurrentGameCalledCount, 1)
     }
     
-    
-    // MARK: - QuickGame
-    
-    func test_HomeTabCoordinator_WhenSetupQuickGameCalled_ShouldCallCoordinatorsSetupQuickGame() {
+    func test_HomeTabCoordinator_WhenSetupNewGameCalled_PauseGameCompletionCalled_ShouldCallCoordinatorSetupNewGame() {
         // given
-        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        sut.completionShouldBeCalled = true
         let coordinator = MainCoordinatorMock()
         sut.coordinator = coordinator
         
         // when
-        sut.setupQuickGame()
+        sut.setupNewGame()
         
         // then
-        XCTAssertEqual(coordinator.setupQuickGameCalledCount, 1)
+        XCTAssertEqual(coordinator.setupNewGameCalledCount, 1)
     }
+    
+    func test_HomeTabCoordinator_WhenSetupNewGameCalled_PauseGameCompletionNotCalled_ShouldNotCallCoordinatorSetupNewGame() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        sut.completionShouldBeCalled = false
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        // when
+        sut.setupNewGame()
+        
+        // then
+        XCTAssertEqual(coordinator.setupNewGameCalledCount, 0)
+    }
+    
+    
+    // MARK: - QuickGame
     
     func test_HomeTabCoordinator_WhenSetupQuickGameCalled_ShouldCallPauseCurrentGame() {
         // given
@@ -145,6 +147,35 @@ final class HomeTabCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(sut.pauseCurrentGameCalledCount, 1)
     }
+    
+    func test_HomeTabCoordinator_WhenSetupQuickGameCalled_PauseCompletionCalled_ShouldCallCoordinatorsSetupQuickGame() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        sut.completionShouldBeCalled = true
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        // when
+        sut.setupQuickGame()
+        
+        // then
+        XCTAssertEqual(coordinator.setupQuickGameCalledCount, 1)
+    }
+
+    func test_HomeTabCoordinator_WhenSetupQuickGameCalled_PauseCompletionNotCalled_ShouldNotCallCoordinatorsSetupQuickGame() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        sut.completionShouldBeCalled = false
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        // when
+        sut.setupQuickGame()
+        
+        // then
+        XCTAssertEqual(coordinator.setupQuickGameCalledCount, 0)
+    }
+
     
     // MARK: - PlayActiveGame
     
@@ -315,25 +346,105 @@ final class HomeTabCoordinatorTests: XCTestCase {
     
     
     // MARK: - PauseCurrentGame
-    
-    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledActiveGameNil_ShouldNotCallCoreDataHelperPauseGame() {
+
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_ThereIsCurrentActiveGame_ShouldDisplayAlertOnTopViewController() {
         // given
         let sut = HomeTabCoordinator(navigationController: RootNavigationController())
-        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
-        sut.coreDataHelper = coreDataHelper
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+
+        let gameName = UUID().uuidString
+        let game = GameMock(name: gameName)
+        sut.activeGame = game
         
-        sut.activeGame = nil
+        let dispatchQueueMock = DispatchQueueMainMock()
+        sut.dispatchQueue = dispatchQueueMock
         
         // when
         sut.pauseCurrentGame()
         
         // then
-        XCTAssertEqual(coreDataHelper.pauseGameCalledCount, 0)
+        let alertController = viewController.presentViewController as? UIAlertController
+        XCTAssertEqual(viewController.presentCalledCount, 1)
+        XCTAssertNotNil(alertController)
+        XCTAssertEqual(alertController?.title, "Pause Game")
+        XCTAssertEqual(alertController?.message, "Do you want to pause your current game: \(gameName)?")
     }
-    
-    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledActiveGameNotNil_ShouldCallCoreDataHelperPauseGameWithGame() {
+
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_ThereIsCurrentActiveGame_ShouldPresentAlertWithTwoActions() {
         // given
         let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+
+        let gameName = UUID().uuidString
+        let game = GameMock(name: gameName)
+        sut.activeGame = game
+
+        let dispatchQueueMock = DispatchQueueMainMock()
+        sut.dispatchQueue = dispatchQueueMock
+
+        // when
+        sut.pauseCurrentGame()
+
+        // then
+        let alertController = viewController.presentViewController as? UIAlertController
+        XCTAssertEqual(alertController?.actions.count, 2)
+    }
+
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_ThereIsCurrentActiveGame_ShouldPresentAlertWithNoActionWithNilHandler() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+
+        let gameName = UUID().uuidString
+        let game = GameMock(name: gameName)
+        sut.activeGame = game
+
+        let dispatchQueueMock = DispatchQueueMainMock()
+        sut.dispatchQueue = dispatchQueueMock
+
+        // when
+        sut.pauseCurrentGame()
+
+        // then
+        let alertController = viewController.presentViewController as? UIAlertController
+        let noAction = alertController?.actions.first as? TestableUIAlertAction
+        XCTAssertNotNil(noAction)
+        XCTAssertEqual(noAction?.title, "No")
+        XCTAssertNil(noAction?.handler)
+    }
+
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_ThereIsCurrentActiveGame_ShouldPresentAlertWithYesAction() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+
+        let gameName = UUID().uuidString
+        let game = GameMock(name: gameName)
+        sut.activeGame = game
+
+        let dispatchQueueMock = DispatchQueueMainMock()
+        sut.dispatchQueue = dispatchQueueMock
+
+        // when
+        sut.pauseCurrentGame()
+
+        // then
+        let alertController = viewController.presentViewController as? UIAlertController
+        let yesAction = alertController?.actions.last
+        XCTAssertNotNil(yesAction)
+        XCTAssertEqual(yesAction?.title, "Yes")
+    }
+    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledActiveGame_YesActionSelected_ShouldCallCoreDataHelperPauseGameWithGame() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+        
         let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
         sut.coreDataHelper = coreDataHelper
         
@@ -342,44 +453,99 @@ final class HomeTabCoordinatorTests: XCTestCase {
         
         // when
         sut.pauseCurrentGame()
+        let yesAction = (viewController.presentViewController as? UIAlertController)?.actions.last as? TestableUIAlertAction
+        yesAction?.handler?(UIAlertAction())
         
         // then
         XCTAssertEqual(coreDataHelper.pauseGameCalledCount, 1)
         XCTAssertEqual(coreDataHelper.pauseGameGame?.id, game.id)
     }
     
-    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledNoNewGame_ShouldSetActiveGameToNil() {
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledActiveGame_YesActionSelected_ShouldCallCoreDataHelperMakeGameActiveWithActiveGame() {
         // given
         let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
         
-        sut.activeGame = GameMock()
-        
-        // when
-        sut.pauseCurrentGame(andOpenGame: nil)
-        
-        // then
-        XCTAssertNil(sut.activeGame)
-    }
-    
-    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledNewGame_ShouldSetActiveGameToNewGame() {
-        // given
-        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
-        sut.activeGame = GameMock()
-        let newGame = GameMock()
-        
-        // when
-        sut.pauseCurrentGame(andOpenGame: newGame)
-        
-        // then
-        XCTAssertIdentical(sut.activeGame, newGame)
-    }
-    
-    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledNewGame_ShouldCallCoreDataHelperMakeGameActive() {
-        // given
-        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
-        sut.activeGame = GameMock()
         let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
         sut.coreDataHelper = coreDataHelper
+        
+        let game = GameMock()
+        sut.activeGame = game
+        let gameToMakeActive = GameMock()
+        
+        // when
+        sut.pauseCurrentGame(andOpenGame: gameToMakeActive)
+        let yesAction = (viewController.presentViewController as? UIAlertController)?.actions.last as? TestableUIAlertAction
+        yesAction?.handler?(UIAlertAction())
+        
+        // then
+        XCTAssertEqual(coreDataHelper.makeGameActiveCalledCount, 1)
+        XCTAssertIdentical(coreDataHelper.makeGameActiveGame, gameToMakeActive)
+    }
+    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledActiveGame_YesActionSelected_ShouldSetActiveGameToNewGameBeforeCallingStart() {
+        
+        class HomeTabCoordinatorStartMock: HomeTabCoordinator {
+            var startCalledCount = 0
+            var startActiveGame: GameProtocol?
+            override func start() {
+                startCalledCount += 1
+                startActiveGame = activeGame
+            }
+        }
+        
+        // given
+        let sut = HomeTabCoordinatorStartMock(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+        
+        let game = GameMock()
+        sut.activeGame = game
+        let gameToMakeActive = GameMock()
+        
+        // when
+        sut.pauseCurrentGame(andOpenGame: gameToMakeActive)
+        let yesAction = (viewController.presentViewController as? UIAlertController)?.actions.last as? TestableUIAlertAction
+        yesAction?.handler?(UIAlertAction())
+        
+        // then
+        XCTAssertEqual(sut.startCalledCount, 1)
+        XCTAssertIdentical(sut.startActiveGame, gameToMakeActive)
+    }
+    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalledActiveGame_YesActionSelected_ShouldCallCompletion() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let viewController = ViewControllerPresentMock()
+        sut.navigationController.viewControllers = [viewController]
+        
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let game = GameMock()
+        sut.activeGame = game
+        let gameToMakeActive = GameMock()
+        
+        let expectation = XCTestExpectation(description: "completion should be called")
+        
+        // when
+        sut.pauseCurrentGame(andOpenGame: gameToMakeActive) {
+            expectation.fulfill()
+        }
+        let yesAction = (viewController.presentViewController as? UIAlertController)?.actions.last as? TestableUIAlertAction
+        yesAction?.handler?(UIAlertAction())
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_NoActiveGame_ShouldCallCoreDataHelperMakeCurrentGameActiveOnNewGame() {
+        // given
+        let sut = HomeTabCoordinatorMock(navigationController: RootNavigationController())
+        let coreDataHelper = HomeTabCoordinatorCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
         let game = GameMock()
         
         // when
@@ -390,7 +556,7 @@ final class HomeTabCoordinatorTests: XCTestCase {
         XCTAssertIdentical(coreDataHelper.makeGameActiveGame, game)
     }
     
-    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_ShouldCallStartAfterSettingActiveGameNil() {
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_NoActiveGame_ShouldSetActiveGameToNewGameBeforeCallingStart() {
         
         class HomeTabCoordinatorStartMock: HomeTabCoordinator {
             var startCalledCount = 0
@@ -404,17 +570,30 @@ final class HomeTabCoordinatorTests: XCTestCase {
         // given
         let sut = HomeTabCoordinatorStartMock(navigationController: RootNavigationController())
         
-        sut.activeGame = GameMock()
+        let game = GameMock()
         
         // when
-        sut.pauseCurrentGame()
+        sut.pauseCurrentGame(andOpenGame: game)
         
         // then
         XCTAssertEqual(sut.startCalledCount, 1)
-        XCTAssertNil(sut.activeGame)
+        XCTAssertIdentical(sut.startActiveGame, game)
     }
     
-    
+    func test_HomeTabCoordinator_WhenPauseCurrentGameCalled_NoActiveGame_ShouldCallCompletion() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let expectation = XCTestExpectation(description: "completion should be called")
+        
+        // when
+        sut.pauseCurrentGame {
+            expectation.fulfill()
+        }
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+
     // MARK: - reopenNonActiveGame
     
     func test_HomeTabCoordinator_WhenReopenNonActiveGameCalled_ShouldCallPauseCurrentGameWithNewGameToOpen() {
@@ -430,9 +609,10 @@ final class HomeTabCoordinatorTests: XCTestCase {
         XCTAssertIdentical(sut.pauseCurrentGameNewGame, newGame)
     }
     
-    func test_HomeTabCoordinator_WhenReopenNonActiveGameCalled_ShouldCallCoordinatorHomeTabGameMadeActive() {
+    func test_HomeTabCoordinator_WhenReopenNonActiveGameCalledPauseCompletionCalled_ShouldCallCoordinatorHomeTabGameMadeActive() {
         // given
-        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        sut.completionShouldBeCalled = true
         let coordinator = MainCoordinatorMock()
         sut.coordinator = coordinator
         
@@ -444,6 +624,22 @@ final class HomeTabCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(coordinator.homeTabGameMadeActiveCalledCount, 1)
         XCTAssertIdentical(coordinator.homeTabGameMadeActiveGame, game)
+    }
+    
+    func test_HomeTabCoordinator_WhenReopenNonActiveGameCalledPauseCompletionNotCalled_ShouldNotCallCoordinatorHomeTabGameMadeActiveWhenCompletionCalled() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        sut.completionShouldBeCalled = false
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+        
+        let game = GameMock()
+        
+        // when
+        sut.reopenNonActiveGame(game)
+        
+        // then
+        XCTAssertEqual(coordinator.homeTabGameMadeActiveCalledCount, 0)
     }
     
     
@@ -572,9 +768,13 @@ final class HomeTabCoordinatorTests: XCTestCase {
     class HomeTabCoordinatorPauseCurrentGameMock: HomeTabCoordinator {
         var pauseCurrentGameCalledCount = 0
         var pauseCurrentGameNewGame: GameProtocol?
-        override func pauseCurrentGame(andOpenGame newGame: GameProtocol? = nil) {
+        var completionShouldBeCalled: Bool = false
+        override func pauseCurrentGame(andOpenGame newGame: GameProtocol? = nil, completion: @escaping () -> Void) {
             pauseCurrentGameCalledCount += 1
             pauseCurrentGameNewGame = newGame
+            if completionShouldBeCalled {
+                completion()
+            }
         }
     }
 }
