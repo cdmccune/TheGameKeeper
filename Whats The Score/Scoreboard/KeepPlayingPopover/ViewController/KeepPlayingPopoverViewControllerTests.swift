@@ -104,7 +104,7 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
         XCTAssertTrue(targets.contains(sut))
     }
     
-    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_CallBecomeFirstResponderOnInputTextField() {
+    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldCallBecomeFirstResponderOnInputTextField() {
         
         class UITextFieldBecomeFirstResponderMock: UITextField {
             var becomeFirstResponderCalledCount = 0

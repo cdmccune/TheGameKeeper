@@ -9,8 +9,10 @@ import Foundation
 
 protocol GameSettingsViewModelProtocol {
     var gameEndType: Observable<GameEndType> { get }
+    var dataValidationString: Observable<String> { get }
     var numberOfRounds: Int { get set }
     var endingScore: Int { get set }
+    var gameName: String { get set }
     var game: GameProtocol { get set }
     var delegate: GameSettingsDelegate? { get }
 
@@ -18,6 +20,7 @@ protocol GameSettingsViewModelProtocol {
     func saveChanges()
     func resetGame()
     func deleteGame()
+    func gameNameChanged(to name: String)
 }
 
 class GameSettingsViewModel: GameSettingsViewModelProtocol {
@@ -25,16 +28,19 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     init(game: GameProtocol, delegate: GameSettingsDelegate? = nil) {
         self.numberOfRounds = game.numberOfRounds
         self.endingScore = game.endingScore
+        self.gameName = ""
         self.game = game
         self.delegate = delegate
     }
 
     var numberOfRounds: Int
     var endingScore: Int
+    var gameName: String
     var game: GameProtocol
     var delegate: GameSettingsDelegate?
     
     var gameEndType: Observable<GameEndType> = Observable(nil)
+    var dataValidationString: Observable<String> = Observable(nil)
     
     func setInitialValues() {
         gameEndType.value = game.gameEndType
@@ -52,5 +58,11 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     
     func deleteGame() {
         delegate?.deleteGame()
+    }
+    
+    func gameNameChanged(to name: String) {
+        gameName = name
+       
+        dataValidationString.value = name == "" ? "The game name can't be blank" : ""
     }
 }

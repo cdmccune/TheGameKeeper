@@ -28,7 +28,7 @@ final class GameSettingsViewControllerTests: XCTestCase {
     
     // MARK: - Properties
     
-    func test_GameSettingsViewController_WhenSaveBarButtonLoaded_ShouldHaveTitleSaveAndTargetOfVC() {
+    func test_GameSettingsViewController_WhenSaveBarButtonLoaded_ShouldHaveTitleSaveAndTargetOfVCAndTint() {
         // given
         let sut = viewController!
         
@@ -37,7 +37,25 @@ final class GameSettingsViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(saveBarButton.title, "Save")
+        XCTAssertEqual(saveBarButton.tintColor, .textColor)
         XCTAssertTrue(saveBarButton.target is GameSettingsViewController)
+    }
+    
+    func test_GameSettingsViewController_WhenHistoryBarButtonSet_ShouldBePressPlay2PRegularSize15() {
+        // given
+        let sut = viewController!
+        
+        // when
+        let barButton = sut.saveBarButton
+        
+        // then
+        let normalAttributes = barButton.titleTextAttributes(for: .normal)
+        let highlightedAttributes = barButton.titleTextAttributes(for: .highlighted)
+        
+        let expectedFont = UIFont.pressPlay2PRegular(withSize: 15)
+        
+        XCTAssertEqual(normalAttributes?[.font] as? UIFont, expectedFont)
+        XCTAssertEqual(highlightedAttributes?[.font] as? UIFont, expectedFont)
     }
     
     func test_GameSettingsViewController_WhenSaveBarButtonActionTriggered_ShouldCallSaveChanges() {
@@ -154,6 +172,38 @@ final class GameSettingsViewControllerTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.numberOfRoundTextField.text, String(numberOfRounds))
+    }
+    
+    func test_GameSettingsViewController_WhenViewDidLoadGameTypeBasic_ShouldHideGameEndStackView() {
+        // given
+        let sut = viewController!
+        let game = GameMock(gameType: .basic)
+        let viewModel = GameSettingsViewModelMock()
+        viewModel.game = game
+        sut.viewModel = viewModel
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(sut.gameEndStackView.isHidden)
+    }
+    
+    func test_GameSettingsViewController_WhenViewDidLoadGameTypeRound_ShouldShowGameEndStackView() {
+        // given
+        let sut = viewController!
+        let game = GameMock(gameType: .round)
+        let viewModel = GameSettingsViewModelMock()
+        viewModel.game = game
+        sut.viewModel = viewModel
+        
+        // when
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertFalse(sut.gameEndStackView.isHidden)
     }
     
     func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldAddSaveBarButtonToNavigationItemRightBarButton() {

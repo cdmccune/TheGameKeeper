@@ -115,13 +115,69 @@ final class GameSettingsViewModelTests: XCTestCase {
         // then
         XCTAssertEqual(delegate.deleteGameCalledCount, 1)
     }
+    
+    
+    // MARK: - GameNameChanged
+    
+    func test_GameSettingsViewModel_WhenGameNameChangedCalled_ShouldSetGameNameTo() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        let newGameName = UUID().uuidString
+        
+        // when
+        sut.gameNameChanged(to: newGameName)
+        
+        // then
+        XCTAssertEqual(sut.gameName, newGameName)
+    }
+    
+    func test_GameSettingsViewModel_WhenGameNameChangedWithBlankString_ShouldSetDataValidationString() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        let expectation = XCTestExpectation(description: "observable data validation string should be set")
+        
+        sut.dataValidationString.valueChanged = { string in
+            expectation.fulfill()
+            XCTAssertEqual(string, "The game name can't be blank")
+        }
+        
+        // when
+        sut.gameNameChanged(to: "")
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    func test_GameSettingsViewModel_WhenGameNameChangedWithNonBlankString_ShouldSetDataValidationStringToEmpty() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        let expectation = XCTestExpectation(description: "observable data validation string should be set to empty")
+        
+        sut.dataValidationString.valueChanged = { string in
+            expectation.fulfill()
+            XCTAssertEqual(string, "")
+        }
+        
+        // when
+        sut.gameNameChanged(to: "asdf")
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    
+    // MARK: - GameEndQuantityChanged
+    
+    
 }
 
 class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
     
     var numberOfRounds: Int = 0
     var endingScore: Int = 0
+    var gameName: String = ""
     var gameEndType: Observable<GameEndType> = Observable(nil)
+    var dataValidationString: Observable<String> = Observable(nil)
     var game: GameProtocol = GameMock()
     var delegate: GameSettingsDelegate?
     
@@ -143,5 +199,12 @@ class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
     var resetGameCalledCount = 0
     func resetGame() {
         resetGameCalledCount += 1
+    }
+    
+    var gameNameChangedCalledCount = 0
+    var gameNameChangedName: String?
+    func gameNameChanged(to name: String) {
+        gameNameChangedCalledCount += 1
+        gameNameChangedName = name
     }
 }

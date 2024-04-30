@@ -13,6 +13,11 @@ class GameSettingsViewController: UIViewController, Storyboarded {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var instructionLabel: UILabel!
+    
+    @IBOutlet weak var gameNameTextField: UITextField!
+    
+    @IBOutlet weak var gameEndStackView: UIStackView!
     @IBOutlet weak var gameEndTypeSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var numberOfRoundsStackView: UIStackView!
@@ -29,7 +34,17 @@ class GameSettingsViewController: UIViewController, Storyboarded {
     
     var viewModel: GameSettingsViewModelProtocol? 
     
-    lazy var saveBarButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveChanges))
+    lazy var saveBarButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveChanges))
+        
+        barButton.tintColor = .textColor
+        let attributes = [
+            NSAttributedString.Key.font: UIFont.pressPlay2PRegular(withSize: 15)
+        ]
+        barButton.setTitleTextAttributes(attributes, for: .normal)
+        barButton.setTitleTextAttributes(attributes, for: .highlighted)
+        return barButton
+    }()
     
     
     // MARK: - Lifecycle
@@ -62,6 +77,7 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         guard let viewModel else { return }
         endingScoreTextField.text = String(viewModel.endingScore)
         numberOfRoundTextField.text = String(viewModel.numberOfRounds)
+        gameEndStackView.isHidden = viewModel.game.gameType == .basic
         
         navigationItem.rightBarButtonItem = saveBarButton
     }
@@ -140,7 +156,6 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         
         self.present(alertController, animated: true)
     }
-    
     
     // MARK: - Functions
     
