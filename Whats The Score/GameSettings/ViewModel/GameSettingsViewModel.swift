@@ -21,6 +21,9 @@ protocol GameSettingsViewModelProtocol {
     func resetGame()
     func deleteGame()
     func gameNameChanged(to name: String)
+    func gameEndQuantityChanged(to gameEndQuantity: Int)
+    func gameEndTypeChanged(toRawValue rawValue: Int)
+    func validateGameSettings()
 }
 
 class GameSettingsViewModel: GameSettingsViewModelProtocol {
@@ -28,7 +31,7 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     init(game: GameProtocol, delegate: GameSettingsDelegate? = nil) {
         self.numberOfRounds = game.numberOfRounds
         self.endingScore = game.endingScore
-        self.gameName = ""
+        self.gameName = game.name
         self.game = game
         self.delegate = delegate
     }
@@ -60,9 +63,39 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
         delegate?.deleteGame()
     }
     
+    func gameEndQuantityChanged(to gameEndQuantity: Int) {
+        
+        switch gameEndType.value {
+        case .round:
+            numberOfRounds = gameEndQuantity
+        case .score:
+            endingScore = gameEndQuantity
+        default:
+            break
+        }
+        
+        validateGameSettings()
+    }
+    
     func gameNameChanged(to name: String) {
         gameName = name
-       
-        dataValidationString.value = name == "" ? "The game name can't be blank" : ""
+        validateGameSettings()
+    }
+
+    func gameEndTypeChanged(toRawValue rawValue: Int) {
+        gameEndType.value = GameEndType(rawValue: rawValue) ?? GameEndType.none
+         validateGameSettings()
+    }
+    
+    func validateGameSettings() {
+        if gameName == "" {
+            dataValidationString.value = "The game name can't be blank"
+        } else if gameEndType.value == .score && endingScore <= game.winningPlayers.first?.score ?? 0 {
+            dataValidationString.value = "Winning score must be more than \(game.winningPlayers.first?.score ?? 0)"
+        } else if gameEndType.value == .round && numberOfRounds <= game.currentRound {
+            dataValidationString.value = "# of rounds must be at least \(game.currentRound)"
+        } else {
+             dataValidationString.value = ""
+        }
     }
 }

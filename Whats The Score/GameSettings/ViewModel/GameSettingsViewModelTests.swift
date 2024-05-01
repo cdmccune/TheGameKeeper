@@ -12,6 +12,14 @@ final class GameSettingsViewModelTests: XCTestCase {
     
     
     // MARK: - Init
+    
+    func test_GameSettingsViewModel_WhenInitialized_ShouldSetGamesNameAsGameName() {
+        let game = GameMock()
+        let gameName = UUID().uuidString
+        game.name = gameName
+        let sut = GameSettingsViewModel(game: game)
+        XCTAssertEqual(sut.gameName, gameName)
+    }
 
     func test_GameSettingsViewModel_WhenSetInitialValuesCalled_ShouldSetGameEndTypeValueToGameGameEndType() {
         // given
@@ -131,10 +139,113 @@ final class GameSettingsViewModelTests: XCTestCase {
         XCTAssertEqual(sut.gameName, newGameName)
     }
     
-    func test_GameSettingsViewModel_WhenGameNameChangedWithBlankString_ShouldSetDataValidationString() {
+    func test_GameSettingsViewModel_WhenGameNameChangedCalled_ShouldCallValidateGameSettings() {
+        
+        class GameSettingsViewModelValidateGameSettingsMock: GameSettingsViewModel {
+            var validateGameSettingsCalledCount = 0
+            override func validateGameSettings() {
+                validateGameSettingsCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = GameSettingsViewModelValidateGameSettingsMock(game: GameMock())
+        
+        // when
+        sut.gameNameChanged(to: "")
+        
+        // then
+        XCTAssertEqual(sut.validateGameSettingsCalledCount, 1)
+    }
+    
+    
+    // MARK: - GameEndQuantityChanged
+    
+    func test_GameSettingsViewmodel_WhenGameEndQuantityChangeCalledGameEndTypeScore_ShouldChangeEndingScoreToNewValue() {
         // given
         let sut = GameSettingsViewModel(game: GameMock())
-        let expectation = XCTestExpectation(description: "observable data validation string should be set")
+        sut.gameEndType.value = .score
+        let newEndingScore = Int.random(in: 1...100)
+        
+        // when
+        sut.gameEndQuantityChanged(to: newEndingScore)
+        
+        // then
+        XCTAssertEqual(sut.endingScore, newEndingScore)
+    }
+    
+    func test_GameSettingsViewmodel_WhenGameEndQuantityChangeCalledGameEndTypeRound_ShouldChangeNumberOfRoundsToNewValue() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        sut.gameEndType.value = .round
+        let newGameEndQuantity = Int.random(in: 1...10)
+        
+        // when
+        sut.gameEndQuantityChanged(to: newGameEndQuantity)
+        
+        // then
+        XCTAssertEqual(sut.numberOfRounds, newGameEndQuantity)
+    }
+
+    func test_GameSettingsViewModel_WhenGameEndQuantityChangedCalled_ShouldCallValidateGameSettings() {
+
+        class GameSettingsViewModelValidateGameSettingsMock: GameSettingsViewModel {
+            var validateGameSettingsCalledCount = 0
+            override func validateGameSettings() {
+                validateGameSettingsCalledCount += 1
+            }
+        }
+
+        // given
+        let sut = GameSettingsViewModelValidateGameSettingsMock(game: GameMock())
+        
+        // when
+        sut.gameEndQuantityChanged(to: 0)
+        
+        // then
+        XCTAssertEqual(sut.validateGameSettingsCalledCount, 1)
+    }
+
+    
+    // MARK: - GameEndTypeChanged
+    
+    func test_GameSettingsViewModel_WhenGameEndTypeChangedCalled_ShouldSetGameEndTypeToNewValue() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        let newGameEndType = GameEndType.allCases.randomElement()!
+        
+        // when
+        sut.gameEndTypeChanged(toRawValue: newGameEndType.rawValue)
+        
+        // then
+        XCTAssertEqual(sut.gameEndType.value, newGameEndType)
+    }
+
+    func test_GameSettingsViewModel_WhenGameEndTypeChangedCalled_ShouldCallValidateGameSettings() {
+        class GameSettingsViewModelValidateGameSettingsMock: GameSettingsViewModel {
+            var validateGameSettingsCalledCount = 0
+            override func validateGameSettings() {
+                validateGameSettingsCalledCount += 1
+            }
+        }
+        
+        // given
+        let sut = GameSettingsViewModelValidateGameSettingsMock(game: GameMock())
+        
+        // when
+        sut.gameEndTypeChanged(toRawValue: 0)
+        
+        // then
+        XCTAssertEqual(sut.validateGameSettingsCalledCount, 1)
+    }
+    
+    
+    // MARK: - Validate Game Settings
+    
+    func test_GameSettingsViewModel_WhenValidateGameSettingsCalled_GameNameIsBlank_ShouldSetDataValidationStringToGameNameString() {
+        // given
+        let sut = GameSettingsViewModel(game: GameMock())
+        let expectation = XCTestExpectation(description: "data validation string should be set")
         
         sut.dataValidationString.valueChanged = { string in
             expectation.fulfill()
@@ -142,16 +253,67 @@ final class GameSettingsViewModelTests: XCTestCase {
         }
         
         // when
-        sut.gameNameChanged(to: "")
+        sut.validateGameSettings()
         
         // then
         wait(for: [expectation], timeout: 0.1)
     }
     
-    func test_GameSettingsViewModel_WhenGameNameChangedWithNonBlankString_ShouldSetDataValidationStringToEmpty() {
+    func test_GameSettingsViewModel_WhenValidateGameSettingsCalled_GameEndTypeScoreAndScoreSetIsEqualToThanWinningPlayerScore_ShouldSetDataValidationStringToGameScoreString() {
+        // given
+        let game = GameMock()
+        game.winningPlayers = [PlayerMock(score: 10)]
+        
+        let sut = GameSettingsViewModel(game: game)
+        sut.gameName = "d"
+        sut.gameEndType.value = .score
+        sut.endingScore = 10
+
+        let expectation = XCTestExpectation(description: "data validation string should be set")
+        sut.dataValidationString.valueChanged = { string in
+            expectation.fulfill()
+            XCTAssertEqual(string, "Winning score must be more than 10")
+        }
+        
+        // when
+        sut.validateGameSettings()
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+
+    func test_GameSettingsViewModel_WhenValidateGameSettingsCalled_NumberOfRoundsLessThanGameCurrentRound_ShouldSetDataValidationStringToNumberOfRoundsString() {
+        // given
+        let game = GameMock()
+        game.currentRound = Int.random(in: 1...10)
+        
+        let sut = GameSettingsViewModel(game: game)
+        sut.numberOfRounds = 0
+        sut.gameEndType.value = .round
+        sut.gameName = "d"
+        
+        let expectation = XCTestExpectation(description: "data validation string should be set")
+        
+        sut.dataValidationString.valueChanged = { string in
+            expectation.fulfill()
+            XCTAssertEqual(string, "# of rounds must be at least \(game.currentRound)")
+        }
+        
+        // when
+        sut.validateGameSettings()
+        
+        // then
+        wait(for: [expectation], timeout: 0.1)
+    }
+    
+    func test_GameSettingsViewModel_WhenValidateGameSettingsCalled_AllChecksPass_ShouldSetDataValidationStringToBlank() {
         // given
         let sut = GameSettingsViewModel(game: GameMock())
-        let expectation = XCTestExpectation(description: "observable data validation string should be set to empty")
+        sut.gameEndType.value = .round
+        sut.numberOfRounds = 10
+        sut.gameName = "d"
+        
+        let expectation = XCTestExpectation(description: "data validation string should be set to blank")
         
         sut.dataValidationString.valueChanged = { string in
             expectation.fulfill()
@@ -159,16 +321,11 @@ final class GameSettingsViewModelTests: XCTestCase {
         }
         
         // when
-        sut.gameNameChanged(to: "asdf")
+        sut.validateGameSettings()
         
         // then
         wait(for: [expectation], timeout: 0.1)
     }
-    
-    
-    // MARK: - GameEndQuantityChanged
-    
-    
 }
 
 class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
@@ -201,10 +358,28 @@ class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
         resetGameCalledCount += 1
     }
     
+    var gameEndQuantityChangedCalledCount = 0
+    var gameEndQuantityChangedQuantity: Int?
+    func gameEndQuantityChanged(to quantity: Int) {
+        gameEndQuantityChangedCalledCount += 1
+        gameEndQuantityChangedQuantity = quantity
+    }
+    
     var gameNameChangedCalledCount = 0
     var gameNameChangedName: String?
     func gameNameChanged(to name: String) {
         gameNameChangedCalledCount += 1
         gameNameChangedName = name
+    }
+
+    var gameEndTypeChangedCalledCount = 0
+    var gameEndTypeChangedRawValue: Int?
+    func gameEndTypeChanged(toRawValue rawValue: Int) {
+        gameEndTypeChangedCalledCount += 1
+        gameEndTypeChangedRawValue = rawValue
+    }
+    
+    func validateGameSettings() {
+        
     }
 }

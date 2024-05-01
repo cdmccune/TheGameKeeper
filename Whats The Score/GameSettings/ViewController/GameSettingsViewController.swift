@@ -53,6 +53,7 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         super.viewDidLoad()
 
         setupViews()
+        setupTargets()
         setBindings()
         viewModel?.setInitialValues()
     }
@@ -64,7 +65,7 @@ class GameSettingsViewController: UIViewController, Storyboarded {
 
         let textAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.pressPlay2PRegular(withSize: 10),
-            .foregroundColor: UIColor.textColor  // Optional: Set text color
+            .foregroundColor: UIColor.textColor
         ]
         
         gameEndTypeSegmentedControl.setTitleTextAttributes(textAttributes, for: .normal)
@@ -75,6 +76,7 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         titleLabel.attributedText = settingsAttributedString
         
         guard let viewModel else { return }
+        gameNameTextField.text = viewModel.gameName
         endingScoreTextField.text = String(viewModel.endingScore)
         numberOfRoundTextField.text = String(viewModel.numberOfRounds)
         gameEndStackView.isHidden = viewModel.game.gameType == .basic
@@ -82,10 +84,22 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         navigationItem.rightBarButtonItem = saveBarButton
     }
     
+    private func setupTargets() {
+        gameNameTextField.addTarget(self, action: #selector(gameNameTextFieldEditingDidChange(_:)), for: .editingChanged)
+        endingScoreTextField.addTarget(self, action: #selector(endingScoreTextFieldEditingDidChange(_:)), for: .editingChanged)
+        numberOfRoundTextField.addTarget(self, action: #selector(numberOfRoundTextFieldEditingDidChange(_:)), for: .editingChanged)
+    }
+    
     private func setBindings() {
         viewModel?.gameEndType.valueChanged = { [weak self] gameEndType in
             guard let gameEndType else { return }
             self?.updateViews(for: gameEndType)
+        }
+
+        viewModel?.dataValidationString.valueChanged = { [weak self] dataValidationString in
+            guard let dataValidationString else { return }
+            self?.instructionLabel.text = dataValidationString
+            self?.saveBarButton.isEnabled = dataValidationString.isEmpty
         }
     }
     
@@ -99,32 +113,8 @@ class GameSettingsViewController: UIViewController, Storyboarded {
     
     // MARK: - IBActions
     
-    @IBAction func endingScoreTextFieldEditingDidEnd(_ sender: Any) {
-        guard let text = endingScoreTextField.text,
-              let endingScore = Int(text) else {
-            return
-        }
-        
-        viewModel?.endingScore = endingScore
-        
-    }
-    
-    @IBAction func numberOfRoundsTextFieldEditingDidEnd(_ sender: Any) {
-        guard let text = numberOfRoundTextField.text,
-              let numberOfRounds = Int(text) else {
-            return
-        }
-        
-        viewModel?.numberOfRounds = numberOfRounds
-    }
-    
-    
     @IBAction func gameEndTypeSegmentedControlValueChanged(_ sender: Any) {
-        guard let endGameType = GameEndType(rawValue: gameEndTypeSegmentedControl.selectedSegmentIndex) else {
-            return
-        }
-        
-        viewModel?.gameEndType.value = endGameType
+        viewModel?.gameEndTypeChanged(toRawValue: gameEndTypeSegmentedControl.selectedSegmentIndex)
     }
     
     @IBAction func resetButtonTapped(_ sender: Any) {
@@ -158,6 +148,20 @@ class GameSettingsViewController: UIViewController, Storyboarded {
     }
     
     // MARK: - Functions
+
+    @objc private func gameNameTextFieldEditingDidChange(_ sender: Any) {
+        viewModel?.gameNameChanged(to: gameNameTextField.text ?? "")
+    }
+
+    @objc private func endingScoreTextFieldEditingDidChange(_ sender: Any) {
+        let newEndingScore = Int(endingScoreTextField.text ?? "") ?? 0
+        viewModel?.gameEndQuantityChanged(to: newEndingScore)
+    }
+    
+    @objc private func numberOfRoundTextFieldEditingDidChange(_ sender: Any) {
+        let newNumberOfRounds = Int(numberOfRoundTextField.text ?? "") ?? 0
+        viewModel?.gameEndQuantityChanged(to: newNumberOfRounds)
+    }
     
     @objc func saveChanges() {
         viewModel?.saveChanges()

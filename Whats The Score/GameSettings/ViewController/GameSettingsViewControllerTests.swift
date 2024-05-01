@@ -218,6 +218,61 @@ final class GameSettingsViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(sut.navigationItem.rightBarButtonItem, sut.saveBarButton)
     }
+
+    func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldSetGameNameTextFieldTextToViewModelGameName() {
+        // given
+        let sut = viewController!
+        let viewModel = GameSettingsViewModelMock()
+        let gameName = UUID().uuidString
+        viewModel.gameName = gameName
+        sut.viewModel = viewModel
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.gameNameTextField.text, viewModel.gameName)
+    }
+    
+    func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldAddTargetToGameNameTextFieldForGameSettingsViewController() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let targets = sut.gameNameTextField.allTargets
+        XCTAssertTrue(targets.contains(sut))
+    }
+
+    func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldAddTargetToEndingScoreTextFieldForGameSettingsViewController() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let targets = sut.endingScoreTextField.allTargets
+        XCTAssertTrue(targets.contains(sut))
+    }
+
+    func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldAddTargetToNumberOfRoundsTextFieldForGameSettingsViewController() {
+        // given
+        let sut = viewController!
+        sut.loadView()
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        let targets = sut.numberOfRoundTextField.allTargets
+        XCTAssertTrue(targets.contains(sut))
+    }
     
     
     // MARK: - gameEndType Binding
@@ -287,89 +342,61 @@ final class GameSettingsViewControllerTests: XCTestCase {
     }
     
     
-    // MARK: - numberOfRoundsTextFieldEditingDidEnd
+    // MARK: - dataValidationString
     
-    func test_GameSettingsViewController_WhenNumberOfRoundsTextFieldEditingDidEndCalledTextIsInt_ShouldSetViewModelNumberOfRoundsToText() {
+    func test_GameSettingsViewController_WhenBindingsSetDataValidationStringSetToBlank_ShouldSetInstructionLabelToBlankAndEnableSaveButton() {
         // given
         let sut = viewController!
         let viewModel = GameSettingsViewModelMock()
         sut.viewModel = viewModel
-        
-        let textField = UITextField()
-        let numberOfRounds = Int.random(in: 1...1000)
-        textField.text = String(numberOfRounds)
-        sut.numberOfRoundTextField = textField
+        sut.loadView()
+        sut.viewDidLoad()
         
         // when
-        sut.numberOfRoundsTextFieldEditingDidEnd(0)
+        viewModel.dataValidationString.value = ""
         
         // then
-        XCTAssertEqual(viewModel.numberOfRounds, numberOfRounds)
+        XCTAssertEqual(sut.instructionLabel.text, "")
+        XCTAssertTrue(sut.saveBarButton.isEnabled)
     }
-    
-    func test_GameSettingsViewController_WhenNumberOfRoundsTextFieldEditingDidEndCalledTextNotInt_ShouldNotChangeViewModelNumberOfRounds() {
+
+    func test_GameSettingsViewController_WhenBindingsSetDataValidationStringSetToNotBlank_ShouldSetInstructionLabelToStringAndDisableSaveButton() {
         // given
         let sut = viewController!
         let viewModel = GameSettingsViewModelMock()
         sut.viewModel = viewModel
-        
-        let numberOfRounds = Int.random(in: 1...1000)
-        viewModel.numberOfRounds = numberOfRounds
-        
-        let textField = UITextField()
-        textField.text = "fdsf"
-        sut.numberOfRoundTextField = textField
+        sut.loadView()
+        sut.viewDidLoad()
         
         // when
-        sut.numberOfRoundsTextFieldEditingDidEnd(0)
+        viewModel.dataValidationString.value = "This is a test"
         
         // then
-        XCTAssertEqual(viewModel.numberOfRounds, numberOfRounds)
-    }
-    
-    
-    // MARK: - endingScoreTextFieldEditingDidEnd
-    
-    func test_GameSettingsViewController_WhenEndingScoreTextFieldEditingDidEndCalledTextIsInt_ShouldSetViewModeEndingScoreToText() {
-        // given
-        let sut = viewController!
-        let viewModel = GameSettingsViewModelMock()
-        sut.viewModel = viewModel
-        
-        let textField = UITextField()
-        let endingScore = Int.random(in: 1...1000)
-        textField.text = String(endingScore)
-        sut.endingScoreTextField = textField
-        
-        // when
-        sut.endingScoreTextFieldEditingDidEnd(0)
-        
-        // then
-        XCTAssertEqual(viewModel.endingScore, endingScore)
-    }
-    
-    func test_GameSettingsViewController_WhenEndingScoreTextFieldEditingDidEndCalledTextNotInt_ShouldNotChangeViewModelEndingScore() {
-        // given
-        let sut = viewController!
-        let viewModel = GameSettingsViewModelMock()
-        sut.viewModel = viewModel
-        
-        let endingScore = Int.random(in: 1...1000)
-        viewModel.endingScore = endingScore
-        
-        let textField = UITextField()
-        textField.text = "fdsf"
-        sut.endingScoreTextField = textField
-        
-        // when
-        sut.endingScoreTextFieldEditingDidEnd(0)
-        
-        // then
-        XCTAssertEqual(viewModel.endingScore, endingScore)
+        XCTAssertEqual(sut.instructionLabel.text, "This is a test")
+        XCTAssertFalse(sut.saveBarButton.isEnabled)
     }
     
     
     // MARK: - GameEndTypeSegmentedControlValueChanged
+    
+    func test_GameSettingsViewController_WhenGameEndTypeSegmentedControlValueChangedCalled_ShouldCallViewModelGameEndTypeChangedToRawValueWithGameEndTypeSegmentedControlValue() {
+        // given
+        let sut = viewController!
+        let viewModel = GameSettingsViewModelMock()
+        sut.viewModel = viewModel
+        sut.loadView()
+        sut.viewDidLoad()
+
+        let gameEndTypeRawValue = Int.random(in: 0...2)
+        sut.gameEndTypeSegmentedControl.selectedSegmentIndex = gameEndTypeRawValue
+        
+        // when
+        sut.gameEndTypeSegmentedControlValueChanged(0)
+        
+        // then
+        XCTAssertEqual(viewModel.gameEndTypeChangedCalledCount, 1)
+        XCTAssertEqual(viewModel.gameEndTypeChangedRawValue, gameEndTypeRawValue)
+    }
     
     func test_GameSettingsViewController_WhenGameEndTypeSegmentedControlValueChangedCalled_ShouldSetViewModelGameEndTypeValueToGameEndTypeSegmentedControlValue() {
         // given
@@ -540,6 +567,72 @@ final class GameSettingsViewControllerTests: XCTestCase {
         XCTAssertEqual(viewModel.deleteGameCalledCount, 1)
     }
     
+    // MARK: - GameNameEditingChanged
+    
+    func test_GameSettingsViewController_WhenGameNameTextFieldEditingChanged_ShouldCallViewModelSetGameName() {
+        // given
+        let sut = viewController!
+        let viewModel = GameSettingsViewModelMock()
+        sut.viewModel = viewModel
+
+        sut.loadView()
+        sut.viewDidLoad()
+
+        let gameName = UUID().uuidString
+        sut.gameNameTextField.text = gameName
+        
+        // when
+        sut.gameNameTextField.sendActions(for: .editingChanged)
+        
+        // then
+        XCTAssertEqual(viewModel.gameNameChangedCalledCount, 1)
+        XCTAssertEqual(viewModel.gameNameChangedName, gameName)
+    }
+    
+    // MARK: - EndingScoreEditingChanged
+
+     func test_GameSettingsViewController_WhenEndingScoreTextFieldEditingChanged_ShouldCallViewModelSetEndingScore() {
+        // given
+        let sut = viewController!
+        let viewModel = GameSettingsViewModelMock()
+        sut.viewModel = viewModel
+
+        sut.loadView()
+        sut.viewDidLoad()
+
+        let endingScore = Int.random(in: 1...1000)
+        sut.endingScoreTextField.text = String(endingScore)
+        
+        // when
+        sut.endingScoreTextField.sendActions(for: .editingChanged)
+        
+        // then
+        XCTAssertEqual(viewModel.gameEndQuantityChangedCalledCount, 1)
+        XCTAssertEqual(viewModel.gameEndQuantityChangedQuantity, endingScore)
+    }
+    
+    
+    // MARK: - NumberOfRoundsEditingChanged
+    
+    func test_GameSettingsViewController_WhenNumberOfRoundsTextFieldEditingChanged_ShouldCallViewModelSetNumberOfRounds() {
+        // given
+        let sut = viewController!
+        let viewModel = GameSettingsViewModelMock()
+        sut.viewModel = viewModel
+
+        sut.loadView()
+        sut.viewDidLoad()
+
+        let numberOfRounds = Int.random(in: 1...1000)
+        sut.numberOfRoundTextField.text = String(numberOfRounds)
+        
+        // when
+        sut.numberOfRoundTextField.sendActions(for: .editingChanged)
+        
+        // then
+        XCTAssertEqual(viewModel.gameEndQuantityChangedCalledCount, 1)
+        XCTAssertEqual(viewModel.gameEndQuantityChangedQuantity, numberOfRounds)
+    }
     
     // MARK: - Save Changes
     

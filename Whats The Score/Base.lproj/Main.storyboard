@@ -197,7 +197,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="240" verticalCompressionResistancePriority="746" translatesAutoresizingMaskIntoConstraints="NO" id="eDU-Jq-tko">
-                                                <rect key="frame" x="76.666666666666686" y="305" width="240" height="1077.6666666666665"/>
+                                                <rect key="frame" x="76.666666666666686" y="305" width="240" height="1077.6666666666667"/>
                                             </view>
                                         </subviews>
                                         <constraints>
@@ -1171,6 +1171,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Tap to edit the history!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DEc-5o-IAu">
                                         <rect key="frame" x="0.0" y="55" width="393" height="12"/>
+                                        <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="8" right="8"/>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
                                         <color key="textColor" name="TextColor"/>
                                         <nil key="highlightedColor"/>
@@ -1220,8 +1221,11 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a test label to see" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qyx-Rp-7j8">
-                                        <rect key="frame" x="61.666666666666657" y="65" width="270" height="10"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="Qyx-Rp-7j8">
+                                        <rect key="frame" x="10" y="65" width="373" height="10"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="10" id="22n-hx-krq"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1328,9 +1332,6 @@
                                                                 <color key="textColor" name="TextColor"/>
                                                                 <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
-                                                                <connections>
-                                                                    <action selector="numberOfRoundsTextFieldEditingDidEnd:" destination="Cjc-Yr-m4d" eventType="editingDidEnd" id="9pA-sH-xFQ"/>
-                                                                </connections>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
@@ -1368,9 +1369,6 @@
                                                                 <color key="textColor" name="TextColor"/>
                                                                 <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                                                <connections>
-                                                                    <action selector="endingScoreTextFieldEditingDidEnd:" destination="Cjc-Yr-m4d" eventType="editingDidEnd" id="KSr-5F-hgy"/>
-                                                                </connections>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
@@ -1434,6 +1432,8 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Qyx-Rp-7j8" secondAttribute="trailing" constant="10" id="6Yb-15-iJe"/>
+                                    <constraint firstItem="Qyx-Rp-7j8" firstAttribute="leading" secondItem="jwS-Gz-2mO" secondAttribute="leading" constant="10" id="gsr-jh-qOq"/>
                                     <constraint firstAttribute="trailing" secondItem="xl3-gL-a15" secondAttribute="trailing" constant="15" id="hOf-rZ-W2l"/>
                                     <constraint firstItem="xl3-gL-a15" firstAttribute="leading" secondItem="jwS-Gz-2mO" secondAttribute="leading" constant="15" id="hRC-wD-Sp6"/>
                                 </constraints>
@@ -1859,7 +1859,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MuG-3q-6p1">
-                                        <rect key="frame" x="10" y="29.999999999999996" width="373" height="260"/>
+                                        <rect key="frame" x="10" y="30" width="373" height="260"/>
                                         <color key="backgroundColor" name="BackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fZH-iJ-lCe">
                                             <size key="itemSize" width="50" height="50"/>
@@ -1920,10 +1920,10 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
