@@ -37,7 +37,7 @@ class MainCoordinator {
         let homeTabCoordinator = homeTabbarCoordinatorType.init(navigationController: homeNavigationController, coreDataStore: coreDataStore)
         homeTabCoordinator.coordinator = self
         
-        let gameTabbarItem = UITabBarItem(title: "Game", image: UIImage(systemName: "dice"), tag: 0)
+        let gameTabbarItem = UITabBarItem(title: "Game", image: UIImage(named: "cardsIcon"), tag: 0)
         let gameNavigationController = RootNavigationController()
         gameNavigationController.tabBarItem = gameTabbarItem
         let gameTabCoordinator = gameTabbarCoordinatorType.init(navigationController: gameNavigationController, coreDataStore: coreDataStore)
