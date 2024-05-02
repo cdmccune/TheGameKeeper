@@ -23,15 +23,7 @@ class EndRoundPopoverTextField: StackViewTextField {
     // MARK: - Private functions
     
     private func setupViews() {
-        self.backgroundColor = .clear
-        self.borderStyle = .roundedRect
-        self.textColor = .textColor
         self.font =  UIFont(name: "Press Start 2P Regular", size: 15)
-        
-        self.attributedPlaceholder = NSAttributedString(
-            string: "0",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
-        )
     }
     
     private func addMakeNegativeButtonToToolbar() {

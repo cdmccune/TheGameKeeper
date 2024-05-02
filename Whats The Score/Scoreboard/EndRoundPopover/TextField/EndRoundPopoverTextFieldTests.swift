@@ -36,8 +36,6 @@ final class EndRoundPopoverTextFieldTests: XCTestCase {
         
         
         // then
-        XCTAssertEqual(sut.backgroundColor, .clear)
-        XCTAssertEqual(sut.textColor, .textColor)
         XCTAssertEqual(sut.font, UIFont(name: "Press Start 2P Regular", size: 15))
     }
     
@@ -51,17 +49,6 @@ final class EndRoundPopoverTextFieldTests: XCTestCase {
         
         // then
         XCTAssertEqual(sut.borderStyle, .roundedRect)
-    }
-    
-    func test_EndRoundPopoverTextField_WhenInitialized_ShouldSetAttibutedPlaceholderColorToLightGrey() {
-        // given
-        let delegate = StackViewTextFieldDelegateDelegateMock()
-        
-        // when
-        let sut = EndRoundPopoverTextField(delegate: delegate, isLast: false, index: 0)
-        
-        // then
-        XCTAssertEqual(sut.attributedPlaceholder?.attributes(at: 0, effectiveRange: nil)[NSAttributedString.Key.foregroundColor] as? UIColor, .lightGray)
     }
 
     // MARK: - PlusNegativeActionTriggered

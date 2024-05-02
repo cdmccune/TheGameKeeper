@@ -42,11 +42,14 @@ class EndRoundPopoverPlayerStackView: UIStackView {
         label.text = playerName
         self.addArrangedSubview(label)
         
+        let view = UIView()
+        self.addArrangedSubview(view)
+        
         textField.borderStyle = .roundedRect
         textField.placeholder = "0"
         textField.keyboardType = .numberPad
         self.addArrangedSubview(textField)
         
-        textField.widthAnchor.constraint(equalToConstant: 100).isActive = true
+//        textField.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
     }
 }

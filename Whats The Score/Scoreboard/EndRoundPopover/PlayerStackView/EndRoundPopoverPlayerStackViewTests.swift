@@ -45,7 +45,7 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         XCTAssertEqual(sut.alignment, .center)
     }
     
-    func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldAddTextFieldAndLabelInCorrectOrder() {
+    func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldAddTextFieldViewAndLabelInCorrectOrder() {
         // given
         let textField = UITextField()
         let textFieldDelegate = UITextFieldDelegateMock()
@@ -54,8 +54,8 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         let sut = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
         
         // then
-        XCTAssertTrue(sut.subviews.first is UILabel)
-        XCTAssertEqual(sut.subviews.last, textField)
+        XCTAssertTrue(sut.subviews[0] is UILabel)
+        XCTAssertEqual(sut.subviews[2], textField)
     }
     
     func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetLabelTexttoPlayerName() {
@@ -98,25 +98,5 @@ final class EndRoundPopoverPlayerStackViewTests: XCTestCase {
         XCTAssertEqual(textField.borderStyle, .roundedRect)
         XCTAssertEqual(textField.placeholder, "0")
         XCTAssertEqual(textField.keyboardType, .numberPad)
-    }
-    
-    func test_EndRoundPopoverPlayerStackView_WhenInitialized_ShouldSetWidthConstraintForTextField() {
-        // given
-        let textField = UITextField()
-        let textFieldDelegate = UITextFieldDelegateMock()
-        
-        // when
-        _ = EndRoundPopoverPlayerStackView(playerName: "", playerID: UUID(), textField: textField, textFieldDelegate: textFieldDelegate)
-        
-        // then
-        let constraints = textField.constraints
-        
-        guard constraints.contains(where: { constraint in
-            constraint.firstAttribute == .width &&
-            constraint.constant == 100
-        }) else {
-            XCTFail("TextField should have a width set")
-            return
-        }
     }
 }

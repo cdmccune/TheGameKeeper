@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StackViewTextField: UITextField {
+class StackViewTextField: DarkModeStyledUITextField {
 
     init(delegate: StackViewTextFieldDelegateDelegateProtocol, isLast: Bool, index: Int) {
         self.actionDelegate = delegate
