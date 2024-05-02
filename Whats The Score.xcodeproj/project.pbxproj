@@ -40,6 +40,7 @@
 		243228D92B4EEE2800C42C62 /* PlayerSetupPlayerTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228D82B4EEE2800C42C62 /* PlayerSetupPlayerTableViewCellTests.swift */; };
 		243228E12B4EFC3000C42C62 /* DismissingTextFieldDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228E02B4EFC3000C42C62 /* DismissingTextFieldDelegateTests.swift */; };
 		243228E22B4EFD1100C42C62 /* DismissingTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243228DE2B4EFC0A00C42C62 /* DismissingTextFieldDelegate.swift */; };
+		243765722BE44BC200FFC578 /* DarkModeStyledUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243765712BE44BC200FFC578 /* DarkModeStyledUITextField.swift */; };
 		2437F6E32B40AAE000BB75A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F6E22B40AAE000BB75A1 /* AppDelegate.swift */; };
 		2437F6E52B40AAE000BB75A1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2437F6E42B40AAE000BB75A1 /* SceneDelegate.swift */; };
 		2437F6EA2B40AAE000BB75A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2437F6E82B40AAE000BB75A1 /* Main.storyboard */; };
@@ -273,6 +274,7 @@
 		243228D82B4EEE2800C42C62 /* PlayerSetupPlayerTableViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupPlayerTableViewCellTests.swift; sourceTree = "<group>"; };
 		243228DE2B4EFC0A00C42C62 /* DismissingTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingTextFieldDelegate.swift; sourceTree = "<group>"; };
 		243228E02B4EFC3000C42C62 /* DismissingTextFieldDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingTextFieldDelegateTests.swift; sourceTree = "<group>"; };
+		243765712BE44BC200FFC578 /* DarkModeStyledUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeStyledUITextField.swift; sourceTree = "<group>"; };
 		2437F6DF2B40AAE000BB75A1 /* Whats The Score.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Whats The Score.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2437F6E22B40AAE000BB75A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2437F6E42B40AAE000BB75A1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -1073,6 +1075,7 @@
 			isa = PBXGroup;
 			children = (
 				249533202BDAABE500543640 /* PixellatedButton.swift */,
+				243765712BE44BC200FFC578 /* DarkModeStyledUITextField.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1975,6 +1978,7 @@
 				24BA09E22BC8293100ABDB7B /* CoreDataStoreError.swift in Sources */,
 				2496A0782B7590C0006AC047 /* ScoreboardSortPreference.swift in Sources */,
 				2437F7242B40D32800BB75A1 /* GameFunctions.swift in Sources */,
+				243765722BE44BC200FFC578 /* DarkModeStyledUITextField.swift in Sources */,
 				245D78EF2BACA8860072FBAB /* GameEndTypeSelectionViewController.swift in Sources */,
 				24C5D0A12BD17FF200E5DBA6 /* GameNameTextFieldDelegate.swift in Sources */,
 				241DAE3B2BA9FEFD00D236E7 /* GameSettingsViewController.swift in Sources */,
