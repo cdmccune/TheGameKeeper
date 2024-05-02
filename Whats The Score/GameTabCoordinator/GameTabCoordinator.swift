@@ -83,6 +83,16 @@ class GameTabCoordinator: Coordinator {
         self.activeGame = nil
         self.start()
     }
+    
+    
+    // MARK: - EndGameCoordinatorProtocol
+    
+    func playGameAgain(_ game: GameProtocol) {
+        let newGame = coreDataHelper.makeCopyOfGame(game)
+        activeGame = newGame
+        coordinator?.gameTabGameMadeActive(newGame)
+        startScoreboard(with: newGame)
+    }
 }
 
 extension GameTabCoordinator: EndGameCoordinatorProtocol {

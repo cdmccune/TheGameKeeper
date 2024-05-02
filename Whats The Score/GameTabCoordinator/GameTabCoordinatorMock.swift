@@ -59,4 +59,11 @@ class GameTabCoordinatorMock: GameTabCoordinator {
     override func deleteGame() {
         deleteGameCalledCount += 1
     }
+    
+    var playGameAgainCalledCount = 0
+    var playGameAgainGame: GameProtocol?
+    override func playGameAgain(_ game: GameProtocol) {
+        playGameAgainCalledCount += 1
+        playGameAgainGame = game
+    }
 }

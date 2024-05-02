@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-protocol PlayerProtocol {
+protocol PlayerProtocol: AnyObject {
     var name: String { get set }
     var score: Int { get }
     var id: UUID { get }

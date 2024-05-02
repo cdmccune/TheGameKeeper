@@ -362,4 +362,79 @@ final class GameTabCoreDataHelperTests: XCTestCase {
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
     }
+
+
+    // MARK: - MakeCopyOfGame
+    
+    func test_GameTabCoreDataHelper_WhenMakeCopyOfGameCalled_ShouldReturnGameNotIdenticalToGameSent() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        let game = GameMock()
+        
+        // when
+        let copy = sut.makeCopyOfGame(game)
+        
+        // then
+        XCTAssertNotIdentical(copy, game)
+    }
+    
+
+    func test_GameTabCoreDataHelper_WhenMakeCopyOfGameCalled_ShouldReturnGameWithSamePropertiesAsGameSent() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        let game = GameMock()
+        game.name = UUID().uuidString
+        game.gameType = GameType.allCases.randomElement()!
+        game.gameEndType = GameEndType.allCases.randomElement()!
+        game.numberOfRounds = Int.random(in: 2...10)
+        game.endingScore = Int.random(in: 2...10)
+        game.players = [PlayerMock(), PlayerMock()]
+        
+        // when
+        let copy = sut.makeCopyOfGame(game)
+        
+        // then
+        XCTAssertEqual(copy.name, game.name)
+        XCTAssertEqual(copy.gameType, game.gameType)
+        XCTAssertEqual(copy.gameEndType, game.gameEndType)
+        XCTAssertEqual(copy.numberOfRounds, game.numberOfRounds)
+        XCTAssertEqual(copy.endingScore, game.endingScore)
+        
+        copy.players.enumerated().forEach { (index, player) in
+            XCTAssertEqual(player.name, game.players[index].name)
+            XCTAssertEqual(player.icon, game.players[index].icon)
+        }
+    }
+    
+    func test_GameTabCoreDataHelper_WhenMakeCopyOfGameCalled_ShouldAddNewGameToContext() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        _ = sut.makeCopyOfGame(GameMock())
+        
+        // then
+        
+        do {
+            let games = try coreDataStore.persistentContainer.viewContext.fetch(Game.fetchRequest()) as? [Game]
+            XCTAssertEqual(games?.count, 1)
+        } catch {
+            XCTFail("games couldn't be loaded from view context \(error)")
+        }
+    }
+
+    func test_GameTabCoreDataHelper_WhenMakeCopyOfGameCalled_ShouldCallSaveContextOnCoreDataStore() {
+        // given
+        let coreDataStore = CoreDataStoreMock()
+        let sut = GameTabCoreDataHelper(coreDataStore: coreDataStore)
+        
+        // when
+        _ = sut.makeCopyOfGame(GameMock())
+        
+        // then
+        XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)
+    }
 }

@@ -243,6 +243,22 @@ final class EndGameViewControllerTests: XCTestCase {
     
     // MARK: - playAgainButtonTapped
     
+    func test_EndGameViewController_WhenPlayAgainButtonTapped_ShouldCallCoordinatorPlayGameAgainWithGame() {
+        // given
+        let sut = viewController!
+        let coordinator = EndGameCoordinatorProtocolMock()
+        sut.coordinator = coordinator
+        
+        let game = GameMock()
+        sut.viewModel = EndGameViewModel(game: game)
+        
+        // when
+        sut.playAgainButtonTapped(0)
+        
+        // then
+        XCTAssertEqual(coordinator.playGameAgainCalledCount, 1)
+        XCTAssertIdentical(coordinator.playGameAgainGame, game)
+    }
     
     // MARK: - keepPlayingButtonTapped
     

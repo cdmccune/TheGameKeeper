@@ -397,6 +397,37 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     
+    // MARK: - PlayerGameAgain
+    
+    func test_MainCoordinator_WhenPlayGameAgainCalled_ShouldCallPlayGameAgainOnGameTabCoordinator() {
+        // given
+        let sut = MainCoordinator()
+        sut.gameTabbarCoordinatorType = GameTabCoordinatorMock.self
+        sut.start()
+
+        let game = GameMock()
+        
+        // when
+        sut.playGameAgain(game)
+        
+        // then
+        let gameTabCoordinator = sut.childCoordinators.first { $0 is GameTabCoordinatorMock } as? GameTabCoordinatorMock
+        XCTAssertEqual(gameTabCoordinator?.playGameAgainCalledCount, 1)
+        XCTAssertIdentical(gameTabCoordinator?.playGameAgainGame, game)
+    }
+
+    func test_MainCoordinator_WhenPlayGameAgainCalled_ShouldSetGameTabbarSelectedIndexTo1() {
+        // given
+        let sut = MainCoordinator()
+        sut.start()
+        
+        // when
+        sut.playGameAgain(GameMock())
+        
+        // then
+        XCTAssertEqual(sut.tabbarController.selectedIndex, 1)
+    }
+    
     // MARK: - GameTabGameMadeActive
     
     func test_MainCoordinator_WhenGameTabGameCreatedCalled_ShouldSetGameToHomeTabCoordinatorsActiveGameBeforeCallingStart() {

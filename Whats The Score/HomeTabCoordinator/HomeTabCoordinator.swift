@@ -129,6 +129,12 @@ class HomeTabCoordinator: Coordinator, EndGameCoordinatorProtocol {
         }
     }
     
+    func playGameAgain(_ game: GameProtocol) {
+        pauseCurrentGame {
+            self.coordinator?.playGameAgain(game)
+        }
+    }
+    
     func showGameReportFor(game: GameProtocol) {
         let endGameVC = EndGameViewController.instantiate()
         endGameVC.coordinator = self
@@ -140,6 +146,7 @@ class HomeTabCoordinator: Coordinator, EndGameCoordinatorProtocol {
         if let activeGame {
             coreDataHelper.deleteGame(activeGame)
         }
+        self.activeGame = nil
         
         if let homeViewController = navigationController.viewControllers.first as? HomeViewController {
             homeViewController.activeGame = nil

@@ -99,6 +99,12 @@ class MainCoordinator {
         tabbarController.selectedIndex = 1
     }
     
+    func playGameAgain(_ game: GameProtocol) {
+        let gameTabCoordinator = childCoordinators.first { $0 is GameTabCoordinator } as? GameTabCoordinator
+        gameTabCoordinator?.playGameAgain(game)
+        tabbarController.selectedIndex = 1
+    }
+    
     func gameTabGameMadeActive(_ game: GameProtocol) {
         let homeTabCoordinator = childCoordinators.first { $0 is HomeTabCoordinator } as? HomeTabCoordinator
         homeTabCoordinator?.activeGame = game

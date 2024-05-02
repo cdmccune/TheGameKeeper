@@ -264,7 +264,6 @@ class ScoreboardViewController: UIViewController, Storyboarded, ScoreboardViewMo
             } else {
                 self.progressLabel.text = "Multiple players need \(pointsToWin) \(pointsOrPoint) to win!"
             }
-            //        }
         }
     }
 }

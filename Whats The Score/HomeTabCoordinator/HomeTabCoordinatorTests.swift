@@ -643,6 +643,53 @@ final class HomeTabCoordinatorTests: XCTestCase {
     }
     
     
+    // MARK: - PlayGameAgain
+    
+    func test_HomeTabCoordinator_WhenPlayGameAgainCalled_ShouldCallPauseCurrentGame() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        
+        // when
+        sut.playGameAgain(GameMock())
+        
+        // then
+        XCTAssertEqual(sut.pauseCurrentGameCalledCount, 1)
+    }
+    
+    func test_HomeTabCoordinator_WhenPlayGameAgainCalled_PauseCurrentGameCompletionCalled_ShouldCallCoordinatorPlayGameAgainWithGame() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        sut.completionShouldBeCalled = true
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+
+        let game = GameMock()
+        
+        // when
+        sut.playGameAgain(game)
+        
+        // then
+        XCTAssertEqual(coordinator.playGameAgainCalledCount, 1)
+        XCTAssertIdentical(coordinator.playGameAgainGame, game)
+    }
+    
+    func test_HomeTabCoordinator_WhenPlayGameAgainCalled_PauseCurrentGameCompletionNotCalled_ShouldCallCoordinatorPlayGameAgainWithGame() {
+        // given
+        let sut = HomeTabCoordinatorPauseCurrentGameMock(navigationController: RootNavigationController())
+        sut.completionShouldBeCalled = false
+        let coordinator = MainCoordinatorMock()
+        sut.coordinator = coordinator
+
+        let game = GameMock()
+        
+        // when
+        sut.playGameAgain(game)
+        
+        // then
+        XCTAssertEqual(coordinator.playGameAgainCalledCount, 0)
+    }
+    
+    
     // MARK: - HomeTabCoordinator
     
     func test_HomeTabCoordinator_WhenShowGameReportFor_ShouldPushEndGameViewControllerOnNavigationController() {
@@ -706,6 +753,18 @@ final class HomeTabCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(coreDataHelper.deleteGameCalledCount, 1)
         XCTAssertIdentical(coreDataHelper.deleteGameGame, game)
+    }
+    
+    func test_HomeTabCoordinator_WhenDeleteActiveGameCalled_ShouldSetOwnActiveGameToNil() {
+        // given
+        let sut = HomeTabCoordinator(navigationController: RootNavigationController())
+        sut.activeGame = GameMock()
+        
+        // when
+        sut.deleteActiveGame()
+        
+        // then
+        XCTAssertNil(sut.activeGame)
     }
     
     func test_HomeTabCoordinator_WhenDeleteActiveGameCalled_ShouldSetActiveGameOfRootViewControllerIfIsHomeViewControllerToNilAndThenCallViewDidLoad() {

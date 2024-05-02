@@ -79,7 +79,7 @@ class EndGameViewController: UIViewController, Storyboarded {
     // MARK: - IBActions
     
     @IBAction func playAgainButtonTapped(_ sender: Any) {
-        
+        coordinator?.playGameAgain(viewModel.game)
     }
     
     

@@ -9,4 +9,5 @@ import Foundation
 
 protocol EndGameCoordinatorProtocol: AnyObject {
     func reopenNonActiveGame(_ game: GameProtocol)
+    func playGameAgain(_ game: GameProtocol)
 }

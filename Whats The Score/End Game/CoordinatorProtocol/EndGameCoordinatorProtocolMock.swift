@@ -16,5 +16,10 @@ class EndGameCoordinatorProtocolMock: EndGameCoordinatorProtocol {
         reopenCompletedGameGame = game
     }
     
-    
+    var playGameAgainCalledCount = 0
+    var playGameAgainGame: GameProtocol?
+    func playGameAgain(_ game: GameProtocol) {
+        playGameAgainCalledCount += 1
+        playGameAgainGame = game
+    }
 }

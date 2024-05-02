@@ -387,6 +387,63 @@ final class GameTabCoordinatorTests: XCTestCase {
     }
     
     
+    // MARK: - DeleteGame
+    
+    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldCallCoreDataHelperDeleteGameWithCurrentActiveGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = GameTabCoreDataHelperMock()
+        sut.coreDataHelper = coreDataHelper
+        
+        let game = GameMock()
+        sut.activeGame = game
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertEqual(coreDataHelper.deleteGameCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldCallMainCoordinatorGameTabActiveGameCompleted() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let mainCoordinator = MainCoordinatorMock()
+        sut.coordinator = mainCoordinator
+        sut.activeGame = GameMock()
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertEqual(mainCoordinator.gameTabActiveGameCompletedCalledCount, 1)
+    }
+    
+    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldSetActiveGameToNilBeforeCallingStartOnSelf() {
+        class GameTabCoordinatorStartMock: GameTabCoordinator {
+            var startCalledCount = 0
+            var startGame: GameProtocol?
+            override func start() {
+                startCalledCount += 1
+                startGame = activeGame
+            }
+        }
+        
+        // given
+        let sut = GameTabCoordinatorStartMock(navigationController: RootNavigationController())
+        
+        let game = GameMock()
+        sut.activeGame = game
+        
+        // when
+        sut.deleteGame()
+        
+        // then
+        XCTAssertNil(sut.startGame)
+        XCTAssertEqual(sut.startCalledCount, 1)
+    }
+    
+    
     // MARK: - reopenCompletedGame
     
     func test_GameTabCoordinator_WhenReopenCompletedGameCalled_ShouldCallMainCoordinatorGameTabGameMadeActiveWithGame() {
@@ -451,59 +508,72 @@ final class GameTabCoordinatorTests: XCTestCase {
     }
     
     
-    // MARK: - DeleteGame
+    // MARK: - playGameAgain
     
-    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldCallCoreDataHelperDeleteGameWithCurrentActiveGame() {
+    func test_GameTabCoordinator_WhenPlayGameAgainCalled_ShouldCallCoreDataHelperMakeCopyOfGameWithGame() {
         // given
         let sut = GameTabCoordinator(navigationController: RootNavigationController())
         let coreDataHelper = GameTabCoreDataHelperMock()
         sut.coreDataHelper = coreDataHelper
         
         let game = GameMock()
-        sut.activeGame = game
         
         // when
-        sut.deleteGame()
+        sut.playGameAgain(game)
         
         // then
-        XCTAssertEqual(coreDataHelper.deleteGameCalledCount, 1)
+        XCTAssertEqual(coreDataHelper.makeCopyOfGameCalledCount, 1)
+        XCTAssertIdentical(coreDataHelper.makeCopyOfGameGame, game)
     }
-    
-    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldCallMainCoordinatorGameTabActiveGameCompleted() {
+
+    func test_GameTabCoordinator_WhenPlayGameAgainCalled_ShouldSetActiveGameToCopyOfGame() {
+        // given
+        let sut = GameTabCoordinator(navigationController: RootNavigationController())
+        let coreDataHelper = GameTabCoreDataHelperMock()
+        let gameToReturn = GameMock()
+        coreDataHelper.gameToReturn = gameToReturn
+        sut.coreDataHelper = coreDataHelper
+        
+        // when
+        sut.playGameAgain(GameMock())
+        
+        // then
+        XCTAssertIdentical(sut.activeGame, gameToReturn)
+    }
+
+    func test_GameTabCoordinator_WhenPlayGameAgainCalled_ShouldCallCoordinatorGameTabGameCreatedWithGame() {
         // given
         let sut = GameTabCoordinator(navigationController: RootNavigationController())
         let mainCoordinator = MainCoordinatorMock()
         sut.coordinator = mainCoordinator
-        sut.activeGame = GameMock()
+
+        let gameToReturn = GameMock()
+        let coreDataHelper = GameTabCoreDataHelperMock()
+        coreDataHelper.gameToReturn = gameToReturn
+        sut.coreDataHelper = coreDataHelper
         
         // when
-        sut.deleteGame()
+        sut.playGameAgain(GameMock())
         
         // then
-        XCTAssertEqual(mainCoordinator.gameTabActiveGameCompletedCalledCount, 1)
+        XCTAssertIdentical(mainCoordinator.gameTabGameMadeActiveGame, gameToReturn)
+        XCTAssertEqual(mainCoordinator.gameTabGameMadeActiveCalledCount, 1)
     }
-    
-    func test_GameTabCoordinator_WhenDeleteGameCalled_ShouldSetActiveGameToNilBeforeCallingStartOnSelf() {
-        class GameTabCoordinatorStartMock: GameTabCoordinator {
-            var startCalledCount = 0
-            var startGame: GameProtocol?
-            override func start() {
-                startCalledCount += 1
-                startGame = activeGame
-            }
-        }
-        
+
+    func test_GameTabCoordinator_WhenPlayGameCalled_ShouldCallStartScoreboardWithGameWithGame() {
         // given
-        let sut = GameTabCoordinatorStartMock(navigationController: RootNavigationController())
-        
-        let game = GameMock()
-        sut.activeGame = game
+        let sut = GameTabCoordinatorStartScoreboardMock(navigationController: RootNavigationController())
+        let coreDataHelper = GameTabCoreDataHelperMock()
+        let gameToReturn = GameMock()
+        coreDataHelper.gameToReturn = gameToReturn
+        sut.coreDataHelper = coreDataHelper
+
         
         // when
-        sut.deleteGame()
+        sut.playGameAgain(GameMock())
         
         // then
-        XCTAssertNil(sut.startGame)
-        XCTAssertEqual(sut.startCalledCount, 1)
+        XCTAssertEqual(sut.startScoreboardCalledCount, 1)
+        XCTAssertIdentical(sut.startScoreboardGame, gameToReturn)
     }
 }

@@ -15,6 +15,7 @@ protocol GameTabCoreDataHelperProtocol {
     func endGame(_ game: GameProtocol)
     func makeGameActive(_ game: GameProtocol)
     func deleteGame(_ game: GameProtocol)
+    func makeCopyOfGame(_ game: GameProtocol) -> GameProtocol
 }
 
 class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
@@ -94,5 +95,24 @@ class GameTabCoreDataHelper: GameTabCoreDataHelperProtocol {
         guard let game = game as? Game else { return }
         coreDataStore.deleteObject(game)
         coreDataStore.saveContext()
+    }
+
+    func makeCopyOfGame(_ game: GameProtocol) -> GameProtocol {
+        
+        let newGame = Game(name: game.name,
+                        gameType: game.gameType,
+                        gameEndType: game.gameEndType,
+                        numberOfRounds: game.numberOfRounds,
+                        endingScore: game.endingScore,
+                        players: [],
+                        context: coreDataStore.persistentContainer.viewContext)
+        
+        
+        game.players.forEach { player in
+            _ = Player(game: newGame, name: player.name, position: player.position, icon: player.icon, context: coreDataStore.persistentContainer.viewContext)
+        }
+        
+        coreDataStore.saveContext()
+        return newGame
     }
 }

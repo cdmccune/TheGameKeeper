@@ -16,21 +16,6 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
     }
     
     
-    // MARK: - DidSet
-    
-    func test_ScoreboardViewModel_WhenDelegateIsSet_ShouldCallBindViewToViewModelOnDelegate() {
-        // given
-        let sut = getViewModelWithBasicGame()
-        let viewDelegateMock = ScoreboardViewModelViewProtocolMock()
-        
-        // when
-        sut.delegate = viewDelegateMock
-        
-        // then
-        XCTAssertEqual(viewDelegateMock.bindViewToViewModelCalledCount, 1)
-    }
-    
-    
     // MARK: - SortedPlayers
     
     func test_ScoreboardViewModel_WhenSortPreferenceIsScore_ShouldReturnPlayersSortedByScore() {

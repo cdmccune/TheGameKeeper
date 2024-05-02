@@ -41,8 +41,15 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.addPlayerButton = button
         sut.endGameButton = button
         sut.endRoundButton = button
+        sut.undoButton = button
+        let label = UILabel()
+        sut.roundLabel = label
+        sut.progressLabel = label
+        sut.gameNameLabel = label
+        let stackView = UIStackView()
+        sut.filterButtonStackView = stackView
         
-        views = [tableView, button]
+        views = [tableView, button, label, stackView]
         
         addTeardownBlock {
             self.views = nil
@@ -294,6 +301,13 @@ final class ScoreboardViewControllerTests: XCTestCase {
         sut.addPlayerButton = button
         sut.endGameButton = button
         sut.endRoundButton = button
+        sut.undoButton = button
+        let label = UILabel()
+        sut.roundLabel = label
+        sut.progressLabel = label
+        sut.gameNameLabel = label
+        let stackView = UIStackView()
+        sut.filterButtonStackView = stackView
         
         // when
         sut.viewDidLoad()
@@ -436,10 +450,11 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // when
         sut.viewDidLoad()
+        let tableViewReloadCount = tableViewMock.reloadDataCalledCount
         viewModelMock.sortPreference.value = .score
         
         // then
-        XCTAssertEqual(tableViewMock.reloadDataCalledCount, 1)
+        XCTAssertEqual(tableViewMock.reloadDataCalledCount, tableViewReloadCount + 1)
     }
     
     func test_ScoreboardViewController_WhenBindingsSetAndSortPreferenceSetPosition_SetScoreSortPreferenceButtonAlphaToPoint5AndTurnTo1() {

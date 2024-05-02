@@ -54,4 +54,12 @@ class GameTabCoreDataHelperMock: GameTabCoreDataHelperProtocol {
     func deleteGame(_ game: GameProtocol) {
         deleteGameCalledCount += 1
     }
+
+    var makeCopyOfGameCalledCount = 0
+    var makeCopyOfGameGame: GameProtocol?
+    func makeCopyOfGame(_ game: GameProtocol) -> GameProtocol {
+        makeCopyOfGameCalledCount += 1
+        makeCopyOfGameGame = game
+        return gameToReturn
+    }
 }
