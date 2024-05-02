@@ -51,11 +51,13 @@ final class GameSettingsViewControllerTests: XCTestCase {
         // then
         let normalAttributes = barButton.titleTextAttributes(for: .normal)
         let highlightedAttributes = barButton.titleTextAttributes(for: .highlighted)
+        let disabledAttributes = barButton.titleTextAttributes(for: .disabled)
         
         let expectedFont = UIFont.pressPlay2PRegular(withSize: 15)
         
         XCTAssertEqual(normalAttributes?[.font] as? UIFont, expectedFont)
         XCTAssertEqual(highlightedAttributes?[.font] as? UIFont, expectedFont)
+        XCTAssertEqual(disabledAttributes?[.font] as? UIFont, expectedFont)
     }
     
     func test_GameSettingsViewController_WhenSaveBarButtonActionTriggered_ShouldCallSaveChanges() {

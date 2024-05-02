@@ -15,12 +15,13 @@ class MyGamesTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var winnerLabel: UILabel!
     @IBOutlet weak var winnerNameLabel: UILabel!
-    
+    @IBOutlet weak var disclosureIndicatorLabel: UILabel!
     
     // MARK: - Functions
 
     func setupCellFor(_ game: GameProtocol) {
         titleLabel.text = game.name
+        disclosureIndicatorLabel.isHidden = false
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
@@ -39,6 +40,7 @@ class MyGamesTableViewCell: UITableViewCell {
     }
     
     func setupNoGamesCell(for status: GameStatus) {
+        disclosureIndicatorLabel.isHidden = true
         winnerLabel.text = " "
         winnerNameLabel.text = " "
         dateLabel.text = " "

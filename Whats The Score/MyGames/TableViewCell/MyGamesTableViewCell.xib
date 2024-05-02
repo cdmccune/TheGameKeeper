@@ -33,13 +33,13 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="251" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="a1d-KZ-NDw">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="30"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RoJ-j5-4vK">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="RoJ-j5-4vK">
                                                 <rect key="frame" x="0.0" y="0.0" width="160" height="15"/>
                                                 <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="15"/>
                                                 <color key="textColor" name="TextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan 10th, 2024" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rrW-bO-HRD">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan 10th, 2024" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="rrW-bO-HRD">
                                                 <rect key="frame" x="0.0" y="20" width="160" height="10"/>
                                                 <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
                                                 <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -89,6 +89,7 @@
             <color key="backgroundColor" name="BackgroundColor"/>
             <connections>
                 <outlet property="dateLabel" destination="rrW-bO-HRD" id="dvx-Ns-gak"/>
+                <outlet property="disclosureIndicatorLabel" destination="evs-i1-av6" id="sT2-Os-qZV"/>
                 <outlet property="titleLabel" destination="RoJ-j5-4vK" id="VrA-B2-YTI"/>
                 <outlet property="winnerLabel" destination="MCi-lp-wwv" id="SyD-RU-NdK"/>
                 <outlet property="winnerNameLabel" destination="qkF-HN-UAy" id="9uw-p6-iub"/>

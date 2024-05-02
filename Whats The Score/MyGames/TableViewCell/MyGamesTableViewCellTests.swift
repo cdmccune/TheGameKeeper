@@ -39,6 +39,18 @@ final class MyGamesTableViewCellTests: XCTestCase {
     
     // MARK: - SetupCellFor
     
+    func test_MyGamesTableViewCell_WhenSetupCellForCalled_ShouldShowDisclosureIndicatorLabel() {
+        // given
+        let sut = tableViewCell!
+        sut.disclosureIndicatorLabel.isHidden = true
+        
+        // when
+        sut.setupCellFor(GameMock())
+        
+        // then
+        XCTAssertFalse(sut.disclosureIndicatorLabel.isHidden)
+    }
+    
     func test_MyGamesTableViewCell_WhenSetupCellForCalled_ShouldSetTitleLabelTextToGameTitle() {
         // given
         let sut = tableViewCell!
@@ -141,9 +153,10 @@ final class MyGamesTableViewCellTests: XCTestCase {
     
     // MARK: - SetupNoGamesCellFor
     
-    func test_MyGamesTableViewCell_WhenSetupNoGameCellForCalled_ShouldSetAllLabelsToBlankSpace() {
+    func test_MyGamesTableViewCell_WhenSetupNoGameCellForCalled_ShouldSetAllLabelsToBlankSpaceAndHideDisclosureIndicator() {
         // given
         let sut = tableViewCell!
+        sut.disclosureIndicatorLabel.isHidden = false
         
         // when
         sut.setupNoGamesCell(for: .active)
@@ -152,6 +165,7 @@ final class MyGamesTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.dateLabel.text, " ")
         XCTAssertEqual(sut.winnerLabel.text, " ")
         XCTAssertEqual(sut.winnerNameLabel.text, " ")
+        XCTAssertTrue(sut.disclosureIndicatorLabel.isHidden)
     }
     
     func test_MyGamesTableViewCell_WhenSetupNoGameCellForCalledActive_ShouldSetTitleLabelToNoActiveGame() {

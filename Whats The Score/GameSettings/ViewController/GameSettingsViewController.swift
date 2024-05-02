@@ -43,6 +43,7 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         ]
         barButton.setTitleTextAttributes(attributes, for: .normal)
         barButton.setTitleTextAttributes(attributes, for: .highlighted)
+        barButton.setTitleTextAttributes(attributes, for: .disabled)
         return barButton
     }()
     
