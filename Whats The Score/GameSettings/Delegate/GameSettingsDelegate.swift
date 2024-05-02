@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GameSettingsDelegate: AnyObject {
-    func updateGameSettings(gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int)
+    func updateGameSettings(gameName: String, gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int)
     func resetGame()
     func deleteGame()
 }

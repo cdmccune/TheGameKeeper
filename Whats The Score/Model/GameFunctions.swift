@@ -113,10 +113,11 @@ extension Game {
         currentRound += 1
     }
     
-    func updateSettings(with gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {
+    func updateSettings(withGameName gameName: String, _ gameEndType: GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {
         self.gameEndType = gameEndType
         self.numberOfRounds = numberOfRounds
         self.endingScore = endingScore
+        self.name = gameName
     }
     
     func undoLastAction() {

@@ -52,7 +52,7 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     func saveChanges() {
         guard let gameEndType = gameEndType.value else { return }
         
-        delegate?.updateGameSettings(gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
+        delegate?.updateGameSettings(gameName: gameName, gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
     }
     
     func resetGame() {

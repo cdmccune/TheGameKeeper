@@ -111,6 +111,6 @@ class ScoreboardViewModelMock: NSObject, ScoreboardViewModelProtocol {
     func updateWinningScore(to winningScore: Int) {}
     func setNoEnd() {}
     func updateFromHistory() {}
-    func updateGameSettings(gameEndType: GameEndType, numberOfRounds endingScore: Int, endingScore numberOfRounds: Int) {}
+    func updateGameSettings(gameName: String, gameEndType: GameEndType, numberOfRounds endingScore: Int, endingScore numberOfRounds: Int) {}
     func deleteGame() {}
 }

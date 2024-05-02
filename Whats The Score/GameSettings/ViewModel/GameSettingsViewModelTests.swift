@@ -74,10 +74,12 @@ final class GameSettingsViewModelTests: XCTestCase {
         let gameEndType = GameEndType.allCases.randomElement()!
         let endingScore = Int.random(in: 1...10)
         let numberOfRounds = Int.random(in: 1...10)
+        let gameName = UUID().uuidString
         
         sut.gameEndType.value = gameEndType
         sut.endingScore = endingScore
         sut.numberOfRounds = numberOfRounds
+        sut.gameName = gameName
         
         let delegate = GameSettingsDelegateMock()
         sut.delegate = delegate
@@ -89,6 +91,7 @@ final class GameSettingsViewModelTests: XCTestCase {
         XCTAssertEqual(delegate.updateGameSettingsEndingScore, endingScore)
         XCTAssertEqual(delegate.updateGameSettingsNumberOfRounds, numberOfRounds)
         XCTAssertEqual(delegate.updateGameSettingsGameEndType, gameEndType)
+        XCTAssertEqual(delegate.updateGameSettingsGameName, gameName)
     }
     
     

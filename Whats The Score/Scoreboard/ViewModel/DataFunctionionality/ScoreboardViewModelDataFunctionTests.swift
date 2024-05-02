@@ -336,15 +336,17 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         let numberOfRounds = Int.random(in: 1...10)
         let endingScore = Int.random(in: 1...10)
         let gameEndType = GameEndType.allCases.randomElement()!
+        let gameName = UUID().uuidString
         
         // when
-        sut.updateGameSettings(gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
+        sut.updateGameSettings(gameName: gameName, gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
         
         // then
         XCTAssertEqual(gameMock.updateSettingsCalledCount, 1)
         XCTAssertEqual(gameMock.updateSettingsGameEndType, gameEndType)
         XCTAssertEqual(gameMock.updateSettingsNumberOfRounds, numberOfRounds)
         XCTAssertEqual(gameMock.updateSettingsEndingScore, endingScore)
+        XCTAssertEqual(gameMock.updateSettingsGameName, gameName)
     }
     
     func test_ScoreboardViewModel_WhenUpdateGameSettingsCalled_ShouldCallBindViewToViewModel() {
@@ -357,7 +359,7 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         let bindCount = viewDelegate.bindViewToViewModelCalledCount
         
         // when
-        sut.updateGameSettings(gameEndType: .none, numberOfRounds: 0, endingScore: 0)
+        sut.updateGameSettings(gameName: "", gameEndType: .none, numberOfRounds: 0, endingScore: 0)
         
         // then
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindCount + 1)
@@ -370,7 +372,7 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         sut.coreDataStore = coreDataStore
         
         // when
-        sut.updateGameSettings(gameEndType: GameEndType.none, numberOfRounds: 0, endingScore: 0)
+        sut.updateGameSettings(gameName: "", gameEndType: GameEndType.none, numberOfRounds: 0, endingScore: 0)
         
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)

@@ -68,8 +68,8 @@ extension ScoreboardViewModel: EndRoundPopoverDelegateProtocol {
 
 extension ScoreboardViewModel: GameSettingsDelegate {
     
-    func updateGameSettings(gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int) {
-        self.game.updateSettings(with: gameEndType, endingScore: endingScore, andNumberOfRounds: numberOfRounds)
+    func updateGameSettings(gameName: String, gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int) {
+        self.game.updateSettings(withGameName: gameName, gameEndType, endingScore: endingScore, andNumberOfRounds: numberOfRounds)
         self.coreDataStore.saveContext()
         self.delegate?.bindViewToViewModel(dispatchQueue: dispatchQueue)
     }
