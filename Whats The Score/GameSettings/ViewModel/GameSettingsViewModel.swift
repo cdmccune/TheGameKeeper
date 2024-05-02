@@ -92,7 +92,7 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
             dataValidationString.value = "The game name can't be blank"
         } else if gameEndType.value == .score && endingScore <= game.winningPlayers.first?.score ?? 0 {
             dataValidationString.value = "Winning score must be more than \(game.winningPlayers.first?.score ?? 0)"
-        } else if gameEndType.value == .round && numberOfRounds <= game.currentRound {
+        } else if gameEndType.value == .round && numberOfRounds < game.currentRound {
             dataValidationString.value = "# of rounds must be at least \(game.currentRound)"
         } else {
              dataValidationString.value = ""

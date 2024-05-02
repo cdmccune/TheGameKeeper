@@ -313,6 +313,7 @@ final class GameSettingsViewModelTests: XCTestCase {
         // given
         let sut = GameSettingsViewModel(game: GameMock())
         sut.gameEndType.value = .round
+        sut.game.currentRound = 10
         sut.numberOfRounds = 10
         sut.gameName = "d"
         
