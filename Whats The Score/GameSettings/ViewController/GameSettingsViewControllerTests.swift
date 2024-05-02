@@ -398,30 +398,6 @@ final class GameSettingsViewControllerTests: XCTestCase {
         XCTAssertEqual(viewModel.gameEndTypeChangedRawValue, gameEndTypeRawValue)
     }
     
-    func test_GameSettingsViewController_WhenGameEndTypeSegmentedControlValueChangedCalled_ShouldSetViewModelGameEndTypeValueToGameEndTypeSegmentedControlValue() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        let viewModel = GameSettingsViewModelMock()
-        sut.viewModel = viewModel
-        
-        let gameEndTypeRawValue = Int.random(in: 0...2)
-        sut.gameEndTypeSegmentedControl.selectedSegmentIndex = gameEndTypeRawValue
-        
-        let expectation = XCTestExpectation(description: "GameEndType's value should be changed")
-        
-        viewModel.gameEndType.valueChanged = { gameEndType in
-            expectation.fulfill()
-            XCTAssertEqual(GameEndType(rawValue: gameEndTypeRawValue), gameEndType)
-        }
-        
-        // when
-        sut.gameEndTypeSegmentedControlValueChanged(0)
-        
-        // then
-        wait(for: [expectation], timeout: 0.1)
-    }
-    
     
     // MARK: - ResetGameTapped
     

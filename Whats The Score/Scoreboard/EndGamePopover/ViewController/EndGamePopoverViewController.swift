@@ -48,7 +48,7 @@ class EndGamePopoverViewController: UIViewController, Storyboarded, DismissingPo
         }
         
         guard game.isEndOfGame() else {
-            gameOverDescriptionLabel.text = "Do you want to end the game on round \(game.currentRound)?"
+            gameOverDescriptionLabel.text = "You completed \(game.currentRound - 1) rounds"
             return
         }
         

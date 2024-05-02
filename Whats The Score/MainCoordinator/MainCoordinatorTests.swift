@@ -173,7 +173,7 @@ final class MainCoordinatorTests: XCTestCase {
         
         // then
         let tabbarItem = sut.childCoordinators[1].navigationController.tabBarItem
-        XCTAssertEqual(tabbarItem?.image, UIImage(systemName: "dice"))
+        XCTAssertEqual(tabbarItem?.image, UIImage(named: "cardsIcon"))
         XCTAssertEqual(tabbarItem?.title, "Game")
     }
     

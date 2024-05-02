@@ -75,7 +75,7 @@ final class EndGamePopoverViewControllerTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertEqual(sut.gameOverDescriptionLabel.text, "Do you want to end the game on round \(currentRound)?")
+        XCTAssertEqual(sut.gameOverDescriptionLabel.text, "You completed \(currentRound - 1) rounds")
     }
     
     func test_EndGamePopoverViewController_WhenViewDidLoadCalledIsEndGameTrueRoundEndGameType_ShouldSetDescriptionLabelTextToRoundText() {

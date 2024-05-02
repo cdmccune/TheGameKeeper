@@ -398,7 +398,7 @@ final class GameSetupCoordinatorTests: XCTestCase {
         // then
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredCalledCount, 1)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredWidth, 300)
-        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 174)
+        XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredHeight, 184)
         XCTAssertEqual(defaultPopoverPresenterMock.setupPopoverCenteredView, view)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredPopoverVC is EditPlayerPopoverViewController)
         XCTAssertTrue(defaultPopoverPresenterMock.setupPopoverCenteredTapToExit ?? false)

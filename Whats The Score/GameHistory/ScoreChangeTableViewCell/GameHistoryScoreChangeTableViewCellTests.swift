@@ -83,7 +83,7 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         XCTAssertEqual(sut.scoreTotalLabel.text, String(totalScore))
     }
     
-    func test_GameHistoryScoreChangeTableViewCell_WhenSetupViewPropertiesForCalledPositiveScoreChange_ShouldSetTextColorToBlue() {
+    func test_GameHistoryScoreChangeTableViewCell_WhenSetupViewPropertiesForCalledPositiveScoreChange_ShouldSetTextColorToTextColor() {
         // given
         let sut = tableViewCell!
         let scoreChangeInt = Int.random(in: 1...10)
@@ -95,7 +95,7 @@ final class GameHistoryScoreChangeTableViewCellTests: XCTestCase {
         sut.setupViewProperties(for: scoreChange)
         
         // then
-        XCTAssertEqual(sut.scoreChangeLabel.textColor, .systemBlue)
+        XCTAssertEqual(sut.scoreChangeLabel.textColor, .textColor)
     }
     
     func test_GameHistoryScoreChangeTableViewCell_WhenSetupViewPropertiesForCalledZeroScoreChange_ShouldSetTextColorToLabel() {

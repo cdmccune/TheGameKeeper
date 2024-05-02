@@ -55,42 +55,6 @@ final class KeepPlayingPopoverViewControllerTests: XCTestCase {
     
     // MARK: - ViewDidLoad
     
-    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesOnNoEndButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.game = GameMock()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.noEndButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 14)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "No End")
-    }
-    
-    func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldCallUnderlineButtonForButtonStatesOnEndGameButtonWithCorrectParameters() {
-        // given
-        let sut = viewController!
-        sut.loadView()
-        sut.game = GameMock()
-        
-        let button = UIButtonUnderlineButtonForButtonStatesMock()
-        sut.endGameButton = button
-        
-        // when
-        sut.viewDidLoad()
-        
-        // then
-        XCTAssertEqual(button.underlineButtonForButtonStatesCalledCount, 1)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTextSize, 14)
-        XCTAssertEqual(button.underlineButtonForButtonStatesTitle, "End Game")
-    }
-    
     func test_KeepPlayingPopoverViewController_WhenViewDidLoadCalled_ShouldAddTargetToInputTextFieldForEditingDidChange() {
         // given
         let sut = getKeepPlayingPopoverVCWithGameMock()

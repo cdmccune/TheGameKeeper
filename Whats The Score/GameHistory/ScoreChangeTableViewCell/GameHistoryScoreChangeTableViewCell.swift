@@ -28,7 +28,7 @@ class GameHistoryScoreChangeTableViewCell: UITableViewCell {
         case 0:
             scoreChangeLabel.textColor = .lightGray
         default: // Greater than zero
-            scoreChangeLabel.textColor = .systemBlue
+            scoreChangeLabel.textColor = .textColor
         }
         
         disclosureIndicatorStackView.isHidden = isInEndRound

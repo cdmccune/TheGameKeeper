@@ -49,8 +49,6 @@ class KeepPlayingPopoverViewController: UIViewController, Storyboarded, Dismissi
     // MARK: - Private Funcs
     
     private func setupViews() {
-        noEndButton.underlineButtonForButtonStates(title: "No End", withTextSize: 14)
-        endGameButton.underlineButtonForButtonStates(title: "End Game", withTextSize: 14)
         
         guard let game = game else {
             fatalError("Forgot to set the game")
