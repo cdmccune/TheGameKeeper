@@ -23,11 +23,7 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
     
     var game: GameProtocol
     weak var coordinator: ScoreboardCoordinator?
-    weak var delegate: ScoreboardViewModelViewProtocol? {
-        didSet {
-            delegate?.bindViewToViewModel(dispatchQueue: DispatchQueue.main)
-        }
-    }
+    weak var delegate: ScoreboardViewModelViewProtocol?
     
     var sortedPlayers: [PlayerProtocol] {
         return game.players.sorted {player1, player2 in

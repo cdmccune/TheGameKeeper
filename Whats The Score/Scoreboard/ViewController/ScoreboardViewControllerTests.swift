@@ -269,6 +269,39 @@ final class ScoreboardViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(viewModelMock.openingGameOverCheckCalledCount, 1)
     }
+    
+    func test_ScoreboardViewController_WhenViewDidLoadCalled_ShouldCallBindViewToViewModelWithNilAsDispatchQuque() {
+        
+        class ScoreboardViewControllerBindViewToViewModelMock: ScoreboardViewController {
+            var bindViewToViewModelCalledCount = 0
+            var bindViewToViewModelDispatchQueue: DispatchQueueProtocol?
+            override func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol?) {
+                self.bindViewToViewModelCalledCount += 1
+                self.bindViewToViewModelDispatchQueue = dispatchQueue
+            }
+        }
+        
+        // given
+        let sut = ScoreboardViewControllerBindViewToViewModelMock()
+        
+        let view = UIView()
+        sut.view = view
+        let tableView = UITableView()
+        sut.tableView = tableView
+        let button = UIButton()
+        sut.scoreSortButton = button
+        sut.turnOrderSortButton = button
+        sut.addPlayerButton = button
+        sut.endGameButton = button
+        sut.endRoundButton = button
+        
+        // when
+        sut.viewDidLoad()
+        
+        // then
+        XCTAssertEqual(sut.bindViewToViewModelCalledCount, 1)
+        XCTAssertNil(sut.bindViewToViewModelDispatchQueue)
+    }
   
     // MARK: - Binding PlayerToDelete
     

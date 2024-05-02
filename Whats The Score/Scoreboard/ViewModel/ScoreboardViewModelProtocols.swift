@@ -32,5 +32,5 @@ protocol ScoreboardViewModelProtocol: ScoreboardPlayerEditScorePopoverDelegate, 
 }
 
 protocol ScoreboardViewModelViewProtocol: NSObject {
-    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol)
+    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol?)
 }

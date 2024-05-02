@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ScoreboardViewController: UIViewController, Storyboarded {
+class ScoreboardViewController: UIViewController, Storyboarded, ScoreboardViewModelViewProtocol {
     
     // MARK: - Outlets
     
@@ -65,12 +65,12 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     // MARK: - Private Functions
     
     private func setDelegates() {
-        guard viewModel != nil else { return }
+        guard let viewModel  else { return }
         
-        let tableViewDelegate = ScoreboardTableViewDelegateDatasource(viewModel: viewModel!)
+        let tableViewDelegate = ScoreboardTableViewDelegateDatasource(viewModel: viewModel)
         self.tableViewDelegate = tableViewDelegate
         
-        viewModel!.delegate = self
+        viewModel.delegate = self
         tableView.delegate = tableViewDelegate
         tableView.dataSource = tableViewDelegate
     }
@@ -93,6 +93,7 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     }
     
     private func setupViews() {
+        bindViewToViewModel(dispatchQueue: nil)
         navigationItem.rightBarButtonItems = [settingsBarButton, historyBarButton]
         
         self.scoreSortButton.alpha = 1
@@ -180,82 +181,90 @@ class ScoreboardViewController: UIViewController, Storyboarded {
     }
     
     
-}
-
-extension ScoreboardViewController: ScoreboardViewModelViewProtocol {
-    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol) {
-        dispatchQueue.async {
-            guard let viewModel = self.viewModel else { return }
-            let game = viewModel.game
-            
-            switch game.gameType {
-            case .basic:
-                self.undoButton.isEnabled = !game.scoreChanges.isEmpty
-            case .round:
-                self.undoButton.isEnabled = !game.endRounds.isEmpty
+    // MARK: - Extension Functions
+    
+    func bindViewToViewModel(dispatchQueue: DispatchQueueProtocol?) {
+        if let dispatchQueue {
+            dispatchQueue.async {
+                self.adjustViews()
             }
+        } else {
+            adjustViews()
+        }
+    }
+    
+    private func adjustViews() {
+        guard let viewModel = self.viewModel else { return }
+        let game = viewModel.game
+        
+        switch game.gameType {
+        case .basic:
+            self.undoButton.isEnabled = !game.scoreChanges.isEmpty
+        case .round:
+            self.undoButton.isEnabled = !game.endRounds.isEmpty
+        }
+        
+        self.roundLabel.isHidden = game.gameType != .round
+        self.endRoundButton.isHidden = game.gameType != .round
+        
+        let attributedNameString = NSMutableAttributedString(string: game.name)
+        attributedNameString.addStrokeAttribute(strokeColor: .black, strokeWidth: -4.0)
+        attributedNameString.addTextColorAttribute(textColor: .white)
+        self.gameNameLabel.attributedText = attributedNameString
+        
+        if game.isEndOfGame() {
+            self.roundLabel.text = "Game Over"
+        } else {
+            self.roundLabel.text = "Round \(game.currentRound)"
+        }
+        
+        self.filterButtonStackView.isHidden = game.gameType == .basic
+        
+        self.tableView.reloadData()
+        
+        guard game.gameType == .round else {
+            self.progressLabel.isHidden = true
+            return
+        }
+        
+        self.progressLabel.isHidden = false
+        
+        guard game.gameEndType != .none,
+              game.currentRound != 1 else {
+            self.progressLabel.text = "Tap end round to enter scores!"
+            return
+        }
+        
+        guard !game.isEndOfGame() else {
+            self.progressLabel.text = ""
+            return
+        }
+        
+        
+        if game.gameEndType == .round {
+            self.progressLabel.text = "\(game.numberOfRounds)"
             
-            self.roundLabel.isHidden = game.gameType != .round
-            self.endRoundButton.isHidden = game.gameType != .round
+            let numberOfRoundsLeft = game.numberOfRounds - (game.currentRound - 1)
             
-            let attributedNameString = NSMutableAttributedString(string: game.name)
-            attributedNameString.addStrokeAttribute(strokeColor: .black, strokeWidth: -4.0)
-            attributedNameString.addTextColorAttribute(textColor: .white)
-            self.gameNameLabel.attributedText = attributedNameString
-            
-            if game.isEndOfGame() {
-                self.roundLabel.text = "Game Over"
+            if numberOfRoundsLeft > 1 {
+                self.progressLabel.text = "\(numberOfRoundsLeft) rounds left!"
             } else {
-                self.roundLabel.text = "Round \(game.currentRound)"
+                self.progressLabel.text = "Last round!"
             }
+        } else if game.gameEndType == .score {
+            self.progressLabel.text = "\(game.endingScore)"
             
-            self.filterButtonStackView.isHidden = game.gameType == .basic
+            let pointsToWin = game.endingScore - (game.winningPlayers.first?.score ?? 0)
+            let pointsOrPoint = pointsToWin > 1 ? "pts" : "pt"
             
-            self.tableView.reloadData()
-            
-            guard game.gameType == .round else {
-                self.progressLabel.isHidden = true
-                return
-            }
-            
-            self.progressLabel.isHidden = false
-            
-            guard game.gameEndType != .none,
-                  game.currentRound != 1 else {
-                self.progressLabel.text = "Tap end round to enter scores!"
-                return
-            }
-            
-            guard !game.isEndOfGame() else {
-                self.progressLabel.text = ""
-                return
-            }
-            
-            
-            if game.gameEndType == .round {
-                self.progressLabel.text = "\(game.numberOfRounds)"
+            if game.winningPlayers.count == 1 {
+                let playerName = game.winningPlayers.first?.name ?? ""
                 
-                let numberOfRoundsLeft = game.numberOfRounds - (game.currentRound - 1)
-                
-                if numberOfRoundsLeft > 1 {
-                    self.progressLabel.text = "\(numberOfRoundsLeft) rounds left!"
-                } else {
-                    self.progressLabel.text = "Last round!"
-                }
-            } else if game.gameEndType == .score {
-                self.progressLabel.text = "\(game.endingScore)"
-                
-                let pointsToWin = game.endingScore - (game.winningPlayers.first?.score ?? 0)
-                let pointsOrPoint = pointsToWin > 1 ? "pts" : "pt"
-                
-                if game.winningPlayers.count == 1 {
-                    let playerName = game.winningPlayers.first?.name ?? ""
-                    
-                    self.progressLabel.text = "\(playerName) needs \(pointsToWin) \(pointsOrPoint) to win!"
-                } else {
-                    self.progressLabel.text = "Multiple players need \(pointsToWin) \(pointsOrPoint) to win!"
-                }
+                self.progressLabel.text = "\(playerName) needs \(pointsToWin) \(pointsOrPoint) to win!"
+            } else {
+                self.progressLabel.text = "Multiple players need \(pointsToWin) \(pointsOrPoint) to win!"
             }
+            //        }
         }
     }
 }

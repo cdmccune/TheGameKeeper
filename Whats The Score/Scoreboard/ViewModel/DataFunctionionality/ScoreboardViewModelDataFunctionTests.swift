@@ -632,7 +632,7 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
     
     class ScoreboardViewModelViewProtocolMock: NSObject, ScoreboardViewModelViewProtocol {
         var bindViewToViewModelCalledCount = 0
-        func bindViewToViewModel(dispatchQueue: Whats_The_Score.DispatchQueueProtocol) {
+        func bindViewToViewModel(dispatchQueue: Whats_The_Score.DispatchQueueProtocol?) {
             bindViewToViewModelCalledCount += 1
         }
     }
