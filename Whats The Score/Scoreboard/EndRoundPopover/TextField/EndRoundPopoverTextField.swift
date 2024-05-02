@@ -25,9 +25,6 @@ class EndRoundPopoverTextField: StackViewTextField {
     private func setupViews() {
         self.backgroundColor = .clear
         self.borderStyle = .roundedRect
-//        self.layer.borderColor = UIColor.lightGray.cgColor
-//        self.layer.cornerRadius = 5
-//        self.layer.borderWidth = 2.0
         self.textColor = .textColor
         self.font =  UIFont(name: "Press Start 2P Regular", size: 15)
         
@@ -49,6 +46,10 @@ class EndRoundPopoverTextField: StackViewTextField {
     @objc private func makeNegativeTapped() {
         if let textInt = Int(self.text ?? "") {
             self.text = String(textInt * -1)
+        } else if self.text?.isEmpty ?? false {
+            self.text = "-"
+        } else if self.text == "-" {
+            self.text = ""
         }
         
         self.textFieldDidChange()

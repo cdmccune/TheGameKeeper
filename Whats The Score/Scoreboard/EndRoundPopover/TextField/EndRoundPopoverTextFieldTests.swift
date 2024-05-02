@@ -100,6 +100,36 @@ final class EndRoundPopoverTextFieldTests: XCTestCase {
         XCTAssertEqual(numberToUseWithoutNegative, sut.text)
     }
     
+    func test_EndRoundPopoverTextField_WhenPlusNegativeActionTriggeredTextIsBlank_ShouldSetItToNegativeSign() {
+        // given
+        let delegate = StackViewTextFieldDelegateDelegateMock()
+        let sut = EndRoundPopoverTextField(delegate: delegate, isLast: false, index: 0)
+        
+        sut.text = ""
+        
+        // when
+        let toolbar = sut.inputAccessoryView as? UIToolbar
+        sut.sendAction(toolbar!.items![1].action!, to: sut, for: nil)
+        
+        // then
+        XCTAssertEqual("-", sut.text)
+    }
+    
+    func test_EndRoundPopoverTextField_WhenPlusNegativeActionTriggeredTextIsNegativeSign_ShouldSetItToNegativeSign() {
+        // given
+        let delegate = StackViewTextFieldDelegateDelegateMock()
+        let sut = EndRoundPopoverTextField(delegate: delegate, isLast: false, index: 0)
+        
+        sut.text = "-"
+        
+        // when
+        let toolbar = sut.inputAccessoryView as? UIToolbar
+        sut.sendAction(toolbar!.items![1].action!, to: sut, for: nil)
+        
+        // then
+        XCTAssertEqual("", sut.text)
+    }
+    
     func test_EndRoundPopoverTextField_WhenPlusNegativeActionTriggered_ShouldTriggerTextFieldActionForEditingChanged() {
         
         class EndRoundPopoverTextFieldTextFieldDidChangeMock: EndRoundPopoverTextField {
