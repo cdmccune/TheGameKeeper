@@ -44,11 +44,11 @@ class PixellatedButton: UIButton {
         
         currentBorderColor.setFill()
         
-        // Draw top and bottom border pixels
-        for x in stride(from: pixelSize * CGFloat(cornerRadiusInPixels), to: rect.width - pixelSize * CGFloat(cornerRadiusInPixels), by: pixelSize) {
-            drawPixel(rect: CGRect(x: x, y: 0, width: pixelSize, height: pixelSize))
-            drawPixel(rect: CGRect(x: x, y: rect.height - pixelSize, width: pixelSize, height: pixelSize))
-        }
+        let adjustedWidth = rect.width - 2 * (CGFloat(cornerRadiusInPixels) * pixelSize)
+        let topRect = CGRect(x: CGFloat(cornerRadiusInPixels) * pixelSize, y: 0, width: adjustedWidth, height: pixelSize)
+        let bottomRect = CGRect(x: CGFloat(cornerRadiusInPixels) * pixelSize, y: rect.height - pixelSize, width: adjustedWidth, height: pixelSize)
+        UIBezierPath(rect: topRect).fill()
+        UIBezierPath(rect: bottomRect).fill()
         
         // Draw side border pixels
         for y in stride(from: pixelSize * CGFloat(cornerRadiusInPixels), to: rect.height - pixelSize * CGFloat(cornerRadiusInPixels), by: pixelSize) {
