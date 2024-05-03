@@ -66,7 +66,7 @@ class EndGameViewController: UIViewController, Storyboarded {
         titleLabel.attributedText = reportAttributedString
         
         let numberOfWinningPlayersCGFloat = CGFloat(viewModel.game.winningPlayers.count)
-        let widthOfCollectionViewContent = (150 * numberOfWinningPlayersCGFloat) + (25 * (numberOfWinningPlayersCGFloat - 1))
+        let widthOfCollectionViewContent = (160 * numberOfWinningPlayersCGFloat) + (25 * (numberOfWinningPlayersCGFloat - 1))
         
         if widthOfCollectionViewContent > screenWidth {
             self.collectionViewWidth.constant = screenWidth
@@ -87,4 +87,3 @@ class EndGameViewController: UIViewController, Storyboarded {
         coordinator?.reopenNonActiveGame(viewModel.game)
     }
 }
-

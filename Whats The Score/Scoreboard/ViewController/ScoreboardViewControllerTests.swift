@@ -975,7 +975,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertFalse(sut.progressLabel.isHidden)
-        XCTAssertEqual(sut.progressLabel.text, "Tap end round to enter scores!")
+        XCTAssertEqual(sut.progressLabel.text, "Tap enter scores to input points!")
     }
     
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledEndTypeNotNoneRound1_ShouldSetTextToTapEndRoundToEnterScores() {
@@ -992,7 +992,7 @@ final class ScoreboardViewControllerTests: XCTestCase {
         
         // then
         XCTAssertFalse(sut.progressLabel.isHidden)
-        XCTAssertEqual(sut.progressLabel.text, "Tap end round to enter scores!")
+        XCTAssertEqual(sut.progressLabel.text, "Tap enter scores to input points!")
     }
     
     func test_ScoreboardViewController_WhenViewModelBindViewModelToViewCalledIsEndofGame_ShouldShowProgressLabelWithEmptyText() {

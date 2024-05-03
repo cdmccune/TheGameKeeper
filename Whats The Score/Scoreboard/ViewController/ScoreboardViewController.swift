@@ -231,7 +231,7 @@ class ScoreboardViewController: UIViewController, Storyboarded, ScoreboardViewMo
         
         guard game.gameEndType != .none,
               game.currentRound != 1 else {
-            self.progressLabel.text = "Tap end round to enter scores!"
+            self.progressLabel.text = "Tap enter scores to input points!"
             return
         }
         

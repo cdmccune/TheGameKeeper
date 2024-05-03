@@ -49,7 +49,5 @@ class EndRoundPopoverPlayerStackView: UIStackView {
         textField.placeholder = "0"
         textField.keyboardType = .numberPad
         self.addArrangedSubview(textField)
-        
-//        textField.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
     }
 }
