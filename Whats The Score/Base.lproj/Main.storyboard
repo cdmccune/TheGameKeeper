@@ -1254,7 +1254,7 @@
                                                     <constraint firstAttribute="height" constant="10" id="22n-hx-krq"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" name="TextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -1769,7 +1769,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ARE-Xv-tzJ">
                                         <rect key="frame" x="10" y="47" width="280" height="58"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Winning Score" textAlignment="center" clearsOnBeginEditing="YES" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="FD8-lC-51h">
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="754" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Winning Score" textAlignment="center" clearsOnBeginEditing="YES" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="FD8-lC-51h" customClass="DarkModeStyledUITextField" customModule="Whats_The_Score" customModuleProvider="target">
                                                 <rect key="frame" x="28.666666666666657" y="0.0" width="223" height="40"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -1785,7 +1785,7 @@
                                                     <constraint firstAttribute="height" constant="10" id="ANC-ba-ZlT"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="PressStart2P-Regular" family="Press Start 2P" pointSize="10"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" name="TextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>

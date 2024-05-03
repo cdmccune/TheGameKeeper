@@ -31,7 +31,7 @@ class GameTypeSelectionViewController: UIViewController, Storyboarded {
         gameTypeLabel.attributedText = attributedString
         
         roundButton.setAttributedUnderlinedTitleWithSubtext(title: "Round", subtext: "Round based game where points are added to players when the round is ended. Allows for conditions for winning to be set.")
-        basicButton.setAttributedUnderlinedTitleWithSubtext(title: "Basic", subtext: "A simple game where points are added individually to players and game is manually ended")
+        basicButton.setAttributedUnderlinedTitleWithSubtext(title: "Basic", subtext: "A simple game where points are added individually to players and game is manually ended.")
     }
     
     

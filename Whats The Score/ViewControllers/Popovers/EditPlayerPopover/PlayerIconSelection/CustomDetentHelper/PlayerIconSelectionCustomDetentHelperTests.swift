@@ -39,5 +39,29 @@ final class PlayerIconSelectionCustomDetentHelperTests: XCTestCase {
         
         XCTAssertEqual(expectedCollectionViewHeight, sut.returnedHeight)
     }
+    
+    func test_PlayerIconSelectionCustomDetentHelper_WhenGetCustomDetentForCalledViewModel_ShouldReturnHeightForAtLeast2Rows() {
+        // given
+        let sut = PlayerIconSelectionCustomDetentHelper()
+        
+        let viewModel = PlayerIconSelectionViewModelMock()
+        let iconCount = Int.random(in: 1...1000)
+        let icons = Array(repeating: PlayerIcon.allCases.randomElement()!, count: iconCount)
+        viewModel.icons = []
+        
+        sut.viewModel = viewModel
+        
+        let screenWidth = CGFloat.random(in: 300...1000)
+        
+        // when
+        _ = sut.getCustomDetentFor(forScreenSize: CGSize(width: screenWidth, height: 0.0))
+        
+        // then
+        let labelAndSpacingHeight: CGFloat = 40
+        let iconHeightAndWidth: CGFloat = 50
+        
+        
+        XCTAssertEqual(labelAndSpacingHeight + 10 + iconHeightAndWidth * 2, sut.returnedHeight)
+    }
 
 }

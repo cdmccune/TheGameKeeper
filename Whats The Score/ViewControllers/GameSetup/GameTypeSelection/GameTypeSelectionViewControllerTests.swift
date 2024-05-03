@@ -72,7 +72,7 @@ final class GameTypeSelectionViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(button.setAttributedUnderlinedTitleWithSubtextCalledCount, 1)
         XCTAssertEqual(button.setAttributedUnderlinedTitleWithSubtextTitle, "Basic")
-        XCTAssertEqual(button.setAttributedUnderlinedTitleWithSubtextSubtext, "A simple game where points are added individually to players and game is manually ended")
+        XCTAssertEqual(button.setAttributedUnderlinedTitleWithSubtextSubtext, "A simple game where points are added individually to players and game is manually ended.")
     }
     
     func test_GameTypeSelectedViewController_WhenViewDidLoadCalled_ShouldSetGameTypeLabelWithCorrectStrokeWidthAndColor() {

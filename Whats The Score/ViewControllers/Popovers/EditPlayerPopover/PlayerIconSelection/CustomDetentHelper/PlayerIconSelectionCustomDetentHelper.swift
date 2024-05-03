@@ -24,7 +24,7 @@ class PlayerIconSelectionCustomDetentHelper: PlayerIconSelectionCustomDetentHelp
         let labelAndSpacingHeight: CGFloat = 40
         let iconHeightAndWidth: CGFloat = 50
         let totalIconWidth: CGFloat = iconHeightAndWidth * CGFloat(iconCount) + CGFloat(10) * CGFloat(iconCount - 1)
-        let numberOfRows: CGFloat = ceil(totalIconWidth / (screenSize.width - CGFloat(20)))
+        let numberOfRows: CGFloat = max(ceil(totalIconWidth / (screenSize.width - CGFloat(20))), 2)
         
         let estimatedCollectionViewHeight = (numberOfRows*iconHeightAndWidth) + (CGFloat(10)*(numberOfRows - 1)) + labelAndSpacingHeight
         
