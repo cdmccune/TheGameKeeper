@@ -50,41 +50,4 @@ extension UIButton {
         self.setAttributedTitle(attributedSelectedString, for: .highlighted)
         self.setAttributedTitle(attributedSelectedString, for: .disabled)
     }
-    
-    @objc func underlineButtonForButtonStates(title: String, withTextSize textSize: CGFloat) {
-        let titleFont = UIFont.pressPlay2PRegular(withSize: textSize)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.paragraphSpacing = 5
-        
-        var titleStringAttributes: [NSAttributedString.Key: Any] = [
-            .paragraphStyle: paragraphStyle,
-            .foregroundColor: UIColor.textColor,
-            .font: titleFont,
-            .underlineColor: UIColor.textColor,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ]
-        
-        let titleAttributedString = NSMutableAttributedString(string: title, attributes: titleStringAttributes)
-        
-        // This is to allow for the underline
-        let addedString = NSMutableAttributedString(string: "\n")
-        addedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 1), range: NSRange(location: 0, length: addedString.length))
-        titleAttributedString.append(addedString)
-        
-        setAttributedTitle(titleAttributedString, for: .normal)
-        
-        
-        // Disabled and Highlighted States
-        titleStringAttributes[.foregroundColor] = UIColor.textColor.withAlphaComponent(0.5)
-        titleStringAttributes[.underlineColor] = UIColor.textColor.withAlphaComponent(0.5)
-        
-        let titleAttributedStringDisabled = NSMutableAttributedString(string: title, attributes: titleStringAttributes)
-        
-        // This is to allow for the underline
-        titleAttributedStringDisabled.append(addedString)
-        
-        setAttributedTitle(titleAttributedStringDisabled, for: .disabled)
-        setAttributedTitle(titleAttributedStringDisabled, for: .highlighted)
-    }
 }

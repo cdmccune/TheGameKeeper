@@ -21,17 +21,6 @@ extension NSMutableAttributedString {
         }
     }
     
-    func addUnderlineAttribute(underlineColor: UIColor) {
-        let fullRange = NSRange(location: 0, length: self.length)
-        
-        self.enumerateAttributes(in: fullRange, options: []) { (attributes, range, _) in
-            var newAttributes = attributes
-            newAttributes[.underlineStyle] = NSUnderlineStyle.single.rawValue
-            newAttributes[.underlineColor] = underlineColor
-            self.addAttributes(newAttributes, range: range)
-        }
-    }
-    
     func addTextColorAttribute(textColor: UIColor) {
         let fullRange = NSRange(location: 0, length: self.length)
         

@@ -60,7 +60,6 @@ class EndGameViewController: UIViewController, Storyboarded {
         winnerLabel.text = viewModel.game.winningPlayers.count == 1 ? "Winner" : "Winners"
         
         let reportAttributedString = NSMutableAttributedString(string: "Report")
-        reportAttributedString.addUnderlineAttribute(underlineColor: .white)
         reportAttributedString.addStrokeAttribute(strokeColor: .black, strokeWidth: 4.0)
         reportAttributedString.addTextColorAttribute(textColor: .white)
         titleLabel.attributedText = reportAttributedString

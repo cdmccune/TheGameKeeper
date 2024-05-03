@@ -14,7 +14,6 @@ protocol DispatchQueueAsyncProtocol {
 
 protocol DispatchQueueAsyncAfterProtocol {
     func asyncAfterWrapper(delay: CGFloat, work: @escaping @convention(block) () -> Void)
-//    func asyncAfter(deadline: DispatchTime, execute work: @escaping @convention(block) () -> Void)
 }
 
 protocol DispatchQueueProtocol: DispatchQueueAsyncProtocol & DispatchQueueAsyncAfterProtocol {}
@@ -39,6 +38,3 @@ extension UIView: SafeAreaFrame {
         self.safeAreaLayoutGuide.layoutFrame
     }
 }
-
-
-
