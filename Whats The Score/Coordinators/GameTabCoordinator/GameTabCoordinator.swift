@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import StoreKit
 
 class GameTabCoordinator: Coordinator {
     
@@ -72,6 +73,18 @@ class GameTabCoordinator: Coordinator {
         endGameVC.coordinator = self
         
         navigationController.viewControllers = [endGameVC]
+        
+        // Prompt for rating after presenting the end game screen
+        presentRatingRequest()
+    }
+    
+    private func presentRatingRequest() {
+        // Ensure rating prompt appears after a slight delay to not interrupt the transition
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                SKStoreReviewController.requestReview(in: scene)
+            }
+        }
     }
     
     func deleteGame() {
