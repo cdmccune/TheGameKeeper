@@ -196,7 +196,7 @@ final class EndGameViewControllerTests: XCTestCase {
         let players = Array(repeating: Player(context: context), count: numberOfPlayers)
         
         let numberOfPlayersCGFloat = CGFloat(numberOfPlayers)
-        let expectedCollectionViewWidth: CGFloat = (150 * numberOfPlayersCGFloat) + (25 * (numberOfPlayersCGFloat - 1))
+        let expectedCollectionViewWidth: CGFloat = (160 * numberOfPlayersCGFloat) + (25 * (numberOfPlayersCGFloat - 1))
         
         let screenWidth: CGFloat = expectedCollectionViewWidth + 1
         sut.screenWidth = screenWidth
