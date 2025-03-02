@@ -337,6 +337,7 @@ class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
     var numberOfRounds: Int = 0
     var endingScore: Int = 0
     var gameName: String = ""
+    var lowestIsWinning: Bool = false
     var gameEndType: Observable<GameEndType> = Observable(nil)
     var dataValidationString: Observable<String> = Observable(nil)
     var game: GameProtocol = GameMock()
@@ -381,6 +382,14 @@ class GameSettingsViewModelMock: GameSettingsViewModelProtocol {
     func gameEndTypeChanged(toRawValue rawValue: Int) {
         gameEndTypeChangedCalledCount += 1
         gameEndTypeChangedRawValue = rawValue
+    }
+    
+    var lowestIsWinningValueChangedCalledCount = 0
+    var lowestIsWinningValueChangedBool: Bool?
+    func lowestIsWinningValueChanged(to lowestIsWinning: Bool) {
+        lowestIsWinningValueChangedCalledCount += 1
+        lowestIsWinningValueChangedBool = lowestIsWinning
+        
     }
     
     func validateGameSettings() {

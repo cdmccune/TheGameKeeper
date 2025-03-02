@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G436" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24D60" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="EndRound" representedClassName=".EndRound" syncable="YES">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="roundNumber_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -14,6 +14,7 @@
         <attribute name="gameType_" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lastModified" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lowestIsWinning" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String" defaultValueString="Game"/>
         <attribute name="numberOfRounds_" attributeType="Integer 64" defaultValueString="2" usesScalarValueType="YES"/>
         <relationship name="endRounds_" toMany="YES" deletionRule="Cascade" destinationEntity="EndRound" inverseName="game" inverseEntity="EndRound"/>

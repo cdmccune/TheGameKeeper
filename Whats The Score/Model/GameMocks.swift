@@ -77,6 +77,7 @@ class GameMock: GameProtocol {
                      numberOfRounds: Int = 0,
                      endingScore: Int = 0,
                      currentRound: Int = 0,
+                     lowestIsWinning: Bool = false,
                      lastModified: Date = Date(),
                      players: [PlayerProtocol] = [],
                      endRounds: [EndRoundProtocol] = [],
@@ -89,6 +90,7 @@ class GameMock: GameProtocol {
         self.gameStatus = gameStatus
         self.numberOfRounds = numberOfRounds
         self.endingScore = endingScore
+        self.lowestIsWinning = lowestIsWinning
         self.currentRound = currentRound
         self.scoreChanges = scoreChanges
         self.lastModified = lastModified
@@ -101,6 +103,7 @@ class GameMock: GameProtocol {
     var gameType: GameType = .basic
     var gameEndType: GameEndType = .none
     var gameStatus: GameStatus = .active
+    var lowestIsWinning: Bool = false
     var numberOfRounds: Int = 2
     var endingScore: Int = 10
     var currentRound: Int = 0

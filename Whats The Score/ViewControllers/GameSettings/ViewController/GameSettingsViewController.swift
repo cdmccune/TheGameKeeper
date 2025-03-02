@@ -17,6 +17,8 @@ class GameSettingsViewController: UIViewController, Storyboarded {
     
     @IBOutlet weak var gameNameTextField: UITextField!
     
+    @IBOutlet weak var lowestWinsSwitch: UISwitch!
+    
     @IBOutlet weak var gameEndStackView: UIStackView!
     @IBOutlet weak var gameEndTypeSegmentedControl: UISegmentedControl!
     
@@ -81,6 +83,7 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         endingScoreTextField.text = String(viewModel.endingScore)
         numberOfRoundTextField.text = String(viewModel.numberOfRounds)
         gameEndStackView.isHidden = viewModel.game.gameType == .basic
+        lowestWinsSwitch.isOn = viewModel.lowestIsWinning
         
         navigationItem.rightBarButtonItem = saveBarButton
     }
@@ -147,6 +150,11 @@ class GameSettingsViewController: UIViewController, Storyboarded {
         
         self.present(alertController, animated: true)
     }
+    
+    @IBAction func lowestIsWinningSwitchValueChanged(_ sender: Any) {
+        viewModel?.lowestIsWinningValueChanged(to: lowestWinsSwitch.isOn)
+    }
+    
     
     // MARK: - Functions
 

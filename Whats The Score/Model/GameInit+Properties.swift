@@ -19,6 +19,7 @@ class Game: NSManagedObject, GameProtocol {
         self.players_ = []
         self.scoreChanges_ = []
         self.name = ""
+        self.lowestIsWinning = false
     }
     
     convenience init(name: String,
@@ -28,6 +29,7 @@ class Game: NSManagedObject, GameProtocol {
                      numberOfRounds: Int = 2,
                      currentRound: Int = 1,
                      endingScore: Int = 10,
+                     lowestIsWinning: Bool = false,
                      players: [Player],
                      context: NSManagedObjectContext) {
         self.init(context: context)
@@ -39,6 +41,7 @@ class Game: NSManagedObject, GameProtocol {
         self.numberOfRounds = numberOfRounds
         self.currentRound = currentRound
         self.endingScore = endingScore
+        self.lowestIsWinning = lowestIsWinning
         players.forEach { player in
             self.addToPlayers_(player)
         }
@@ -50,6 +53,7 @@ class Game: NSManagedObject, GameProtocol {
     
     @NSManaged public var id: UUID
     @NSManaged public var lastModified: Date
+    @NSManaged public var lowestIsWinning: Bool
     @NSManaged public var name: String
     @NSManaged private var players_: Set<Player>
     @NSManaged private var scoreChanges_: Set<ScoreChange>

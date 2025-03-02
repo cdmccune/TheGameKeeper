@@ -142,6 +142,24 @@ final class GameSettingsViewControllerTests: XCTestCase {
         XCTAssertEqual(viewModel.setInitialValuesCalledCount, 1)
     }
     
+    func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldSetGameIsLowestEndingOnSwitch() {
+        // given
+        let sut = viewController!
+        let viewModel = GameSettingsViewModelMock()
+        sut.viewModel = viewModel
+        
+        // when
+        sut.loadView()
+        let lowestIsWinning = Bool.random()
+        viewModel.lowestIsWinning = lowestIsWinning
+        sut.lowestWinsSwitch.isOn = !lowestIsWinning
+        sut.viewDidLoad()
+        
+        
+        // then
+        XCTAssertEqual(lowestIsWinning, sut.lowestWinsSwitch.isOn)
+    }
+    
     func test_GameSettingsViewController_WhenViewDidLoadCalled_ShouldSetEndingScoreTextFieldTextToViewModelEndingScore() {
         // given
         let sut = viewController!
@@ -610,6 +628,29 @@ final class GameSettingsViewControllerTests: XCTestCase {
         // then
         XCTAssertEqual(viewModel.gameEndQuantityChangedCalledCount, 1)
         XCTAssertEqual(viewModel.gameEndQuantityChangedQuantity, numberOfRounds)
+    }
+    
+    
+    // MARK: - LowestIsWinningChanged
+    
+    func test_GameSettingsViewController_WhenLowestIsWinningSwitchValueChanged_ShouldCallViewModelSetLowestIsWinning() {
+        // given
+        let sut = viewController!
+        let viewModel = GameSettingsViewModelMock()
+        sut.viewModel = viewModel
+
+        sut.loadView()
+        sut.viewDidLoad()
+        
+        // when
+        let lowestIsWinning = Bool.random()
+        sut.lowestWinsSwitch.isOn = lowestIsWinning
+
+        sut.lowestIsWinningSwitchValueChanged(0)
+        
+        // then
+        XCTAssertEqual(viewModel.lowestIsWinningValueChangedCalledCount, 1)
+        XCTAssertEqual(viewModel.lowestIsWinningValueChangedBool, lowestIsWinning)
     }
     
     // MARK: - Save Changes

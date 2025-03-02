@@ -12,6 +12,7 @@ protocol GameSettingsViewModelProtocol {
     var dataValidationString: Observable<String> { get }
     var numberOfRounds: Int { get set }
     var endingScore: Int { get set }
+    var lowestIsWinning: Bool { get set }
     var gameName: String { get set }
     var game: GameProtocol { get set }
     var delegate: GameSettingsDelegate? { get }
@@ -23,6 +24,7 @@ protocol GameSettingsViewModelProtocol {
     func gameNameChanged(to name: String)
     func gameEndQuantityChanged(to gameEndQuantity: Int)
     func gameEndTypeChanged(toRawValue rawValue: Int)
+    func lowestIsWinningValueChanged(to lowestIsWinning: Bool)
     func validateGameSettings()
 }
 
@@ -32,6 +34,7 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
         self.numberOfRounds = game.numberOfRounds
         self.endingScore = game.endingScore
         self.gameName = game.name
+        self.lowestIsWinning = game.lowestIsWinning
         self.game = game
         self.delegate = delegate
     }
@@ -39,6 +42,7 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     var numberOfRounds: Int
     var endingScore: Int
     var gameName: String
+    var lowestIsWinning: Bool
     var game: GameProtocol
     var delegate: GameSettingsDelegate?
     
@@ -85,6 +89,10 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     func gameEndTypeChanged(toRawValue rawValue: Int) {
         gameEndType.value = GameEndType(rawValue: rawValue) ?? GameEndType.none
          validateGameSettings()
+    }
+    
+    func lowestIsWinningValueChanged(to lowestIsWinning: Bool) {
+        
     }
     
     func validateGameSettings() {

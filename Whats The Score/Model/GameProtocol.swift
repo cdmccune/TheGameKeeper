@@ -20,6 +20,7 @@ protocol GameProtocol: AnyObject {
     var currentRound: Int { get set }
     var endingScore: Int { get set }
     var name: String { get set }
+    var lowestIsWinning: Bool { get set }
     var lastModified: Date { get set }
     var id: UUID { get }
     
