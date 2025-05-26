@@ -6,7 +6,26 @@
 //
 
 import XCTest
+import Testing
 @testable import Whats_The_Score
+
+// MARK: - LowestIsWinningValueChanged
+
+@Suite("LowestIsWinningValueChanged")
+struct LowestIsWinningValueChanged {
+    
+    @Test("GameSettingsViewModel - WhenLowestIsWinningValueChangedCalled - ShouldSaveLowestIsWinning", arguments: [true, false])
+    func lowestIsWinningSet(lowestIsWinning: Bool) async throws {
+        let sut = GameSettingsViewModel(game: GameMock())
+        sut.lowestIsWinning = !lowestIsWinning
+        
+        // when
+        sut.lowestIsWinningValueChanged(to: lowestIsWinning)
+        
+        // then
+        #expect(sut.lowestIsWinning == lowestIsWinning)
+    }
+}
 
 final class GameSettingsViewModelTests: XCTestCase {
     
@@ -75,11 +94,13 @@ final class GameSettingsViewModelTests: XCTestCase {
         let endingScore = Int.random(in: 1...10)
         let numberOfRounds = Int.random(in: 1...10)
         let gameName = UUID().uuidString
+        let lowestIsWinning = Bool.random()
         
         sut.gameEndType.value = gameEndType
         sut.endingScore = endingScore
         sut.numberOfRounds = numberOfRounds
         sut.gameName = gameName
+        sut.lowestIsWinning = lowestIsWinning
         
         let delegate = GameSettingsDelegateMock()
         sut.delegate = delegate
@@ -92,6 +113,7 @@ final class GameSettingsViewModelTests: XCTestCase {
         XCTAssertEqual(delegate.updateGameSettingsNumberOfRounds, numberOfRounds)
         XCTAssertEqual(delegate.updateGameSettingsGameEndType, gameEndType)
         XCTAssertEqual(delegate.updateGameSettingsGameName, gameName)
+        XCTAssertEqual(delegate.updateGameSettingsLowestIsWinning, lowestIsWinning)
     }
     
     

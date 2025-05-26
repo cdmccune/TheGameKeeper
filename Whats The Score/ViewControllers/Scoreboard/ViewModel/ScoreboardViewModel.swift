@@ -29,7 +29,11 @@ class ScoreboardViewModel: NSObject, ScoreboardViewModelProtocol {
         return game.players.sorted {player1, player2 in
             switch sortPreference.value ?? .score {
             case .score:
-                return player1.score > player2.score
+                if game.lowestIsWinning {
+                    return player1.score < player2.score
+                } else {
+                    return player1.score > player2.score
+                }
             case .position:
                 return player1.position < player2.position
             }

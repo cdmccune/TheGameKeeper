@@ -58,6 +58,27 @@ final class ScoreboardViewModelNonDataFunctionTests: XCTestCase {
         }
     }
     
+    func test_ScoreboardViewModel_WhenSortPreferenceIsScoreLowestIsWinning_ShouldReturnPlayersSortedByInvertedScore() {
+        // given
+        let sut = getViewModelWithBasicGame()
+        sut.sortPreference.value = .score
+        var players = [PlayerProtocol]()
+        for _ in 0...Int.random(in: 5...10) {
+            players.append(PlayerMock(score: Int.random(in: -1000...1000)))
+        }
+        sut.game = GameMock(players: players)
+        sut.game.lowestIsWinning = true
+        
+        // when
+        let viewModelSortedPlayers = sut.sortedPlayers
+        let actualInvertedSortedPlayers = players.sorted { $0.score < $1.score }
+        
+        // then
+        viewModelSortedPlayers.enumerated().forEach { (index, player) in
+            XCTAssertEqual(actualInvertedSortedPlayers[index].id, player.id)
+        }
+    }
+    
     
     // MARK: - AddPlayer
     

@@ -14,13 +14,16 @@ class GameSettingsDelegateMock: GameSettingsDelegate {
     var updateGameSettingsNumberOfRounds: Int?
     var updateGameSettingsEndingScore: Int?
     var updateGameSettingsGameName: String?
+    var updateGameSettingsLowestIsWinning: Bool?
     
-    func updateGameSettings(gameName: String, gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int) {
+    
+    func updateGameSettings(gameName: String, gameEndType: GameEndType, numberOfRounds: Int, endingScore: Int, lowestIsWinning: Bool) {
         self.updateGameSettingsCalledCount += 1
         updateGameSettingsGameEndType = gameEndType
         updateGameSettingsNumberOfRounds = numberOfRounds
         updateGameSettingsEndingScore = endingScore
         updateGameSettingsGameName = gameName
+        updateGameSettingsLowestIsWinning = lowestIsWinning
     }
     
     var resetGameCalledCount = 0

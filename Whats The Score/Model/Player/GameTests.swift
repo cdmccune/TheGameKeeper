@@ -778,15 +778,17 @@ final class GameTests: XCTestCase {
         let endingScore = Int.random(in: 15...1000)
         let numbeOfRounds = Int.random(in: 15...1000)
         let gameName = UUID().uuidString
+        let lowestIsWinning = Bool.random()
         
         // when
-        sut.updateSettings(withGameName: gameName, gameEndType, endingScore: endingScore, andNumberOfRounds: numbeOfRounds)
+        sut.updateSettings(withGameName: gameName, gameEndType, endingScore: endingScore, andNumberOfRounds: numbeOfRounds, lowestIsWinning: lowestIsWinning)
         
         // then
         XCTAssertEqual(sut.gameEndType, gameEndType)
         XCTAssertEqual(sut.numberOfRounds, numbeOfRounds)
         XCTAssertEqual(sut.endingScore, endingScore)
         XCTAssertEqual(sut.name, gameName)
+        XCTAssertEqual(sut.lowestIsWinning, lowestIsWinning)
     }
     
     

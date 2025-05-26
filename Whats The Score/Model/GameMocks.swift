@@ -191,12 +191,14 @@ class GameMock: GameProtocol {
     var updateSettingsEndingScore: Int?
     var updateSettingsNumberOfRounds: Int?
     var updateSettingsGameName: String?
-    func updateSettings(withGameName gameName: String, _ gameEndType: Whats_The_Score.GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int) {
+    var updateSettingsLowestIsWinning: Bool?
+    func updateSettings(withGameName gameName: String, _ gameEndType: Whats_The_Score.GameEndType, endingScore: Int, andNumberOfRounds numberOfRounds: Int, lowestIsWinning: Bool) {
         self.updateSettingsCalledCount += 1
         self.updateSettingsGameEndType = gameEndType
         self.updateSettingsEndingScore = endingScore
         self.updateSettingsNumberOfRounds = numberOfRounds
         self.updateSettingsGameName = gameName
+        self.updateSettingsLowestIsWinning = lowestIsWinning
     }
     
     var undoLastActionCalledCount = 0

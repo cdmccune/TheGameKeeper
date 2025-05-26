@@ -337,9 +337,10 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         let endingScore = Int.random(in: 1...10)
         let gameEndType = GameEndType.allCases.randomElement()!
         let gameName = UUID().uuidString
+        let lowestIsWinning = Bool.random()
         
         // when
-        sut.updateGameSettings(gameName: gameName, gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
+        sut.updateGameSettings(gameName: gameName, gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore, lowestIsWinning: lowestIsWinning)
         
         // then
         XCTAssertEqual(gameMock.updateSettingsCalledCount, 1)
@@ -347,6 +348,7 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         XCTAssertEqual(gameMock.updateSettingsNumberOfRounds, numberOfRounds)
         XCTAssertEqual(gameMock.updateSettingsEndingScore, endingScore)
         XCTAssertEqual(gameMock.updateSettingsGameName, gameName)
+        XCTAssertEqual(gameMock.updateSettingsLowestIsWinning, lowestIsWinning)
     }
     
     func test_ScoreboardViewModel_WhenUpdateGameSettingsCalled_ShouldCallBindViewToViewModel() {
@@ -359,7 +361,7 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         let bindCount = viewDelegate.bindViewToViewModelCalledCount
         
         // when
-        sut.updateGameSettings(gameName: "", gameEndType: .none, numberOfRounds: 0, endingScore: 0)
+        sut.updateGameSettings(gameName: "", gameEndType: .none, numberOfRounds: 0, endingScore: 0, lowestIsWinning: false)
         
         // then
         XCTAssertEqual(viewDelegate.bindViewToViewModelCalledCount, bindCount + 1)
@@ -372,7 +374,7 @@ final class ScoreboardViewModelDataFunctionTests: XCTestCase {
         sut.coreDataStore = coreDataStore
         
         // when
-        sut.updateGameSettings(gameName: "", gameEndType: GameEndType.none, numberOfRounds: 0, endingScore: 0)
+        sut.updateGameSettings(gameName: "", gameEndType: GameEndType.none, numberOfRounds: 0, endingScore: 0, lowestIsWinning: false)
         
         // then
         XCTAssertEqual(coreDataStore.saveContextCalledCount, 1)

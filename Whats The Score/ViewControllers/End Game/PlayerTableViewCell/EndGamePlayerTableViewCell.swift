@@ -18,7 +18,6 @@ class EndGamePlayerTableViewCell: UITableViewCell {
     
     
     
-    
     // MARK: - Lifecycles
     
     override func awakeFromNib() {

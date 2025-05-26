@@ -56,7 +56,7 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     func saveChanges() {
         guard let gameEndType = gameEndType.value else { return }
         
-        delegate?.updateGameSettings(gameName: gameName, gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore)
+        delegate?.updateGameSettings(gameName: gameName, gameEndType: gameEndType, numberOfRounds: numberOfRounds, endingScore: endingScore, lowestIsWinning: lowestIsWinning)
     }
     
     func resetGame() {
@@ -92,7 +92,7 @@ class GameSettingsViewModel: GameSettingsViewModelProtocol {
     }
     
     func lowestIsWinningValueChanged(to lowestIsWinning: Bool) {
-        
+        self.lowestIsWinning = lowestIsWinning
     }
     
     func validateGameSettings() {
