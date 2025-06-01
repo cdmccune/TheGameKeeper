@@ -37,7 +37,7 @@ class EndGamePlayerTableViewDelegate: NSObject, UITableViewDelegate, UITableView
         let player = viewModel.losingPlayers[indexPath.row]
         
         let winningPlayerCount = viewModel.game.winningPlayers.count
-        let losingPlayersSortedByScore = viewModel.losingPlayers.sorted { $0.score > $1.score }
+        let losingPlayersSortedByScore = viewModel.losingPlayers.sorted(isLowestWinning: viewModel.game.lowestIsWinning)
         let playerLoserPlace = (losingPlayersSortedByScore.firstIndex { $0.score == player.score } ?? 0) + 1
         let place = winningPlayerCount + playerLoserPlace
         

@@ -58,6 +58,12 @@ class GamePropertyMock: Game {
         get { temporaryLastModified }
         set { temporaryLastModified = newValue }
     }
+    
+    private var temporaryLowestIsWinning: Bool = false
+    override var lowestIsWinning: Bool {
+        get { temporaryLowestIsWinning }
+        set { temporaryLowestIsWinning = newValue }
+    }
 }
 
 class GameIsEndOfGameMock: GameMock {

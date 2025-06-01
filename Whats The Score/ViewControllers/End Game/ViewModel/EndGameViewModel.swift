@@ -25,7 +25,7 @@ class EndGameViewModel: EndGameViewModelProtocol {
                 losingPlayers.remove(at: index)
             }
         }
-        losingPlayers.sort { $0.score > $1.score }
+        losingPlayers = losingPlayers.sorted(isLowestWinning: game.lowestIsWinning)
         
         return losingPlayers
     }

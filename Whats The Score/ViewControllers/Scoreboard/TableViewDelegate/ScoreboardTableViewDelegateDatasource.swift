@@ -36,7 +36,7 @@ class ScoreboardTableViewDelegateDatasource: NSObject, UITableViewDelegate, UITa
         
         let player = viewModel.sortedPlayers[indexPath.row]
         
-        let playersSortedByScore = viewModel.sortedPlayers.sorted { $0.score > $1.score }
+        let playersSortedByScore = viewModel.sortedPlayers.sorted(isLowestWinning: viewModel.game.lowestIsWinning)
         let playerPlace = (playersSortedByScore.firstIndex { $0.score == player.score } ?? 0) + 1
         let isTied = (playersSortedByScore.filter { $0.score == player.score }).count > 1
         

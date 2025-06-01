@@ -231,6 +231,7 @@
 		24F089072BCEE76C00333A49 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24F089062BCEE76C00333A49 /* PressStart2P-Regular.ttf */; };
 		24F0892C2BCF128C00333A49 /* NSMutableAttributedStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F0892B2BCF128C00333A49 /* NSMutableAttributedStringExtension.swift */; };
 		24F0892F2BCF3FAC00333A49 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F0892E2BCF3FAC00333A49 /* UIColor.swift */; };
+		4D9D6FB92DECF5B900E1C5EA /* Player+Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D6FB82DECF5B900E1C5EA /* Player+Array+Extension.swift */; };
 		9D2D388E6EBDB0E728332E42 /* Pods_Whats_The_Score.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB3D71FC7484F9F7B4F53D5 /* Pods_Whats_The_Score.framework */; };
 		A43E59C3381D74773C52E34F /* Pods_Whats_The_Score_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C52C8F117C0FEDFA6DA5EBD1 /* Pods_Whats_The_Score_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -472,6 +473,7 @@
 		24F089062BCEE76C00333A49 /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
 		24F0892B2BCF128C00333A49 /* NSMutableAttributedStringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedStringExtension.swift; sourceTree = "<group>"; };
 		24F0892E2BCF3FAC00333A49 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		4D9D6FB82DECF5B900E1C5EA /* Player+Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Player+Array+Extension.swift"; sourceTree = "<group>"; };
 		4F0EB3F0D4A8B52B3402D807 /* Pods-Whats The Score.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score.debug.xcconfig"; path = "Target Support Files/Pods-Whats The Score/Pods-Whats The Score.debug.xcconfig"; sourceTree = "<group>"; };
 		5E23E379F3019C31CB9C4FD9 /* Pods-Whats The Score Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score Tests.debug.xcconfig"; path = "Target Support Files/Pods-Whats The Score Tests/Pods-Whats The Score Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		9AC74366CAA063ABF7248ADA /* Pods-Whats The Score.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Whats The Score.release.xcconfig"; path = "Target Support Files/Pods-Whats The Score/Pods-Whats The Score.release.xcconfig"; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 		2410F7182B5596BB00860BA4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				4D9D6FB72DECF5A000E1C5EA /* Players */,
 				2470CCD52BE54A1E00C98309 /* Array */,
 				24C62D0D2BD6E7B40078C0BA /* Int */,
 				24C5D0AC2BD1BDBB00E5DBA6 /* CGColor */,
@@ -1751,6 +1754,14 @@
 			path = UIColor;
 			sourceTree = "<group>";
 		};
+		4D9D6FB72DECF5A000E1C5EA /* Players */ = {
+			isa = PBXGroup;
+			children = (
+				4D9D6FB82DECF5B900E1C5EA /* Player+Array+Extension.swift */,
+			);
+			path = Players;
+			sourceTree = "<group>";
+		};
 		B083BAEB1E7E38F04F1104E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2023,6 +2034,7 @@
 				24C5D0C22BD1D02D00E5DBA6 /* PlayerIconSelectionViewController.swift in Sources */,
 				24BA09F12BC85BB800ABDB7B /* MyGamesViewModel.swift in Sources */,
 				247D0ED22BC5FFF600137C98 /* ScoreboardViewModel-DataFunctions.swift in Sources */,
+				4D9D6FB92DECF5B900E1C5EA /* Player+Array+Extension.swift in Sources */,
 				24C5D0B92BD1CFA300E5DBA6 /* PlayerIconSelectionViewModelProtocol.swift in Sources */,
 				24CF37432BBF150600CE08FB /* CoreDataModel.xcdatamodeld in Sources */,
 				2470CCD82BE54A1E00C98309 /* ArrayExtensions.swift in Sources */,
@@ -2342,7 +2354,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curtmccune.TheGameKeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2374,7 +2386,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curtmccune.TheGameKeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

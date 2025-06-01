@@ -145,7 +145,7 @@ class Game: NSManagedObject, GameProtocol {
     }
     
     var winningPlayers: [PlayerProtocol] {
-        let sortedPlayers = players.sorted { $0.score>$1.score }
+        let sortedPlayers = players.sorted(isLowestWinning: lowestIsWinning)
         return players.filter { $0.score == (sortedPlayers.first?.score ?? 0) }
     }
     
